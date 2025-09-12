@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/white"
+                style="@style/textView_bold"
+                android:background="@drawable/textview_background"
+                android:text="Prescription Spectacles Details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <androidx.cardview.widget.CardView
+                android:layout_margin="@dimen/_5sdp"
+                app:cardCornerRadius="@dimen/_5sdp"
+                android:backgroundTint="@color/white"
+
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <GridView
+                    android:layout_margin="@dimen/_5sdp"
+
+
+                    android:numColumns="1"
+                    android:horizontalSpacing="4dp"
+                    android:verticalSpacing="4dp"
+                    android:id="@+id/GridView_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_130sdp"/>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/white"
+                style="@style/textView_bold"
+                android:background="@drawable/textview_background"
+                android:text="Search Prescription Spectacles Details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:textColor="@color/black"
+                    android:id="@+id/EditText_search"
+                    android:layout_margin="@dimen/_3sdp"
+                    android:padding="@dimen/_4sdp"
+
+                    android:hint="Search "
+                    android:background="@drawable/edittext_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <LinearLayout
+
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Spinner
+
+                        style="@style/spinner_padding_left_right1"
+                        android:id="@+id/Spinner_condition"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:background="@drawable/spinner_background"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <Spinner
+                        style="@style/spinner_padding_left_right1"
+                        android:id="@+id/Spinner_duration"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:background="@drawable/spinner_background"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+
+
+
+                </LinearLayout>
+                <LinearLayout
+
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <Spinner
+
+                        style="@style/spinner_padding_left_right1"
+                        android:id="@+id/Spinner_condition1"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:background="@drawable/spinner_background"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+
+
+
+                    <Spinner
+
+                        style="@style/spinner_padding_left_right1"
+                        android:id="@+id/Spinner_duration1"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:background="@drawable/spinner_background"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:weightSum="6"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_margin="@dimen/_1sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:text="Patient ID"
+                    style="@style/textView_bold"
+                    android:background="@drawable/textview_background"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_25sdp"/>
+                <TextView
+                    android:layout_margin="@dimen/_1sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:text="Patient Name"
+                    style="@style/textView_bold"
+                    android:background="@drawable/textview_background"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_25sdp"/>
+                <TextView
+                    android:layout_margin="@dimen/_1sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:text="Aadhar Number"
+                    style="@style/textView_bold"
+                    android:background="@drawable/textview_background"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_25sdp"/>
+                <TextView
+                    android:layout_margin="@dimen/_1sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:text="Contact Number"
+                    style="@style/textView_bold"
+                    android:background="@drawable/textview_background"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_25sdp"/>
+                <TextView
+                    android:layout_margin="@dimen/_1sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:text="Status"
+                    style="@style/textView_bold"
+                    android:background="@drawable/textview_background"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_25sdp"/>
+                <TextView
+                    android:layout_margin="@dimen/_1sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:text="Spectacle Type"
+                    style="@style/textView_bold"
+                    android:background="@drawable/textview_background"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_25sdp"/>
+
+            </LinearLayout>
+
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RecyclerView_Status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textAlignment="center"
+                style="@style/textView_bold"
+                android:text="No Data Available "
+                android:id="@+id/TextView_No_data_available"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

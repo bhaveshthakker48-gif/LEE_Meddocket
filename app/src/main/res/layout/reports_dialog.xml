@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Section Tabs -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/sectionTabs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvGeneral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab_selector"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                android:text="General"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvEye"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab_selector"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                android:text="Eye"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvEnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab_selector"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                android:text="ENT"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvPathology"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tab_selector"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp"
+                android:text="Pathology"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- General Reports -->
+    <LinearLayout
+        android:id="@+id/generalLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvVitalsReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_gray1"
+            android:padding="12dp"
+            android:text="Vitals Report"
+            android:textColor="@color/blue" />
+
+        <TextView
+            android:id="@+id/tvOpdReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:padding="12dp"
+            android:text="OPD Investigation Report"
+            android:textColor="@color/blue" />
+    </LinearLayout>
+
+    <!-- Eye Reports -->
+    <LinearLayout
+        android:id="@+id/eyeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvVisualAcuityReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:padding="12dp"
+            android:text="Visual Acuity Report"
+            android:textColor="@color/blue" />
+
+        <TextView
+            android:id="@+id/tvRefractiveErrorReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_gray1"
+            android:padding="12dp"
+            android:text="Refractive Error Report"
+            android:textColor="@color/blue" />
+
+        <TextView
+            android:id="@+id/tvOtherReports"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:padding="12dp"
+            android:text="Other Eye Reports"
+            android:textColor="@color/blue" />
+    </LinearLayout>
+
+    <!-- ENT Section (blank for now) -->
+    <LinearLayout
+        android:id="@+id/entLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvEntOpdDcNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_gray1"
+            android:padding="12dp"
+            android:text="Ent OPD Doctor Notes"
+            android:textColor="@color/blue" />
+
+        <TextView
+            android:id="@+id/tvEntAudiometry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:padding="12dp"
+            android:text="Ent Audiometry"
+            android:textColor="@color/blue" />
+
+        <TextView
+            android:id="@+id/tvEntPreOpDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_gray1"
+            android:padding="12dp"
+            android:text="Ent Pre Op Details"
+            android:textColor="@color/blue" />
+
+        <TextView
+            android:id="@+id/tvEntSurgicalNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey"
+            android:padding="12dp"
+            android:text="Ent Surgical Notes"
+            android:textColor="@color/blue" />
+
+        <TextView
+            android:id="@+id/tvEntPostOpNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_gray1"
+            android:padding="12dp"
+            android:text="Ent Post Op Notes"
+            android:textColor="@color/blue" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pathologyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvPathologyReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_gray1"
+            android:padding="12dp"
+            android:text="Pathology Report"
+            android:textColor="@color/blue" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

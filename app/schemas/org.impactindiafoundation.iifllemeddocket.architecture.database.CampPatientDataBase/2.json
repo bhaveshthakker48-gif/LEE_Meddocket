@@ -1,0 +1,172 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "75c7e3f064e94232fad2564748fbdc3d",
+    "entities": [
+      {
+        "tableName": "camp_patient_details",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`camp_id` TEXT NOT NULL, `camp_name` TEXT NOT NULL, `id` INTEGER NOT NULL, `orthosis_date` TEXT NOT NULL, `patientOrthosisTypes` TEXT NOT NULL, `patient_age_years` TEXT NOT NULL, `patient_contact_no` TEXT NOT NULL, `patient_gender` TEXT NOT NULL, `patient_height_cm` TEXT NOT NULL, `patient_id` TEXT NOT NULL, `patient_name` TEXT NOT NULL, `patient_weight_kg` TEXT NOT NULL, `diagnosis` TEXT NOT NULL, `diagnosisId` INTEGER NOT NULL, `equipment_support` TEXT NOT NULL, `equipment_category` TEXT NOT NULL, `equipmentId` INTEGER NOT NULL, `equipment_status` TEXT NOT NULL, `equipment_status_notes` TEXT NOT NULL, `temp_patient_id` TEXT NOT NULL, `isLocal` INTEGER NOT NULL, `isSynced` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `fromDevice` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_name",
+            "columnName": "camp_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orthosis_date",
+            "columnName": "orthosis_date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientOrthosisTypes",
+            "columnName": "patientOrthosisTypes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_age_years",
+            "columnName": "patient_age_years",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_contact_no",
+            "columnName": "patient_contact_no",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_gender",
+            "columnName": "patient_gender",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_height_cm",
+            "columnName": "patient_height_cm",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_name",
+            "columnName": "patient_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_weight_kg",
+            "columnName": "patient_weight_kg",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "diagnosis",
+            "columnName": "diagnosis",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "diagnosisId",
+            "columnName": "diagnosisId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipment_support",
+            "columnName": "equipment_support",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipment_category",
+            "columnName": "equipment_category",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipmentId",
+            "columnName": "equipmentId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipment_status",
+            "columnName": "equipment_status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipment_status_notes",
+            "columnName": "equipment_status_notes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "temp_patient_id",
+            "columnName": "temp_patient_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isLocal",
+            "columnName": "isLocal",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSynced",
+            "columnName": "isSynced",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isEdited",
+            "columnName": "isEdited",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fromDevice",
+            "columnName": "fromDevice",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '75c7e3f064e94232fad2564748fbdc3d')"
+    ]
+  }
+}

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <include
+        android:id="@+id/toolbar_prescription_form_drug_list"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:weightSum="7.5"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_prescription_form_drug_list"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_margin="0dp"
+            android:padding="@dimen/_2sdp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="Generic"
+            android:textSize="@dimen/_5ssp"
+            style="@style/textView_bold"
+            android:background="@drawable/table_cell_border"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:maxLines="1"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_margin="0dp"
+            android:padding="@dimen/_2sdp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="Brand"
+            android:textSize="@dimen/_5ssp"
+            style="@style/textView_bold"
+            android:maxLines="1"
+            android:background="@drawable/table_cell_border"
+            android:layout_weight="1.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+
+        <TextView
+            android:layout_margin="0dp"
+            android:padding="@dimen/_2sdp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="Quantity"
+            android:textSize="@dimen/_5ssp"
+            style="@style/textView_bold"
+            android:background="@drawable/table_cell_border"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_margin="0dp"
+            android:padding="@dimen/_2sdp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="Dose"
+            android:textSize="@dimen/_5ssp"
+            style="@style/textView_bold"
+            android:background="@drawable/table_cell_border"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_margin="0dp"
+            android:padding="@dimen/_2sdp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="Frequency"
+            android:textSize="@dimen/_5ssp"
+            style="@style/textView_bold"
+            android:maxLines="1"
+            android:background="@drawable/table_cell_border"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_margin="0dp"
+            android:padding="@dimen/_2sdp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="Duration"
+            android:textSize="@dimen/_5ssp"
+            style="@style/textView_bold"
+            android:background="@drawable/table_cell_border"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerView_prescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/submit_prescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take Precription Screenshot"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/RecyclerView_prescription"
+        tools:ignore="MissingConstraints" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

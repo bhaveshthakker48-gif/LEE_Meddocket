@@ -1,0 +1,258 @@
+<resources>
+    <string name="app_name">IIF LLE MedDocket</string>
+
+    <string-array name="height_units">
+        <item>Select Unit</item>
+        <item>cms</item>
+        <item>inches</item>
+        <item>meter</item>
+        <item>feet</item>
+    </string-array>
+    <string-array name="weight_units">
+        <item>Select Unit</item>
+        <item>Kg(s)</item>
+        <item>Lb(s)</item>
+    </string-array>
+
+    <string name="bmi_result_format">%s BMI: %.2f\nCategory: %s</string>
+
+    <string name="please_wait">Please Wait</string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="canceled_by_user">Canceled by user</string>
+
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="dash">-</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="pulse_rate">Pulse Rate</string>
+    <string name="systolic">Systolic</string>
+    <string name="diastolic">Diastolic</string>
+    <string name="blood_pressure">Blood Pressure *</string>
+    <string name="submit">Submit</string>
+    <string name="Add">Add</string>
+    <string name="bmi">BMI</string>
+    <string name="random_blood_sugar">Random Blood Sugar *</string>
+    <string name="haemoglobin">Haemoglobin</string>
+    <string name="o2_saturation">O2 Saturation</string>
+    <string name="near_vision">Near Vision</string>
+    <string name="pin_hole">Pin Hole</string>
+
+    <string name="distant_vision">Distant Vision</string>
+    <string name="additional_details">Additional Details</string>
+    <string name="reading_addition">Reading Addition</string>
+    <string name="visual_acuity">Visual Acuity *</string>
+    <string name="refractive_error">Refractive Error</string>
+    <string name="right">Right</string>
+    <string name="prism">Prism</string>
+    <string name="dioptres_base">Dioptres Base</string>
+    <string name="left">Left</string>
+    <string name="pupillary_distance_pd">Pupillary Distance (PD)</string>
+    <string name="mm">mm</string>
+    <string name="bilateral_vertex_distance_bvd">Bilateral Vertex Distance (BVD)</string>
+    <string name="fundus">Fundus</string>
+    <string name="notes">Notes</string>
+    <string name="interpretation">Interpretation</string>
+    <string name="title_activity_form_vitals">FormVitalsActivity</string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
+        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
+        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
+        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
+        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
+        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
+        bibendum, vel congue leo egestas.\n\n
+        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
+        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
+        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
+        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
+        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
+        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
+        est.\n\n
+        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
+        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
+        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
+        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
+        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
+        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
+        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
+        convallis.\n\n
+        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
+        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
+        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
+        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
+        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
+        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+    </string>
+
+    <string name="symptoms_details">Enter symptoms details</string>
+    <string name="examonation_details">Enter examination details</string>
+    <string name="diagnosis_details">Enter diagnosis details</string>
+    <string name="date_admission">Date of Admission</string>
+    <string name="date">Date</string>
+    <string name="symptoms">Symptoms</string>
+    <string name="enter">Enter</string>
+    <string name="per_minute">/minute</string>
+    <string name="mm_hg">mm/Hg\n</string>
+    <string name="percentage">%</string>
+    <!--  <string name="o2_saturation1"><![CDATA[O<sub>2</sub> Saturation]]></string>-->
+    <string name="o2_saturation1">O\u2082 Saturation</string>
+    <string name="enter_details">Enter Details\n</string>
+    <string name="dp">dp</string>
+    <string name="date_surgery">Date of Surgery</string>
+    <string name="anaesthesia">The preparation of the Local Anaesthesia:- Combination of 3 drugs used in the local
+    anaesthesia i.e. 1 vial (30 ml) of Inj. Lignocaine with Adrenaline 2%,(1:200000 lacs)+inj Hyaluronidase 1500 I.U. and 1 vial (20 ml) of Inj.Sensurcaine 0.5%.</string>
+    <string name="anaesthesia1">1. Clean the Eye with betadine lotion and drape the eye with sterile drape.</string>
+    <string name="anaesthesia2">2. Inject 3ml of Inj Xylocaine with Adrenaline+Inj.</string>
+    <string name="anaesthesia3">3. Hyaluronidase mixed with 3ml inj sensorcaine 0.5% given by peribulbar route, retrobulbar route and sometime subtenons route.</string>
+    <string name="before_incision">All team members have introduced themselves by name and role</string>
+    <string name="surgery">Types of Intra Occular Lens used during the Cataract Surgery</string>
+
+    <string name="instruction_patients1">
+<!--        1. Check for the properly positioning Eye pad, Plastic protective Eye Shields.
+2. To follow the strict aseptic precautions while carrying out any procedure on the eye.\n
+        3. <b>Instruction for Eye drops</b>
+
+1. Head PositionTilt the head backward and pull the lower eyelid down and apply the one
+drop of prescribed E/D medicine.
+
+2. Close the eyes immediately to prevent any medication going into the throat.-->
+
+        1. Check for the properly positioning Eye pad, Plastic protective Eye Shields.\n
+    2. To follow the strict aseptic precautions while carrying out any procedure on the eye.\n
+    3. <b>Instructions for Eye drops:</b>
+    \n
+    1. Head Position: Tilt the head backward and pull the lower eyelid down. Apply one drop of the prescribed E/D medicine.
+    \n
+    2. Close the eyes immediately to prevent any medication from going into the throat.
+
+    </string>
+    <string name="instruction_patients2">
+        3. Close the eye for 10 minutes.
+        \n
+
+4. Wipe the excessive medication immediately with clean tissue or sterile cotton pad.
+        \n
+
+5. Keep a gap 15 minutes before applying next medication.
+        \n
+
+6. Never miss the prescribed medication.
+        \n
+
+7. Once opened the eye drops are discarded after 1 month.
+        \n
+
+8. Replace the cap of the eye drops immediately after the use.
+        \n
+
+9. Make sure that the right eye drops being used for the right number of times.
+        \n
+        10. If the similar medication is advised for the both eyes, itvis advisable to have separate
+eye drops for the two eyes.
+        \n
+
+11. Unused eye medications once opened is discarded and never used for other patients.
+
+    </string>
+    <string name="counseling_and_health_education">
+    1. Do not rub the eyes for at least 15 days after surgery.\n
+    2. Do not allow the eye to get injured.\n
+    3. Avoid too many visitors for the fear of contacting infection, especially those suffering from cold and conjunctivitis.\n
+    4. Do not play with children since there\'s a possibility of getting hurt in the eye.\n
+</string>
+
+    <string name="counseling_and_health_education1">
+         5. Avoid the snuffing, smoking, consumption of the alcoholic beverages.
+         \n
+
+ 6. Avoid the Hand kerchief to mop the eyes always use sterile tissue only. (Strictly single use
+ only)
+         \n
+
+ 7. Never touch the tip of the dropper with bare hands nor it should come in contact with any
+ object, aa this might increase the risk of operation.
+         \n
+
+ 8. Not to strain the eye with near work like reading/writing/watching Television and the
+ Mobile.
+         \n
+
+ 9. Do not remove the protective eye covering unless the surgeon\'s instructions. Always wear
+ the protective coverings or sun glasses to protect from in the direct contact of the dust and
+ excessive sunlight, also during the night, to sleep with protective eye covering over the eyes,
+ to avoid the rubbing of the eyes.
+         \n
+
+ 10. Avoid the strenuous exercises, aerobics, swimming, cooking, lifting and bending for the
+ first few 3 to 4 weeks.
+         \n
+
+ 11. Regular bath the rest of the body may be taken with care that no water or soap goes into
+ the operated eye.
+         \n
+
+ 12. Avoid sleeping on operated side, put eye shield at time of sleeping for 2 nights after the
+ surgery.
+         \n
+
+ 13. Watering eye should be wiped with tissue paper gently without pressing on the eye.
+         \n
+
+ 14. Sticky and dry discharge also be cleaned with wet wipes(STRIOS Lid wipes).
+         \n
+         15. Watching TV is permissible from second day provided from a distance and not for more
+ than 30 minutes.
+         \n
+
+ 16. Contact doctors in case of excessive pain or watering.
+
+     </string>
+
+    <string name="Spectacles_Prescription"><u>Spectacles Prescription</u></string>
+
+    <string name="Prescription"><u>Prescription</u></string>
+    <string name="title_activity_patient_list">PatientListActivity</string>
+    <string name="residence_address"><u><u>Residence Address</u></u></string>
+    <string name="postal_address"><u><u>Postal Address</u></u></string>
+
+    <string name="Print_Prescription">Print Prescription</string>
+    <string name="txt_patient_contact">Patient Contact</string>
+    <string name="txt_examination_date">Examination Date*</string>
+    <string name="txt_orthosis_type">Orthosis Type*</string>
+    <string name="txt_amputation_date">Amputation Date*</string>
+    <string name="txt_amputation_side">Amputation Side*</string>
+    <string name="txt_amputation_level">Amputation Level*</string>
+    <string name="txt_amputation_cause">Amputation Cause*</string>
+    <string name="txt_measurements">Measurements</string>
+    <string name="txt_orthosis_status">Orthosis Status*</string>
+    <string name="txt_fitting_status">Fit Properly*</string>
+    <string name="txt_fitting_feedback">Fitting Feedback*</string>
+    <string name="txt_sync_success">Sync Up to Date</string>
+    <string name="txt_enter_diagnosis_type">Enter Diagnosis Type*</string>
+    <string name="txt_diagnosis_type">Diagnosis*</string>
+    <string name="txt_enter_orthrosis_type">Enter Orthrosis Type*</string>
+    <string name="txt_comments">Comments*</string>
+    <string name="txt_prescribed">Prescribed</string>
+    <string name="txt_prescribed_status">Prescribed Status*</string>
+    <string name="audiometry_image_required">Select Audiometry image <font color='#FF0000'>*</font></string>
+    <string name="symptoms_required">Symptoms <font color='#FF0000'>*</font></string>
+    <string name="impression_required">Impression <font color='#FF0000'>*</font></string>
+
+
+</resources>

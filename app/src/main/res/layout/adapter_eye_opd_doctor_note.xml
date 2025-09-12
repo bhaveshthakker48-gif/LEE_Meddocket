@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <androidx.cardview.widget.CardView
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_5sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="Symptoms"
+                        style="@style/refreactive_head_title1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+
+
+
+
+
+
+                    <LinearLayout
+                        android:id="@+id/LinearLayout_symtoms"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_margin="@dimen/_5sdp"
+                            android:id="@+id/LinearLayout_symptoms_list"
+                            android:weightSum="3"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_margin="@dimen/_1sdp"
+                                android:padding="@dimen/_1sdp"
+                                android:textColor="@color/white"
+                                android:background="@drawable/textview_background"
+                                android:text="Eye"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:layout_margin="@dimen/_1sdp"
+                                android:padding="@dimen/_1sdp"
+                                android:textColor="@color/white"
+                                android:background="@drawable/textview_background"
+                                android:text="Symptoms"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:layout_margin="@dimen/_1sdp"
+                                android:padding="@dimen/_1sdp"
+                                android:textColor="@color/white"
+                                android:background="@drawable/textview_background"
+                                android:text="Details"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:id="@+id/RecyclerView_symptoms"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_margin="@dimen/_5sdp"
+                        android:textAlignment="center"
+                        style="@style/textView_bold"
+                        android:id="@+id/TextView_symtoms"
+                        android:text="No Data Available"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="Examination"
+                        style="@style/refreactive_head_title1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+
+
+
+
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/LinearLayout_examination"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:id="@+id/LinearLayout_Examination_list"
+                            android:weightSum="3"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_margin="@dimen/_1sdp"
+                                android:padding="@dimen/_1sdp"
+                                android:textColor="@color/white"
+                                android:background="@drawable/textview_background"
+                                android:text="Eye"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:layout_margin="@dimen/_1sdp"
+                                android:padding="@dimen/_1sdp"
+                                android:textColor="@color/white"
+                                android:background="@drawable/textview_background"
+                                android:text="Examination"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:layout_margin="@dimen/_1sdp"
+                                android:padding="@dimen/_1sdp"
+                                android:textColor="@color/white"
+                                android:background="@drawable/textview_background"
+                                android:text="Details"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:id="@+id/RecyclerView_examination"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_margin="@dimen/_5sdp"
+                        android:textAlignment="center"
+                        style="@style/textView_bold"
+                        android:id="@+id/TextView_examination"
+                        android:text="No Data Available"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="Diagnosis"
+                        style="@style/refreactive_head_title1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+
+
+
+
+
+
+
+
+                    <LinearLayout
+                        android:id="@+id/LinearLayout_diagnosis"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:id="@+id/LinearLayout_diagnosis_list"
+                            android:weightSum="3"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_margin="@dimen/_1sdp"
+                                android:padding="@dimen/_1sdp"
+                                android:textColor="@color/white"
+                                android:background="@drawable/textview_background"
+                                android:text="Eye"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:layout_margin="@dimen/_1sdp"
+                                android:padding="@dimen/_1sdp"
+                                android:textColor="@color/white"
+                                android:background="@drawable/textview_background"
+                                android:text="Diagnosis"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:layout_margin="@dimen/_1sdp"
+                                android:padding="@dimen/_1sdp"
+                                android:textColor="@color/white"
+                                android:background="@drawable/textview_background"
+                                android:text="Details"
+                                android:textAlignment="center"
+                                android:layout_weight="1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/RecyclerView_Diagnosis"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+                    <TextView
+                        android:layout_margin="@dimen/_5sdp"
+                        android:textAlignment="center"
+                        style="@style/textView_bold"
+                        android:id="@+id/TextView_diagnosis"
+                        android:text="No Data Available"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:background="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/refreactive_sub_title"
+                        android:text="Notes"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        style="@style/edit_text_style1"
+                        android:id="@+id/EditText_Notes"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray"
+                        android:textSize="@dimen/_7ssp"
+
+                        android:background="@drawable/edittext_background"
+
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:text="Recommended *"
+                        style="@style/refreactive_head_title1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <RadioGroup
+                        android:id="@+id/radioGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:textColor="@color/black"
+                            android:id="@+id/radioButtonSurgery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Surgery" />
+
+                        <RadioButton
+                            android:textColor="@color/black"
+                            android:id="@+id/radioButtonMedication"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Medication Only " />
+                    </RadioGroup>
+
+
+
+
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+      <!--  <androidx.cardview.widget.CardView
+            android:id="@+id/cardView_submit_eye_opd_Doctors_note"
+            style="@style/submit_cardView"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textAlignment="center"
+                style="@style/submit_textView"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="wrap_content"/>
+
+        </androidx.cardview.widget.CardView>-->
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="txt_patient_contact">Patient Contact</string>
+    <string name="txt_examination_date">Examination Date*</string>
+    <string name="txt_orthosis_type">Orthosis Type*</string>
+    <string name="txt_amputation_date">Amputation Date*</string>
+    <string name="txt_amputation_side">Amputation Side*</string>
+    <string name="txt_amputation_level">Amputation Level*</string>
+    <string name="txt_amputation_cause">Amputation Cause*</string>
+    <string name="txt_measurements">Measurements</string>
+    <string name="txt_orthosis_status">Orthosis Status*</string>
+    <string name="txt_fitting_status">Fit Properly*</string>
+    <string name="txt_fitting_feedback">Fitting Feedback*</string>
+    <string name="txt_sync_success">Sync Up to Date</string>
+    <string name="txt_enter_diagnosis_type">Enter Diagnosis Type*</string>
+    <string name="txt_diagnosis_type">Diagnosis*</string>
+    <string name="txt_enter_orthrosis_type">Enter Orthrosis Type*</string>
+    <string name="txt_comments">Comments*</string>
+    <string name="txt_prescribed">Prescribed</string>
+    <string name="txt_prescribed_status">Prescribed Status*</string>
+</resources>

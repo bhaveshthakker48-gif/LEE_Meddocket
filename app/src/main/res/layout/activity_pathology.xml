@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.pathologyui.PathologyActivity">
+
+    <include
+        android:id="@+id/toolbarPathologyNote"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/toolbarPathologyNote"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sdp">
+
+        <CheckBox
+            android:id="@+id/cbc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CBC (Complete Blood Count)" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:weightSum="2">
+
+            <EditText
+                android:id="@+id/cbcTextbox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Enter CBC"
+                android:visibility="gone"
+                android:background="@drawable/edittext_background"
+                android:padding="@dimen/_10sdp"
+                android:textSize="@dimen/_7ssp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/uploadCbcReport"
+                style="@style/upload_cardView"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@color/light_blue"
+                app:cardBackgroundColor="@color/light_blue"
+                android:backgroundTint="@color/light_blue"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/uploadCbcReportText"
+                    android:text="Upload Image"
+                    android:layout_gravity="center"
+                    style="@style/upload_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageCbcPreview"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/cbcViewDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end|center_vertical"
+            android:visibility="gone"
+            android:paddingEnd="8dp"
+            android:paddingRight="8dp">
+
+            <ImageView
+                android:id="@+id/viewCbcImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_view"
+                android:padding="8dp"
+                android:contentDescription="View CBC Image" />
+
+            <ImageView
+                android:id="@+id/deleteCbcImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:padding="8dp"
+                android:contentDescription="Delete CBC Image" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Bleeding Time" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/_8sdp">
+
+            <LinearLayout
+                android:id="@+id/btInputGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/btTextbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:hint="Enter BT"
+                    android:background="@drawable/edittext_background"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:inputType="numberDecimal"
+                    android:layout_marginEnd="4dp" />
+
+                <TextView
+                    android:id="@+id/btUnit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="/min"
+                    android:textColor="@color/black"
+                    android:gravity="start"
+                    android:textSize="@dimen/_7ssp" />
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/uploadBtReport"
+                style="@style/upload_cardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@color/light_blue"
+                app:cardBackgroundColor="@color/light_blue"
+                android:backgroundTint="@color/light_blue"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/uploadBtReportText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Image"
+                    android:layout_gravity="center"
+                    style="@style/upload_textView" />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageBtPreview"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/btViewDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end|center_vertical"
+            android:visibility="gone"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/viewBtImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_view"
+                android:padding="8dp"
+                android:contentDescription="View BT Image"/>
+
+            <ImageView
+                android:id="@+id/deleteBtImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:padding="8dp"
+                android:contentDescription="Delete BT Image"/>
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/ct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Clotting Time" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/_8sdp">
+
+            <LinearLayout
+                android:id="@+id/ctInputGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/ctTextbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:hint="Enter CT"
+                    android:background="@drawable/edittext_background"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:inputType="numberDecimal"
+                    android:layout_marginEnd="4dp" />
+
+                <TextView
+                    android:id="@+id/ctUnit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="/min"
+                    android:textColor="@color/black"
+                    android:gravity="start"
+                    android:textSize="@dimen/_7ssp" />
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/uploadCtReport"
+                style="@style/upload_cardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@color/light_blue"
+                app:cardBackgroundColor="@color/light_blue"
+                android:backgroundTint="@color/light_blue"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/uploadCtReportText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Image"
+                    android:layout_gravity="center"
+                    style="@style/upload_textView" />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imageCtPreview"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/ctViewDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end|center_vertical"
+            android:visibility="gone"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/viewCtImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_view"
+                android:padding="8dp"
+                android:contentDescription="View CT Image"/>
+
+            <ImageView
+                android:id="@+id/deletectImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:padding="8dp"
+                android:contentDescription="Delete CT Image"/>
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/hiv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="HIV (I/II)  (Human Immunodeficiency Virus)" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:weightSum="2">
+
+
+            <Spinner
+                android:id="@+id/hivTextbox"
+                style="@style/spinner_padding_left_right"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/spinner_background" />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/uploadhivReport"
+                style="@style/upload_cardView"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:background="@color/light_blue"
+                app:cardBackgroundColor="@color/light_blue"
+                android:backgroundTint="@color/light_blue"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/uploadhivReportText"
+                    android:text="Upload Image"
+                    android:layout_gravity="center"
+                    style="@style/upload_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageHivPreview"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/hivViewDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end|center_vertical"
+            android:visibility="gone"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/viewHivImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_view"
+                android:padding="8dp"
+                android:contentDescription="View HIV Image"/>
+
+            <ImageView
+                android:id="@+id/deletehivImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:padding="8dp"
+                android:contentDescription="Delete HIV Image"/>
+        </LinearLayout>
+
+
+        <CheckBox
+            android:id="@+id/hbsag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="HBsAg (Hepatitis B Surface Antigen)" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:weightSum="2">
+
+            <Spinner
+                android:id="@+id/hbsagTextbox"
+                style="@style/spinner_padding_left_right"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/spinner_background" />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/uploadhbsagReport"
+                style="@style/upload_cardView"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                android:background="@color/light_blue"
+                app:cardBackgroundColor="@color/light_blue"
+                android:backgroundTint="@color/light_blue"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/uploadhbsagReportText"
+                    android:text="Upload Image"
+                    android:layout_gravity="center"
+                    style="@style/upload_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageHsagsPreview"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/hbsagViewDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end|center_vertical"
+            android:visibility="gone"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/viewHbsagImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_view"
+                android:padding="8dp"
+                android:contentDescription="View HBsAg Image"/>
+
+            <ImageView
+                android:id="@+id/deletehbsagImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:padding="8dp"
+                android:contentDescription="Delete HBsAg Image"/>
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/pta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="PTA (plasma thromboplastin antecedent)" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/_8sdp">
+
+            <LinearLayout
+                android:id="@+id/ptaInputGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/ptaTextbox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:hint="Enter PTA"
+                    android:background="@drawable/edittext_background"
+                    android:padding="@dimen/_8sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:inputType="numberDecimal"
+                    android:layout_marginEnd="4dp" />
+
+                <TextView
+                    android:id="@+id/ptaUnit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="/sec"
+                    android:textColor="@color/black"
+                    android:gravity="start"
+                    android:textSize="@dimen/_7ssp" />
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/uploadPtaReport"
+                style="@style/upload_cardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@color/light_blue"
+                app:cardBackgroundColor="@color/light_blue"
+                android:backgroundTint="@color/light_blue"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/uploadPtaReportText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload Image"
+                    android:layout_gravity="center"
+                    style="@style/upload_textView" />
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imagePtaPreview"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/ptaViewDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end|center_vertical"
+            android:visibility="gone"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/viewPtaImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_view"
+                android:padding="8dp"
+                android:contentDescription="View PTA Image"/>
+
+            <ImageView
+                android:id="@+id/deleteptaImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:padding="8dp"
+                android:contentDescription="Delete PTA Image"/>
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/impedanceAudiometry"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Impedance Audiometry" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:weightSum="2">
+
+            <EditText
+                android:id="@+id/impedanceAudiometryTextbox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Enter Impedance Audiometry"
+                android:visibility="gone"
+                android:background="@drawable/edittext_background"
+                android:padding="@dimen/_10sdp"
+                android:textSize="@dimen/_7ssp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/uploadimpedanceAudiometryReport"
+                style="@style/upload_cardView"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/uploadImpedanceAudiometryReportText"
+                    android:text="Upload Image"
+                    android:layout_gravity="center"
+                    style="@style/upload_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imageimpedanceAudiometryPreview"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/impedanceAudiometryViewDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end|center_vertical"
+            android:visibility="gone"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/viewImpedanceAudiometryImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_view"
+                android:padding="8dp"
+                android:contentDescription="View Impedance Audiometry Image"/>
+
+            <ImageView
+                android:id="@+id/deleteimpedanceAudiometryImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:padding="8dp"
+                android:contentDescription="Delete Impedance Audiometry Image"/>
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/submitButton"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:cardBackgroundColor="@color/main_color"
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:strokeColor="@android:color/transparent">
+
+            <TextView
+                android:id="@+id/tvSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/_10sdp"
+                android:text="Submit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnEdit"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/green"
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:strokeColor="@android:color/transparent">
+
+            <TextView
+                android:id="@+id/tvEditOrthosis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/_10sdp"
+                android:text="Edit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

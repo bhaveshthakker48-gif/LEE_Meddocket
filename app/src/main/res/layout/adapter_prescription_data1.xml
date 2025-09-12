@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="7.5">
+
+            <TextView
+                style="@style/TableHeader"
+                android:id="@+id/TextView_Generic"
+                android:layout_weight="2"
+                android:text="Generic name with big text that spans multiple lines" />
+
+            <TextView
+                style="@style/TableHeader"
+                android:id="@+id/TextView_Brand"
+                android:layout_weight="1.5"
+                android:text="Brand" />
+
+            <TextView
+                style="@style/TableHeader"
+                android:id="@+id/TextViewQuantity"
+                android:layout_weight="1"
+                android:text="Quantity" />
+
+            <TextView
+                style="@style/TableHeader"
+                android:id="@+id/TextView_Dose"
+                android:layout_weight="1"
+                android:text="Dose" />
+
+            <TextView
+                style="@style/TableHeader"
+                android:id="@+id/TextView_Frequency"
+                android:layout_weight="1"
+                android:text="Frequency" />
+
+            <TextView
+                style="@style/TableHeader"
+                android:id="@+id/TextView_Duration"
+                android:layout_weight="1"
+                android:text="Duration" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

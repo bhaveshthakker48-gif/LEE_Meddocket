@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.NewVisualAcuityActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+    <include
+        android:id="@+id/visualAcuityToolBar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvVisualAcuityTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="@color/main_color"
+        app:cardCornerRadius="@dimen/_3sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/visualAcuityToolBar"
+        app:strokeColor="@android:color/transparent">
+
+        <TextView
+            android:id="@+id/tvVisualAcuity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:text="Visual Acuity*"
+            android:textColor="@color/white" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvRightEye"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvVisualAcuityTitle"
+        app:strokeColor="@color/main_color"
+        app:strokeWidth="@dimen/_2sdp">
+
+        <LinearLayout
+            android:id="@+id/llVisualAcuityCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llDetailTab"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@color/main_color"
+                android:backgroundTint="@color/main_color"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvRightEye"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Right"
+                    android:textColor="@color/white" />
+
+                <LinearLayout
+                    android:id="@+id/llDash"
+                    android:layout_width="@dimen/_2sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:background="@color/white"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:id="@+id/tvLeftEye"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Left"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llNearVisionDetailTab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llNearVision"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/main_color"
+                    android:backgroundTint="@color/green"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvNearVision"
+                        android:layout_width="match_parent"
+                        android:padding="@dimen/_2sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:text="Near Vision"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlRNVSphere"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/etlLNVSphere"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etRNVSphere"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:clickable="false"
+                            android:drawableEnd="@drawable/ic_arrow_down_black"
+                            android:ems="10"
+                            android:focusable="false"
+                            android:hint="Sphere"
+                            android:inputType="none"
+                            android:textColor="@color/gray" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlLNVSphere"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/etlRNVSphere"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/etlRNVSphere"
+                        app:layout_constraintTop_toTopOf="@+id/etlRNVSphere">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etLNVSphere"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:clickable="false"
+                            android:drawableEnd="@drawable/ic_arrow_down_black"
+                            android:ems="10"
+                            android:focusable="false"
+                            android:hint="Sphere"
+                            android:inputType="none"
+                            android:textColor="@color/gray" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llDistantVisionDetailTab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llDistantVision"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/main_color"
+                    android:backgroundTint="@color/green"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvDistantVision"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:text="Distant Vision"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlRDVUnit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintBottom_toTopOf="@+id/etlRDVSphere"
+                        app:layout_constraintEnd_toStartOf="@+id/etlLDVUnit"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/etRDVUnit"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:editable="false"
+                            android:ellipsize="end"
+                            android:focusable="false"
+                            android:hint="Distant Unit"
+                            android:inputType="none"
+                            android:textColor="@color/gray" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlLDVUnit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/etlRDVUnit"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/etlRDVUnit"
+                        app:layout_constraintTop_toTopOf="@+id/etlRDVUnit">
+
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/etLDVUnit"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:editable="false"
+                            android:ellipsize="end"
+                            android:focusable="false"
+                            android:hint="Distant Unit"
+                            android:inputType="none"
+                            android:textColor="@color/gray" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlRDVSphere"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/etlRDVUnit"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etlRDVUnit">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etRDVSphere"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:clickable="false"
+                            android:drawableEnd="@drawable/ic_arrow_down_black"
+                            android:ems="10"
+                            android:focusable="false"
+                            android:hint="Sphere"
+                            android:inputType="none"
+                            android:textColor="@color/gray" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlLDVSphere"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/etlRDVSphere"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/etlRDVSphere"
+                        app:layout_constraintTop_toTopOf="@+id/etlRDVSphere">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etLDVSphere"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:clickable="false"
+                            android:drawableEnd="@drawable/ic_arrow_down_black"
+                            android:ems="10"
+                            android:focusable="false"
+                            android:hint="Sphere"
+                            android:inputType="none"
+                            android:textColor="@color/gray" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPinHoleDetailTab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llPinHole"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/main_color"
+                    android:backgroundTint="@color/green"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvPinHole"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:text="Pin Hole"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etlRightPinHole"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            android:layout_marginBottom="16dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/etlLeftPinHole"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etRightPinHole"
+                                style="@style/edit_text_style_new"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="#F4FAFF"
+                                android:clickable="false"
+                                android:drawableEnd="@drawable/ic_arrow_down_black"
+                                android:ems="10"
+                                android:focusable="false"
+                                android:hint="Right"
+                                android:inputType="none"
+                                android:textColor="@color/gray" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etlLeftPinHole"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="16dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/etlRightPinHole"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/etlRightPinHole"
+                            app:layout_constraintTop_toTopOf="@+id/etlRightPinHole">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etLeftPinHole"
+                                style="@style/edit_text_style_new"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="#F4FAFF"
+                                android:clickable="false"
+                                android:drawableEnd="@drawable/ic_arrow_down_black"
+                                android:ems="10"
+                                android:focusable="false"
+                                android:hint="Left"
+                                android:inputType="none"
+                                android:textColor="@color/gray" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPinHoleUnit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        android:orientation="horizontal">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etlRightPinHoleUnit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+
+                            android:layout_weight="1"
+
+                            android:layout_marginEnd="8dp"
+                            app:layout_constraintBottom_toTopOf="@+id/etlRDVSphere"
+                            app:layout_constraintEnd_toStartOf="@+id/etlLDVUnit"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/etRightPinHoleUnit"
+                                style="@style/edit_text_style_new"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="#F4FAFF"
+                                android:editable="false"
+                                android:ellipsize="end"
+                                android:focusable="false"
+                                android:hint="PinHole Unit"
+                                android:inputType="none"
+                                android:textColor="@color/gray" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etlLeftPinHoleUnit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+
+
+                            android:layout_weight="1"
+
+                            app:layout_constraintBottom_toBottomOf="@+id/etlRDVUnit"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/etlRDVUnit"
+                            app:layout_constraintTop_toTopOf="@+id/etlRDVUnit">
+
+
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/etLeftPinHoleUnit"
+                                style="@style/edit_text_style_new"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="#F4FAFF"
+                                android:editable="false"
+                                android:ellipsize="end"
+                                android:focusable="false"
+                                android:hint="PinHole Unit"
+                                android:inputType="none"
+                                android:textColor="@color/gray" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPinHoleValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etlRPHValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            android:layout_marginBottom="24dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/etlRDVUnit"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/etlRDVUnit">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etRPHValue"
+                                style="@style/edit_text_style_new"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="#F4FAFF"
+                                android:clickable="false"
+                                android:drawableEnd="@drawable/ic_arrow_down_black"
+                                android:ems="10"
+                                android:focusable="false"
+                                android:hint="Value"
+                                android:inputType="none"
+                                android:textColor="@color/gray" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/etlLPHValue"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="16dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/etlRDVSphere"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/etlRDVSphere"
+                            app:layout_constraintTop_toTopOf="@+id/etlRDVSphere">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etLPHValue"
+                                style="@style/edit_text_style_new"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="#F4FAFF"
+                                android:clickable="false"
+                                android:drawableEnd="@drawable/ic_arrow_down_black"
+                                android:ems="10"
+                                android:focusable="false"
+                                android:hint="Value"
+                                android:inputType="none"
+                                android:textColor="@color/gray" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llAdditionalDetailTab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llAdditionalDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/main_color"
+                    android:backgroundTint="@color/green"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvAdditionalDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_2sdp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:text="Additional Details"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlRightNotes"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/etlLeftNotes"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etRightNotes"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:ems="10"
+                            android:hint="Notes"
+                            android:inputType="text"
+                            android:textColor="@color/gray" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlLeftNotes"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="@+id/etlRightNotes"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/etlRightNotes"
+                        app:layout_constraintTop_toTopOf="@+id/etlRightNotes">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etLeftNotes"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:ems="10"
+                            android:hint="Notes"
+                            android:inputType="text"
+                            android:textColor="@color/gray" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btnSubmitForm"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_32sdp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/_32sdp"
+        android:layout_marginBottom="@dimen/_32sdp"
+        android:layout_marginTop="@dimen/_50sdp"
+        app:cardBackgroundColor="@color/main_color"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@android:color/transparent">
+
+        <TextView
+            android:id="@+id/tvSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:padding="@dimen/_8sdp"
+            android:layout_gravity="center"
+            android:textColor="@color/white"/>
+    </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnEdit"
+            app:cardBackgroundColor="@color/green"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_32sdp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginEnd="@dimen/_32sdp"
+            android:layout_marginBottom="@dimen/_32sdp"
+            android:layout_marginTop="@dimen/_50sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:strokeColor="@android:color/transparent">
+
+            <TextView
+                android:id="@+id/tvEditOrthosis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Edit"
+                android:padding="@dimen/_10sdp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>

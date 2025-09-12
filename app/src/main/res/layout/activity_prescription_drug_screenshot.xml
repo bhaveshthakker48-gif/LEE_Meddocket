@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+
+
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+        <include
+            android:id="@+id/toolbar_prescription_screenshot"
+            layout="@layout/toolbar" />
+
+        <LinearLayout
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- First ImageView -->
+            <ImageView
+                android:id="@+id/ImageView_screenshot_front"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_200sdp"
+                android:adjustViewBounds="false"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"
+                android:src="@android:drawable/ic_menu_camera"
+                android:background="@drawable/edittext_background"
+                android:layout_weight="1"
+                android:scaleType="fitCenter" />
+
+
+            <!-- Second ImageView -->
+            <ImageView
+
+                android:background="@drawable/edittext_background"
+
+                android:id="@+id/ImageView_screenshot_back"
+
+                android:src="@android:drawable/ic_menu_camera"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_200sdp"
+                android:adjustViewBounds="true"
+
+                android:layout_gravity="center_vertical"
+                android:layout_margin="8dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- First ImageView -->
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/TextView_screenshot_front"
+                android:src="@android:drawable/ic_menu_camera"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:text="Front Side"
+                android:textAlignment="center"
+
+                android:layout_margin="8dp"/>
+
+            <!-- Second ImageView -->
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/TextView_screenshot_back"
+                android:src="@android:drawable/ic_menu_camera"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:text="Back Side"
+                android:textAlignment="center"
+
+                android:layout_margin="8dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/Button_submit"
+                android:gravity="center"
+                android:text="Submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

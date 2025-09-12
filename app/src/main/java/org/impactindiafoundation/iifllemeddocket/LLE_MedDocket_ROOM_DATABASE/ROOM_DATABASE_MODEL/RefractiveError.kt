@@ -1,0 +1,52 @@
+package org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "RefractiveError")
+data class RefractiveError(
+    @PrimaryKey(autoGenerate = true) val _id: Int,
+    val camp_id: Int,
+    val createdDate: String,
+    val fundus_notes: String,
+    val is_given: Boolean,
+    val is_ordered: Boolean,
+    val patient_id: Int,
+    val re_bvd: String,
+    val re_distant_vision_axis_left: String,
+    val re_distant_vision_axis_right: String,
+    val re_distant_vision_cylinder_left: String,
+    val re_distant_vision_cylinder_right: String,
+    val re_distant_vision_left: String,
+    val re_distant_vision_right: String,
+    val re_distant_vision_sphere_left: String,
+    val re_distant_vision_sphere_right: String,
+    val re_distant_vision_unit_left: String,
+    val re_distant_vision_unit_right: String,
+    val re_near_vision_axis_left: String,
+    val re_near_vision_axis_right: String,
+    val re_near_vision_cylinder_left: String,
+    val re_near_vision_cylinder_right: String,
+    val re_near_vision_left: String,
+    val re_near_vision_right: String,
+    val re_near_vision_sphere_left: String,
+    val re_near_vision_sphere_right: String,
+    val re_prism_left: String,
+    val re_prism_right: String,
+    val re_prism_unit_left: String,
+    val re_prism_unit_right: String,
+    val re_pupipllary_distance: String,
+    val re_reading_addition_left: String,
+    val re_reading_addition_left_details: String,
+    val re_reading_addition_right: String,
+    val re_reading_addition_right_details: String,
+    val re_remark_left: String,
+    val re_remark_right: String,
+    val re_remarks: String,
+    val reading_glass: String,
+    val userId: String,
+    val presc_type:String,
+    val frameCode:String,
+    val frameColor:String,
+    var isSyn: Int =0
+)

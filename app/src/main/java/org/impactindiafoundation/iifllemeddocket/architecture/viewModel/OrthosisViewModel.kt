@@ -1,0 +1,407 @@
+package org.impactindiafoundation.iifllemeddocket.architecture.viewModel
+
+import android.media.audiofx.DynamicsProcessing.Eq
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.impactindiafoundation.iifllemeddocket.architecture.helper.Resource
+import org.impactindiafoundation.iifllemeddocket.architecture.model.CampPatientDataItem
+import org.impactindiafoundation.iifllemeddocket.architecture.model.DiagnosisType
+import org.impactindiafoundation.iifllemeddocket.architecture.model.Equipment
+import org.impactindiafoundation.iifllemeddocket.architecture.model.EquipmentImage
+import org.impactindiafoundation.iifllemeddocket.architecture.model.FormImages
+import org.impactindiafoundation.iifllemeddocket.architecture.model.FormVideos
+import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisImages
+import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisPatientForm
+import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisType
+import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisTypeModel
+import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisTypeModelItem
+import org.impactindiafoundation.iifllemeddocket.architecture.model.UserModel
+import org.impactindiafoundation.iifllemeddocket.architecture.repository.NewMainRepository
+import javax.inject.Inject
+
+@HiltViewModel
+class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMainRepository) :
+    ViewModel() {
+    private var _othosisMasterResponse = MutableLiveData<Resource<List<OrthosisTypeModelItem>>>()
+    val othosisMasterResponse: LiveData<Resource<List<OrthosisTypeModelItem>>> get() = _othosisMasterResponse
+
+
+    private var _insertOrthosisResponse = MutableLiveData<Resource<Long>>()
+    val insertOrthosisResponse: LiveData<Resource<Long>> get() = _insertOrthosisResponse
+
+    private var _orthosisMasterList = MutableLiveData<Resource<List<OrthosisType>>>()
+    val orthosisMasterList: LiveData<Resource<List<OrthosisType>>> get() = _orthosisMasterList
+
+    private var _orthosisPatientFormList = MutableLiveData<Resource<List<OrthosisPatientForm>>>()
+    val orthosisPatientFormList: LiveData<Resource<List<OrthosisPatientForm>>> get() = _orthosisPatientFormList
+
+    private var _insertOrthosisFormResponse = MutableLiveData<Resource<Long>>()
+    val insertOrthosisFormResponse: LiveData<Resource<Long>> get() = _insertOrthosisFormResponse
+
+
+    private var _orthosisPatientFormListById =
+        MutableLiveData<Resource<List<OrthosisPatientForm>>>()
+    val orthosisPatientFormListById: LiveData<Resource<List<OrthosisPatientForm>>> get() = _orthosisPatientFormListById
+
+
+    //orthosis file datas
+    private var _insertOrthosisImageResponse = MutableLiveData<Resource<Long>>()
+    val insertOrthosisImageResponse: LiveData<Resource<Long>> get() = _insertOrthosisImageResponse
+
+    private val _insertedFormImageIds = MutableLiveData<Resource<List<Long>>>()
+    val insertedFormImageIds: LiveData<Resource<List<Long>>> get() = _insertedFormImageIds
+
+    private var _insertFormImageResponse = MutableLiveData<Resource<Long>>()
+    val insertFormImageResponse: LiveData<Resource<Long>> get() = _insertFormImageResponse
+
+    private var _insertVideosResponse = MutableLiveData<Resource<Long>>()
+    val insertVideosResponse: LiveData<Resource<Long>> get() = _insertVideosResponse
+
+
+    private var _userList = MutableLiveData<Resource<List<UserModel>>>()
+    val userList: LiveData<Resource<List<UserModel>>> get() = _userList
+
+    private var _formImageListFormId = MutableLiveData<Resource<List<FormImages>>>()
+    val formImageListFormId: LiveData<Resource<List<FormImages>>> get() = _formImageListFormId
+
+
+    private var _formVideosListById = MutableLiveData<Resource<List<FormVideos>>>()
+    val formVideosListById: LiveData<Resource<List<FormVideos>>> get() = _formVideosListById
+
+    private var _orthosisImagesList = MutableLiveData<Resource<List<OrthosisImages>>>()
+    val orthosisImagesList: LiveData<Resource<List<OrthosisImages>>> get() = _orthosisImagesList
+
+    private var _diagnosisMasterList = MutableLiveData<Resource<List<DiagnosisType>>>()
+    val diagnosisMasterList: LiveData<Resource<List<DiagnosisType>>> get() = _diagnosisMasterList
+
+    private var _orthosisEquipmentMasterList = MutableLiveData<Resource<List<Equipment>>>()
+    val orthosisEquipmentMasterList: LiveData<Resource<List<Equipment>>> get() = _orthosisEquipmentMasterList
+
+
+    //equipment file datas
+    private var _insertEquipmentImageResponse = MutableLiveData<Resource<Long>>()
+    val insertEquipmentImageResponse: LiveData<Resource<Long>> get() = _insertEquipmentImageResponse
+
+    private var _equipmentImagesList = MutableLiveData<Resource<List<EquipmentImage>>>()
+    val equipmentImagesList: LiveData<Resource<List<EquipmentImage>>> get() = _equipmentImagesList
+
+    fun getFormVideos(formId: Int) = CoroutineScope(Dispatchers.IO).launch {
+        _formVideosListById.postValue(Resource.loading(null))
+        try {
+            try {
+                newMainRepository.getFormVideosById(formId).let {
+                    _formVideosListById.postValue(Resource.success(it))
+                }
+            } catch (e: Exception) {
+                _formVideosListById.postValue(
+                    Resource.error(
+                        e.toString(),
+                        null
+                    )
+                )
+
+            }
+
+        } catch (e: Exception) {
+            _formVideosListById.postValue(Resource.error(e.message.toString(), null))
+        }
+    }
+
+
+    fun insertOrthosisMasterLocal(orthosisMaster: OrthosisType) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val message = newMainRepository.insertOrthosisMasterr(orthosisMaster)
+            _insertOrthosisResponse.postValue(Resource.success(message))
+
+            if (message.equals(null)) {
+                _insertOrthosisResponse.postValue(Resource.error("Local Db Error", null))
+            } else {
+                _insertOrthosisResponse.postValue(Resource.success(message))
+            }
+        }
+    }
+
+    fun getOrthosisMasterLocal() = CoroutineScope(Dispatchers.IO).launch {
+        _orthosisMasterList.postValue(Resource.loading(null))
+        try {
+            try {
+                newMainRepository.getOrthosisMaster().let {
+                    _orthosisMasterList.postValue(Resource.success(it))
+                }
+            } catch (e: Exception) {
+                _orthosisMasterList.postValue(
+                    Resource.error(
+                        e.toString(),
+                        null
+                    )
+                )
+
+            }
+
+        } catch (e: Exception) {
+            _orthosisMasterList.postValue(Resource.error(e.message.toString(), null))
+        }
+    }
+
+    fun getOrthosisPatientForm() = CoroutineScope(Dispatchers.IO).launch {
+        _orthosisPatientFormList.postValue(Resource.loading(null))
+        try {
+            try {
+                newMainRepository.getOrthosisPatientForm().let {
+                    _orthosisPatientFormList.postValue(Resource.success(it))
+                }
+            } catch (e: Exception) {
+                _orthosisPatientFormList.postValue(
+                    Resource.error(
+                        e.toString(),
+                        null
+                    )
+                )
+
+            }
+
+        } catch (e: Exception) {
+            _orthosisPatientFormList.postValue(Resource.error(e.message.toString(), null))
+        }
+    }
+
+    fun insertOrthosisPatientForm(orthosisPatientForm: OrthosisPatientForm) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val message = newMainRepository.insertOrthosisForm(orthosisPatientForm)
+            _insertOrthosisFormResponse.postValue(Resource.success(message))
+
+            if (message.equals(null)) {
+                _insertOrthosisFormResponse.postValue(Resource.error("Local Db Error", null))
+            } else {
+                _insertOrthosisFormResponse.postValue(Resource.success(message))
+            }
+        }
+    }
+
+    fun getOrthosisPatientFormById(localPatientId: Int) = CoroutineScope(Dispatchers.IO).launch {
+        _orthosisPatientFormListById.postValue(Resource.loading(null))
+        try {
+            try {
+                newMainRepository.getOrthosisPatientFormById(localPatientId).let {
+                    _orthosisPatientFormListById.postValue(Resource.success(it))
+                }
+            } catch (e: Exception) {
+                _orthosisPatientFormListById.postValue(
+                    Resource.error(
+                        e.toString(),
+                        null
+                    )
+                )
+
+            }
+
+        } catch (e: Exception) {
+            _orthosisPatientFormListById.postValue(Resource.error(e.message.toString(), null))
+        }
+    }
+
+    fun insertOrthosisImageList(orthosisImageList: List<OrthosisImages>) {
+        viewModelScope.launch {
+            newMainRepository.insertOrthosisImageList(orthosisImageList)
+        }
+    }
+
+    fun deleteOrthosisImages(orthosisList: List<OrthosisImages>) {
+        viewModelScope.launch {
+            newMainRepository.deleteOrthosisImages(orthosisList)
+
+        }
+    }
+
+
+    fun getOrthosisImageByFormId(formId:String) = CoroutineScope(Dispatchers.IO).launch {
+        _orthosisImagesList.postValue(Resource.loading(null))
+        try {
+            try {
+                newMainRepository.getOrthosisImageByFormId(formId).let {
+                    _orthosisImagesList.postValue(Resource.success(it))
+                }
+            } catch (e: Exception) {
+                _orthosisImagesList.postValue(
+                    Resource.error(
+                        e.toString(),
+                        null
+                    )
+                )
+
+            }
+
+        } catch (e: Exception) {
+            _orthosisImagesList.postValue(Resource.error(e.message.toString(), null))
+        }
+    }
+
+    fun insertFormImageList(formImageList: List<FormImages>) {
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val message = newMainRepository.insertFormImageList(formImageList)
+            _insertedFormImageIds.postValue(Resource.success(message))
+
+            if (message.equals(null)) {
+                _insertedFormImageIds.postValue(Resource.error("Local Db Error", null))
+            } else {
+                _insertedFormImageIds.postValue(Resource.success(message))
+            }
+        }
+    }
+
+    fun deleteFormImages(formImageList: List<FormImages>) {
+        viewModelScope.launch {
+            newMainRepository.deleteFormImages(formImageList)
+        }
+    }
+
+    fun deleteFormImagesById(formImageList: List<Int>) {
+        viewModelScope.launch {
+            newMainRepository.deleteFormImagesById(formImageList)
+        }
+    }
+
+
+    fun getFormImageListByFormId(formId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                try {
+                    newMainRepository.getFormImageListByFormId(formId).let {
+                        _formImageListFormId.postValue(Resource.success(it))
+                    }
+                } catch (e: Exception) {
+                    _formImageListFormId.postValue(
+                        Resource.error(
+                            e.toString(),
+                            null
+                        )
+                    )
+
+                }
+
+            } catch (e: Exception) {
+                _formImageListFormId.postValue(Resource.error(e.message.toString(), null))
+            }
+        }
+    }
+
+    fun insertFormVideoList(formVideoList: List<FormVideos>) {
+        viewModelScope.launch {
+            newMainRepository.insertFormVideoList(formVideoList)
+        }
+    }
+
+    fun getLocalUserList() = CoroutineScope(Dispatchers.IO).launch {
+        _userList.postValue(Resource.loading(null))
+        try {
+            try {
+                newMainRepository.getAllUsers().let {
+                    _userList.postValue(Resource.success(it))
+                }
+            } catch (e: Exception) {
+                _userList.postValue(
+                    Resource.error(
+                        e.toString(),
+                        null
+                    )
+                )
+
+            }
+
+        } catch (e: Exception) {
+            _userList.postValue(Resource.error(e.message.toString(), null))
+        }
+    }
+
+    fun deleteFormVideosById(formVideoList: List<Int>) {
+        viewModelScope.launch {
+            newMainRepository.deleteFormVideosById(formVideoList)
+        }
+    }
+
+    fun insertEquipmentImageList(equipmentImageList: List<EquipmentImage>) {
+        viewModelScope.launch {
+            newMainRepository.insertEquipmentImageList(equipmentImageList)
+        }
+    }
+
+    fun deleteEquipmentImage(image: String) {
+        viewModelScope.launch {
+            newMainRepository.deleteEquipmentImage(image)
+        }
+    }
+
+    fun getEquipmentImageByFormId(formId:String) = CoroutineScope(Dispatchers.IO).launch {
+        _equipmentImagesList.postValue(Resource.loading(null))
+        try {
+            try {
+                newMainRepository.getEquipmentImageByFormId(formId).let {
+                    _equipmentImagesList.postValue(Resource.success(it))
+                }
+            } catch (e: Exception) {
+                _equipmentImagesList.postValue(
+                    Resource.error(
+                        e.toString(),
+                        null
+                    )
+                )
+
+            }
+
+        } catch (e: Exception) {
+            _equipmentImagesList.postValue(Resource.error(e.message.toString(), null))
+        }
+    }
+
+    fun getDiagnosisMasterLocal() = CoroutineScope(Dispatchers.IO).launch {
+        _diagnosisMasterList.postValue(Resource.loading(null))
+        try {
+            try {
+                newMainRepository.getDiagnosisMasterLocal().let {
+                    _diagnosisMasterList.postValue(Resource.success(it))
+                }
+            } catch (e: Exception) {
+                _diagnosisMasterList.postValue(
+                    Resource.error(
+                        e.toString(),
+                        null
+                    )
+                )
+
+            }
+
+        } catch (e: Exception) {
+            _diagnosisMasterList.postValue(Resource.error(e.message.toString(), null))
+        }
+    }
+
+    fun getOrthosisEquipmentMasterLocal() = CoroutineScope(Dispatchers.IO).launch {
+        _orthosisEquipmentMasterList.postValue(Resource.loading(null))
+        try {
+            try {
+                newMainRepository.getOrthosisEquipmentMasterLocal().let {
+                    _orthosisEquipmentMasterList.postValue(Resource.success(it))
+                }
+            } catch (e: Exception) {
+                _orthosisEquipmentMasterList.postValue(
+                    Resource.error(
+                        e.toString(),
+                        null
+                    )
+                )
+
+            }
+
+        } catch (e: Exception) {
+            _orthosisEquipmentMasterList.postValue(Resource.error(e.message.toString(), null))
+        }
+    }
+
+}

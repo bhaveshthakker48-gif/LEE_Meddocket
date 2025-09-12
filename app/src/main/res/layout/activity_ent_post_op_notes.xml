@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.entui.EntPostOpNotesActivity">
+
+    <include
+        android:id="@+id/toolbarEntPostOpNote"
+        layout="@layout/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/toolbarEntPostOpNote"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <CheckBox
+                    android:id="@+id/ivHydrationGiven"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="IV hydration until oral intake is sufficient" />
+
+                <EditText
+                    android:id="@+id/ivHyderationDetail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Enter ivHydration Given"
+                    android:visibility="gone"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:background="@drawable/edittext_background" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="@dimen/_8sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NPO till."
+                    android:textSize="@dimen/_12ssp"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/EditText_date_of_Admission"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:hint="@string/date"
+                    android:background="@drawable/edittext_background"
+                    android:drawableRight="@drawable/baseline_calendar_month_24"
+                    android:textColor="@color/black"
+                    android:focusable="false"
+                    android:cursorVisible="false"
+                    android:inputType="none" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="@dimen/_8sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="At."
+                    android:textSize="@dimen/_12ssp"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/EditText_time_of_Admission"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:hint="Time"
+                    android:background="@drawable/edittext_background"
+                    android:drawableRight="@drawable/baseline_calendar_month_24"
+                    android:textColor="@color/black"
+                    android:focusable="false"
+                    android:cursorVisible="false"
+                    android:inputType="none" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_weight="1"
+                    android:text="allow clear fluids &amp; if tolerated well."
+                    android:textSize="@dimen/_12ssp"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="then other liquids followed by semisolid diet and then switch to a balance diet rich in fibre &amp; protein"
+                android:textSize="@dimen/_12ssp"/>
+
+            <CheckBox
+                android:id="@+id/paracetamolGiven"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Paracetamol(appropriate dose)" />
+
+            <CheckBox
+                android:id="@+id/antibioticClavulanateGiven"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amoxicillin or Cephalexin or Amoxicillin with clavulanate(appropriate dose) 5-7 days" />
+
+            <CheckBox
+                android:id="@+id/ofloxacinGiven"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ofloxacin ear drops" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Other Medication"
+                    android:textSize="@dimen/_12ssp"/>
+
+                <EditText
+                    android:id="@+id/otherMedicationsNote"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Enter Medication"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:background="@drawable/edittext_background" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Drain placed (wick, suction..)"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_16ssp" />
+
+            <CheckBox
+                android:id="@+id/wickDrainUsed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wick drain -- Watch for soakage" />
+
+            <CheckBox
+                android:id="@+id/redivacUsed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Redivac – Document the amount and type of fluid in the drain bottle. Empty when full and recharge when the vacuum is discharged." />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Watch for &amp; inform in case of"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_16ssp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/watchForSoakage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Soakage of dressing" />
+
+                <CheckBox
+                    android:id="@+id/watchForHematoma"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Surgical site hematoma" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/watchForMiddleEarInfection"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Middle-ear and mastoid infection" />
+
+                <CheckBox
+                    android:id="@+id/watchForWoundInfection"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Wound infection" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/watchForWoundDehiscence"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Wound dehiscence" />
+
+                <CheckBox
+                    android:id="@+id/watchForFacialPalsy"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Facial palsy" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="@dimen/_8sdp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Suture removal"
+                    android:textSize="@dimen/_12ssp"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/sutureRemovalDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_weight="1"
+                    android:hint="@string/date"
+                    android:background="@drawable/edittext_background"
+                    android:drawableRight="@drawable/baseline_calendar_month_24"
+                    android:textColor="@color/black"
+                    android:focusable="false"
+                    android:cursorVisible="false"
+                    android:inputType="none" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="@dimen/_8sdp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Postoperative audiogram date"
+                    android:textSize="@dimen/_12ssp"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/postoperativeAudiogramDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_weight="1"
+                    android:hint="@string/date"
+                    android:background="@drawable/edittext_background"
+                    android:drawableRight="@drawable/baseline_calendar_month_24"
+                    android:textColor="@color/black"
+                    android:focusable="false"
+                    android:cursorVisible="false"
+                    android:inputType="none" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Audiogram Result"
+                    android:textSize="@dimen/_12ssp"/>
+
+                <EditText
+                    android:id="@+id/audiogramResult"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Enter Audiogram Result"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:background="@drawable/edittext_background" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Complication"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_16ssp" />
+
+            <CheckBox
+                android:id="@+id/hasComplicationInfection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Infection" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Other"
+                    android:textSize="@dimen/_12ssp"/>
+
+                <EditText
+                    android:id="@+id/otherComplicationsNote"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Enter other"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:background="@drawable/edittext_background" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Surgical result"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_16ssp" />
+
+            <!-- Tympanic membrane perforation -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="@dimen/_8sdp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLines="4"
+                    android:text="Tympanic membrane perforation"
+                    android:textSize="@dimen/_12ssp"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/tympanicMembraneStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Enter status"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:background="@drawable/edittext_background" />
+
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/otorrhoeaPresent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Otorrhoea Present / Absent"
+                android:textSize="@dimen/_12ssp"
+                android:paddingHorizontal="@dimen/_16sdp"
+                android:paddingVertical="@dimen/_4sdp"
+                android:textColor="@color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/_4sdp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Air conduction hearing threshold"
+                    android:textSize="@dimen/_8ssp"
+                    android:textColor="@color/black"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+                <EditText
+                    android:id="@+id/airConductionThresholdDb"
+                    android:layout_width="@dimen/_65sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:hint="Value"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/_2sdp"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:textSize="@dimen/_12ssp"
+                    android:inputType="number"
+                    android:textColor="@color/black"
+                    android:background="@drawable/edittext_background" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:text="dB HL,"
+                    android:textSize="@dimen/_12ssp"
+                    android:textColor="@color/black"
+                    android:maxLines="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textSize="@dimen/_12ssp"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/hearingThresholdDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:hint="@string/date"
+                    android:drawableRight="@drawable/baseline_calendar_month_24"
+                    android:background="@drawable/edittext_background"
+                    android:textColor="@color/black"
+                    android:focusable="false"
+                    android:cursorVisible="false"
+                    android:inputType="none" />
+
+            </LinearLayout>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/submitButton"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:cardBackgroundColor="@color/main_color"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:strokeColor="@android:color/transparent">
+
+                <TextView
+                    android:id="@+id/tvSubmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/_10sdp"
+                    android:text="Submit"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnEdit"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/green"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:strokeColor="@android:color/transparent">
+
+                <TextView
+                    android:id="@+id/tvEditOrthosis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/_10sdp"
+                    android:text="Edit"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

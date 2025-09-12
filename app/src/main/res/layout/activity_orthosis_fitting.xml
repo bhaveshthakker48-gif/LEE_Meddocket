@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.OrthosisFittingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <include
+            android:id="@+id/orthosisToolBar"
+            layout="@layout/toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cvPatientDetailsForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/orthosisToolBar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/_8sdp">
+
+
+                <LinearLayout
+                    android:id="@+id/llPatientDetailTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:background="@color/main_color"
+                    android:backgroundTint="@color/main_color"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvPatientDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_weight="1"
+                        android:text="Patient Details - 88742"
+                        android:textColor="@color/white" />
+
+                    <ImageView
+                        android:id="@+id/ivPatientArrowDown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center"
+                        android:layout_weight="0.2"
+                        android:src="@drawable/ic_arrow_up" />
+                </LinearLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/llPatientSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/tvCampDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="Camp : Poreyahat Railway Station Godda District Jharkand"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvPatientName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Name : Peter England Test Test"
+                        app:layout_constraintEnd_toEndOf="@+id/tvCampDetails"
+                        app:layout_constraintStart_toStartOf="@+id/tvCampDetails"
+                        app:layout_constraintTop_toBottomOf="@+id/tvCampDetails" />
+
+                    <TextView
+                        android:id="@+id/tvPatientGender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Gender : Male"
+                        app:layout_constraintStart_toStartOf="@+id/tvPatientName"
+                        app:layout_constraintTop_toBottomOf="@+id/tvPatientName" />
+
+                    <TextView
+                        android:id="@+id/tvPatientAge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Age : 30"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvPatientGender"
+                        app:layout_constraintStart_toEndOf="@+id/tvPatientGender"
+                        app:layout_constraintTop_toTopOf="@+id/tvPatientGender" />
+
+                    <!--                <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                    android:id="@+id/etlExaminationDate"-->
+                    <!--                    android:layout_width="match_parent"-->
+                    <!--                    android:layout_height="wrap_content"-->
+                    <!--                    android:layout_margin="@dimen/_8sdp"-->
+                    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                    <!--                    app:layout_constraintTop_toBottomOf="@+id/tvPatientGender">-->
+
+                    <!--                    <com.google.android.material.textfield.TextInputEditText-->
+                    <!--                        android:id="@+id/etExaminationDate"-->
+                    <!--                        style="@style/edit_text_style_new"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:backgroundTint="#F4FAFF"-->
+                    <!--                        android:textColorHint="@color/gray"-->
+                    <!--                        tools:hint="@string/txt_examination_date"-->
+                    <!--                        android:textColor="@color/gray" />-->
+                    <!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlPatientHeight"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toStartOf="@+id/etlPatientWeight"
+                        app:layout_constraintStart_toStartOf="@+id/tvPatientGender"
+                        app:layout_constraintTop_toBottomOf="@+id/tvPatientGender">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPatientHeight"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:hint="Height(cm)"
+                            android:textColor="@color/gray" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlPatientWeight"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/etlPatientHeight"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/etlPatientHeight"
+                        app:layout_constraintTop_toTopOf="@+id/etlPatientHeight">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPatientWeight"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:hint="Weight(kg)"
+                            android:textColor="@color/gray" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlDiagnosisType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toTopOf="@+id/etlPrescribed"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etlPatientHeight">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDiagnosisType"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:clickable="false"
+                            android:drawableEnd="@drawable/ic_arrow_down_black"
+                            android:ems="10"
+                            android:focusable="false"
+                            android:inputType="none"
+                            android:textColor="@color/gray"
+                            tools:hint="Diagnosis Type" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlPrescribed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etlDiagnosisType">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPrescribed"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:clickable="false"
+                            android:drawableEnd="@drawable/ic_arrow_down_black"
+                            android:ems="10"
+                            android:focusable="false"
+                            android:inputType="none"
+                            android:hint="@string/txt_prescribed"
+                            android:textColor="@color/gray"
+                            tools:hint="Prescribed" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlPrescribedStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etlPrescribed">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/etPrescribedStatus"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:editable="false"
+                            android:ellipsize="end"
+                            android:focusable="false"
+                            android:inputType="none"
+                            android:textColor="@color/gray"
+                            tools:hint="Prescribed Status" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etlOtherDiagnosis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etlPrescribedStatus"
+                        tools:visibility="visible">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etOtherDiagnosis"
+                            style="@style/edit_text_style_new"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#F4FAFF"
+                            android:ems="10"
+                            android:inputType="text"
+                            android:textColor="@color/gray"
+                            tools:hint="Enter Diagnosis Type" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvOrthosisFittingForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            app:layout_constraintBottom_toTopOf="@+id/llImages"
+            app:layout_constraintEnd_toEndOf="@+id/cvPatientDetailsForm"
+            app:layout_constraintStart_toStartOf="@+id/cvPatientDetailsForm"
+            app:layout_constraintTop_toBottomOf="@+id/cvPatientDetailsForm"
+            tools:itemCount="1"
+            tools:listitem="@layout/item_orthosis_fitting" />
+
+        <LinearLayout
+            android:id="@+id/llImages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvOrthosisFittingForm">
+
+            <TextView
+                android:id="@+id/tvImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_add_pics"
+                android:padding="@dimen/_10sdp"
+                android:text="Images (max 4) : "
+                android:textColor="@color/main_color"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="4"
+                tools:listitem="@layout/item_files_list" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llVideos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llImages">
+
+            <TextView
+                android:id="@+id/tvVideos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_add_video"
+                android:padding="@dimen/_10sdp"
+                android:text="Video : "
+                android:textColor="@color/main_color"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold" />
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cvFile"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ivFile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/ic_launcher_round" />
+            </com.google.android.material.card.MaterialCardView>
+            <!--        <androidx.recyclerview.widget.RecyclerView-->
+            <!--            android:id="@+id/rvVideos"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
+            <!--            app:spanCount="4"-->
+            <!--            tools:listitem="@layout/item_files_list" />-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llBottomOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:orientation="horizontal"
+            android:padding="@dimen/_10sdp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnSavePatientOrthosis"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="@color/main_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvAddMoreOrthosisType"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/tvSaveOrthosis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Submit"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvAddMoreOrthosisType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:text="+ Add more"
+                android:textColor="@color/main_color"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/btnSavePatientOrthosis"
+                app:layout_constraintEnd_toEndOf="@+id/rvOrthosisForm"
+                app:layout_constraintStart_toEndOf="@+id/btnSavePatientOrthosis"
+                app:layout_constraintTop_toTopOf="@+id/btnSavePatientOrthosis" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

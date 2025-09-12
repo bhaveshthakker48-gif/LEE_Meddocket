@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvOrthosisForm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/llOrthosisTab"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@color/main_color"
+                android:backgroundTint="@color/main_color"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvOrthosisType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:ems="7"
+                    android:gravity="center|start"
+                    android:maxLines="1"
+                    android:text="(1) Select Orthosis Type"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_11ssp" />
+
+                <ImageView
+                    android:id="@+id/ivDeleteForm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/ic_delete_form" />
+
+                <ImageView
+                    android:id="@+id/ivArrowDown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center"
+                    android:layout_weight="0.2"
+                    android:src="@drawable/ic_arrow_up" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llOrthosisDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvOrthosisDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="@dimen/_5sdp"
+                        android:text="1. Orthosis Details" />
+
+                    <TextView
+                        android:id="@+id/tvClearFormData"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:text="Clear Form"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/_13ssp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray" />
+
+                <!--                <EditText-->
+                <!--                    android:id="@+id/etOrthosisType"-->
+                <!--                    style="@style/edit_text_style"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_margin="@dimen/_5sdp"-->
+                <!--                    android:clickable="false"-->
+                <!--                    android:editable="false"-->
+                <!--                    android:hint="Orthosis Type"-->
+                <!--                    android:focusable="false"-->
+                <!--                    android:background="@drawable/edittext_background"-->
+                <!--                    android:fontFamily="@font/opensans_regular"-->
+                <!--                    android:inputType="none" />-->
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlOrthosisType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etOrthosisType"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:clickable="false"
+                        android:drawableEnd="@drawable/ic_arrow_down_black"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:textColor="@color/gray"
+                        tools:hint="@string/txt_orthosis_type" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlOtherOrthosis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etlDiagnosisType"
+                    tools:visibility="visible">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etOtherOrthosis"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:textColor="@color/gray"
+                        tools:hint="Enter Orthosis Type" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--                <EditText-->
+                <!--                    android:id="@+id/etOrthosisStatus"-->
+                <!--                    style="@style/edit_text_style"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_margin="@dimen/_5sdp"-->
+                <!--                    android:hint="Orthosis Status"-->
+                <!--                    android:background="@drawable/edittext_background"-->
+                <!--                    android:fontFamily="@font/opensans_regular"-->
+                <!--                    android:inputType="text"-->
+                <!--                    android:maxLength="20" />-->
+
+                <!--                <com.google.android.material.textfield.TextInputLayout-->
+                <!--                    android:id="@+id/etlOrthosisStatus"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginStart="@dimen/_8sdp"-->
+                <!--                    android:layout_marginTop="@dimen/_8sdp"-->
+                <!--                    android:layout_marginEnd="@dimen/_8sdp"-->
+                <!--                    app:layout_constraintEnd_toEndOf="@+id/etlOrthosisType"-->
+                <!--                    app:layout_constraintStart_toStartOf="@+id/etlOrthosisType"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/etlOrthosisType">-->
+
+                <!--                    <com.google.android.material.textfield.TextInputEditText-->
+                <!--                        android:id="@+id/etOrthosisStatus"-->
+                <!--                        style="@style/edit_text_style_new"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:backgroundTint="#F4FAFF"-->
+                <!--                        android:hint="Orthosis Status"-->
+                <!--                        android:textColor="@color/gray" />-->
+                <!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlOrthosisStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp">
+
+
+                    <!--                    <com.google.android.material.textfield.TextInputEditText-->
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/etOrthosisStatus"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:drawableEnd="@drawable/ic_arrow_down_black"
+                        android:editable="false"
+                        android:ellipsize="end"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:textColor="@color/gray"
+                        tools:hint="@string/txt_orthosis_status" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--                <LinearLayout-->
+                <!--                    android:id="@+id/llOrthosisStatus"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:orientation="horizontal"-->
+                <!--                    android:weightSum="2"-->
+                <!--                    android:layout_marginStart="@dimen/_5sdp"-->
+                <!--                    android:layout_marginEnd="@dimen/_5sdp"-->
+                <!--                    android:layout_marginTop="@dimen/_8sdp"-->
+                <!--                    android:padding="@dimen/_4sdp">-->
+                <!--                    <TextView-->
+                <!--                        android:id="@+id/tvOrthosisStatus"-->
+                <!--                        android:layout_width="0dp"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:text="Orthosis Status* : "-->
+                <!--                        android:textStyle="bold"-->
+                <!--                        android:textSize="@dimen/_12ssp"-->
+                <!--                        android:layout_weight="0.7"-->
+                <!--                        android:layout_gravity="center"/>-->
+
+                <!--                    <Spinner-->
+                <!--                        android:id="@+id/etOrthosisStatus"-->
+                <!--                        style="@style/spinner_padding_left_right"-->
+                <!--                        android:layout_width="0dp"-->
+                <!--                        android:layout_weight="1.3"-->
+                <!--                        android:layout_height="@dimen/_30sdp"-->
+
+                <!--                        android:layout_marginEnd="@dimen/_8sdp"-->
+                <!--                        android:background="@drawable/spinner_background"-->
+                <!--                        />-->
+                <!--                </LinearLayout>-->
+
+                <!--                <EditText-->
+                <!--                    android:id="@+id/etExaminationDate"-->
+                <!--                    style="@style/edit_text_style"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_margin="@dimen/_5sdp"-->
+                <!--                    android:hint="Examination Date"-->
+                <!--                    android:background="@drawable/edittext_background"-->
+                <!--                    android:fontFamily="@font/opensans_regular"-->
+                <!--                    android:inputType="datetime"-->
+                <!--                    android:maxLength="20" />-->
+
+                <!--                <com.google.android.material.textfield.TextInputLayout-->
+                <!--                    android:id="@+id/etlExaminationDate"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginStart="@dimen/_8sdp"-->
+                <!--                    android:layout_marginTop="@dimen/_8sdp"-->
+                <!--                    android:layout_marginEnd="@dimen/_8sdp"-->
+                <!--                    app:layout_constraintEnd_toStartOf="@+id/etlAmputationDate"-->
+                <!--                    app:layout_constraintStart_toStartOf="@+id/etlOrthosisStatus"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/etlOrthosisStatus">-->
+
+                <!--                    <com.google.android.material.textfield.TextInputEditText-->
+                <!--                        android:id="@+id/etExaminationDate"-->
+                <!--                        style="@style/edit_text_style_new"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:backgroundTint="#F4FAFF"-->
+                <!--                        android:drawableEnd="@drawable/ic_calendar"-->
+                <!--                        android:editable="false"-->
+                <!--                        android:ellipsize="end"-->
+                <!--                        android:focusable="false"-->
+                <!--                        android:hint="Examination Date"-->
+                <!--                        android:inputType="none"-->
+                <!--                        android:lines="1"-->
+                <!--                        android:textColor="@color/gray" />-->
+
+
+                <!--                </com.google.android.material.textfield.TextInputLayout>-->
+
+                <!--                <EditText-->
+                <!--                    android:id="@+id/etAmputationDate"-->
+                <!--                    style="@style/edit_text_style"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_margin="@dimen/_5sdp"-->
+                <!--                    android:hint="Amputation Date"-->
+                <!--                    android:background="@drawable/edittext_background"-->
+                <!--                    android:fontFamily="@font/opensans_regular"-->
+                <!--                    android:inputType="datetime"-->
+                <!--                    android:maxLength="20" />-->
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlExaminationDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPatientGender">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etExaminationDate"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:drawableEnd="@drawable/ic_calendar"
+                        android:editable="false"
+                        android:ellipsize="end"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:lines="1"
+                        android:textColor="@color/gray"
+                        android:textColorHint="@color/gray"
+                        tools:hint="@string/txt_examination_date" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlAmputationDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAmputationDate"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:drawableEnd="@drawable/ic_calendar"
+                        android:editable="false"
+                        android:ellipsize="end"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:lines="1"
+                        android:textColor="@color/gray"
+                        tools:hint="@string/txt_amputation_date" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <!--                <EditText-->
+                <!--                    android:id="@+id/etAmputationSide"-->
+                <!--                    style="@style/edit_text_style"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_margin="@dimen/_5sdp"-->
+                <!--                    android:hint="Amputation Side"-->
+                <!--                    android:background="@drawable/edittext_background"-->
+                <!--                    android:fontFamily="@font/opensans_regular"-->
+                <!--                    android:inputType="text"-->
+                <!--                    android:maxLength="20"/>-->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlAmputationSide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp">
+
+
+                    <!--                    <com.google.android.material.textfield.TextInputEditText-->
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/etAmputationSide"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:drawableEnd="@drawable/ic_arrow_down_black"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:editable="false"
+                        android:ellipsize="end"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:textColor="@color/gray"
+                        tools:hint="@string/txt_amputation_side" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--                <EditText-->
+                <!--                    android:id="@+id/etAmputationLevel"-->
+                <!--                    style="@style/edit_text_style"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_margin="@dimen/_5sdp"-->
+                <!--                    android:hint="Amputation Level"-->
+                <!--                    android:background="@drawable/edittext_background"-->
+                <!--                    android:fontFamily="@font/opensans_regular"-->
+                <!--                    android:inputType="text"-->
+                <!--                    android:maxLength="20" />-->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlAmputationLevel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAmputationLevel"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:focusableInTouchMode="true"
+                        android:textColor="@color/gray"
+                        tools:hint="@string/txt_amputation_level" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--                <EditText-->
+                <!--                    android:id="@+id/etAmputationCause"-->
+                <!--                    style="@style/edit_text_style"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_margin="@dimen/_5sdp"-->
+                <!--                    android:hint="Amputation Cause"-->
+                <!--                    android:background="@drawable/edittext_background"-->
+                <!--                    android:fontFamily="@font/opensans_regular"-->
+                <!--                    android:inputType="text"-->
+                <!--                    android:maxLength="20" />-->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlAmputationCause"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAmputationCause"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:textColor="@color/gray"
+                        tools:hint="@string/txt_amputation_cause" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlFittingStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+
+                    <!--                    <com.google.android.material.textfield.TextInputEditText-->
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/etFittingStatus"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:drawableEnd="@drawable/ic_arrow_down_black"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:editable="false"
+                        android:ellipsize="end"
+                        android:focusable="false"
+                        android:inputType="none"
+                        android:textColor="@color/gray"
+                        tools:hint="@string/txt_fitting_status" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlFittingFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFittingFeedback"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:textColor="@color/gray"
+                        tools:hint="@string/txt_fitting_feedback" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnAddImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/_10sdp"
+                        app:cardBackgroundColor="@color/main_color">
+
+                        <TextView
+                            android:id="@+id/tvAddOrthosisImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_7sdp"
+                            android:text="*Add Orthosis Image(max 4)"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_14ssp"
+                            android:textStyle="bold" />
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvOrthosisImages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="4"
+                        tools:itemCount="4"
+                        android:visibility="gone"
+                        tools:listitem="@layout/item_files_list" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvImage"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:visibility="gone"
+                        tools:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/ivOrthosisImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:src="@drawable/img_placeholder" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:id="@+id/llOrthosisImages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/clOrthoImage1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_margin="@dimen/_5sdp">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/cvOrthoImage1"
+                                android:layout_width="@dimen/_50sdp"
+                                android:layout_height="@dimen/_50sdp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginBottom="8dp"
+                                app:cardCornerRadius="@dimen/_8sdp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <ImageView
+                                    android:id="@+id/ivOthoFile1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@mipmap/ic_launcher_round" />
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <ImageView
+                                android:id="@+id/ivOrthoRemove1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_cancel_image"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/clOrthoImage2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_margin="@dimen/_5sdp">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/cvOrthoImage2"
+                                android:layout_width="@dimen/_50sdp"
+                                android:layout_height="@dimen/_50sdp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginBottom="8dp"
+                                app:cardCornerRadius="@dimen/_8sdp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <ImageView
+                                    android:id="@+id/ivOthoFile2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@mipmap/ic_launcher_round" />
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <ImageView
+                                android:id="@+id/ivOrthoRemove2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_cancel_image"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/clOrthoImage3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_margin="@dimen/_5sdp">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/cvOrthoImage3"
+                                android:layout_width="@dimen/_50sdp"
+                                android:layout_height="@dimen/_50sdp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginBottom="8dp"
+                                app:cardCornerRadius="@dimen/_8sdp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <ImageView
+                                    android:id="@+id/ivOthoFile3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@mipmap/ic_launcher_round" />
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <ImageView
+                                android:id="@+id/ivOrthoRemove3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_cancel_image"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/clOrthoImage4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_margin="@dimen/_5sdp">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:id="@+id/cvOrthoImage4"
+                                android:layout_width="@dimen/_50sdp"
+                                android:layout_height="@dimen/_50sdp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginBottom="8dp"
+                                app:cardCornerRadius="@dimen/_8sdp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <ImageView
+                                    android:id="@+id/ivOthoFile4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@mipmap/ic_launcher_round" />
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <ImageView
+                                android:id="@+id/ivOrthoRemove4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_cancel_image"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llMeasurementsDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvMeasurementDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:gravity="start"
+                        android:padding="@dimen/_5sdp"
+                        android:text="2. Measurement Details"
+                        android:textStyle="italic"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnAddMeasurement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        android:layout_margin="@dimen/_5sdp"
+                        app:cardBackgroundColor="@color/orange"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tvMeasurementDetails"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tvAddMeasurement"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:padding="@dimen/_3sdp"
+                            android:text="Add Measurement"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="bold" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray" />
+
+                <!--                <EditText-->
+                <!--                    android:id="@+id/etM1"-->
+                <!--                    style="@style/edit_text_style"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_margin="@dimen/_5sdp"-->
+                <!--                    android:background="@drawable/edittext_background"-->
+                <!--                    android:fontFamily="@font/opensans_regular"-->
+                <!--                    android:inputType="number"-->
+                <!--                    android:maxLength="3" />-->
+
+                <!--                <EditText-->
+                <!--                    android:id="@+id/etM2"-->
+                <!--                    style="@style/edit_text_style"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_margin="@dimen/_5sdp"-->
+                <!--                    android:background="@drawable/edittext_background"-->
+                <!--                    android:fontFamily="@font/opensans_regular"-->
+                <!--                    android:inputType="number"-->
+                <!--                    android:maxLength="3" />-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvOrthosisMeasurements"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:itemCount="2"
+                    android:visibility="visible"
+                    tools:listitem="@layout/item_orthosis_measurement" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvOtherMeasurements"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:visibility="gone"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_other_measurement" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnDeleteForm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/red">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/ivDeleteFormCv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:padding="@dimen/_4sdp"
+                                android:src="@drawable/ic_delete_form"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvDeleteForm"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="24dp"
+                                android:text="Delete Form"
+                                android:textColor="@color/white"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="@+id/ivDeleteFormCv"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/ivDeleteFormCv"
+                                app:layout_constraintTop_toTopOf="@+id/ivDeleteFormCv" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnClearForm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/orange">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/ivClearForm"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_10sdp"
+                                android:padding="@dimen/_4sdp"
+                                android:src="@drawable/ic_clear_form"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tvClearForm"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginEnd="24dp"
+                                android:text="Clear Form"
+                                android:textColor="@color/white"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="@+id/ivClearForm"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/ivClearForm"
+                                app:layout_constraintTop_toTopOf="@+id/ivClearForm" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

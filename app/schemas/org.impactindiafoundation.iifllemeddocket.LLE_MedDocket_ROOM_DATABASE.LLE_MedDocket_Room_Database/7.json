@@ -1,0 +1,4256 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 7,
+    "identityHash": "99f2808a0907c7f44bc30689bf75808b",
+    "entities": [
+      {
+        "tableName": "Vitals",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `bmi` TEXT NOT NULL, `bmiInterpretation` TEXT NOT NULL, `bpInterpretation` TEXT NOT NULL, `camp_id` INTEGER NOT NULL, `createdDate` TEXT NOT NULL, `diastolic` TEXT NOT NULL, `height` TEXT NOT NULL, `heightUnit` TEXT NOT NULL, `patient_id` INTEGER NOT NULL, `prInterpretation` TEXT NOT NULL, `pulseRate` INTEGER NOT NULL, `systolic` TEXT NOT NULL, `userId` TEXT NOT NULL, `weight` TEXT NOT NULL, `weightUnit` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bmi",
+            "columnName": "bmi",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bmiInterpretation",
+            "columnName": "bmiInterpretation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bpInterpretation",
+            "columnName": "bpInterpretation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdDate",
+            "columnName": "createdDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "diastolic",
+            "columnName": "diastolic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "height",
+            "columnName": "height",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "heightUnit",
+            "columnName": "heightUnit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prInterpretation",
+            "columnName": "prInterpretation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pulseRate",
+            "columnName": "pulseRate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "systolic",
+            "columnName": "systolic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weight",
+            "columnName": "weight",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weightUnit",
+            "columnName": "weightUnit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "VisualAcuity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `camp_id` INTEGER NOT NULL, `createdDate` TEXT NOT NULL, `patient_id` INTEGER NOT NULL, `userId` TEXT NOT NULL, `va_addi_details_left` TEXT NOT NULL, `va_addi_details_right` TEXT NOT NULL, `va_distant_vision_left` TEXT NOT NULL, `va_distant_vision_right` TEXT NOT NULL, `va_distant_vision_unit_left` TEXT NOT NULL, `va_distant_vision_unit_right` TEXT NOT NULL, `va_near_vision_left` TEXT NOT NULL, `va_near_vision_right` TEXT NOT NULL, `va_pinhole_improve_left` TEXT NOT NULL, `va_pinhole_improve_right` TEXT NOT NULL, `va_pinhole_improve_unit_left` TEXT NOT NULL, `va_pinhole_improve_unit_right` TEXT NOT NULL, `va_pinhole_left` TEXT NOT NULL, `va_pinhole_right` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdDate",
+            "columnName": "createdDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_addi_details_left",
+            "columnName": "va_addi_details_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_addi_details_right",
+            "columnName": "va_addi_details_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_distant_vision_left",
+            "columnName": "va_distant_vision_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_distant_vision_right",
+            "columnName": "va_distant_vision_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_distant_vision_unit_left",
+            "columnName": "va_distant_vision_unit_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_distant_vision_unit_right",
+            "columnName": "va_distant_vision_unit_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_near_vision_left",
+            "columnName": "va_near_vision_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_near_vision_right",
+            "columnName": "va_near_vision_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_pinhole_improve_left",
+            "columnName": "va_pinhole_improve_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_pinhole_improve_right",
+            "columnName": "va_pinhole_improve_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_pinhole_improve_unit_left",
+            "columnName": "va_pinhole_improve_unit_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_pinhole_improve_unit_right",
+            "columnName": "va_pinhole_improve_unit_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_pinhole_left",
+            "columnName": "va_pinhole_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "va_pinhole_right",
+            "columnName": "va_pinhole_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "RefractiveError",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `camp_id` INTEGER NOT NULL, `createdDate` TEXT NOT NULL, `fundus_notes` TEXT NOT NULL, `is_given` INTEGER NOT NULL, `is_ordered` INTEGER NOT NULL, `patient_id` INTEGER NOT NULL, `re_bvd` TEXT NOT NULL, `re_distant_vision_axis_left` TEXT NOT NULL, `re_distant_vision_axis_right` TEXT NOT NULL, `re_distant_vision_cylinder_left` TEXT NOT NULL, `re_distant_vision_cylinder_right` TEXT NOT NULL, `re_distant_vision_left` TEXT NOT NULL, `re_distant_vision_right` TEXT NOT NULL, `re_distant_vision_sphere_left` TEXT NOT NULL, `re_distant_vision_sphere_right` TEXT NOT NULL, `re_distant_vision_unit_left` TEXT NOT NULL, `re_distant_vision_unit_right` TEXT NOT NULL, `re_near_vision_axis_left` TEXT NOT NULL, `re_near_vision_axis_right` TEXT NOT NULL, `re_near_vision_cylinder_left` TEXT NOT NULL, `re_near_vision_cylinder_right` TEXT NOT NULL, `re_near_vision_left` TEXT NOT NULL, `re_near_vision_right` TEXT NOT NULL, `re_near_vision_sphere_left` TEXT NOT NULL, `re_near_vision_sphere_right` TEXT NOT NULL, `re_prism_left` TEXT NOT NULL, `re_prism_right` TEXT NOT NULL, `re_prism_unit_left` TEXT NOT NULL, `re_prism_unit_right` TEXT NOT NULL, `re_pupipllary_distance` TEXT NOT NULL, `re_reading_addition_left` TEXT NOT NULL, `re_reading_addition_left_details` TEXT NOT NULL, `re_reading_addition_right` TEXT NOT NULL, `re_reading_addition_right_details` TEXT NOT NULL, `re_remark_left` TEXT NOT NULL, `re_remark_right` TEXT NOT NULL, `re_remarks` TEXT NOT NULL, `reading_glass` TEXT NOT NULL, `userId` TEXT NOT NULL, `presc_type` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdDate",
+            "columnName": "createdDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fundus_notes",
+            "columnName": "fundus_notes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "is_given",
+            "columnName": "is_given",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "is_ordered",
+            "columnName": "is_ordered",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_bvd",
+            "columnName": "re_bvd",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_axis_left",
+            "columnName": "re_distant_vision_axis_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_axis_right",
+            "columnName": "re_distant_vision_axis_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_cylinder_left",
+            "columnName": "re_distant_vision_cylinder_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_cylinder_right",
+            "columnName": "re_distant_vision_cylinder_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_left",
+            "columnName": "re_distant_vision_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_right",
+            "columnName": "re_distant_vision_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_sphere_left",
+            "columnName": "re_distant_vision_sphere_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_sphere_right",
+            "columnName": "re_distant_vision_sphere_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_unit_left",
+            "columnName": "re_distant_vision_unit_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_unit_right",
+            "columnName": "re_distant_vision_unit_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_axis_left",
+            "columnName": "re_near_vision_axis_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_axis_right",
+            "columnName": "re_near_vision_axis_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_cylinder_left",
+            "columnName": "re_near_vision_cylinder_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_cylinder_right",
+            "columnName": "re_near_vision_cylinder_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_left",
+            "columnName": "re_near_vision_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_right",
+            "columnName": "re_near_vision_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_sphere_left",
+            "columnName": "re_near_vision_sphere_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_sphere_right",
+            "columnName": "re_near_vision_sphere_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_prism_left",
+            "columnName": "re_prism_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_prism_right",
+            "columnName": "re_prism_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_prism_unit_left",
+            "columnName": "re_prism_unit_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_prism_unit_right",
+            "columnName": "re_prism_unit_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_pupipllary_distance",
+            "columnName": "re_pupipllary_distance",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_reading_addition_left",
+            "columnName": "re_reading_addition_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_reading_addition_left_details",
+            "columnName": "re_reading_addition_left_details",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_reading_addition_right",
+            "columnName": "re_reading_addition_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_reading_addition_right_details",
+            "columnName": "re_reading_addition_right_details",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_remark_left",
+            "columnName": "re_remark_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_remark_right",
+            "columnName": "re_remark_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_remarks",
+            "columnName": "re_remarks",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reading_glass",
+            "columnName": "reading_glass",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "presc_type",
+            "columnName": "presc_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "OPD_Investigations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `camp_id` INTEGER NOT NULL, `createdDate` TEXT NOT NULL, `haemoglobin` TEXT NOT NULL, `haemoglobin_interpretation` TEXT NOT NULL, `has_refused` INTEGER NOT NULL, `o2_saturation` TEXT NOT NULL, `o2s_interpretation` TEXT NOT NULL, `patient_id` INTEGER NOT NULL, `random_blood_sugar` TEXT NOT NULL, `rbs_interpretation` TEXT NOT NULL, `userId` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdDate",
+            "columnName": "createdDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "haemoglobin",
+            "columnName": "haemoglobin",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "haemoglobin_interpretation",
+            "columnName": "haemoglobin_interpretation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "has_refused",
+            "columnName": "has_refused",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "o2_saturation",
+            "columnName": "o2_saturation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "o2s_interpretation",
+            "columnName": "o2s_interpretation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "random_blood_sugar",
+            "columnName": "random_blood_sugar",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rbs_interpretation",
+            "columnName": "rbs_interpretation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Eye_Pre_Op_Notes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `camp_id` INTEGER NOT NULL, `createdDate` TEXT NOT NULL, `eye_pre_op_admission_date` TEXT NOT NULL, `eye_pre_op_alprax` TEXT NOT NULL, `eye_pre_op_amlodipine` TEXT NOT NULL, `eye_pre_op_antibiotic` TEXT NOT NULL, `eye_pre_op_antibiotic_detail` TEXT NOT NULL, `eye_pre_op_antibiotic_other` TEXT NOT NULL, `eye_pre_op_antibiotic_result` TEXT NOT NULL, `eye_pre_op_antihyp` TEXT NOT NULL, `eye_pre_op_antihyp_detail` TEXT NOT NULL, `eye_pre_op_betadine` TEXT NOT NULL, `eye_pre_op_bp_diastolic` TEXT NOT NULL, `eye_pre_op_bp_interpretation` TEXT NOT NULL, `eye_pre_op_bp_systolic` TEXT NOT NULL, `eye_pre_op_bs_f` TEXT NOT NULL, `eye_pre_op_bs_pp` TEXT NOT NULL, `eye_pre_op_bt` TEXT NOT NULL, `eye_pre_op_cbc` TEXT NOT NULL, `eye_pre_op_ciplox` TEXT NOT NULL, `eye_pre_op_ciplox_drop` TEXT NOT NULL, `eye_pre_op_ct` TEXT NOT NULL, `eye_pre_op_dia` TEXT NOT NULL, `eye_pre_op_dia_detail` TEXT NOT NULL, `eye_pre_op_diamox` TEXT NOT NULL, `eye_pre_op_discussed_with` TEXT NOT NULL, `eye_pre_op_discussed_with_detail` TEXT NOT NULL, `eye_pre_op_ecg` TEXT NOT NULL, `eye_pre_op_flur_eye` TEXT NOT NULL, `eye_pre_op_haemoglobin` TEXT NOT NULL, `eye_pre_op_hbsag` TEXT NOT NULL, `eye_pre_op_hcv` TEXT NOT NULL, `eye_pre_op_head_bath` TEXT NOT NULL, `eye_pre_op_heart` TEXT NOT NULL, `eye_pre_op_heart_detail` TEXT NOT NULL, `eye_pre_op_heart_rate` TEXT NOT NULL, `eye_pre_op_historyof` TEXT NOT NULL, `eye_pre_op_hiv` TEXT NOT NULL, `eye_pre_op_identify_eye` TEXT NOT NULL, `eye_pre_op_iol_power` TEXT NOT NULL, `eye_pre_op_nil_mouth` TEXT NOT NULL, `eye_pre_op_notes` TEXT NOT NULL, `eye_pre_op_o2_saturation` TEXT NOT NULL, `eye_pre_op_o2_saturation_interpretation` TEXT NOT NULL, `eye_pre_op_other` TEXT NOT NULL, `eye_pre_op_other_detail` TEXT NOT NULL, `eye_pre_op_plain_tropical` TEXT NOT NULL, `eye_pre_op_pt` TEXT NOT NULL, `eye_pre_op_recommendation` TEXT NOT NULL, `eye_pre_op_recommendation_detail` TEXT NOT NULL, `eye_pre_op_symptoms` TEXT NOT NULL, `eye_pre_op_temp` TEXT NOT NULL, `eye_pre_op_temp_unit` TEXT NOT NULL, `eye_pre_op_tropical_drop` TEXT NOT NULL, `eye_pre_op_tropicamide` TEXT NOT NULL, `eye_pre_op_wash_face` TEXT NOT NULL, `eye_pre_op_xylocaine` TEXT NOT NULL, `eye_pre_op_xylocaine_detail` TEXT NOT NULL, `eye_pre_op_xylocaine_other` TEXT NOT NULL, `eye_pre_op_xylocaine_result` TEXT NOT NULL, `patient_id` INTEGER NOT NULL, `user_id` TEXT NOT NULL, `eyePreOpNotesImagepath` TEXT NOT NULL, `image_type` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdDate",
+            "columnName": "createdDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_admission_date",
+            "columnName": "eye_pre_op_admission_date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_alprax",
+            "columnName": "eye_pre_op_alprax",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_amlodipine",
+            "columnName": "eye_pre_op_amlodipine",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_antibiotic",
+            "columnName": "eye_pre_op_antibiotic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_antibiotic_detail",
+            "columnName": "eye_pre_op_antibiotic_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_antibiotic_other",
+            "columnName": "eye_pre_op_antibiotic_other",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_antibiotic_result",
+            "columnName": "eye_pre_op_antibiotic_result",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_antihyp",
+            "columnName": "eye_pre_op_antihyp",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_antihyp_detail",
+            "columnName": "eye_pre_op_antihyp_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_betadine",
+            "columnName": "eye_pre_op_betadine",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_bp_diastolic",
+            "columnName": "eye_pre_op_bp_diastolic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_bp_interpretation",
+            "columnName": "eye_pre_op_bp_interpretation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_bp_systolic",
+            "columnName": "eye_pre_op_bp_systolic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_bs_f",
+            "columnName": "eye_pre_op_bs_f",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_bs_pp",
+            "columnName": "eye_pre_op_bs_pp",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_bt",
+            "columnName": "eye_pre_op_bt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_cbc",
+            "columnName": "eye_pre_op_cbc",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_ciplox",
+            "columnName": "eye_pre_op_ciplox",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_ciplox_drop",
+            "columnName": "eye_pre_op_ciplox_drop",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_ct",
+            "columnName": "eye_pre_op_ct",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_dia",
+            "columnName": "eye_pre_op_dia",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_dia_detail",
+            "columnName": "eye_pre_op_dia_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_diamox",
+            "columnName": "eye_pre_op_diamox",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_discussed_with",
+            "columnName": "eye_pre_op_discussed_with",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_discussed_with_detail",
+            "columnName": "eye_pre_op_discussed_with_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_ecg",
+            "columnName": "eye_pre_op_ecg",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_flur_eye",
+            "columnName": "eye_pre_op_flur_eye",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_haemoglobin",
+            "columnName": "eye_pre_op_haemoglobin",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_hbsag",
+            "columnName": "eye_pre_op_hbsag",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_hcv",
+            "columnName": "eye_pre_op_hcv",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_head_bath",
+            "columnName": "eye_pre_op_head_bath",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_heart",
+            "columnName": "eye_pre_op_heart",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_heart_detail",
+            "columnName": "eye_pre_op_heart_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_heart_rate",
+            "columnName": "eye_pre_op_heart_rate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_historyof",
+            "columnName": "eye_pre_op_historyof",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_hiv",
+            "columnName": "eye_pre_op_hiv",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_identify_eye",
+            "columnName": "eye_pre_op_identify_eye",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_iol_power",
+            "columnName": "eye_pre_op_iol_power",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_nil_mouth",
+            "columnName": "eye_pre_op_nil_mouth",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_notes",
+            "columnName": "eye_pre_op_notes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_o2_saturation",
+            "columnName": "eye_pre_op_o2_saturation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_o2_saturation_interpretation",
+            "columnName": "eye_pre_op_o2_saturation_interpretation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_other",
+            "columnName": "eye_pre_op_other",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_other_detail",
+            "columnName": "eye_pre_op_other_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_plain_tropical",
+            "columnName": "eye_pre_op_plain_tropical",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_pt",
+            "columnName": "eye_pre_op_pt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_recommendation",
+            "columnName": "eye_pre_op_recommendation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_recommendation_detail",
+            "columnName": "eye_pre_op_recommendation_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_symptoms",
+            "columnName": "eye_pre_op_symptoms",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_temp",
+            "columnName": "eye_pre_op_temp",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_temp_unit",
+            "columnName": "eye_pre_op_temp_unit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_tropical_drop",
+            "columnName": "eye_pre_op_tropical_drop",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_tropicamide",
+            "columnName": "eye_pre_op_tropicamide",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_wash_face",
+            "columnName": "eye_pre_op_wash_face",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_xylocaine",
+            "columnName": "eye_pre_op_xylocaine",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_xylocaine_detail",
+            "columnName": "eye_pre_op_xylocaine_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_xylocaine_other",
+            "columnName": "eye_pre_op_xylocaine_other",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_pre_op_xylocaine_result",
+            "columnName": "eye_pre_op_xylocaine_result",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "user_id",
+            "columnName": "user_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eyePreOpNotesImagepath",
+            "columnName": "eyePreOpNotesImagepath",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image_type",
+            "columnName": "image_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Eye_Pre_Op_Investigation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `camp_id` INTEGER NOT NULL, `createdDate` TEXT NOT NULL, `opd_eye_av_left` TEXT NOT NULL, `opd_eye_av_left_unit` TEXT NOT NULL, `opd_eye_av_right` TEXT NOT NULL, `opd_eye_av_right_unit` TEXT NOT NULL, `opd_eye_blood_pressure_diastolic` TEXT NOT NULL, `opd_eye_blood_pressure_interpretation` TEXT NOT NULL, `opd_eye_blood_pressure_systolic` TEXT NOT NULL, `opd_eye_blood_sugar_fasting` TEXT NOT NULL, `opd_eye_blood_sugar_interpretation` TEXT NOT NULL, `opd_eye_blood_sugar_pp` TEXT NOT NULL, `opd_eye_bt` TEXT NOT NULL, `opd_eye_ct` TEXT NOT NULL, `opd_eye_cbc` TEXT NOT NULL, `opd_eye_ecg` TEXT NOT NULL, `opd_eye_fa_left` TEXT NOT NULL, `opd_eye_fa_right` TEXT NOT NULL, `opd_eye_ha_left` TEXT NOT NULL, `opd_eye_ha_left_unit` TEXT NOT NULL, `opd_eye_ha_right` TEXT NOT NULL, `opd_eye_ha_right_unit` TEXT NOT NULL, `opd_eye_haemoglobin` TEXT NOT NULL, `opd_eye_haemoglobin_interpretation` TEXT NOT NULL, `opd_eye_hbsag` TEXT NOT NULL, `opd_eye_hcv` TEXT NOT NULL, `opd_eye_hiv` TEXT NOT NULL, `opd_eye_iol_power` TEXT NOT NULL, `opd_eye_iop_left` TEXT NOT NULL, `opd_eye_iop_right` TEXT NOT NULL, `opd_eye_mv_left` TEXT NOT NULL, `opd_eye_mv_right` TEXT NOT NULL, `opd_eye_pt` TEXT NOT NULL, `opd_eye_slit_location` TEXT NOT NULL, `opd_eye_slit_location_description` TEXT NOT NULL, `opd_eye_sv_left` TEXT NOT NULL, `opd_eye_sv_right` TEXT NOT NULL, `opd_eye_tv_left` TEXT NOT NULL, `opd_eye_tv_right` TEXT NOT NULL, `opd_eye_va_left` TEXT NOT NULL, `opd_eye_va_left_unit` TEXT NOT NULL, `opd_eye_va_right` TEXT NOT NULL, `opd_eye_va_right_unit` TEXT NOT NULL, `patient_id` INTEGER NOT NULL, `user_id` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdDate",
+            "columnName": "createdDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_av_left",
+            "columnName": "opd_eye_av_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_av_left_unit",
+            "columnName": "opd_eye_av_left_unit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_av_right",
+            "columnName": "opd_eye_av_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_av_right_unit",
+            "columnName": "opd_eye_av_right_unit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_blood_pressure_diastolic",
+            "columnName": "opd_eye_blood_pressure_diastolic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_blood_pressure_interpretation",
+            "columnName": "opd_eye_blood_pressure_interpretation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_blood_pressure_systolic",
+            "columnName": "opd_eye_blood_pressure_systolic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_blood_sugar_fasting",
+            "columnName": "opd_eye_blood_sugar_fasting",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_blood_sugar_interpretation",
+            "columnName": "opd_eye_blood_sugar_interpretation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_blood_sugar_pp",
+            "columnName": "opd_eye_blood_sugar_pp",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_bt",
+            "columnName": "opd_eye_bt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_ct",
+            "columnName": "opd_eye_ct",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_cbc",
+            "columnName": "opd_eye_cbc",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_ecg",
+            "columnName": "opd_eye_ecg",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_fa_left",
+            "columnName": "opd_eye_fa_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_fa_right",
+            "columnName": "opd_eye_fa_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_ha_left",
+            "columnName": "opd_eye_ha_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_ha_left_unit",
+            "columnName": "opd_eye_ha_left_unit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_ha_right",
+            "columnName": "opd_eye_ha_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_ha_right_unit",
+            "columnName": "opd_eye_ha_right_unit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_haemoglobin",
+            "columnName": "opd_eye_haemoglobin",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_haemoglobin_interpretation",
+            "columnName": "opd_eye_haemoglobin_interpretation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_hbsag",
+            "columnName": "opd_eye_hbsag",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_hcv",
+            "columnName": "opd_eye_hcv",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_hiv",
+            "columnName": "opd_eye_hiv",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_iol_power",
+            "columnName": "opd_eye_iol_power",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_iop_left",
+            "columnName": "opd_eye_iop_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_iop_right",
+            "columnName": "opd_eye_iop_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_mv_left",
+            "columnName": "opd_eye_mv_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_mv_right",
+            "columnName": "opd_eye_mv_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_pt",
+            "columnName": "opd_eye_pt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_slit_location",
+            "columnName": "opd_eye_slit_location",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_slit_location_description",
+            "columnName": "opd_eye_slit_location_description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_sv_left",
+            "columnName": "opd_eye_sv_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_sv_right",
+            "columnName": "opd_eye_sv_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_tv_left",
+            "columnName": "opd_eye_tv_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_tv_right",
+            "columnName": "opd_eye_tv_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_va_left",
+            "columnName": "opd_eye_va_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_va_left_unit",
+            "columnName": "opd_eye_va_left_unit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_va_right",
+            "columnName": "opd_eye_va_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_va_right_unit",
+            "columnName": "opd_eye_va_right_unit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "user_id",
+            "columnName": "user_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Eye_Post_Op_AND_Follow_ups",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `camp_id` INTEGER NOT NULL, `createdDate` TEXT NOT NULL, `eye_post_op_2nd_date` TEXT NOT NULL, `eye_post_op_3rd_date` TEXT NOT NULL, `eye_post_op_addi_detail_left` TEXT NOT NULL, `eye_post_op_addi_detail_right` TEXT NOT NULL, `eye_post_op_asses_imedi` TEXT NOT NULL, `eye_post_op_assess_catract` TEXT NOT NULL, `eye_post_op_assess_catract_detail` TEXT NOT NULL, `eye_post_op_bp` TEXT NOT NULL, `eye_post_op_check_pupil` TEXT NOT NULL, `eye_post_op_check_pupil_detail` TEXT NOT NULL, `eye_post_op_cifloxacin` TEXT NOT NULL, `eye_post_op_cifloxacin_detail` TEXT NOT NULL, `eye_post_op_counseling` TEXT NOT NULL, `eye_post_op_diclofenac` TEXT NOT NULL, `eye_post_op_diclofenac_detail` TEXT NOT NULL, `eye_post_op_dimox` TEXT NOT NULL, `eye_post_op_dimox_detail` TEXT NOT NULL, `eye_post_op_discharge_check` TEXT NOT NULL, `eye_post_op_distant_vision_left` TEXT NOT NULL, `eye_post_op_distant_vision_right` TEXT NOT NULL, `eye_post_op_distant_vision_unit_left` TEXT NOT NULL, `eye_post_op_distant_vision_unit_right` TEXT NOT NULL, `eye_post_op_early_post_op` TEXT NOT NULL, `eye_post_op_ed_homide` TEXT NOT NULL, `eye_post_op_ed_homide_detail` TEXT NOT NULL, `eye_post_op_eye_1` TEXT NOT NULL, `eye_post_op_eye_1_detail` TEXT NOT NULL, `eye_post_op_eye_2` TEXT NOT NULL, `eye_post_op_eye_2_detail` TEXT NOT NULL, `eye_post_op_eye_3` TEXT NOT NULL, `eye_post_op_eye_3_detail` TEXT NOT NULL, `eye_post_op_eye_4` TEXT NOT NULL, `eye_post_op_eye_4_detail` TEXT NOT NULL, `eye_post_op_eye_5` TEXT NOT NULL, `eye_post_op_eye_5_detail` TEXT NOT NULL, `eye_post_op_fundus_exam` TEXT NOT NULL, `eye_post_op_fundus_pathology` TEXT NOT NULL, `eye_post_op_head_position` TEXT NOT NULL, `eye_post_op_homide` TEXT NOT NULL, `eye_post_op_homide_detail` TEXT NOT NULL, `eye_post_op_hypersol` TEXT NOT NULL, `eye_post_op_hypersol_detail` TEXT NOT NULL, `eye_post_op_last_date` TEXT NOT NULL, `eye_post_op_location_centration` TEXT NOT NULL, `eye_post_op_lubricant` TEXT NOT NULL, `eye_post_op_lubricant_detail` TEXT NOT NULL, `eye_post_op_moxifloxacin` TEXT NOT NULL, `eye_post_op_moxifloxacin_detail` TEXT NOT NULL, `eye_post_op_near_vision_left` TEXT NOT NULL, `eye_post_op_near_vision_right` TEXT NOT NULL, `eye_post_op_other` TEXT NOT NULL, `eye_post_op_other_detail` TEXT NOT NULL, `eye_post_op_pantaprezol` TEXT NOT NULL, `eye_post_op_pantaprezol_detail` TEXT NOT NULL, `eye_post_op_pr` TEXT NOT NULL, `eye_post_op_pressure_regular` TEXT NOT NULL, `eye_post_op_rr` TEXT NOT NULL, `eye_post_op_slit_lamp_exam` TEXT NOT NULL, `eye_post_op_temp` TEXT NOT NULL, `eye_post_op_temp_unit` TEXT NOT NULL, `eye_post_op_timolol` TEXT NOT NULL, `eye_post_op_timolol_detail` TEXT NOT NULL, `eye_post_op_w_addi_detail_left` TEXT NOT NULL, `eye_post_op_w_addi_detail_right` TEXT NOT NULL, `eye_post_op_w_distant_vision_left` TEXT NOT NULL, `eye_post_op_w_distant_vision_right` TEXT NOT NULL, `eye_post_op_w_distant_vision_unit_left` TEXT NOT NULL, `eye_post_op_w_distant_vision_unit_right` TEXT NOT NULL, `eye_post_op_w_near_vision_left` TEXT NOT NULL, `eye_post_op_w_near_vision_right` TEXT NOT NULL, `eye_post_op_w_pinhole_improve_left` TEXT NOT NULL, `eye_post_op_w_pinhole_improve_right` TEXT NOT NULL, `eye_post_op_w_pinhole_improve_unit_left` TEXT NOT NULL, `eye_post_op_w_pinhole_improve_unit_right` TEXT NOT NULL, `eye_post_op_w_pinhole_left` TEXT NOT NULL, `eye_post_op_w_pinhole_right` TEXT NOT NULL, `patient_id` INTEGER NOT NULL, `userId` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdDate",
+            "columnName": "createdDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_2nd_date",
+            "columnName": "eye_post_op_2nd_date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_3rd_date",
+            "columnName": "eye_post_op_3rd_date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_addi_detail_left",
+            "columnName": "eye_post_op_addi_detail_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_addi_detail_right",
+            "columnName": "eye_post_op_addi_detail_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_asses_imedi",
+            "columnName": "eye_post_op_asses_imedi",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_assess_catract",
+            "columnName": "eye_post_op_assess_catract",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_assess_catract_detail",
+            "columnName": "eye_post_op_assess_catract_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_bp",
+            "columnName": "eye_post_op_bp",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_check_pupil",
+            "columnName": "eye_post_op_check_pupil",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_check_pupil_detail",
+            "columnName": "eye_post_op_check_pupil_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_cifloxacin",
+            "columnName": "eye_post_op_cifloxacin",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_cifloxacin_detail",
+            "columnName": "eye_post_op_cifloxacin_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_counseling",
+            "columnName": "eye_post_op_counseling",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_diclofenac",
+            "columnName": "eye_post_op_diclofenac",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_diclofenac_detail",
+            "columnName": "eye_post_op_diclofenac_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_dimox",
+            "columnName": "eye_post_op_dimox",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_dimox_detail",
+            "columnName": "eye_post_op_dimox_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_discharge_check",
+            "columnName": "eye_post_op_discharge_check",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_distant_vision_left",
+            "columnName": "eye_post_op_distant_vision_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_distant_vision_right",
+            "columnName": "eye_post_op_distant_vision_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_distant_vision_unit_left",
+            "columnName": "eye_post_op_distant_vision_unit_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_distant_vision_unit_right",
+            "columnName": "eye_post_op_distant_vision_unit_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_early_post_op",
+            "columnName": "eye_post_op_early_post_op",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_ed_homide",
+            "columnName": "eye_post_op_ed_homide",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_ed_homide_detail",
+            "columnName": "eye_post_op_ed_homide_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_eye_1",
+            "columnName": "eye_post_op_eye_1",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_eye_1_detail",
+            "columnName": "eye_post_op_eye_1_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_eye_2",
+            "columnName": "eye_post_op_eye_2",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_eye_2_detail",
+            "columnName": "eye_post_op_eye_2_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_eye_3",
+            "columnName": "eye_post_op_eye_3",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_eye_3_detail",
+            "columnName": "eye_post_op_eye_3_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_eye_4",
+            "columnName": "eye_post_op_eye_4",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_eye_4_detail",
+            "columnName": "eye_post_op_eye_4_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_eye_5",
+            "columnName": "eye_post_op_eye_5",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_eye_5_detail",
+            "columnName": "eye_post_op_eye_5_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_fundus_exam",
+            "columnName": "eye_post_op_fundus_exam",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_fundus_pathology",
+            "columnName": "eye_post_op_fundus_pathology",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_head_position",
+            "columnName": "eye_post_op_head_position",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_homide",
+            "columnName": "eye_post_op_homide",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_homide_detail",
+            "columnName": "eye_post_op_homide_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_hypersol",
+            "columnName": "eye_post_op_hypersol",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_hypersol_detail",
+            "columnName": "eye_post_op_hypersol_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_last_date",
+            "columnName": "eye_post_op_last_date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_location_centration",
+            "columnName": "eye_post_op_location_centration",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_lubricant",
+            "columnName": "eye_post_op_lubricant",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_lubricant_detail",
+            "columnName": "eye_post_op_lubricant_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_moxifloxacin",
+            "columnName": "eye_post_op_moxifloxacin",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_moxifloxacin_detail",
+            "columnName": "eye_post_op_moxifloxacin_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_near_vision_left",
+            "columnName": "eye_post_op_near_vision_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_near_vision_right",
+            "columnName": "eye_post_op_near_vision_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_other",
+            "columnName": "eye_post_op_other",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_other_detail",
+            "columnName": "eye_post_op_other_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_pantaprezol",
+            "columnName": "eye_post_op_pantaprezol",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_pantaprezol_detail",
+            "columnName": "eye_post_op_pantaprezol_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_pr",
+            "columnName": "eye_post_op_pr",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_pressure_regular",
+            "columnName": "eye_post_op_pressure_regular",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_rr",
+            "columnName": "eye_post_op_rr",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_slit_lamp_exam",
+            "columnName": "eye_post_op_slit_lamp_exam",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_temp",
+            "columnName": "eye_post_op_temp",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_temp_unit",
+            "columnName": "eye_post_op_temp_unit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_timolol",
+            "columnName": "eye_post_op_timolol",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_timolol_detail",
+            "columnName": "eye_post_op_timolol_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_addi_detail_left",
+            "columnName": "eye_post_op_w_addi_detail_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_addi_detail_right",
+            "columnName": "eye_post_op_w_addi_detail_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_distant_vision_left",
+            "columnName": "eye_post_op_w_distant_vision_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_distant_vision_right",
+            "columnName": "eye_post_op_w_distant_vision_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_distant_vision_unit_left",
+            "columnName": "eye_post_op_w_distant_vision_unit_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_distant_vision_unit_right",
+            "columnName": "eye_post_op_w_distant_vision_unit_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_near_vision_left",
+            "columnName": "eye_post_op_w_near_vision_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_near_vision_right",
+            "columnName": "eye_post_op_w_near_vision_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_pinhole_improve_left",
+            "columnName": "eye_post_op_w_pinhole_improve_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_pinhole_improve_right",
+            "columnName": "eye_post_op_w_pinhole_improve_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_pinhole_improve_unit_left",
+            "columnName": "eye_post_op_w_pinhole_improve_unit_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_pinhole_improve_unit_right",
+            "columnName": "eye_post_op_w_pinhole_improve_unit_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_pinhole_left",
+            "columnName": "eye_post_op_w_pinhole_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eye_post_op_w_pinhole_right",
+            "columnName": "eye_post_op_w_pinhole_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Eye_OPD_Doctors_Note",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `camp_id` INTEGER NOT NULL, `createdDate` TEXT NOT NULL, `opd_eye_diagnosis` TEXT NOT NULL, `opd_eye_diagnosis_description` TEXT NOT NULL, `opd_eye_examination` TEXT NOT NULL, `opd_eye_examination_description` TEXT NOT NULL, `opd_eye_notes` TEXT NOT NULL, `opd_eye_recommended` TEXT NOT NULL, `opd_eye_symptoms` TEXT NOT NULL, `opd_eye_symptoms_description` TEXT NOT NULL, `patient_id` INTEGER NOT NULL, `user_id` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdDate",
+            "columnName": "createdDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_diagnosis",
+            "columnName": "opd_eye_diagnosis",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_diagnosis_description",
+            "columnName": "opd_eye_diagnosis_description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_examination",
+            "columnName": "opd_eye_examination",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_examination_description",
+            "columnName": "opd_eye_examination_description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_notes",
+            "columnName": "opd_eye_notes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_recommended",
+            "columnName": "opd_eye_recommended",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_symptoms",
+            "columnName": "opd_eye_symptoms",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "opd_eye_symptoms_description",
+            "columnName": "opd_eye_symptoms_description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "user_id",
+            "columnName": "user_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Cataract_Surgery_Notes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `camp_id` INTEGER NOT NULL, `createdDate` TEXT NOT NULL, `patient_id` INTEGER NOT NULL, `sn_airway` TEXT NOT NULL, `sn_airway_detail` TEXT NOT NULL, `sn_anaesthetist_concern` TEXT NOT NULL, `sn_anticoagulant` TEXT NOT NULL, `sn_anticoagulant_detail` TEXT NOT NULL, `sn_before_incision_all_team` TEXT NOT NULL, `sn_before_or_instrument` TEXT NOT NULL, `sn_before_or_key` TEXT NOT NULL, `sn_before_or_key_detail` TEXT NOT NULL, `sn_before_or_specimen` TEXT NOT NULL, `sn_before_or_weather` TEXT NOT NULL, `sn_before_or_weather_detail` TEXT NOT NULL, `sn_cataract_capsulotomy` TEXT NOT NULL, `sn_cataract_capsulotomy_detail` TEXT NOT NULL, `sn_cataract_castroviejo` TEXT NOT NULL, `sn_cataract_castroviejo_detail` TEXT NOT NULL, `sn_cataract_colibri` TEXT NOT NULL, `sn_cataract_colibri_detail` TEXT NOT NULL, `sn_cataract_formed` TEXT NOT NULL, `sn_cataract_formed_detail` TEXT NOT NULL, `sn_cataract_hydrodissectiirs` TEXT NOT NULL, `sn_cataract_hydrodissectiirs_detail` TEXT NOT NULL, `sn_cataract_irrigation` TEXT NOT NULL, `sn_cataract_irrigation_detail` TEXT NOT NULL, `sn_cataract_keretome` TEXT NOT NULL, `sn_cataract_keretome_detail` TEXT NOT NULL, `sn_cataract_keretome_phaco` TEXT NOT NULL, `sn_cataract_keretome_phaco_detail` TEXT NOT NULL, `sn_cataract_knife` TEXT NOT NULL, `sn_cataract_knife_detail` TEXT NOT NULL, `sn_cataract_lieberman` TEXT NOT NULL, `sn_cataract_lieberman_detail` TEXT NOT NULL, `sn_cataract_limb` TEXT NOT NULL, `sn_cataract_limb_detail` TEXT NOT NULL, `sn_cataract_mac` TEXT NOT NULL, `sn_cataract_mac_detail` TEXT NOT NULL, `sn_cataract_nucleus` TEXT NOT NULL, `sn_cataract_nucleus_detail` TEXT NOT NULL, `sn_cataract_sinsky` TEXT NOT NULL, `sn_cataract_sinsky_detail` TEXT NOT NULL, `sn_cataract_universal` TEXT NOT NULL, `sn_cataract_universal_detail` TEXT NOT NULL, `sn_cataract_viscoelastic` TEXT NOT NULL, `sn_cataract_viscoelastic_detail` TEXT NOT NULL, `sn_common_dislocation` TEXT NOT NULL, `sn_common_dislocation_detail` TEXT NOT NULL, `sn_common_endophthalmitis` TEXT NOT NULL, `sn_common_endophthalmitis_detail` TEXT NOT NULL, `sn_common_endothelial` TEXT NOT NULL, `sn_common_endothelial_detail` TEXT NOT NULL, `sn_common_fluid` TEXT NOT NULL, `sn_common_fluid_detail` TEXT NOT NULL, `sn_common_hyphema` TEXT NOT NULL, `sn_common_hyphema_detail` TEXT NOT NULL, `sn_common_light` TEXT NOT NULL, `sn_common_light_detail` TEXT NOT NULL, `sn_common_macular` TEXT NOT NULL, `sn_common_macular_detail` TEXT NOT NULL, `sn_common_ocular` TEXT NOT NULL, `sn_common_ocular_detail` TEXT NOT NULL, `sn_common_posterior_opacification` TEXT NOT NULL, `sn_common_posterior_opacification_detail` TEXT NOT NULL, `sn_common_posterior_rent` TEXT NOT NULL, `sn_common_posterior_rent_detail` TEXT NOT NULL, `sn_common_retinal` TEXT NOT NULL, `sn_common_retinal_detail` TEXT NOT NULL, `sn_common_vitreous` TEXT NOT NULL, `sn_common_vitreous_detail` TEXT NOT NULL, `sn_date_of_surgery` TEXT NOT NULL, `sn_flomax` TEXT NOT NULL, `sn_has_confirmed_allergies` TEXT NOT NULL, `sn_has_confirmed_consent` TEXT NOT NULL, `sn_has_confirmed_identity` TEXT NOT NULL, `sn_has_confirmed_procedure` TEXT NOT NULL, `sn_has_confirmed_site` TEXT NOT NULL, `sn_incision_cornea` TEXT NOT NULL, `sn_incision_sclera_1` TEXT NOT NULL, `sn_incision_sclera_2` TEXT NOT NULL, `sn_intra_adrenaline` TEXT NOT NULL, `sn_intra_adrenaline_detail` TEXT NOT NULL, `sn_intra_combination` TEXT NOT NULL, `sn_intra_combination_detail` TEXT NOT NULL, `sn_intra_gentamycin` TEXT NOT NULL, `sn_intra_gentamycin_detail` TEXT NOT NULL, `sn_intra_intasol` TEXT NOT NULL, `sn_intra_intasol_detail` TEXT NOT NULL, `sn_intra_mannitol` TEXT NOT NULL, `sn_intra_mannitol_detail` TEXT NOT NULL, `sn_intra_moxifloxacin` TEXT NOT NULL, `sn_intra_moxifloxacin_detail` TEXT NOT NULL, `sn_intra_occular_lens` TEXT NOT NULL, `sn_intra_prednisolone` TEXT NOT NULL, `sn_intra_prednisolone_detail` TEXT NOT NULL, `sn_intra_vigamox` TEXT NOT NULL, `sn_intra_vigamox_detail` TEXT NOT NULL, `sn_intra_visco` TEXT NOT NULL, `sn_intra_visco_detail` TEXT NOT NULL, `sn_local_anaesthesia` TEXT NOT NULL, `sn_nurse_age` TEXT NOT NULL, `sn_nurse_age_unit` TEXT NOT NULL, `sn_nurse_anaesthesia` TEXT NOT NULL, `sn_nurse_anaesthetist` TEXT NOT NULL, `sn_nurse_bp_diastolic` TEXT NOT NULL, `sn_nurse_bp_interpretation` TEXT NOT NULL, `sn_nurse_bp_sistolic` TEXT NOT NULL, `sn_nurse_concern` TEXT NOT NULL, `sn_nurse_diagnosis` TEXT NOT NULL, `sn_nurse_duration` TEXT NOT NULL, `sn_nurse_equipment_issue` TEXT NOT NULL, `sn_nurse_implant_detail` TEXT NOT NULL, `sn_nurse_name` TEXT NOT NULL, `sn_nurse_orally_confirm` TEXT NOT NULL, `sn_nurse_rbs` TEXT NOT NULL, `sn_nurse_rbs_interpretation` TEXT NOT NULL, `sn_nurse_registered` TEXT NOT NULL, `sn_nurse_scrub` TEXT NOT NULL, `sn_nurse_serial` TEXT NOT NULL, `sn_nurse_sex` TEXT NOT NULL, `sn_nurse_specimen_biopsy` TEXT NOT NULL, `sn_nurse_specimen_detail` TEXT NOT NULL, `sn_nurse_sterility` TEXT NOT NULL, `sn_nurse_surgeon` TEXT NOT NULL, `sn_nurse_surgery_name` TEXT NOT NULL, `sn_nurse_viral_serology` TEXT NOT NULL, `sn_post_cifloxacin` TEXT NOT NULL, `sn_post_cifloxacin_detail` TEXT NOT NULL, `sn_post_diclofenac` TEXT NOT NULL, `sn_post_diclofenac_detail` TEXT NOT NULL, `sn_post_dimox` TEXT NOT NULL, `sn_post_dimox_detail` TEXT NOT NULL, `sn_post_eye_1` TEXT NOT NULL, `sn_post_eye_1_detail` TEXT NOT NULL, `sn_post_eye_2` TEXT NOT NULL, `sn_post_eye_2_detail` TEXT NOT NULL, `sn_post_eye_3` TEXT NOT NULL, `sn_post_eye_3_detail` TEXT NOT NULL, `sn_post_eye_4` TEXT NOT NULL, `sn_post_eye_4_detail` TEXT NOT NULL, `sn_post_eye_5` TEXT NOT NULL, `sn_post_eye_5_detail` TEXT NOT NULL, `sn_post_eye_homide` TEXT NOT NULL, `sn_post_eye_homide_detail` TEXT NOT NULL, `sn_post_eye_hypersol` TEXT NOT NULL, `sn_post_eye_hypersol_detail` TEXT NOT NULL, `sn_post_eye_lubricant` TEXT NOT NULL, `sn_post_eye_lubricant_detail` TEXT NOT NULL, `sn_post_eye_moxifloxacin` TEXT NOT NULL, `sn_post_eye_moxifloxacin_detail` TEXT NOT NULL, `sn_post_eye_timolol` TEXT NOT NULL, `sn_post_eye_timolol_detail` TEXT NOT NULL, `sn_post_pantaprezol` TEXT NOT NULL, `sn_post_pantaprezol_detail` TEXT NOT NULL, `sn_site_marked_history` TEXT NOT NULL, `sn_site_marked_pre_anaesthesia` TEXT NOT NULL, `sn_site_marked_pre_surgical` TEXT NOT NULL, `sn_type_of_surgery` TEXT NOT NULL, `sn_type_of_surgery_other` TEXT NOT NULL, `sn_unexpected_step` TEXT NOT NULL, `sn_unexpected_step_detail` TEXT NOT NULL, `userId` TEXT NOT NULL, `filepath` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdDate",
+            "columnName": "createdDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_airway",
+            "columnName": "sn_airway",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_airway_detail",
+            "columnName": "sn_airway_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_anaesthetist_concern",
+            "columnName": "sn_anaesthetist_concern",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_anticoagulant",
+            "columnName": "sn_anticoagulant",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_anticoagulant_detail",
+            "columnName": "sn_anticoagulant_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_before_incision_all_team",
+            "columnName": "sn_before_incision_all_team",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_before_or_instrument",
+            "columnName": "sn_before_or_instrument",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_before_or_key",
+            "columnName": "sn_before_or_key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_before_or_key_detail",
+            "columnName": "sn_before_or_key_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_before_or_specimen",
+            "columnName": "sn_before_or_specimen",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_before_or_weather",
+            "columnName": "sn_before_or_weather",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_before_or_weather_detail",
+            "columnName": "sn_before_or_weather_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_capsulotomy",
+            "columnName": "sn_cataract_capsulotomy",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_capsulotomy_detail",
+            "columnName": "sn_cataract_capsulotomy_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_castroviejo",
+            "columnName": "sn_cataract_castroviejo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_castroviejo_detail",
+            "columnName": "sn_cataract_castroviejo_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_colibri",
+            "columnName": "sn_cataract_colibri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_colibri_detail",
+            "columnName": "sn_cataract_colibri_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_formed",
+            "columnName": "sn_cataract_formed",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_formed_detail",
+            "columnName": "sn_cataract_formed_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_hydrodissectiirs",
+            "columnName": "sn_cataract_hydrodissectiirs",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_hydrodissectiirs_detail",
+            "columnName": "sn_cataract_hydrodissectiirs_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_irrigation",
+            "columnName": "sn_cataract_irrigation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_irrigation_detail",
+            "columnName": "sn_cataract_irrigation_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_keretome",
+            "columnName": "sn_cataract_keretome",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_keretome_detail",
+            "columnName": "sn_cataract_keretome_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_keretome_phaco",
+            "columnName": "sn_cataract_keretome_phaco",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_keretome_phaco_detail",
+            "columnName": "sn_cataract_keretome_phaco_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_knife",
+            "columnName": "sn_cataract_knife",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_knife_detail",
+            "columnName": "sn_cataract_knife_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_lieberman",
+            "columnName": "sn_cataract_lieberman",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_lieberman_detail",
+            "columnName": "sn_cataract_lieberman_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_limb",
+            "columnName": "sn_cataract_limb",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_limb_detail",
+            "columnName": "sn_cataract_limb_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_mac",
+            "columnName": "sn_cataract_mac",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_mac_detail",
+            "columnName": "sn_cataract_mac_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_nucleus",
+            "columnName": "sn_cataract_nucleus",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_nucleus_detail",
+            "columnName": "sn_cataract_nucleus_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_sinsky",
+            "columnName": "sn_cataract_sinsky",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_sinsky_detail",
+            "columnName": "sn_cataract_sinsky_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_universal",
+            "columnName": "sn_cataract_universal",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_universal_detail",
+            "columnName": "sn_cataract_universal_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_viscoelastic",
+            "columnName": "sn_cataract_viscoelastic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_cataract_viscoelastic_detail",
+            "columnName": "sn_cataract_viscoelastic_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_dislocation",
+            "columnName": "sn_common_dislocation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_dislocation_detail",
+            "columnName": "sn_common_dislocation_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_endophthalmitis",
+            "columnName": "sn_common_endophthalmitis",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_endophthalmitis_detail",
+            "columnName": "sn_common_endophthalmitis_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_endothelial",
+            "columnName": "sn_common_endothelial",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_endothelial_detail",
+            "columnName": "sn_common_endothelial_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_fluid",
+            "columnName": "sn_common_fluid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_fluid_detail",
+            "columnName": "sn_common_fluid_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_hyphema",
+            "columnName": "sn_common_hyphema",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_hyphema_detail",
+            "columnName": "sn_common_hyphema_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_light",
+            "columnName": "sn_common_light",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_light_detail",
+            "columnName": "sn_common_light_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_macular",
+            "columnName": "sn_common_macular",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_macular_detail",
+            "columnName": "sn_common_macular_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_ocular",
+            "columnName": "sn_common_ocular",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_ocular_detail",
+            "columnName": "sn_common_ocular_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_posterior_opacification",
+            "columnName": "sn_common_posterior_opacification",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_posterior_opacification_detail",
+            "columnName": "sn_common_posterior_opacification_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_posterior_rent",
+            "columnName": "sn_common_posterior_rent",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_posterior_rent_detail",
+            "columnName": "sn_common_posterior_rent_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_retinal",
+            "columnName": "sn_common_retinal",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_retinal_detail",
+            "columnName": "sn_common_retinal_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_vitreous",
+            "columnName": "sn_common_vitreous",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_common_vitreous_detail",
+            "columnName": "sn_common_vitreous_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_date_of_surgery",
+            "columnName": "sn_date_of_surgery",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_flomax",
+            "columnName": "sn_flomax",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_has_confirmed_allergies",
+            "columnName": "sn_has_confirmed_allergies",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_has_confirmed_consent",
+            "columnName": "sn_has_confirmed_consent",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_has_confirmed_identity",
+            "columnName": "sn_has_confirmed_identity",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_has_confirmed_procedure",
+            "columnName": "sn_has_confirmed_procedure",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_has_confirmed_site",
+            "columnName": "sn_has_confirmed_site",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_incision_cornea",
+            "columnName": "sn_incision_cornea",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_incision_sclera_1",
+            "columnName": "sn_incision_sclera_1",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_incision_sclera_2",
+            "columnName": "sn_incision_sclera_2",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_adrenaline",
+            "columnName": "sn_intra_adrenaline",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_adrenaline_detail",
+            "columnName": "sn_intra_adrenaline_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_combination",
+            "columnName": "sn_intra_combination",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_combination_detail",
+            "columnName": "sn_intra_combination_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_gentamycin",
+            "columnName": "sn_intra_gentamycin",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_gentamycin_detail",
+            "columnName": "sn_intra_gentamycin_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_intasol",
+            "columnName": "sn_intra_intasol",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_intasol_detail",
+            "columnName": "sn_intra_intasol_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_mannitol",
+            "columnName": "sn_intra_mannitol",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_mannitol_detail",
+            "columnName": "sn_intra_mannitol_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_moxifloxacin",
+            "columnName": "sn_intra_moxifloxacin",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_moxifloxacin_detail",
+            "columnName": "sn_intra_moxifloxacin_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_occular_lens",
+            "columnName": "sn_intra_occular_lens",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_prednisolone",
+            "columnName": "sn_intra_prednisolone",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_prednisolone_detail",
+            "columnName": "sn_intra_prednisolone_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_vigamox",
+            "columnName": "sn_intra_vigamox",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_vigamox_detail",
+            "columnName": "sn_intra_vigamox_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_visco",
+            "columnName": "sn_intra_visco",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_intra_visco_detail",
+            "columnName": "sn_intra_visco_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_local_anaesthesia",
+            "columnName": "sn_local_anaesthesia",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_age",
+            "columnName": "sn_nurse_age",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_age_unit",
+            "columnName": "sn_nurse_age_unit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_anaesthesia",
+            "columnName": "sn_nurse_anaesthesia",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_anaesthetist",
+            "columnName": "sn_nurse_anaesthetist",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_bp_diastolic",
+            "columnName": "sn_nurse_bp_diastolic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_bp_interpretation",
+            "columnName": "sn_nurse_bp_interpretation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_bp_sistolic",
+            "columnName": "sn_nurse_bp_sistolic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_concern",
+            "columnName": "sn_nurse_concern",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_diagnosis",
+            "columnName": "sn_nurse_diagnosis",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_duration",
+            "columnName": "sn_nurse_duration",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_equipment_issue",
+            "columnName": "sn_nurse_equipment_issue",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_implant_detail",
+            "columnName": "sn_nurse_implant_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_name",
+            "columnName": "sn_nurse_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_orally_confirm",
+            "columnName": "sn_nurse_orally_confirm",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_rbs",
+            "columnName": "sn_nurse_rbs",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_rbs_interpretation",
+            "columnName": "sn_nurse_rbs_interpretation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_registered",
+            "columnName": "sn_nurse_registered",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_scrub",
+            "columnName": "sn_nurse_scrub",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_serial",
+            "columnName": "sn_nurse_serial",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_sex",
+            "columnName": "sn_nurse_sex",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_specimen_biopsy",
+            "columnName": "sn_nurse_specimen_biopsy",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_specimen_detail",
+            "columnName": "sn_nurse_specimen_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_sterility",
+            "columnName": "sn_nurse_sterility",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_surgeon",
+            "columnName": "sn_nurse_surgeon",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_surgery_name",
+            "columnName": "sn_nurse_surgery_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_nurse_viral_serology",
+            "columnName": "sn_nurse_viral_serology",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_cifloxacin",
+            "columnName": "sn_post_cifloxacin",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_cifloxacin_detail",
+            "columnName": "sn_post_cifloxacin_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_diclofenac",
+            "columnName": "sn_post_diclofenac",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_diclofenac_detail",
+            "columnName": "sn_post_diclofenac_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_dimox",
+            "columnName": "sn_post_dimox",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_dimox_detail",
+            "columnName": "sn_post_dimox_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_1",
+            "columnName": "sn_post_eye_1",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_1_detail",
+            "columnName": "sn_post_eye_1_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_2",
+            "columnName": "sn_post_eye_2",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_2_detail",
+            "columnName": "sn_post_eye_2_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_3",
+            "columnName": "sn_post_eye_3",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_3_detail",
+            "columnName": "sn_post_eye_3_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_4",
+            "columnName": "sn_post_eye_4",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_4_detail",
+            "columnName": "sn_post_eye_4_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_5",
+            "columnName": "sn_post_eye_5",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_5_detail",
+            "columnName": "sn_post_eye_5_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_homide",
+            "columnName": "sn_post_eye_homide",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_homide_detail",
+            "columnName": "sn_post_eye_homide_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_hypersol",
+            "columnName": "sn_post_eye_hypersol",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_hypersol_detail",
+            "columnName": "sn_post_eye_hypersol_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_lubricant",
+            "columnName": "sn_post_eye_lubricant",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_lubricant_detail",
+            "columnName": "sn_post_eye_lubricant_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_moxifloxacin",
+            "columnName": "sn_post_eye_moxifloxacin",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_moxifloxacin_detail",
+            "columnName": "sn_post_eye_moxifloxacin_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_timolol",
+            "columnName": "sn_post_eye_timolol",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_eye_timolol_detail",
+            "columnName": "sn_post_eye_timolol_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_pantaprezol",
+            "columnName": "sn_post_pantaprezol",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_post_pantaprezol_detail",
+            "columnName": "sn_post_pantaprezol_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_site_marked_history",
+            "columnName": "sn_site_marked_history",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_site_marked_pre_anaesthesia",
+            "columnName": "sn_site_marked_pre_anaesthesia",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_site_marked_pre_surgical",
+            "columnName": "sn_site_marked_pre_surgical",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_type_of_surgery",
+            "columnName": "sn_type_of_surgery",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_type_of_surgery_other",
+            "columnName": "sn_type_of_surgery_other",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_unexpected_step",
+            "columnName": "sn_unexpected_step",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sn_unexpected_step_detail",
+            "columnName": "sn_unexpected_step_detail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "filepath",
+            "columnName": "filepath",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Patient",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `patientFname` TEXT NOT NULL, `patientLname` TEXT NOT NULL, `patientId` INTEGER NOT NULL, `patientGen` TEXT NOT NULL, `patientAge` INTEGER NOT NULL, `camp_id` INTEGER NOT NULL, `location` TEXT NOT NULL, `AgeUnit` TEXT NOT NULL, `RegNo` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientFname",
+            "columnName": "patientFname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientLname",
+            "columnName": "patientLname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientGen",
+            "columnName": "patientGen",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientAge",
+            "columnName": "patientAge",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "AgeUnit",
+            "columnName": "AgeUnit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "RegNo",
+            "columnName": "RegNo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Image",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`index` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `_id` INTEGER, `file_name` TEXT, `image_type` TEXT, `patient_id` INTEGER, `camp_id` INTEGER, `user_id` INTEGER, `file_path` TEXT, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "index",
+            "columnName": "index",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "file_name",
+            "columnName": "file_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "image_type",
+            "columnName": "image_type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user_id",
+            "columnName": "user_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "file_path",
+            "columnName": "file_path",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "index"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Patient_RegistrationModel",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `aadharno` TEXT NOT NULL, `age` TEXT NOT NULL, `ageunit` TEXT NOT NULL, `campid` INTEGER NOT NULL, `citytownvillage` TEXT NOT NULL, `district` TEXT NOT NULL, `dob` TEXT NOT NULL, `emailid` TEXT NOT NULL, `fname` TEXT NOT NULL, `gender` TEXT NOT NULL, `houseno` TEXT NOT NULL, `lname` TEXT NOT NULL, `localityareapada` TEXT NOT NULL, `mname` TEXT NOT NULL, `mobileno` TEXT NOT NULL, `patient_id` INTEGER NOT NULL, `pincode` TEXT NOT NULL, `regno` TEXT NOT NULL, `statename` TEXT NOT NULL, `streetname` TEXT NOT NULL, `taluka` TEXT NOT NULL, `voteridno` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "aadharno",
+            "columnName": "aadharno",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "age",
+            "columnName": "age",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ageunit",
+            "columnName": "ageunit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campid",
+            "columnName": "campid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "citytownvillage",
+            "columnName": "citytownvillage",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "district",
+            "columnName": "district",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dob",
+            "columnName": "dob",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "emailid",
+            "columnName": "emailid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fname",
+            "columnName": "fname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gender",
+            "columnName": "gender",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "houseno",
+            "columnName": "houseno",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lname",
+            "columnName": "lname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "localityareapada",
+            "columnName": "localityareapada",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mname",
+            "columnName": "mname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mobileno",
+            "columnName": "mobileno",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pincode",
+            "columnName": "pincode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "regno",
+            "columnName": "regno",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "statename",
+            "columnName": "statename",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "streetname",
+            "columnName": "streetname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "taluka",
+            "columnName": "taluka",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "voteridno",
+            "columnName": "voteridno",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Prescription_Model",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `camp_id` INTEGER NOT NULL, `fundus_notes` TEXT NOT NULL, `is_given` TEXT NOT NULL, `is_ordered` TEXT NOT NULL, `patient_id` INTEGER NOT NULL, `presc_type` TEXT NOT NULL, `re_bvd` TEXT NOT NULL, `re_distant_vision_axis_left` TEXT NOT NULL, `re_distant_vision_axis_right` TEXT NOT NULL, `re_distant_vision_cylinder_left` TEXT NOT NULL, `re_distant_vision_cylinder_right` TEXT NOT NULL, `re_distant_vision_left` TEXT NOT NULL, `re_distant_vision_right` TEXT NOT NULL, `re_distant_vision_sphere_left` TEXT NOT NULL, `re_distant_vision_sphere_right` TEXT NOT NULL, `re_distant_vision_unit_left` TEXT NOT NULL, `re_distant_vision_unit_right` TEXT NOT NULL, `re_near_vision_axis_left` TEXT NOT NULL, `re_near_vision_axis_right` TEXT NOT NULL, `re_near_vision_cylinder_left` TEXT NOT NULL, `re_near_vision_cylinder_right` TEXT NOT NULL, `re_near_vision_left` TEXT NOT NULL, `re_near_vision_right` TEXT NOT NULL, `re_near_vision_sphere_left` TEXT NOT NULL, `re_near_vision_sphere_right` TEXT NOT NULL, `re_prism_left` TEXT NOT NULL, `re_prism_right` TEXT NOT NULL, `re_prism_unit_left` TEXT NOT NULL, `re_prism_unit_right` TEXT NOT NULL, `re_pupipllary_distance` TEXT NOT NULL, `re_reading_addition_left` TEXT NOT NULL, `re_reading_addition_left_details` TEXT NOT NULL, `re_reading_addition_right` TEXT NOT NULL, `re_reading_addition_right_details` TEXT NOT NULL, `re_remark_left` TEXT NOT NULL, `re_remark_right` TEXT NOT NULL, `re_remarks` TEXT NOT NULL, `reading_glass` TEXT NOT NULL, `user_id` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fundus_notes",
+            "columnName": "fundus_notes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "is_given",
+            "columnName": "is_given",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "is_ordered",
+            "columnName": "is_ordered",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "presc_type",
+            "columnName": "presc_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_bvd",
+            "columnName": "re_bvd",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_axis_left",
+            "columnName": "re_distant_vision_axis_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_axis_right",
+            "columnName": "re_distant_vision_axis_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_cylinder_left",
+            "columnName": "re_distant_vision_cylinder_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_cylinder_right",
+            "columnName": "re_distant_vision_cylinder_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_left",
+            "columnName": "re_distant_vision_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_right",
+            "columnName": "re_distant_vision_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_sphere_left",
+            "columnName": "re_distant_vision_sphere_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_sphere_right",
+            "columnName": "re_distant_vision_sphere_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_unit_left",
+            "columnName": "re_distant_vision_unit_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_distant_vision_unit_right",
+            "columnName": "re_distant_vision_unit_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_axis_left",
+            "columnName": "re_near_vision_axis_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_axis_right",
+            "columnName": "re_near_vision_axis_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_cylinder_left",
+            "columnName": "re_near_vision_cylinder_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_cylinder_right",
+            "columnName": "re_near_vision_cylinder_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_left",
+            "columnName": "re_near_vision_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_right",
+            "columnName": "re_near_vision_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_sphere_left",
+            "columnName": "re_near_vision_sphere_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_near_vision_sphere_right",
+            "columnName": "re_near_vision_sphere_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_prism_left",
+            "columnName": "re_prism_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_prism_right",
+            "columnName": "re_prism_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_prism_unit_left",
+            "columnName": "re_prism_unit_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_prism_unit_right",
+            "columnName": "re_prism_unit_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_pupipllary_distance",
+            "columnName": "re_pupipllary_distance",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_reading_addition_left",
+            "columnName": "re_reading_addition_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_reading_addition_left_details",
+            "columnName": "re_reading_addition_left_details",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_reading_addition_right",
+            "columnName": "re_reading_addition_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_reading_addition_right_details",
+            "columnName": "re_reading_addition_right_details",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_remark_left",
+            "columnName": "re_remark_left",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_remark_right",
+            "columnName": "re_remark_right",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "re_remarks",
+            "columnName": "re_remarks",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reading_glass",
+            "columnName": "reading_glass",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "user_id",
+            "columnName": "user_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "PrescriptionGlassesFinal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `alternate_mobile` TEXT NOT NULL, `app_createdDate` TEXT NOT NULL, `call_again_date` TEXT NOT NULL, `camp_id` TEXT NOT NULL, `patient_id` TEXT NOT NULL, `patient_not_come` INTEGER NOT NULL, `postal_addressline1` TEXT NOT NULL, `postal_addressline2` TEXT NOT NULL, `postal_city` TEXT NOT NULL, `postal_country` TEXT NOT NULL, `postal_pincode` TEXT NOT NULL, `postal_state` TEXT NOT NULL, `sameAddress` INTEGER NOT NULL, `spectacle_given` INTEGER NOT NULL, `spectacle_not_matching` INTEGER NOT NULL, `ordered_not_received` INTEGER NOT NULL, `patient_call_again` INTEGER NOT NULL, `spectacle_not_matching_details` TEXT NOT NULL, `given_presc_type` TEXT NOT NULL, `user_id` TEXT NOT NULL, `server_id` INTEGER NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "alternate_mobile",
+            "columnName": "alternate_mobile",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "app_createdDate",
+            "columnName": "app_createdDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "call_again_date",
+            "columnName": "call_again_date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_not_come",
+            "columnName": "patient_not_come",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postal_addressline1",
+            "columnName": "postal_addressline1",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postal_addressline2",
+            "columnName": "postal_addressline2",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postal_city",
+            "columnName": "postal_city",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postal_country",
+            "columnName": "postal_country",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postal_pincode",
+            "columnName": "postal_pincode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postal_state",
+            "columnName": "postal_state",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sameAddress",
+            "columnName": "sameAddress",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spectacle_given",
+            "columnName": "spectacle_given",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spectacle_not_matching",
+            "columnName": "spectacle_not_matching",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ordered_not_received",
+            "columnName": "ordered_not_received",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_call_again",
+            "columnName": "patient_call_again",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spectacle_not_matching_details",
+            "columnName": "spectacle_not_matching_details",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "given_presc_type",
+            "columnName": "given_presc_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "user_id",
+            "columnName": "user_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "server_id",
+            "columnName": "server_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "SpectacleDisdributionStatusModel",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`index` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `alternate_mobile` TEXT NOT NULL, `app_createdDate` TEXT NOT NULL, `call_again_date` TEXT NOT NULL, `camp_id` TEXT NOT NULL, `id` INTEGER NOT NULL, `patient_call_again` INTEGER NOT NULL, `patient_id` INTEGER NOT NULL, `patient_not_come` INTEGER NOT NULL, `postal_addressline1` TEXT NOT NULL, `postal_addressline2` TEXT NOT NULL, `postal_city` TEXT NOT NULL, `postal_country` TEXT NOT NULL, `postal_pincode` TEXT NOT NULL, `postal_state` TEXT NOT NULL, `sameAddress` INTEGER NOT NULL, `spectacle_given` INTEGER NOT NULL, `spectacle_not_matching` INTEGER NOT NULL, `spectacle_not_received` INTEGER NOT NULL, `spectacle_not_matching_details` TEXT NOT NULL, `given_presc_type` TEXT NOT NULL, `user_id` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "index",
+            "columnName": "index",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "alternate_mobile",
+            "columnName": "alternate_mobile",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "app_createdDate",
+            "columnName": "app_createdDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "call_again_date",
+            "columnName": "call_again_date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_call_again",
+            "columnName": "patient_call_again",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_not_come",
+            "columnName": "patient_not_come",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postal_addressline1",
+            "columnName": "postal_addressline1",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postal_addressline2",
+            "columnName": "postal_addressline2",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postal_city",
+            "columnName": "postal_city",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postal_country",
+            "columnName": "postal_country",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postal_pincode",
+            "columnName": "postal_pincode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postal_state",
+            "columnName": "postal_state",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sameAddress",
+            "columnName": "sameAddress",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spectacle_given",
+            "columnName": "spectacle_given",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spectacle_not_matching",
+            "columnName": "spectacle_not_matching",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spectacle_not_received",
+            "columnName": "spectacle_not_received",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spectacle_not_matching_details",
+            "columnName": "spectacle_not_matching_details",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "given_presc_type",
+            "columnName": "given_presc_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "user_id",
+            "columnName": "user_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "index"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "SynTable",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `syn_type` TEXT NOT NULL, `camp_id` INTEGER NOT NULL, `user_id` TEXT NOT NULL, `date` TEXT NOT NULL, `time` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syn_type",
+            "columnName": "syn_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "user_id",
+            "columnName": "user_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "CurrentInventoryLocal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `ITEM_CATEGORY` TEXT NOT NULL, `batch_no` TEXT NOT NULL, `brand_id` INTEGER NOT NULL, `brand_name` TEXT NOT NULL, `inventoryItem_id` INTEGER NOT NULL, `item_name` TEXT NOT NULL, `manufactured_by` TEXT NOT NULL, `procurementItem_id` INTEGER NOT NULL, `purchaseItem_id` INTEGER NOT NULL, `unit_name` TEXT NOT NULL, `unit_ratio_of` TEXT NOT NULL, `unit_symbol` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ITEM_CATEGORY",
+            "columnName": "ITEM_CATEGORY",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "batch_no",
+            "columnName": "batch_no",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brand_id",
+            "columnName": "brand_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brand_name",
+            "columnName": "brand_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inventoryItem_id",
+            "columnName": "inventoryItem_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "item_name",
+            "columnName": "item_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "manufactured_by",
+            "columnName": "manufactured_by",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "procurementItem_id",
+            "columnName": "procurementItem_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "purchaseItem_id",
+            "columnName": "purchaseItem_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit_name",
+            "columnName": "unit_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit_ratio_of",
+            "columnName": "unit_ratio_of",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit_symbol",
+            "columnName": "unit_symbol",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "InventoryUnitLocal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `inventoryBrand_id` INTEGER NOT NULL, `ratio_of` REAL NOT NULL, `unit_id` INTEGER NOT NULL, `unit_name` TEXT NOT NULL, `unit_symbol` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inventoryBrand_id",
+            "columnName": "inventoryBrand_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ratio_of",
+            "columnName": "ratio_of",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit_id",
+            "columnName": "unit_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit_name",
+            "columnName": "unit_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit_symbol",
+            "columnName": "unit_symbol",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "CreatePrescriptionModel",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `patient_id` TEXT NOT NULL, `generic_name` TEXT NOT NULL, `brand_name` TEXT NOT NULL, `brand_id` TEXT NOT NULL, `batch_no` TEXT NOT NULL, `procurementItem_id` TEXT NOT NULL, `quantity` TEXT NOT NULL, `quantity_id` INTEGER NOT NULL, `quantity_unit` TEXT NOT NULL, `dose` TEXT NOT NULL, `dose_frequency` TEXT NOT NULL, `frequency` TEXT NOT NULL, `duration` TEXT NOT NULL, `selected_duration` TEXT NOT NULL, `current_date` TEXT NOT NULL, `user_id` TEXT NOT NULL, `camp_id` INTEGER NOT NULL, `device_id` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generic_name",
+            "columnName": "generic_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brand_name",
+            "columnName": "brand_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brand_id",
+            "columnName": "brand_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "batch_no",
+            "columnName": "batch_no",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "procurementItem_id",
+            "columnName": "procurementItem_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantity",
+            "columnName": "quantity",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantity_id",
+            "columnName": "quantity_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantity_unit",
+            "columnName": "quantity_unit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dose",
+            "columnName": "dose",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dose_frequency",
+            "columnName": "dose_frequency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "frequency",
+            "columnName": "frequency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "duration",
+            "columnName": "duration",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "selected_duration",
+            "columnName": "selected_duration",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "current_date",
+            "columnName": "current_date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "user_id",
+            "columnName": "user_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "device_id",
+            "columnName": "device_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ImagePrescriptionModel",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `file_name` TEXT, `patient_id` INTEGER, `camp_id` INTEGER, `user_id` INTEGER, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "file_name",
+            "columnName": "file_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "patient_id",
+            "columnName": "patient_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "user_id",
+            "columnName": "user_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "FinalPrescriptionDrug",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `isSyn` INTEGER NOT NULL, `camp_id` TEXT, `created_by` TEXT NOT NULL, `department` TEXT NOT NULL, `doctor_name` TEXT NOT NULL, `doctor_specialty` TEXT NOT NULL, `patient_name` TEXT NOT NULL, `patient_temp_id` TEXT NOT NULL, `prescriptionItems` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "created_by",
+            "columnName": "created_by",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "department",
+            "columnName": "department",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "doctor_name",
+            "columnName": "doctor_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "doctor_specialty",
+            "columnName": "doctor_specialty",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_name",
+            "columnName": "patient_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_temp_id",
+            "columnName": "patient_temp_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prescriptionItems",
+            "columnName": "prescriptionItems",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '99f2808a0907c7f44bc30689bf75808b')"
+    ]
+  }
+}

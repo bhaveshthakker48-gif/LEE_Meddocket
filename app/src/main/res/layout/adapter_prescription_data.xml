@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:weightSum="7"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+        <TextView
+
+            android:id="@+id/TextView_Generic"
+            android:layout_margin="@dimen/_1sdp"
+            android:padding="@dimen/_2sdp"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:text="Generic"
+
+            android:singleLine="false"
+
+            style="@style/textView_bold_5ssp"
+            android:background="@drawable/textview_background_blue"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/TextView_Brand"
+            android:layout_margin="@dimen/_1sdp"
+            android:padding="@dimen/_2sdp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:text="Brand"
+            android:singleLine="false"
+            style="@style/textView_bold_5ssp"
+            android:background="@drawable/textview_background_blue"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+
+            android:id="@+id/TextView_Quantity"
+            android:layout_margin="@dimen/_1sdp"
+            android:padding="@dimen/_2sdp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:text="Quantity"
+            android:singleLine="false"
+            style="@style/textView_bold_5ssp"
+            android:background="@drawable/textview_background_blue"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/TextView_Dose"
+            android:layout_margin="@dimen/_1sdp"
+            android:padding="@dimen/_2sdp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:text="Dose"
+            android:singleLine="false"
+            style="@style/textView_bold_5ssp"
+            android:background="@drawable/textview_background_blue"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/TextView_Frequency"
+            android:layout_margin="@dimen/_1sdp"
+            android:padding="@dimen/_2sdp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:text="Frequency"
+            android:singleLine="false"
+            style="@style/textView_bold_5ssp"
+            android:background="@drawable/textview_background_blue"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:singleLine="false"
+            android:id="@+id/TextView_Duration"
+            android:layout_margin="@dimen/_1sdp"
+            android:padding="@dimen/_2sdp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:text="Duration"
+            style="@style/textView_bold_5ssp"
+            android:background="@drawable/textview_background_blue"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+
+        <LinearLayout
+            android:weightSum="2"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ImageView_edit"
+                android:src="@drawable/baseline_assignment_24"
+
+                android:layout_margin="@dimen/_1sdp"
+                android:padding="@dimen/_2sdp"
+                android:textAlignment="center"
+
+
+
+                android:background="@drawable/textview_background_blue"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_15sdp"
+                />
+
+            <ImageView
+                android:id="@+id/ImageView_delete"
+                android:src="@drawable/baseline_delete_24"
+
+                android:layout_margin="@dimen/_1sdp"
+                android:padding="@dimen/_2sdp"
+                android:textAlignment="center"
+
+
+
+                android:background="@drawable/textview_background_blue"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_15sdp"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <View
+        android:background="@color/main_color"
+
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+</LinearLayout>

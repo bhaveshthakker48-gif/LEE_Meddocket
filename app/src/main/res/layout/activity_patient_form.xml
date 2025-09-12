@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/baby_blue"
+    android:orientation="vertical"
+    tools:context=".Activity.PatientForms">
+
+    <include
+        android:id="@+id/toolbar_form"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/main_color"
+                android:fontFamily="@font/opensans_semibold"
+                android:paddingLeft="05dp"
+                android:paddingTop="03dp"
+                android:paddingBottom="03dp"
+                android:text="Patient Details"
+                android:textColor="@color/white" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="9dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="05dp"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:id="@+id/edtCampLoc"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:enabled="false"
+                            android:fontFamily="@font/opensans_regular"
+                            android:singleLine="false"
+                            android:text="@string/dash"
+                            android:textColor="@color/main_color" />
+
+                        <TextView
+                            android:id="@+id/edtId"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:enabled="false"
+                            android:fontFamily="@font/opensans_regular"
+                            android:text="@string/dash"
+                            android:textColor="@color/main_color" />
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/edtPatientName"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:enabled="false"
+                        android:fontFamily="@font/opensans_regular"
+                        android:text="@string/dash"
+                        android:textColor="@color/main_color" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="05dp"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:id="@+id/edtGend"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:enabled="false"
+                            android:fontFamily="@font/opensans_regular"
+                            android:text="@string/dash"
+                            android:textColor="@color/main_color" />
+
+                        <TextView
+                            android:id="@+id/edtAge"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:enabled="false"
+                            android:fontFamily="@font/opensans_regular"
+                            android:text="@string/dash"
+                            android:textColor="@color/main_color" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/main_color"
+                android:fontFamily="@font/opensans_semibold"
+                android:paddingLeft="05dp"
+                android:paddingTop="03dp"
+                android:paddingBottom="03dp"
+                android:text="Patient Forms"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/general"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/background_drawable"
+                android:drawableEnd="@drawable/ic_arrow_down_form"
+                android:padding="10dp"
+                android:text="General"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/generalLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="gone"
+                android:weightSum="2">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cvVital"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/light_blue"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@android:color/transparent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="Vitals"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cvInvestigations"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/light_blue"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@android:color/transparent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="OPD \n Investigations"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/eye"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/background_drawable"
+                android:drawableEnd="@drawable/ic_arrow_down_form"
+                android:padding="10dp"
+                android:text="Eye" />
+
+            <LinearLayout
+                android:id="@+id/mainEyeLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/eye">
+
+                <LinearLayout
+                    android:id="@+id/eyeLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:weightSum="3">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvVision"
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/light_blue"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@android:color/transparent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="Visual\nAcuity"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvRefractiveError"
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/light_blue"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@android:color/transparent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="Refractive\nError"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvEyeOPDDoctorsNote"
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/light_blue"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@android:color/transparent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="Eye OPD\nDoctors Note"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/eyeLinearLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:weightSum="3">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvEyePreOpInvestigation"
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/light_blue"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@android:color/transparent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="Eye Pre-Op\nInvestigation"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvEyePreOpNotes"
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/light_blue"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@android:color/transparent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="Eye Pre-Op\nNotes"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvSurgicalNotes"
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/light_blue"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@android:color/transparent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="Surgical\nNotes"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/eyeLinearLayout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:weightSum="3">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cvEyePostOpAndFollowUps"
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/light_blue"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@android:color/transparent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="Eye Post-Op \nand Follow Ups"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/background_drawable"
+                android:drawableEnd="@drawable/ic_arrow_down_form"
+                android:padding="10dp"
+                android:text="ENT" />
+
+            <LinearLayout
+                android:id="@+id/mainEar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:id="@+id/earLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="10dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/opdEntDoctorNotes"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/light_blue"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@android:color/transparent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="ENT OPD\nDoctors Note"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Audiometry -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/entAudiometry"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        app:cardBackgroundColor="@color/light_blue"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@android:color/transparent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Audiometry"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- ENT Pre-Op Details -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/entPreOpDetails"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        app:cardBackgroundColor="@color/light_blue"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@android:color/transparent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="ENT Pre-Op\nDetails"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <!-- Second Row -->
+                <LinearLayout
+                    android:id="@+id/earLinearLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:gravity="center_horizontal">
+
+                    <!-- ENT Surgical Notes -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/entSugicalNotes"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/light_blue"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@android:color/transparent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="ENT Surgical\nNotes"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- ENT Post-Op Notes -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/entPostOpNotes"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        app:cardBackgroundColor="@color/light_blue"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@android:color/transparent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="ENT Post-Op\nNotes"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/pathology"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/background_drawable"
+                android:drawableEnd="@drawable/ic_arrow_down_form"
+                android:padding="10dp"
+                android:text="Pathology" />
+
+            <LinearLayout
+                android:id="@+id/mainPathology"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:id="@+id/pathologyLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="10dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/pathologyReports"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/light_blue"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@android:color/transparent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Pathology Reports"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="1dp">
+    <LinearLayout
+        android:background="@color/white"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_header"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="center"
+                android:src="@drawable/impact_logo2"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"/>
+
+            <TextView
+
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Prescription"
+                android:textSize="@dimen/_9ssp"
+                android:layout_gravity="center"/>
+            <LinearLayout
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:weightSum="4"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="@dimen/_7ssp"
+                        style="@style/textView_normal1"
+                        android:text="Camp Name:"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:textSize="@dimen/_7ssp"
+                        style="@style/textView_normal1"
+                        android:id="@+id/TextView_CampName"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:textSize="@dimen/_7ssp"
+                        style="@style/textView_normal1"
+                        android:text="Date:"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:textSize="@dimen/_7ssp"
+                        style="@style/textView_normal1"
+                        android:id="@+id/TextView_date"
+
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:weightSum="4"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="@dimen/_7ssp"
+                        style="@style/textView_normal1"
+                        android:text="Patient Name:"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:textSize="@dimen/_7ssp"
+                        style="@style/textView_normal1"
+                        android:id="@+id/TextView_PatientName"
+
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:textSize="@dimen/_7ssp"
+                        style="@style/textView_normal1"
+                        android:text="Patient ID:"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:textSize="@dimen/_7ssp"
+                        style="@style/textView_normal1"
+                        android:id="@+id/TextView_PatientID"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_margin="@dimen/_10sdp"
+                    android:background="@drawable/rx"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"/>
+
+
+                <LinearLayout
+                    android:weightSum="5"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_margin="@dimen/_1sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:background="@drawable/table_cell_border"
+                        android:text="Generic"
+                        style="@style/textView_bold"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_margin="@dimen/_1sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:background="@drawable/table_cell_border"                        android:text="Brand"
+                        style="@style/textView_bold"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_margin="@dimen/_1sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:background="@drawable/table_cell_border"                        android:text="Dose"
+                        style="@style/textView_bold"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_margin="@dimen/_1sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:background="@drawable/table_cell_border"                        android:text="Frequency"
+                        style="@style/textView_bold"
+                        android:layout_weight="1"
+                        android:maxLines="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_margin="@dimen/_1sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:background="@drawable/table_cell_border"                        android:text="Duration"
+                        style="@style/textView_bold"
+                        android:layout_weight="1"
+                        android:maxLines="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/linear_layout_middle"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RecyclerView_prescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/></LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_layout_footer"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_gravity="right"
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:singleLine="false"
+
+                style="@style/textView_normal1"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:singleLine="false"
+                android:text="Authorized Signtory :"
+                style="@style/textView_normal1"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:text="___________________"
+                style="@style/textView_normal1"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

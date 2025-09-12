@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.NewOpdInvestigationsActivity">
+
+
+    <include
+        android:id="@+id/opdToolBar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvVitals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/opdToolBar"
+        app:strokeColor="@color/main_color"
+        app:strokeWidth="@dimen/_2sdp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etlBloodSugar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/tvmgDl"
+                app:layout_constraintStart_toStartOf="@+id/cbPatientRefused"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBloodSugar"
+                    style="@style/edit_text_style_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#F4FAFF"
+                    android:hint="Random Blood Sugar"
+                    android:inputType="number"
+                    android:textColor="@color/gray" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <TextView
+                android:id="@+id/tvmgDl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="24dp"
+                android:text="mg/dL"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/etlBloodSugar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/etlBloodSugar"
+                app:layout_constraintTop_toTopOf="@+id/etlBloodSugar" />
+
+
+            <TextView
+                android:id="@+id/tvSugarResults"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Interpretation"
+                android:visibility="invisible"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintEnd_toEndOf="@+id/tvmgDl"
+                app:layout_constraintStart_toStartOf="@+id/etlBloodSugar"
+                app:layout_constraintTop_toBottomOf="@+id/etlBloodSugar" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cbPatientRefused"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Patient Refused"
+                app:layout_constraintBottom_toTopOf="@+id/llFirstLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSugarResults" />
+            <LinearLayout
+                android:id="@+id/llFirstLine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                android:background="@color/main_color"
+                app:layout_constraintBottom_toTopOf="@+id/etlHaemoglobin"
+                app:layout_constraintTop_toBottomOf="@+id/cbPatientRefused"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etlHaemoglobin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/tvmgDl"
+                app:layout_constraintStart_toStartOf="@+id/cbPatientRefused"
+                app:layout_constraintTop_toBottomOf="@+id/llFirstLine">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etHaemoglobin"
+                    style="@style/edit_text_style_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#F4FAFF"
+                    android:hint="Haemoglobin"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/gray" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvHaemoMgDl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="24dp"
+                android:text="mg/dL"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/etlHaemoglobin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/etlHaemoglobin"
+                app:layout_constraintTop_toTopOf="@+id/etlHaemoglobin" />
+            <TextView
+                android:id="@+id/tvHaemoglobinResults"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Interpretation"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/tvmgDl"
+                app:layout_constraintStart_toStartOf="@+id/etlHaemoglobin"
+                android:textSize="@dimen/_14ssp"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@+id/etlHaemoglobin" />
+
+            <LinearLayout
+                android:id="@+id/llSecondLine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="8dp"
+                android:background="@color/main_color"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvHaemoglobinResults" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etlO2Saturation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/tvmgDl"
+                app:layout_constraintStart_toStartOf="@+id/cbPatientRefused"
+                app:layout_constraintTop_toBottomOf="@+id/llSecondLine">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etO2Saturation"
+                    style="@style/edit_text_style_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="#F4FAFF"
+
+                    android:inputType="number"
+                    android:textColor="@color/gray" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvSaturationPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="24dp"
+                android:text="%"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/etlO2Saturation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/etlO2Saturation"
+                app:layout_constraintTop_toTopOf="@+id/etlO2Saturation" />
+
+            <TextView
+                android:id="@+id/tvO2SaturationResults"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:text="Interpretation"
+                android:visibility="invisible"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/tvmgDl"
+                app:layout_constraintStart_toStartOf="@+id/etlO2Saturation"
+                app:layout_constraintTop_toBottomOf="@+id/etlO2Saturation" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btnSubmitForm"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_32sdp"
+        android:layout_marginEnd="@dimen/_32sdp"
+        android:layout_marginBottom="@dimen/_32sdp"
+        app:cardBackgroundColor="@color/main_color"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@android:color/transparent">
+
+        <TextView
+            android:id="@+id/tvSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:padding="@dimen/_8sdp"
+            android:layout_gravity="center"
+            android:textColor="@color/white"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btnEdit"
+        app:cardBackgroundColor="@color/green"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_32sdp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_marginEnd="@dimen/_32sdp"
+        android:layout_marginBottom="@dimen/_32sdp"
+        android:layout_marginTop="@dimen/_50sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@android:color/transparent">
+
+        <TextView
+            android:id="@+id/tvEditOrthosis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Edit"
+            android:padding="@dimen/_10sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold" />
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

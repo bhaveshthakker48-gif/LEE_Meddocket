@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.entui.EntSurgicalNotesActivity">
+
+    <include
+        android:id="@+id/toolbarEntSurgicalNote"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/toolbarEntSurgicalNote"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_10sdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans_extrabold"
+                android:text="In Operation Theatre"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_18ssp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_4sdp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="Anaesthesia"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_14ssp"
+                android:paddingBottom="@dimen/_4sdp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/lignocaine"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Lignocaine " />
+
+
+                <CheckBox
+                    android:id="@+id/xylocaineSensitivity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Xylocaine Sensitivity" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/localApplication"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Local application" />
+
+                <CheckBox
+                    android:id="@+id/localInfiltration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Local infiltration" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/nerveBlock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nerve block" />
+
+                <CheckBox
+                    android:id="@+id/generalEndotrachealAnaesthesia"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="General endotracheal anaesthesia" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="Monitor"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_14ssp"
+                android:paddingBottom="@dimen/_4sdp" />
+
+            <!-- Pulse -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_5sdp"
+                android:weightSum="3">
+
+                <CheckBox
+                    android:id="@+id/monitorPulse"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Pulse" />
+
+                <EditText
+                    android:id="@+id/enterMonitorPulse"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Monitor Pulse"
+                    android:visibility="gone"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/edittext_background"
+                    android:inputType="number" />
+
+                <TextView
+                    android:id="@+id/monitorPulseUnit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="/min"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_7ssp" />
+            </LinearLayout>
+
+            <!-- Respiration -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_5sdp"
+                android:weightSum="3">
+
+                <CheckBox
+                    android:id="@+id/respiration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Respiration" />
+
+                <EditText
+                    android:id="@+id/enterRespiration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:hint="Enter Respiration"
+                    android:visibility="gone"
+                    android:padding="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:background="@drawable/edittext_background"
+                    android:inputType="number" />
+
+                <TextView
+                    android:id="@+id/respirationUnit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="/min"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_7ssp" />
+            </LinearLayout>
+
+            <!-- Temperature -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_5sdp"
+                android:weightSum="3">
+
+                <CheckBox
+                    android:id="@+id/temperature"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Temperature"
+                    android:layout_marginEnd="@dimen/_5sdp"/>
+
+                <EditText
+                    android:id="@+id/enterTemperature"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Enter temperature"
+                    android:visibility="gone"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:background="@drawable/edittext_background"
+                    android:inputType="numberDecimal" />
+
+                <Spinner
+                    android:id="@+id/spinner_temperature_unit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    style="@style/spinner_padding_left_right" />
+            </LinearLayout>
+
+            <!-- Blood Pressure Checkbox -->
+            <CheckBox
+                android:id="@+id/bloodPressure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:text="Blood Pressure (BP)" />
+
+            <!-- Blood Pressure Fields -->
+            <LinearLayout
+                android:id="@+id/bloodPressureLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_5sdp"
+                android:weightSum="3">
+
+                <EditText
+                    android:id="@+id/enterbloodPressureSystolic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Systolic"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:background="@drawable/edittext_background"
+                    android:inputType="number" />
+
+                <EditText
+                    android:id="@+id/enterbloodPressureDiastolic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Diastolic"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:background="@drawable/edittext_background"
+                    android:inputType="number" />
+
+                <TextView
+                    android:id="@+id/unit2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:text="mmHg"
+                    android:textSize="@dimen/_7ssp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvBpResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:gravity="center_horizontal"
+                android:text="Interpretation" />
+
+
+            <!-- ECG -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_5sdp"
+                android:weightSum="2">
+
+                <CheckBox
+                    android:id="@+id/ecg"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ECG" />
+
+                <EditText
+                    android:id="@+id/ecgDetail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="ECG"
+                    android:visibility="gone"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:background="@drawable/edittext_background" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="Before incision"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:weightSum="2">
+
+                <CheckBox
+                    android:id="@+id/antibiotic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Antibiotic" />
+
+
+                <EditText
+                    android:id="@+id/antibioticDetail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Enter Antibiotic"
+                    android:visibility="gone"
+                    android:padding="@dimen/_10sdp"
+                    android:textSize="@dimen/_7ssp"
+                    android:background="@drawable/edittext_background" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/localAdrenalinInfiltration"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Local adrenalin infiltration (formula)" />
+
+
+                <CheckBox
+                    android:id="@+id/ethamsylate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ethamsylate(antihemorrhagic agent)" />
+            </LinearLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:text="Surgery"
+                android:fontFamily="@font/opensans_semibold"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/removalOfImpactedEarwax"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Removal of impacted earwax" />
+
+                <CheckBox
+                    android:id="@+id/tympanoplasty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tympanoplasty" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/mastoidectomy"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Mastoidectomy" />
+
+                <CheckBox
+                    android:id="@+id/foreignBodyRemoval"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Foreign body removal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <CheckBox
+                    android:id="@+id/grommetInsertion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Grommet insertion" />
+
+                <CheckBox
+                    android:id="@+id/excisionBiopsy"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Excision biopsy" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/enterOther"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/edittext_background"
+                android:hint="Other"
+                android:padding="@dimen/_10sdp"
+                android:textSize="@dimen/_7ssp"
+                android:gravity="start|center_vertical" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/submitButton"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                app:cardBackgroundColor="@color/main_color"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:strokeColor="@android:color/transparent">
+
+                <TextView
+                    android:id="@+id/tvSubmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Submit"
+                    android:padding="@dimen/_10sdp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnEdit"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                app:cardBackgroundColor="@color/green"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:strokeColor="@android:color/transparent">
+
+                <TextView
+                    android:id="@+id/tvEditOrthosis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Edit"
+                    android:padding="@dimen/_10sdp"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

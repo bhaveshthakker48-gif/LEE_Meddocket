@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.NewVitalsActivity">
+
+    <include
+        android:id="@+id/vitalsToolBar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvVitals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vitalsToolBar"
+        app:strokeColor="@color/main_color"
+        app:strokeWidth="@dimen/_2sdp">
+
+        <LinearLayout
+            android:id="@+id/llVitalsDetailTab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/llBloodPressure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/main_color"
+                android:backgroundTint="@color/green"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvBloodPressure"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:padding="@dimen/_2sdp"
+                    android:text="Blood Pressure*"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvBloodPressureUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="mm/Hg"
+                    android:textColor="@color/main_color"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlBpSystolic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toStartOf="@+id/etlBpDiastolic"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvBloodPressureUnit">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etBpSystolic"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:ems="10"
+                        android:hint="Systolic"
+                        android:inputType="number"
+                        android:textColor="@color/gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlBpDiastolic"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/etlBpSystolic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/etlBpSystolic"
+                    app:layout_constraintTop_toTopOf="@+id/etlBpSystolic">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etBpDiastolic"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:ems="10"
+                        android:hint="Diastolic"
+                        android:inputType="number"
+                        android:textColor="@color/gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/tvBpResult"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="Interpretation"
+                    app:layout_constraintEnd_toEndOf="@+id/etlBpDiastolic"
+                    app:layout_constraintStart_toStartOf="@+id/etlBpSystolic"
+                    app:layout_constraintTop_toBottomOf="@+id/etlBpSystolic" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlPulseRate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toStartOf="@+id/tvMinute"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvBpResult">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPulseRate"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="Pulse Rate"
+                        android:inputType="number"
+                        android:textColor="@color/gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/tvMinute"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="   / minute"
+                    android:textSize="@dimen/_15ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/etlPulseRate"
+                    app:layout_constraintEnd_toEndOf="parent"
+
+                    app:layout_constraintStart_toEndOf="@+id/etlPulseRate"
+                    app:layout_constraintTop_toTopOf="@+id/etlPulseRate" />
+
+                <TextView
+                    android:id="@+id/tvPulseRateResult"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:text="Interpretation"
+                    app:layout_constraintBottom_toTopOf="@+id/llMeasurement"
+                    app:layout_constraintEnd_toEndOf="@+id/etlBpDiastolic"
+                    app:layout_constraintStart_toStartOf="@+id/etlBpSystolic"
+                    app:layout_constraintTop_toBottomOf="@+id/etlPulseRate" />
+
+                <LinearLayout
+                    android:id="@+id/llMeasurement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/main_color"
+                    android:backgroundTint="@color/green"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPulseRateResult">
+
+                    <TextView
+                        android:id="@+id/tvMeasurement"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:text="Body Measurement"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlHeight"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toStartOf="@+id/etlHeightUnit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/llMeasurement">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etHeight"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:ems="10"
+                        android:hint="Height"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlHeightUnit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/etlHeight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/etlHeight"
+                    app:layout_constraintTop_toTopOf="@+id/etlHeight">
+
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/etHeightUnit"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:editable="false"
+                        android:ellipsize="end"
+                        android:focusable="false"
+                        android:hint="Unit"
+                        android:inputType="none"
+                        android:textColor="@color/gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlWeight"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toStartOf="@+id/etlHeightUnit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etlHeight">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etWeight"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:ems="10"
+                        android:hint="Weight"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlWeightUnit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/etlWeight"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/etlWeight"
+                    app:layout_constraintTop_toTopOf="@+id/etlWeight">
+
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/etWeightUnit"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:editable="false"
+                        android:ellipsize="end"
+                        android:focusable="false"
+                        android:hint="Unit"
+                        android:inputType="none"
+                        android:textColor="@color/gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/etlBMI"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/etlWeight"
+                    app:layout_constraintStart_toStartOf="@+id/etlWeight"
+                    app:layout_constraintTop_toBottomOf="@+id/etlWeight">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etBMI"
+                        style="@style/edit_text_style_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#F4FAFF"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="BMI"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/tvBmiResult"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Interpretation"
+                    app:layout_constraintBottom_toBottomOf="@+id/etlBMI"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/etlBMI"
+                    app:layout_constraintTop_toTopOf="@+id/etlBMI" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btnSubmitForm"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_32sdp"
+        android:layout_marginEnd="@dimen/_32sdp"
+        android:layout_marginBottom="@dimen/_32sdp"
+        app:cardBackgroundColor="@color/main_color"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@android:color/transparent">
+
+        <TextView
+            android:id="@+id/tvSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:padding="@dimen/_8sdp"
+            android:layout_gravity="center"
+            android:textColor="@color/white"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btnEdit"
+        app:cardBackgroundColor="@color/green"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_32sdp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_marginEnd="@dimen/_32sdp"
+        android:layout_marginBottom="@dimen/_32sdp"
+        android:layout_marginTop="@dimen/_50sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@android:color/transparent">
+
+        <TextView
+            android:id="@+id/tvEditOrthosis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Edit"
+            android:padding="@dimen/_10sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold" />
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

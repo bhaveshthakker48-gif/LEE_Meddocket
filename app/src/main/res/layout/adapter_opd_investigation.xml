@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_3sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:elevation="0dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="9dp"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    >
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".4"
+                        android:fontFamily="@font/opensans_extrabold"
+                        android:text="@string/random_blood_sugar"
+                        android:textColor="@color/main_color" />
+
+                    <TextView
+                        android:background="@drawable/edittext_background"
+
+                        android:maxLength="3"
+                        android:id="@+id/edtRBS"
+                        style="@style/edit_text_style1"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="05dp"
+                        android:layout_weight=".2"
+                        android:fontFamily="@font/opensans_regular"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".1"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:text="mg/dL"
+                        android:textColor="@color/main_color" />
+
+                    <TextView
+                        android:textColor="@color/black"
+                        android:id="@+id/tvRBS"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight=".3"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <CheckBox
+                        android:id="@+id/checkbox_RBS"
+                        android:textColor="@color/black"
+                        android:text="Patient Refused"
+                        android:textStyle="bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:fontFamily="@font/opensans_extrabold"
+                    android:text="@string/haemoglobin"
+                    android:textColor="@color/main_color" />
+
+                <TextView
+                    android:background="@drawable/edittext_background"
+
+                    android:id="@+id/edtHaemoglobin"
+                    style="@style/edit_text_style1"
+                    android:layout_width="0dp"
+                    android:maxLength="5"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="05dp"
+                    android:layout_weight=".2"
+                    android:fontFamily="@font/opensans_regular"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".1"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:text="g/dL"
+                    android:textColor="@color/main_color" />
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:id="@+id/tvHae"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight=".3"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:gravity="center"
+                     />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:fontFamily="@font/opensans_extrabold"
+                    android:text="@string/o2_saturation"
+                    android:textColor="@color/main_color" />
+
+                <TextView
+                    android:background="@drawable/edittext_background"
+
+                    android:maxLength="5"
+                    android:id="@+id/edtO2"
+                    style="@style/edit_text_style1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="05dp"
+                    android:layout_weight=".2"
+                    android:fontFamily="@font/opensans_regular"
+                    android:inputType="number" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".1"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:text="%"
+                    android:textColor="@color/main_color" />
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:id="@+id/tvO2"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight=".3"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:gravity="center"
+                     />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

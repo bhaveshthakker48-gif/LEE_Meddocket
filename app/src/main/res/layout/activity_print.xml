@@ -1,0 +1,965 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:layout_gravity="center"
+        android:src="@drawable/impact_logo2"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"/>
+
+    <TextView
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Spectacles_Prescription"
+        android:textSize="@dimen/_7ssp"
+        android:layout_gravity="center"/>
+
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:weightSum="4"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="@dimen/_7ssp"
+                style="@style/textView_normal1"
+                android:text="Camp Name:"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textSize="@dimen/_7ssp"
+                style="@style/textView_normal1"
+                android:id="@+id/TextView_CampName"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textSize="@dimen/_7ssp"
+                style="@style/textView_normal1"
+                android:text="Date:"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textSize="@dimen/_7ssp"
+                style="@style/textView_normal1"
+                android:id="@+id/TextView_date"
+
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:weightSum="4"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="@dimen/_7ssp"
+                style="@style/textView_normal1"
+                android:text="Patient Name:"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textSize="@dimen/_7ssp"
+                style="@style/textView_normal1"
+                android:id="@+id/TextView_PatientName"
+
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textSize="@dimen/_7ssp"
+                style="@style/textView_normal1"
+                android:text="Patient ID:"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textSize="@dimen/_7ssp"
+                style="@style/textView_normal1"
+                android:id="@+id/TextView_PatientID"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <!-- <TableLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="16dp">
+
+         &lt;!&ndash; Table Header &ndash;&gt;
+         <TableRow>
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text=" "
+                 android:padding="8dp"
+                 android:gravity="center"
+                 android:background="@drawable/table_border"/>
+             &lt;!&ndash; Header 1 &ndash;&gt;
+
+             &lt;!&ndash; Header 2 &ndash;&gt;
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="Right Eye"
+                 android:padding="8dp"
+                 android:gravity="center"
+                 android:background="@drawable/table_border"/>
+             &lt;!&ndash; Header 3 &ndash;&gt;
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="Left Eye"
+                 android:padding="8dp"
+                 android:gravity="center"
+                 android:background="@drawable/table_border"/>
+         </TableRow>
+
+         &lt;!&ndash; Table Row 1 &ndash;&gt;
+         <TableRow>
+
+             <TableRow>
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+
+                     android:padding="0dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+                 &lt;!&ndash; Data 2 &ndash;&gt;
+                 <TextView
+
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+
+                     android:padding="0dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+                 &lt;!&ndash; Data 3 &ndash;&gt;
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+
+                     android:padding="0dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+
+             </TableRow>
+             <TableRow>
+                 <TextView
+                     style="@style/textView_normal1"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Sph"
+                     android:padding="8dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+                 &lt;!&ndash; Data 2 &ndash;&gt;
+                 <TextView
+                     style="@style/textView_normal1"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Cyl @"
+                     android:padding="8dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+                 &lt;!&ndash; Data 3 &ndash;&gt;
+                 <TextView
+                     style="@style/textView_normal1"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Axis"
+                     android:padding="8dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+             </TableRow>
+             <TableRow>
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Data 1"
+                     android:padding="8dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+                 &lt;!&ndash; Data 2 &ndash;&gt;
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Data 2"
+                     android:padding="8dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+                 &lt;!&ndash; Data 3 &ndash;&gt;
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Data 3"
+                     android:padding="8dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+             </TableRow>
+             &lt;!&ndash; Data 1 &ndash;&gt;
+
+         </TableRow>
+
+         <TableRow>
+
+             <TableRow>
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+
+                     android:padding="0dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+                 &lt;!&ndash; Data 2 &ndash;&gt;
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+
+                     android:padding="0dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+                 &lt;!&ndash; Data 3 &ndash;&gt;
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+
+                     android:padding="0dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+
+             </TableRow>
+             <TableRow>
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Data 1"
+                     android:padding="8dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+                 &lt;!&ndash; Data 2 &ndash;&gt;
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Data 2"
+                     android:padding="8dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+                 &lt;!&ndash; Data 3 &ndash;&gt;
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Data 3"
+                     android:padding="8dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+             </TableRow>
+             <TableRow>
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Data 1"
+                     android:padding="8dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+                 &lt;!&ndash; Data 2 &ndash;&gt;
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Data 2"
+                     android:padding="8dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+                 &lt;!&ndash; Data 3 &ndash;&gt;
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Data 3"
+                     android:padding="8dp"
+                     android:gravity="center"
+                     android:background="@drawable/table_border"/>
+             </TableRow>
+             &lt;!&ndash; Data 1 &ndash;&gt;
+
+         </TableRow>
+
+         &lt;!&ndash; Add more rows as needed &ndash;&gt;
+
+     </TableLayout>-->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textAlignment="center"
+
+                android:layout_weight="1"
+                android:background="@drawable/table_border_bottom"
+                style="@style/textView_normal1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textAlignment="center"
+                android:text="Right Eye"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                style="@style/textView_normal1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textAlignment="center"
+                android:text="Left Eye"
+                android:layout_weight="1"
+                android:background="@drawable/table_border"
+                style="@style/textView_normal1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textAlignment="center"
+
+                android:layout_weight="1"
+                android:background="@drawable/table_border_left"
+                style="@style/textView_normal1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textAlignment="center"
+                    android:text="Sph"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textAlignment="center"
+                    android:text="Cyl @"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textAlignment="center"
+                    android:text="Axis"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textAlignment="center"
+                    android:text="Sph"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textAlignment="center"
+                    android:text="Cyl @"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:textAlignment="center"
+                    android:text="Axis"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:background="@drawable/table_border"
+                android:textAlignment="center"
+                android:text="Distance"
+                android:layout_weight="1"
+
+                style="@style/textView_normal1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/TextView_Distance_Right_Sph"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/TextView_Distance_Right_cyl"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/TextView_Distance_Right_Axis"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/TextView_Distance_Left_Sph"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/TextView_Distance_Left_cyl"
+
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/TextView_Distance_Left_Axis"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:background="@drawable/table_border"
+                android:textAlignment="center"
+                android:text="Add Amount"
+                android:layout_weight="1"
+
+                style="@style/textView_normal1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+               <!-- <TextView
+                    android:id="@+id/TextView_AddAmount_Right_Sph"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>-->
+                <TextView
+                    android:id="@+id/TextView_AddAmount_Right_cyl"
+                    android:textAlignment="center"
+
+                    android:layout_weight="2"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/TextView_AddAmount_Right_Axis"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+               <!-- <TextView
+                    android:id="@+id/TextView_AddAmount_Left_Sph"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>-->
+                <TextView
+                    android:id="@+id/TextView_AddAmount_Left_cyl"
+
+                    android:textAlignment="center"
+
+                    android:layout_weight="2"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/TextView_AddAmount_Left_Axis"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:background="@drawable/table_border"
+                android:textAlignment="center"
+                android:text="Total Add"
+                android:layout_weight="1"
+
+                style="@style/textView_normal1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/TextView_TotalAmount_Right_Sph"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/TextView_TotalAmount_Right_cyl"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/TextView_TotalAmount_Right_Axis"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:weightSum="3"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/TextView_TotalAmount_Left_Sph"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/TextView_TotalAmount_Left_cyl"
+
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/TextView_TotalAmount_Left_Axis"
+                    android:textAlignment="center"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/table_border"
+                    style="@style/textView_normal1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_6sdp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_weight="1"
+                        android:background="@drawable/table_border"
+                        android:text=" P.D."
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:background="@drawable/table_border"
+
+                        android:layout_weight="1"
+                        android:id="@+id/TextView_PD"
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:background="@drawable/table_border"
+
+                        android:layout_weight="1"
+                        android:text="m.m."
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_weight="1"
+                        android:background="@drawable/table_border"
+                        android:text="BVD"
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/TextView_BVD"
+                        android:layout_weight="1"
+                        android:background="@drawable/table_border"
+
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_weight="1"
+                        android:background="@drawable/table_border"
+                        android:text="m.m."
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_weight="1"
+                        android:background="@drawable/table_border"
+                        android:text="Prism"
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:background="@drawable/table_border"
+
+                        android:layout_weight="1"
+                        android:id="@+id/TextView_Prism_Right"
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/TextView_Base_Right"
+
+                        android:background="@drawable/table_border"
+
+                        android:layout_weight="1"
+
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+
+
+                        android:background="@drawable/table_border"
+
+                        android:layout_weight="1"
+                        android:text="Base"
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_weight="1"
+                        android:background="@drawable/table_border"
+                        android:text="Prism"
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:background="@drawable/table_border"
+
+                        android:layout_weight="1"
+                        android:id="@+id/TextView_Prism_Left"
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/TextView_Base_Left"
+
+                        android:background="@drawable/table_border"
+
+                        android:layout_weight="1"
+
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+
+
+                        android:background="@drawable/table_border"
+
+                        android:layout_weight="1"
+                        android:text="Base"
+                        style="@style/textView_normal1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_5sdp"
+            android:weightSum="2"
+            android:orientation="horizontal"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_gravity="left"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:singleLine="false"
+                        android:text="Collect glasses on:"
+                        style="@style/textView_normal1"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:text="______________"
+                        style="@style/textView_normal1"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_gravity="left"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:singleLine="false"
+                        android:text="Prescriber’s Name:"
+                        style="@style/textView_normal1"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:text="______________"
+                        style="@style/textView_normal1"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_gravity="left"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:singleLine="false"
+                        android:text="Prescriber’s Signature:"
+                        style="@style/textView_normal1"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:text="______________"
+                        style="@style/textView_normal1"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:layout_weight="1"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_gravity="center"
+                    android:id="@+id/ImageViewQRCode"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

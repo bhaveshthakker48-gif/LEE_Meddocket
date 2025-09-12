@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.impactindiafoundation.iifllemeddocket">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- to get device name READ_PHONE_STATE -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application
+        android:name=".BaseApplication"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher_foreground"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LLE_MedDocket"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="34">
+        <activity
+            android:name=".Activity.PrescriptionPatientDataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.pathologyui.PathologyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.entui.EntAudiometryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.entui.EntPostOpNotesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.entui.EntSurgicalNotesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.entui.EntPreOpDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.entui.OpEntDoctorNotesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.entui.EntPatientReportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.MedicineDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.OpdSyncTableActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.NewMedicineReportActivity"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".ui.activity.GoogleQrCodeActivity"-->
+<!--            android:exported="false" />-->
+        <activity
+            android:name=".ui.activity.PatientReportActivity"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".ui.activity.VisualAcuityReportActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".ui.activity.OpdReportActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".ui.activity.VitalsReportActivity"-->
+<!--            android:exported="false" />-->
+        <activity
+            android:name=".ui.activity.NewOpdInvestigationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.NewVitalsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.NewVisualAcuityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.RefractiveErrorFormActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.VideoRecordActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.QrCodeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+<!--        <activity-->
+<!--            android:name=".ui.activity.VideoCaptureActivity"-->
+<!--            android:exported="false" />-->
+        <activity
+            android:name=".ui.activity.OrthosisMainActivity"
+            android:exported="false"
+            android:requestLegacyExternalStorage="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.OrthosisFittingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.CampPatientListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.OrthosisActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <!--
+          <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="org.impactindiafoundation.iifllemeddocket.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name=".Activity.PatientListActivity"
+            android:exported="false"
+            android:label="@string/title_activity_patient_list"
+            android:theme="@style/Theme.LLE_MedDocket" />
+        <activity
+            android:name=".Activity.MainActivity"
+            android:exported="true"
+            android:requestLegacyExternalStorage="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.LoginActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.PatientForms"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.SplashScreenActivity"
+            android:exported="true"
+            android:requestLegacyExternalStorage="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+<!--        <activity-->
+<!--            android:name=".Activity.VitalsFormActivity"-->
+<!--            android:exported="true" />-->
+<!--        <activity android:name=".Activity.OPDInvestigationsFormActivity" />-->
+<!--        <activity android:name=".Activity.VisualAcuityFormActivity" />-->
+<!--        <activity-->
+<!--            android:name=".Activity.RefractiveErrorActivity"-->
+<!--            android:exported="true"-->
+<!--            android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".Activity.EyeOPDDoctorsNoteActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.EyePreOPInvestigationsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.EyePreOpNotesActivity"
+            android:exported="true"
+            android:requestLegacyExternalStorage="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.SurgicalNotesActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.EyePostOpAndFollowUpsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+<!--        <activity-->
+<!--            android:name=".Activity.PrintOutActivity"-->
+<!--            android:exported="true"-->
+<!--            android:screenOrientation="portrait" />-->
+<!--        <activity-->
+<!--            android:name=".Activity.PrintActivity"-->
+<!--            android:exported="true"-->
+<!--            android:screenOrientation="portrait" />-->
+<!--        <activity-->
+<!--            android:name=".Activity.ImageAssignment"-->
+<!--            android:exported="true" />-->
+<!--        <activity-->
+<!--            android:name=".Activity.WebViewActivity"-->
+<!--            android:exported="true" />-->
+        <activity
+            android:name=".Activity.PrintActivity1"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.AnalyticActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Activity.ViewReportActivity" />
+        <activity
+            android:name=".Activity.PrescriptionDisbributionActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.PresciptionMainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Activity.ViewStatusActivity" />
+        <activity android:name=".Activity.PrescriptionReportActivity" />
+        <activity
+            android:name=".Activity.PharmaMainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.PharmaFormActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.PrescriptionPreviewActivity"
+            android:exported="true" />
+<!--        <activity android:name=".Activity.PrintPrescriptionDataActivity" />-->
+        <activity android:name=".Activity.PrintPrescriptionDataActivity1" />
+        <activity android:name=".Activity.PrescriptionDrugScreenShotActivity" />
+<!--        <activity android:name=".Activity.PrescriptionDrugScreenShotActivity1" />-->
+<!--        <activity android:name=".Activity.MedicineReportActivity" />-->
+        <activity android:name=".Activity.MedicineInsertedActivity" />
+        <activity android:name=".Activity.ViewGivenMedicineActivity" />
+
+        <service android:name=".services.OrthosisPatientFormService" />
+        <service android:name=".services.CampPatientFormService" />
+        <service android:name=".services.FormImageSyncService" />
+        <service android:name=".services.FormVideoSyncService" />
+        <service android:name=".services.OrthosisImageSyncService" />
+        <service android:name=".services.RefractiveFormService" />
+        <service android:name=".services.EquipmentImageSyncService" />
+        <service android:name=".services.VitalsFormService" />
+        <service android:name=".services.OpdFormService" />
+        <service android:name=".services.VisualAcuityFormService" />
+        <service android:name=".services.PharmaFormSyncService" />
+    </application>
+
+</manifest>

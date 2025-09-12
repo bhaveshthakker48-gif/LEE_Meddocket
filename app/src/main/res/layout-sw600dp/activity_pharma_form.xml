@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/baby_blue"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar_prescription_form"
+        layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:elevation="0dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="9dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="05dp"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:id="@+id/edtCampLoc"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:enabled="false"
+                            android:fontFamily="@font/opensans_regular"
+                            android:text="@string/dash"
+                            android:textColor="@color/main_color" />
+
+                        <TextView
+                            android:id="@+id/edtId"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:enabled="false"
+                            android:fontFamily="@font/opensans_regular"
+                            android:text="@string/dash"
+                            android:textColor="@color/main_color" />
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/edtPatientName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:fontFamily="@font/opensans_regular"
+                        android:text="@string/dash"
+                        android:textColor="@color/main_color" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="05dp"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:id="@+id/edtGend"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:enabled="false"
+                            android:fontFamily="@font/opensans_regular"
+                            android:text="@string/dash"
+                            android:textColor="@color/main_color" />
+
+                        <TextView
+                            android:id="@+id/edtAge"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:enabled="false"
+                            android:fontFamily="@font/opensans_regular"
+                            android:text="@string/dash"
+                            android:textColor="@color/main_color" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="9dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_1sdp">
+
+                    <TextView
+                        android:id="@+id/TextView_date"
+                        android:layout_width="0dp"
+
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittext_background"
+                        android:drawableRight="@drawable/baseline_calendar_month_24"
+                        android:hint="Date"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/black" />
+
+                    <Spinner
+                        android:id="@+id/Spinner_Speciality"
+                        style="@style/spinner_padding_left_right"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/spinner_background" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="9dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <AutoCompleteTextView
+
+                        android:id="@+id/autoCompleteTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:background="@drawable/edittext_background"
+                        android:completionThreshold="1"
+                        android:drawableEnd="@drawable/ic_clear"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:hint="Search Generic..."
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/black" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_1sdp">
+
+                        <Spinner
+                            android:id="@+id/Spinner_brand"
+                            style="@style/spinner_padding_left_right"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_background" />
+
+                        <Spinner
+                            android:id="@+id/Spinner_batch"
+                            style="@style/spinner_padding_left_right"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_background" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:text="Quantity Dispensed *"
+                        android:textColor="@color/black" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_1sdp">
+
+
+                        <EditText
+                            android:id="@+id/EditText_quantity"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:layout_weight="1"
+
+                            android:background="@drawable/edittext_background"
+                            android:hint="Enter Quantity"
+                            android:inputType="numberDecimal"
+                            android:padding="@dimen/_4sdp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@android:color/darker_gray" />
+
+
+                        <Spinner
+                            android:id="@+id/Spinner_quantity"
+                            style="@style/spinner_padding_left_right"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_background" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:text="Dose *"
+                        android:textColor="@color/black" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_1sdp">
+
+
+                        <EditText
+                            android:id="@+id/EditText_frequency"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:layout_weight="1"
+
+                            android:background="@drawable/edittext_background"
+                            android:hint="Enter Dose"
+                            android:inputType="number"
+                            android:padding="@dimen/_4sdp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@android:color/darker_gray" />
+
+                        <Spinner
+                            android:id="@+id/Spinner_frequency"
+                            style="@style/spinner_padding_left_right"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_background" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:text="Frequency *"
+                        android:textColor="@color/black" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_1sdp"
+                        android:weightSum="1">
+
+
+                        <!-- <EditText
+                             android:textColorHint="@android:color/darker_gray"
+                             android:hint="Enter Frequeny"
+                             android:textColor="@color/black"
+                             android:inputType="number"
+                             android:padding="@dimen/_4sdp"
+
+                             android:id="@+id/EditText_frequency1"
+                             android:layout_width="0dp"
+                             android:layout_height="wrap_content"
+                             android:layout_weight="1"
+                             android:layout_margin="@dimen/_3sdp"
+                             android:background="@drawable/edittext_background"/>-->
+
+                        <Spinner
+                            android:id="@+id/Spinner_frequency1"
+                            style="@style/spinner_padding_left_right"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_background" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:text="Duration *"
+                        android:textColor="@color/black" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_1sdp">
+
+                        <EditText
+                            android:id="@+id/EditText_duration"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_3sdp"
+                            android:layout_weight="1"
+
+                            android:background="@drawable/edittext_background"
+                            android:hint="Enter Duration"
+                            android:inputType="number"
+                            android:padding="@dimen/_4sdp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@android:color/darker_gray" />
+
+                        <Spinner
+                            android:id="@+id/Spinner_duration"
+                            style="@style/spinner_padding_left_right"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:background="@drawable/spinner_background" />
+                    </LinearLayout>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/btnAdd"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:elevation="0dp"
+                        app:cardBackgroundColor="@color/main_color"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="9dp">
+
+                        <TextView
+                            android:id="@+id/TextView_prescription_add"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_gravity="center_horizontal|bottom"
+                            android:fontFamily="@font/opensans_semibold"
+                            android:padding="10dp"
+                            android:text="@string/Add"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white" />
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+            <LinearLayout
+                android:id="@+id/linear_layout_prescription_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="7">
+
+                    <TextView
+                        style="@style/textView_bold_5ssp"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_background"
+                        android:padding="@dimen/_2sdp"
+                        android:text="Generic"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        style="@style/textView_bold_5ssp"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_background"
+
+                        android:padding="@dimen/_2sdp"
+                        android:text="Brand"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        style="@style/textView_bold_5ssp"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_background"
+                        android:padding="@dimen/_2sdp"
+                        android:text="Quantity"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        style="@style/textView_bold_5ssp"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_background"
+                        android:padding="@dimen/_2sdp"
+                        android:text="Dose"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        style="@style/textView_bold_5ssp"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_background"
+                        android:padding="@dimen/_2sdp"
+                        android:text="Frequency"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        style="@style/textView_bold_5ssp"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_background"
+                        android:padding="@dimen/_2sdp"
+                        android:text="Duration"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        style="@style/textView_bold_5ssp"
+
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_background"
+
+                        android:padding="@dimen/_2sdp"
+                        android:src="@drawable/baseline_delete_24_white"
+                        android:text="Action"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        app:tint="@color/white" />
+
+
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerView_prescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:elevation="0dp"
+                    app:cardBackgroundColor="@color/main_color"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="9dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:fontFamily="@font/opensans_semibold"
+                        android:padding="10dp"
+                        android:text="@string/Print_Prescription"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white" />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

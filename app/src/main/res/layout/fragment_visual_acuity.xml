@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/baby_blue"
+    android:orientation="vertical"
+    >
+    <androidx.cardview.widget.CardView
+        android:id="@+id/CardView"
+        app:cardCornerRadius="@dimen/_3sdp"
+        app:cardBackgroundColor="@color/white"
+        android:layout_margin="@dimen/_2sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+
+
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:padding="@dimen/_2sdp"
+                android:textColor="@color/white"
+                android:text="Reports"
+
+                android:fontFamily="@font/opensans_regular"
+                android:background="@color/main_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <Spinner
+                android:id="@+id/spinner_report_type"
+                style="@style/spinner_padding_left_right"
+                android:background="@drawable/spinner_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            app:cardBackgroundColor="@color/white"
+            android:layout_margin="@dimen/_4sdp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/_3sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+
+
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/white"
+                    android:text="Reports"
+                    android:padding="@dimen/_2sdp"
+                    android:fontFamily="@font/opensans_regular"
+                    android:background="@color/main_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <Spinner
+                    android:id="@+id/spinner_report_type1"
+                    style="@style/spinner_padding_left_right"
+                    android:background="@drawable/spinner_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            app:cardBackgroundColor="@color/white"
+            android:layout_margin="@dimen/_4sdp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/_3sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+
+
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/white"
+                    android:text="Day Wise"
+                    android:padding="@dimen/_2sdp"
+                    android:fontFamily="@font/opensans_regular"
+                    android:background="@color/main_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <Spinner
+                    android:id="@+id/spinner_report_day_wise"
+                    style="@style/spinner_padding_left_right"
+                    android:background="@drawable/spinner_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="@dimen/_5sdp"
+        android:id="@+id/RecyclerView_visual_acuity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+
+
+</LinearLayout>

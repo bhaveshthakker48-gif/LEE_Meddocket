@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etlOrthosisMeasurement"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:maxEms="9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/etlUnit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etOrthosisMeasurement"
+            style="@style/edit_text_style_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F4FAFF"
+            android:hint="Name"
+            android:inputType="numberDecimal"
+            android:textColor="@color/gray"
+            tools:hint="measurements" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:id="@+id/etlValue"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:maxEms="9"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/view"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/etlUnit"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/etlOrthosisMeasurement"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/etlOrthosisMeasurement">-->
+
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:id="@+id/etValue"-->
+<!--            style="@style/edit_text_style_new"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:backgroundTint="#F4FAFF"-->
+<!--            android:hint="Value"-->
+<!--            android:inputType="numberDecimal"-->
+<!--            android:textColor="@color/gray"-->
+<!--            tools:hint="value" />-->
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:id="@+id/etlUnit"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:maxEms="9"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/etlValue"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/ivRemoveMeasurement"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/etlValue"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/etlValue">-->
+
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:id="@+id/etUnit"-->
+<!--            style="@style/edit_text_style_new"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Unit"-->
+<!--            android:backgroundTint="#F4FAFF"-->
+<!--            android:inputType="numberDecimal"-->
+<!--            android:textColor="@color/gray"-->
+<!--            tools:hint="unit" />-->
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etlUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etlOrthosisMeasurement"
+        android:hint="unit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/etlOrthosisMeasurement"
+        app:layout_constraintTop_toTopOf="@+id/etlOrthosisMeasurement">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/etUnit"
+            style="@style/edit_text_style_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F4FAFF"
+            android:drawableEnd="@drawable/ic_arrow_down_black"
+            android:editable="false"
+            android:ellipsize="end"
+            android:focusable="false"
+            android:inputType="none"
+            android:hint="unit"
+            android:textColor="@color/gray" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+<!--    <ImageView-->
+<!--        android:id="@+id/ivRemoveMeasurement"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="16dp"-->
+<!--        android:src="@drawable/ic_remove_measurement"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/etlOrthosisMeasurement"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/etlOrthosisMeasurement"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/etlOrthosisMeasurement" />-->
+
+<!--    <View-->
+<!--        android:id="@+id/view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:background="@color/gray"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/etlValue" />-->
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,156 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "1b44b6e3be7269f9dbddb183e97c5944",
+    "entities": [
+      {
+        "tableName": "CurrentInventoryLocal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `ITEM_CATEGORY` TEXT NOT NULL, `batch_no` TEXT NOT NULL, `brand_id` INTEGER NOT NULL, `brand_name` TEXT NOT NULL, `inventoryItem_id` INTEGER NOT NULL, `item_name` TEXT NOT NULL, `manufactured_by` TEXT NOT NULL, `procurementItem_id` INTEGER NOT NULL, `purchaseItem_id` INTEGER NOT NULL, `unit_name` TEXT NOT NULL, `unit_ratio_of` TEXT NOT NULL, `unit_symbol` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ITEM_CATEGORY",
+            "columnName": "ITEM_CATEGORY",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "batch_no",
+            "columnName": "batch_no",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brand_id",
+            "columnName": "brand_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brand_name",
+            "columnName": "brand_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inventoryItem_id",
+            "columnName": "inventoryItem_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "item_name",
+            "columnName": "item_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "manufactured_by",
+            "columnName": "manufactured_by",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "procurementItem_id",
+            "columnName": "procurementItem_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "purchaseItem_id",
+            "columnName": "purchaseItem_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit_name",
+            "columnName": "unit_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit_ratio_of",
+            "columnName": "unit_ratio_of",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit_symbol",
+            "columnName": "unit_symbol",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "InventoryUnitLocal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `inventoryBrand_id` INTEGER NOT NULL, `ratio_of` REAL NOT NULL, `unit_id` INTEGER NOT NULL, `unit_name` TEXT NOT NULL, `unit_symbol` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inventoryBrand_id",
+            "columnName": "inventoryBrand_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ratio_of",
+            "columnName": "ratio_of",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit_id",
+            "columnName": "unit_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit_name",
+            "columnName": "unit_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unit_symbol",
+            "columnName": "unit_symbol",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1b44b6e3be7269f9dbddb183e97c5944')"
+    ]
+  }
+}

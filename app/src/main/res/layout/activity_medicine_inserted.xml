@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar_medicine_report"
+        layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:weightSum="3"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_margin="@dimen/_1sdp"
+            android:padding="@dimen/_2sdp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:text="Patient Name"
+            style="@style/textView_bold_5ssp"
+            android:background="@drawable/textview_background"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_15sdp"/>
+        <TextView
+            android:layout_margin="@dimen/_1sdp"
+            android:padding="@dimen/_2sdp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            style="@style/textView_bold_5ssp"
+            android:text="Patient ID"
+
+            android:background="@drawable/textview_background"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_15sdp"/>
+
+        <TextView
+            android:layout_margin="@dimen/_1sdp"
+            android:padding="@dimen/_2sdp"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:text="View Medicine"
+            style="@style/textView_bold_5ssp"
+            android:background="@drawable/textview_background"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_15sdp"/>
+
+
+
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerView_medicine_report_inserted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" />
+
+</LinearLayout>

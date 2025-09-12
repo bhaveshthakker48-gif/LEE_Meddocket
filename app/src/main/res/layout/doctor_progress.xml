@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="25dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="@dimen/_200sdp"
+            android:padding="@dimen/_30sdp"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_gravity="center"
+            app:lottie_rawRes="@raw/form_animation"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+
+        <TextView
+            android:id="@+id/tvSyncingData"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/main_color"
+            android:layout_margin="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            android:text="Syncing Data..Do not close app"/>
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

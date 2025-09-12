@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+
+
+        <TextView
+            android:id="@+id/tvSrNo"
+            style="@style/textView_bold_5ssp"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_margin="@dimen/_1sdp"
+            android:layout_weight="1"
+            android:text="1"
+            android:background="@drawable/textview_background_blue"
+            android:padding="@dimen/_2sdp"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tvDateTime"
+            style="@style/textView_bold_5ssp"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_margin="@dimen/_1sdp"
+            android:layout_weight="1"
+            android:background="@drawable/textview_background_blue"
+            android:padding="@dimen/_2sdp"
+            android:text="01-07-2024"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tvSyncedCount"
+            style="@style/textView_bold_5ssp"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_margin="@dimen/_1sdp"
+            android:text="20"
+            android:layout_weight="1"
+            android:background="@drawable/textview_background_blue"
+            android:padding="@dimen/_2sdp"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
+
+
+
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

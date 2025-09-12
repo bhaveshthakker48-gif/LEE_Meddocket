@@ -1,0 +1,2641 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/baby_blue"
+    android:orientation="vertical"
+    >
+    <include
+        android:id="@+id/toolbarSurgicalNotes"
+        layout="@layout/toolbar" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.cardview.widget.CardView
+                style="@style/main_cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:text="@string/date_surgery"
+                            style="@style/refreactive_head_title1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <EditText
+                            android:textColor="@color/black"
+                            android:id="@+id/edittext_date_of_surgery"
+                            android:editable="false"
+                            android:padding="@dimen/_5sdp"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:hint="@string/date"
+                            android:drawableRight="@drawable/baseline_calendar_month_24"
+                            android:background="@drawable/edittext_background"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:text="Before Anaesthsia"
+                            style="@style/refreactive_head_title1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:padding="@dimen/_2sdp"
+                                android:text="Patient has Confirmed"
+                                style="@style/textView_bold"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                            <View
+                                android:background="@color/black"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"/>
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:text="Allergies"
+                                        android:layout_weight="1"
+                                        style="@style/textView_normal"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_allergies"
+                                        android:layout_weight="1"
+                                        style="@style/spinner_padding_left_right"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:text="Consent"
+                                        android:layout_weight="1"
+                                        style="@style/textView_normal"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_consent"
+                                        android:layout_weight="1"
+                                        style="@style/spinner_padding_left_right"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:text="Identity"
+                                        android:layout_weight="1"
+                                        style="@style/textView_normal"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_identity"
+                                        android:layout_weight="1"
+                                        style="@style/spinner_padding_left_right"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:text="Procedure"
+                                        android:layout_weight="1"
+                                        style="@style/textView_normal"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_procedure"
+                                        android:layout_weight="1"
+                                        style="@style/spinner_padding_left_right"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:text="Site Marked"
+                                        android:layout_weight="1"
+                                        style="@style/textView_normal"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_site_marked"
+                                        android:layout_weight="1"
+                                        style="@style/spinner_padding_left_right"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:text="Histrory and Physical Reviewed"
+                                        android:layout_weight="1"
+                                        style="@style/textView_normal"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_history_physical"
+                                        android:layout_weight="1"
+                                        style="@style/spinner_padding_left_right"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:text="Pre-Surgical assessment complete"
+                                        android:layout_weight="1"
+                                        style="@style/textView_normal"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_pre_surgical_assessment"
+                                        android:layout_weight="1"
+                                        style="@style/spinner_padding_left_right"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:text="Pre-Anaesthesia assessment complete"
+                                        android:layout_weight="1"
+                                        style="@style/textView_normal"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_pre_anaesthesia_assessment"
+                                        android:layout_weight="1"
+                                        style="@style/spinner_padding_left_right"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:padding="@dimen/_2sdp"
+                                android:text="Does Patient have"
+                                style="@style/textView_bold"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                            <View
+                                android:background="@color/black"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"/>
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <LinearLayout
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <LinearLayout
+                                        android:layout_margin="@dimen/_2sdp"
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <TextView
+                                            android:text="Difficult airway/aspiration risk"
+                                            android:layout_weight="1"
+                                            style="@style/textView_normal"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <Spinner
+                                            android:id="@+id/spinner_difficult_airway_aspiration_risk"
+                                            android:layout_weight="1"
+                                            style="@style/spinner_padding_left_right"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <EditText
+                                        android:layout_margin="@dimen/_2sdp"
+                                        style="@style/enter_editText"
+                                        android:id="@+id/EditText_difficult_airway_aspiration_risk"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:text="History of Flomax/Alpha 1-a inhibitor"
+                                        android:layout_weight="1"
+                                        style="@style/textView_normal"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <Spinner
+                                        android:id="@+id/spinner_history_flomax"
+                                        android:layout_weight="1"
+                                        style="@style/spinner_padding_left_right"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <LinearLayout
+                                        android:layout_margin="@dimen/_2sdp"
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <TextView
+                                            android:text="History of Anticoagulants"
+                                            android:layout_weight="1"
+                                            style="@style/textView_normal"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <Spinner
+                                            android:id="@+id/spinner_history_anticoagulants"
+                                            android:layout_weight="1"
+                                            style="@style/spinner_padding_left_right"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:id="@+id/LinearLayout_History_Anticoagulants"
+                                        android:orientation="vertical"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/CheckBox_Continued"
+                                            android:text="Continued"
+                                            android:textColor="@color/black"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"/>
+                                        <CheckBox
+                                            android:textColor="@color/black"
+                                            android:id="@+id/CheckBox_Stopped_as_instructed"
+                                            android:text="Stopped as instructed"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:text="Anaesthsia"
+                            style="@style/refreactive_head_title1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:text="Administration of Local Anaesthsia"
+                                style="@style/textView_bold"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:id="@+id/textView_read_more"
+                                android:text="Read More..."
+                                style="@style/textView_normal_blue"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+                        <View
+                            android:background="@color/black"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"/>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/textView_anaesthesia"
+                                style="@style/textView_normal_gray"
+                                android:text="@string/anaesthesia"
+                                android:singleLine="false"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:layout_margin="@dimen/_1sdp"
+                                style="@style/textView_normal"
+                                android:text="@string/anaesthesia1"
+                                android:singleLine="false"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:layout_margin="@dimen/_1sdp"
+                                style="@style/textView_normal"
+                                android:text="@string/anaesthesia2"
+                                android:singleLine="false"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                            <TextView
+                                android:layout_margin="@dimen/_1sdp"
+                                style="@style/textView_normal"
+                                android:text="@string/anaesthesia3"
+                                android:singleLine="false"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:text="Before Incision"
+                            style="@style/refreactive_head_title1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <CheckBox
+                            android:textColor="@color/black"
+                            android:id="@+id/checkbox_before_incision"
+                            android:text="@string/before_incision"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:text="Surgeon and Nurse Orally Confirm"
+                                    style="@style/textView_bold"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <View
+                                    android:background="@color/black"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"/>
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <CheckBox
+
+                                        android:textColor="@color/black"
+                                        android:text="Antibiotic"
+                                        android:id="@+id/checkbox_s_n_orally_confirm_antibiotic"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:textColor="@color/black"
+                                        android:text="Implants / Devices"
+                                        android:id="@+id/checkbox_s_n_orally_confirm_implants"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:textColor="@color/black"
+                                        android:text="Dyes"
+                                        android:id="@+id/checkbox_s_n_orally_confirm_dyes"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:textColor="@color/black"
+                                        android:text="Gas"
+                                        android:id="@+id/checkbox_s_n_orally_confirm_gas"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:textColor="@color/black"
+                                        android:text="Implants style and power"
+                                        android:id="@+id/checkbox_s_n_orally_confirm_implants_style"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:textColor="@color/black"
+                                        android:text="Mitomycin / Anti-Neoplastics"
+                                        android:id="@+id/checkbox_s_n_orally_confirm_mitomycin"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:text="Surgeon Reviews"
+                                    style="@style/textView_bold"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <View
+                                    android:background="@color/black"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"/>
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        style="@style/textView_normal"
+                                        android:text="Critical or unexpected steps"
+                                        android:layout_weight="1"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <Spinner
+                                        style="@style/spinner_padding_left_right"
+                                        android:id="@+id/spinner_critical_or_unexpected_steps"
+                                        android:layout_weight="1"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/LinearLayout_critical_or_unexpected"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <EditText
+                                        android:id="@+id/EditText_critical_or_unexpected"
+                                        style="@style/enter_editText"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:text="Anaesthetist Reviews"
+                                    style="@style/textView_bold"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <View
+                                    android:background="@color/black"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"/>
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:text="Any patient-specific concerns"
+                                        style="@style/textView_normal"
+                                        android:layout_weight="1"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <EditText
+                                        android:id="@+id/edittext_Anaesthetist_Reviews"
+                                        style="@style/enter_editText"
+                                        android:layout_weight="1"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:text="Nurse/Nursing Team Reviews"
+                                    style="@style/textView_bold"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <View
+                                    android:background="@color/black"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"/>
+                                <LinearLayout
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <LinearLayout
+                                        android:layout_margin="@dimen/_2sdp"
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <TextView
+                                            android:text="Sterility (Indicator results)"
+                                            style="@style/textView_normal"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Sterility"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_margin="@dimen/_2sdp"
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <TextView
+                                            android:text="Equipment issues"
+                                            style="@style/textView_normal"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Equipment_issues"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:layout_margin="@dimen/_2sdp"
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <TextView
+                                            android:text="Concerns"
+                                            style="@style/textView_normal"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Concerns"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:text="Surgery"
+                            style="@style/refreactive_head_title1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:text="@string/surgery"
+                                    style="@style/textView_bold"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <View
+                                    android:background="@color/black"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"/>
+                                <LinearLayout
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <CheckBox
+                                        android:text="AC IOL"
+                                        android:id="@+id/checkbox_ac_iol"
+                                        android:textColor="@color/black"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:text="PC IOL"
+                                        android:id="@+id/checkbox_pc_iol"
+                                        android:textColor="@color/black"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:text="IRIS CLAW IOL"
+                                        android:id="@+id/checkbox_IRIS"
+                                        android:textColor="@color/black"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:text="Name of the Incision Site"
+                                    style="@style/textView_bold"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <View
+                                    android:background="@color/black"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"/>
+                                <LinearLayout
+                                    android:gravity="center_vertical"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:weightSum="3"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        style="@style/textView_normal"
+                                        android:text="Sclera(in SICS)"
+                                        android:layout_weight="1"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <Spinner
+                                        android:layout_margin="@dimen/_2sdp"
+                                        android:id="@+id/Spinner_Sclera1"
+                                        style="@style/spinner_padding_left_right"
+                                        android:layout_weight="1"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <Spinner
+                                        android:layout_margin="@dimen/_2sdp"
+                                        android:id="@+id/Spinner_Sclera2"
+                                        style="@style/spinner_padding_left_right"
+                                        android:layout_weight="1"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:gravity="center_vertical"
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:singleLine="false"
+                                        style="@style/textView_normal"
+                                        android:text="Cornea(in Phacoemulsification Surgery)"
+                                        android:layout_weight="1"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                    <Spinner
+                                        android:id="@+id/Spinner_Cornea"
+                                        style="@style/spinner_padding_left_right"
+                                        android:layout_weight="1"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:text="Types of Surgery"
+                                    style="@style/textView_bold"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <View
+                                    android:background="@color/black"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"/>
+                                <LinearLayout
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <CheckBox
+                                        android:id="@+id/checkbox_Small_Incision_Cataract_Surgery_with_IOL"
+                                        android:textColor="@color/black"
+                                        android:text="Small Incision Cataract Surgery with IOL"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:id="@+id/checkbox_Small_Incision_Cataract_Surgery_without_IOL"
+                                        android:textColor="@color/black"
+                                        android:text="Small incision Cataract Surgery without IOL"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:id="@+id/checkbox_Extracapsular_Cataract_Extraction"
+                                        android:textColor="@color/black"
+                                        android:text="Extracapsular Cataract Extraction"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:id="@+id/checkbox_Intracapsular_Cataract_Excisionr"
+                                        android:textColor="@color/black"
+                                        android:text="(Intracapsular Cataract Excisionr) Phacoemulsification Surgery"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:id="@+id/checkbox_Pterygium"
+                                        android:textColor="@color/black"
+                                        android:text="Pterygium"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:id="@+id/checkbox_Surgery"
+                                        android:textColor="@color/black"
+                                        android:text="Surgery"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:id="@+id/checkbox_Sty_excision"
+                                        android:textColor="@color/black"
+                                        android:text="Sty excision"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <CheckBox
+                                        android:id="@+id/checkbox_Ptosis_correction"
+                                        android:textColor="@color/black"
+                                        android:text="Ptosis correction"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"/>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:layout_weight="1"
+                                            android:id="@+id/checkbox_other_types_of_surgery"
+                                            android:textColor="@color/black"
+                                            android:text="Other"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:layout_weight="1"
+                                            android:id="@+id/edit_text_types_of_surgery_other"
+                                            style="@style/enter_editText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:text="Instruments used for the cataract surgery"
+                                    style="@style/textView_bold"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <View
+                                    android:background="@color/black"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"/>
+                                <LinearLayout
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Lieberman"
+                                            android:text="Lieberman adjustable wire speculum"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Lieberman"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Castroviejo"
+                                            android:text="Castroviejo caliper suture forceps"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Castroviejo"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Colibri"
+                                            android:text="Colibri forceps"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Colibri"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Capsulotomy"
+                                            android:text="Capsulotomy forceps"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Capsulotomy"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Limb"
+                                            android:text="Limb's forcep"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Limb"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Formed_irrigating_cystotomes"
+                                            android:text="Formed irrigating cystotomes"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Formed_irrigating_cystotomes"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Hydrodissectiirs"
+                                            android:text="Hydrodissectiirs"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Hydrodissectiirs"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Mac_Pherson_forcep"
+                                            android:text="Mac.Pherson forcep"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Mac_Pherson_forcep"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Viscoelastic_Cannula"
+                                            android:text="Viscoelastic Cannula"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Viscoelastic_Cannula"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Universal_st_side_port"
+                                            android:text="Universal st.side-port blade 15\u00B0"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Universal_st_side_port"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Keretome3"
+                                            android:text="Keretome blade-3.2"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Keretome3"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Knife"
+                                            android:text="Knife for micro incision coaxial surgery (MICS) - cresant blade"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Knife"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Nucleus"
+                                            android:text="Nucleus removing forecps"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Nucleus"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Keretome2"
+                                            android:text="Keretome Blade-2.85 (In phaco)"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Keretome2"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Sinsky"
+                                            android:text="Sinsky's forceps (IOL Dialer)"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Sinsky"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Irrigation"
+                                            android:text="Irrigation / Aspirations handpieces"
+                                            android:textColor="@color/black"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edit_text_Irrigation"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:text="Common Complications"
+                                    style="@style/textView_bold"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <View
+                                    android:background="@color/black"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"/>
+                                <LinearLayout
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Posterior"
+                                            android:text="Posterior capsular rent"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Posterior"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Light_sensitivity"
+                                            android:text="Light sensitivity"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editIext_Light_sensitivity"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_fluid_collection"
+                                            android:text="Fluid collection in the central retina"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_fluid_collection"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Macular_odema"
+                                            android:text="Macular odema"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Macular_odema"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Posterior_capsular_opacification"
+                                            android:text="Posterior capsular opacification"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Posterior_capsular_opacification"
+
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Endothelial_decompermation"
+                                            android:text="Endothelial decompermation"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Endothelial_decompermation"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkBox_Hyphema"
+                                            android:text="Hyphema"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Hyphema"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Rentinal_tear"
+                                            android:text="Retinal tear"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Rentinal_tear"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Vitreous_dechatments"
+                                            android:text="Vitreous dechatments"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Vitreous_dechatments"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Dislocation"
+                                            android:text="Dislocation of the IOL"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Dislocation"
+
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Ocular_Hypertension"
+                                            android:text="Ocular Hypertension"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Ocular_Hypertension"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Endophthalmitis"
+                                            android:text="Endophthalmitis"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Endophthalmitis"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:text="Intra Operative Medication"
+                                    style="@style/textView_bold"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <View
+                                    android:background="@color/black"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"/>
+                                <LinearLayout
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <LinearLayout
+                                        android:orientation="horizontal"
+                                        android:weightSum="2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Vigamox"
+                                            android:text="Vigamox eye drop"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Vigamox"
+                                            android:layout_weight="1"
+                                            style="@style/enter_editText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:orientation="horizontal"
+                                        android:weightSum="2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Prednisolone"
+                                            android:text="Prednisolone eye drop"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Prednisolone"
+                                            android:layout_weight="1"
+                                            style="@style/enter_editText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:orientation="horizontal"
+                                        android:weightSum="2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Combination_of_inj_gentamycin"
+                                            android:text="Combination of inj gentamycin + inj dexa 2-3 drops"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Combination_of_inj_gentamycin"
+
+                                            android:layout_weight="1"
+                                            style="@style/enter_editText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:orientation="horizontal"
+                                        android:weightSum="2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Visco"
+                                            android:text="Visco lubricant gel"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Visco"
+                                            android:layout_weight="1"
+                                            style="@style/enter_editText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:orientation="horizontal"
+                                        android:weightSum="2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Intasol_500"
+                                            android:text="Intasol 500 irrigation fluid"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Intasol_500"
+                                            android:layout_weight="1"
+                                            style="@style/enter_editText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:orientation="horizontal"
+                                        android:weightSum="2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Inj_Mannitol"
+                                            android:text="Inj. Mannitol 100ml TDS sos"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Inj_Mannitol"
+                                            android:layout_weight="1"
+                                            style="@style/enter_editText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:orientation="horizontal"
+                                        android:weightSum="2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Inj_Gentamycin"
+                                            android:text="Inj.Gentamycin 80 mg sos"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Inj_Gentamycin"
+                                            android:layout_weight="1"
+                                            style="@style/enter_editText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:orientation="horizontal"
+                                        android:weightSum="2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Inj_Moxifloxacin"
+                                            android:text="Inj Moxifloxacin 400 mg sis"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Inj_Moxifloxacin"
+                                            android:layout_weight="1"
+                                            style="@style/enter_editText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:orientation="horizontal"
+                                        android:weightSum="2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Inj_Adrenaline"
+                                            android:text="Inj Adrenaline 1mg"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Inj_Adrenaline"
+                                            android:layout_weight="1"
+                                            style="@style/enter_editText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:text="Post Operative Medication"
+                                    style="@style/textView_bold"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <View
+                                    android:background="@color/black"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"/>
+                                <LinearLayout
+                                    android:orientation="vertical"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_tab_Cifloxacin"
+                                            android:text="Tab. Cifloxacin 500 mg BD x 5days"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_tab_Cifloxacin"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Tab_Diclofenac_sodium"
+                                            android:text="Tab. Diclofenac sodium 50mg BD × 5 days"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Tab_Diclofenac_sodium"
+
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Tab_Pantaprezol"
+                                            android:text="Tab. Pantaprezol 40 BD x 5 days"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Tab_Pantaprezol"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Tab_Dimox"
+                                            android:text="Tab. Dimox stat and sos"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Tab_Dimox"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Eye_drop_Moxifloxacin"
+                                            android:text="Eye drop Moxifloxacin P 1° per 8 times a day for the 1st week"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Eye_drop_Moxifloxacin"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Eye_drop_Moxifloxacin6"
+                                            android:text="Eye drop Moxifloxacin P 1° per 6 times a day for the 2nd week"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Eye_drop_Moxifloxacin6"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Eye_drop_Moxifloxacin4"
+                                            android:text="Eye drop Moxifloxacin P 1° per 4 times a
+day for the 3rd week"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Eye_drop_Moxifloxacin4"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Eye_drop_Moxifloxacin2times"
+                                            android:text="Eye drop Moxifloxacin P 1° per 2 times a day for the 4th week" android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Eye_drop_Moxifloxacin2times"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Eye_drop_Moxifloxacin_5w"
+                                            android:text="Eye drop Moxifloxacin P 1°per day for
+the 5th week"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Eye_drop_Moxifloxacin_5w"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Eye_drop_Moxifloxacin_P"
+                                            android:text="Eye drop Moxifloxacin P"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Eye_drop_Moxifloxacin_P"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Eye_drop_Homide"
+                                            android:text="Eye drop Homide"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Eye_drop_Homide"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Eye_drop_timolol_sos"
+                                            android:text="Eye drop timolol sos"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/edittext_Eye_drop_timolol_sos"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Eye_drop_hypersol_sos"
+                                            android:text="Eye drop hypersol sos"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Eye_drop_hypersol_sos"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:weightSum="2"
+                                        android:orientation="horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+                                        <CheckBox
+                                            android:id="@+id/checkbox_Lubricant_drop_refresh"
+                                            android:text="Lubricant drop refresh"
+                                            android:layout_weight="1"
+                                            android:textColor="@color/black"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+                                        <EditText
+                                            android:id="@+id/editText_Lubricant_drop_refresh"
+                                            style="@style/enter_editText"
+                                            android:layout_weight="1"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"/>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:text="Before Leaving Operating Room"
+                            style="@style/refreactive_head_title1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:layout_margin="@dimen/_2sdp"
+                            android:text="Name of the procedure recorded"
+                            style="@style/textView_bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <View
+                            android:background="@color/black"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"/>
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_weight="1"
+                                    android:text="Instrument / sponge / sharp count correct"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <Spinner
+                                    android:id="@+id/spinner_Instrument_sponge"
+                                    android:layout_weight="1"
+                                    style="@style/spinner_padding_left_right"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_weight="1"
+                                    android:text="Specimen labelled (Including patient)"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <Spinner
+                                    android:id="@+id/spinner_Specimen_labelled"
+                                    android:layout_weight="1"
+                                    style="@style/spinner_padding_left_right"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <CheckBox
+                                    android:id="@+id/checkbox_Wheather_euipment_addressed"
+                                    android:textColor="@color/black"
+                                    android:layout_weight="1"
+                                    android:text="Wheather there are any equipment
+issues to be addressed"         android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Wheather_euipment_addressed"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <CheckBox
+                                    android:id="@+id/checkbox_Key_concerns"
+                                    android:textColor="@color/black"
+                                    android:layout_weight="1"
+                                    android:text="Key concerns for recovery and management"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Key_concerns"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:text="Implant Label Details"
+                            style="@style/refreactive_head_title1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <ImageView
+                                    android:layout_weight="1"
+                                    android:id="@+id/ImageView_surgical_notes"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    style="@style/textView_normal"
+                                    android:layout_weight="1"
+                                    android:id="@+id/TextView_Surgical_notes"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/carddview_upload_implant_label_details"
+                                style="@style/upload_cardView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:text="Upload"
+                                    style="@style/upload_textView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                            </androidx.cardview.widget.CardView>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:text="Nurses Record"
+                            style="@style/refreactive_head_title1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Serial No"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Serial_No"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Registered/Indoor No"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Registered"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Name of the patient"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Name_of_the_patient"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Age"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_age"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Gender"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <Spinner
+                                    android:id="@+id/spinner_gender"
+                                    android:layout_weight="1"
+                                    style="@style/spinner_padding_left_right"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    style="@style/textView_normal"
+                                    android:text="Blood Pressure *"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <LinearLayout
+                                    android:weightSum="4"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <EditText
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="3"
+                                        android:textColor="@color/black"
+                                        android:layout_margin="@dimen/_1sdp"
+                                        android:id="@+id/editText_N_R_Systolic"
+                                        android:layout_weight="1"
+                                        android:hint="Systolic"
+                                        style="@style/edittext_pre_op_num1"
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/_20sdp"/>
+                                    <EditText
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="3"
+                                        android:textColor="@color/black"
+                                        android:layout_margin="@dimen/_1sdp"
+                                        android:id="@+id/editText_N_R_Diastolic"
+                                        android:layout_weight="1"
+                                        android:hint="Diastolic"
+                                        style="@style/edittext_pre_op_num1"
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/_20sdp"/>
+                                    <TextView
+                                        android:layout_margin="@dimen/_1sdp"
+                                        style="@style/textView_normal"
+                                        android:text="@string/mm_hg"
+                                        android:layout_weight="1"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <TextView
+                                        android:id="@+id/TextView_N_R_BP_interpretation"
+                                        android:hint="@string/interpretation"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <LinearLayout
+                                    android:weightSum="4"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:layout_weight="1"
+                                        android:text="Random blood sugar"
+                                        style="@style/textView_normal"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                    <EditText
+                                        android:maxLength="3"
+                                        android:inputType="numberDecimal"
+                                        android:id="@+id/EditText_random_blood_sugar"
+                                        android:layout_margin="@dimen/_1sdp"
+                                        android:layout_weight="1"
+                                        style="@style/enter_editText"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <TextView
+                                        android:layout_margin="@dimen/_1sdp"
+                                        android:layout_weight="1"
+                                        android:text="mg/dL"
+                                        style="@style/textView_normal"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <TextView
+                                        android:id="@+id/TextView_N_R_RBS_interpretation"
+                                        android:layout_weight="1"
+                                        android:hint="@string/interpretation"
+                                        style="@style/textView_normal"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Surgery Name"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Surgery_Name"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Surgeon"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Surgeon"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Scrub Nurse"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Scrub_Nurse"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Anaesthesia given"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Anaesthesia_given"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Anaesthetist"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Anaesthetist"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Duration of the Surgery"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Duration_Surgery"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Diagnosis"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Diagnosis"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Implant Details"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Implant_Details"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    style="@style/textView_normal"
+                                    android:text="Specimen"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"/>
+                                <LinearLayout
+                                    android:weightSum="2"
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <EditText
+                                        android:id="@+id/editText_biopsy_site"
+                                        android:layout_weight="1"
+                                        android:hint="Biopsy Site"
+                                        style="@style/edittext_pre_op_num"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+                                    <EditText
+                                        android:id="@+id/editText_biopsy_site_details"
+                                        android:layout_weight="1"
+                                        android:hint="Details"
+                                        style="@style/edittext_pre_op_num"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_margin="@dimen/_2sdp"
+                                android:weightSum="2"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:text="Viral serology positive patients"
+                                    android:layout_weight="1"
+                                    style="@style/textView_normal"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+                                <EditText
+                                    android:id="@+id/editText_Viral_serology"
+                                    android:layout_weight="1"
+                                    style="@style/enter_editText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+
+                style="@style/submit_cardView"
+                android:id="@+id/cardView_sumbit_surgical_notes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    style="@style/submit_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
