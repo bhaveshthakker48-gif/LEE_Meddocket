@@ -281,45 +281,65 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
 
     private fun showWhatsNewDialog() {
-        androidx.appcompat.app.AlertDialog.Builder(this)
-            .setTitle("What's New")
-            .setMessage(
-                """
-            ✨ Latest Updates:
-            
-            • Faster performance
-            • Bug fixes
-            • New dashboard UI
-            
-            """.trimIndent()
-            )
-            .setPositiveButton("Got it", null)
-            .show()
+        try {
+            // Get version name from PackageManager
+            val versionName = packageManager
+                .getPackageInfo(packageName, 0).versionName
+
+            // Build and show dialog
+            androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("What's New in version $versionName")
+                .setMessage(
+                    """
+                ✨ Latest Updates:
+                
+                • Faster performance
+                • Bug fixes
+                • New dashboard UI
+                
+                """.trimIndent()
+                )
+                .setPositiveButton("Got it", null)
+                .show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
-    private fun openAboutUsDailogueBox(){
-            try {
-                // Get app name from resources
-                val appName = getString(R.string.app_name)
 
-                // Get version name from PackageManager
-                val versionName = packageManager
-                    .getPackageInfo(packageName, 0).versionName
+    private fun openAboutUsDailogueBox() {
+        try {
+            // Get app name from resources
+            val appName = getString(R.string.app_name)
 
-                // Build About Us message
-                val message = "$appName\nVersion: $versionName"
+            // Get version name from PackageManager
+            val versionName = packageManager
+                .getPackageInfo(packageName, 0).versionName
 
-                // Show AlertDialog
-                val builder = androidx.appcompat.app.AlertDialog.Builder(this)
-                builder.setTitle("About Us")
-                    .setMessage(message)
-                    .setPositiveButton("OK", null)
-                    .show()
-            } catch (e: java.lang.Exception) {
-                e.printStackTrace()
-            }
+            // Build About Us message
+            val message = """
+            $appName
 
+            Impact India Foundation’s LLE MedDocket App is meant for the use of Lifeline Express team and volunteers associated with each camp of Impact India Foundation’s Lifeline Express. 
+
+            Volunteers, Prescription Spectacles Distribution users, Pharmacy users and Orthosis & Prosthetics users can login to the app by scanning the QR code on the registration form.
+
+            This app is an effort of Impact India Foundation to maintain complete data of all beneficiaries of Lifeline Express camps digitally, for the sake of transparency, analytics and improving quality of healthcare delivery to the served community.
+
+            You are currently using version $versionName of the LLE MedDocket App.
+        """.trimIndent()
+
+            // Show AlertDialog
+            val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+            builder.setTitle("About Us")
+                .setMessage(message)
+                .setPositiveButton("OK", null)
+                .show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
+
 
 
     override fun onResume() {
