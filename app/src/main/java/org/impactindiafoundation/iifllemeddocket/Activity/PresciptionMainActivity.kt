@@ -9,7 +9,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -20,6 +22,7 @@ import android.widget.EditText
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -248,40 +251,59 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
+    @Suppress("DEPRECATION")
     private fun openAboutUsDailogueBox() {
         try {
-            // Get app name from resources
             val appName = getString(R.string.app_name)
-
-            // Get version name from PackageManager
             val versionName = packageManager
                 .getPackageInfo(packageName, 0).versionName
 
-            // Build About Us message
+            // Inflate custom view
+            val inflater = LayoutInflater.from(this)
+            val view = inflater.inflate(R.layout.dialog_about_us, null)
+
+            // Set text dynamically
+            val aboutText = view.findViewById<TextView>(R.id.about_text)
+
             val message = """
-            $appName
-
-            Impact India Foundation’s LLE MedDocket App is meant for the use of Lifeline Express team and volunteers associated with each camp of Impact India Foundation’s Lifeline Express. 
-
-            Volunteers, Prescription Spectacles Distribution users, Pharmacy users and Orthosis & Prosthetics users can login to the app by scanning the QR code on the registration form.
-
-            This app is an effort of Impact India Foundation to maintain complete data of all beneficiaries of Lifeline Express camps digitally, for the sake of transparency, analytics and improving quality of healthcare delivery to the served community.
-
-            You are currently using version $versionName of the LLE MedDocket App.
+            <b>$appName</b><br><br>
+            
+            Impact India Foundation’s LLE MedDocket App is meant for the use of 
+            <b>Lifeline Express team</b> and <b>volunteers</b> associated with each camp of Impact India Foundation’s Lifeline Express. <br><br>
+            
+            Volunteers, Prescription Spectacles Distribution users, Pharmacy users and Orthosis & Prosthetics users can login to the app by scanning the QR code on the registration form.<br><br>
+            
+            This app is an effort of Impact India Foundation to maintain complete data of all beneficiaries of Lifeline Express camps digitally, 
+            for the sake of transparency, analytics and improving quality of healthcare delivery to the served community.<br><br>
+            
+            You are currently using <b>version $versionName</b> of the LLE MedDocket App.
         """.trimIndent()
 
-            // Show AlertDialog
+            // Apply HTML formatting
+            aboutText.text = Html.fromHtml(message)
+
+            // Set logo
+            val logoVideo = view.findViewById<VideoView>(R.id.logo_video)
+
+            val videoUri = Uri.parse("android.resource://${packageName}/${R.raw.logo_animation}")
+
+            logoVideo.setVideoURI(videoUri)
+            logoVideo.setOnPreparedListener { mp ->
+                mp.isLooping = true   // loop forever
+                logoVideo.start()
+            }
+
+            // Show AlertDialog with custom view
             val builder = androidx.appcompat.app.AlertDialog.Builder(this)
             builder.setTitle("About Us")
-                .setMessage(message)
+                .setView(view)
                 .setPositiveButton("OK", null)
                 .show()
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
-
-
 
     private fun getViewModel() {
         val LLE_MedDocketRespository = LLE_MedDocketRespository()
