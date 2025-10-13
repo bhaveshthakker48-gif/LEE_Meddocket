@@ -89,14 +89,11 @@ import java.util.Locale
 class AnalyticActivity : BaseActivity() {
 
     lateinit var binding: ActivityAnalyticBinding
-
     private lateinit var synAdapter: SynAdapter
-
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
-
     lateinit var customDropDownAdapter: CustomDropDownAdapter
     private val entPatientIds = mutableSetOf<Int>()
     private val generalPatientIds = mutableSetOf<Int>()
@@ -122,10 +119,8 @@ class AnalyticActivity : BaseActivity() {
     var Total_Ent_Doctor_Notes_Follow_ups: Int = 0
     var Pathology_Report: Int = 0
     var Total_Patient: Int = 0
-
     var ReportArrayList: ArrayList<String>? = null
     var ReportDatesArrayList: ArrayList<String>? = null
-
     private val eyeVisualAcuityViewModel: VisualAcuityViewModel by viewModels()
     private val generalVitalsFormViewModel: VitalsFormViewModel by viewModels()
     private val generalOpdFormViewModel: OpdFormViewModel by viewModels()
@@ -152,8 +147,7 @@ class AnalyticActivity : BaseActivity() {
         binding = ActivityAnalyticBinding.inflate(layoutInflater)
         setContentView(binding.root)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars =
-            true
+        WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -188,9 +182,7 @@ class AnalyticActivity : BaseActivity() {
         customDropDownAdapter = CustomDropDownAdapter(this, ReportArrayList!!)
         binding.spinnerReportType1!!.adapter = customDropDownAdapter
         binding.LinearLayout1.visibility = View.GONE
-
-        binding.spinnerReportType.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
+        binding.spinnerReportType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -220,7 +212,6 @@ class AnalyticActivity : BaseActivity() {
                     id: Long
                 ) {
                     val selectedItem = binding.spinnerReportType1.selectedItem.toString()
-//                    setDateData()
                     updateLinearLayoutVisibility(
                         selectedItem,
                         binding.LinearLayout1,
@@ -249,7 +240,6 @@ class AnalyticActivity : BaseActivity() {
                     val cal = Calendar.getInstance()
                     cal.set(year, month, dayOfMonth)
 
-                    // format as yyyy-MM-dd
                     val selectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.time)
                     Log.d(ConstantsApp.TAG, "Date chosen: $selectedDate")
 
@@ -264,15 +254,11 @@ class AnalyticActivity : BaseActivity() {
             )
             datePickerDialog.show()
         }
-
-
-
     }
 
     private fun getViewModel() {
         val LLE_MedDocketRespository = LLE_MedDocketRespository()
-        val LLE_MedDocketProviderFactory =
-            LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
+        val LLE_MedDocketProviderFactory = LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
         viewModel = ViewModelProvider(
             this,
             LLE_MedDocketProviderFactory
@@ -291,21 +277,17 @@ class AnalyticActivity : BaseActivity() {
         val Refractive_Error_DAO: Refractive_Error_DAO = database.Refractive_Error_DAO()
         val OPD_Investigations_DAO: OPD_Investigations_DAO = database.OPD_Investigations_DAO()
         val Eye_Pre_Op_Notes_DAO: Eye_Pre_Op_Notes_DAO = database.Eye_Pre_Op_Notes_DAO()
-        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO =
-            database.Eye_Pre_Op_Investigation_DAO()
-        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO =
-            database.Eye_Post_Op_AND_Follow_ups_DAO()
+        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO = database.Eye_Pre_Op_Investigation_DAO()
+        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO = database.Eye_Post_Op_AND_Follow_ups_DAO()
         val Eye_OPD_Doctors_Note_DAO: Eye_OPD_Doctors_Note_DAO = database.Eye_OPD_Doctors_Note_DAO()
-        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO =
-            database.Cataract_Surgery_Notes_DAO()
+        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO = database.Cataract_Surgery_Notes_DAO()
         val Patient_DAO: PatientDao = database.PatientDao()
         val Image_Upload_DAO: Image_Upload_DAO = database.Image_Upload_DAO()
         val Registration_DAO: Registration_DAO = database.Registration_DAO()
         val Prescription_DAO: Prescription_DAO = database.Prescription_DAO()
         val SynTable_DAO: SynTable_DAO = database.SynTable_DAO()
         val Final_Prescription_DAO: Final_Prescription_DAO = database.Final_Prescription_DAO()
-        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO =
-            database.SpectacleDisdributionStatus_DAO()
+        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO = database.SpectacleDisdributionStatus_DAO()
         val CurrentInventory_DAO: CurrentInventory_DAO = database.CurrentInventory_DAO()
         val InventoryUnit_DAO: InventoryUnit_DAO = database.InventoryUnit_DAO()
         val CreatePrescriptionDAO: CreatePrescriptionDAO = database.CreatePrescriptionDAO()
@@ -347,7 +329,6 @@ class AnalyticActivity : BaseActivity() {
                     "All" -> {
                         GetCountAllLocalTables(selectedItem, "")
                     }
-
                     "Day Wise" -> {
                         linearLayout1.visibility = View.VISIBLE
                         cardView.visibility = View.GONE
@@ -358,7 +339,6 @@ class AnalyticActivity : BaseActivity() {
                         spinner1.setSelection(dayWisePosition ?: 0)
                         GetCountAllLocalTables(selectedItem, "")
                     }
-
                     "Today`s" -> {
                         GetCountAllLocalTables(selectedItem, "")
                     }
@@ -375,12 +355,10 @@ class AnalyticActivity : BaseActivity() {
                             ?.indexOf("All")
                         spinner1.setSelection(allPosition ?: 0)
                     }
-
                     "Day Wise" -> {
                         linearLayout1.visibility = View.VISIBLE
                         cardView.visibility = View.GONE
                     }
-
                     "Today`s" -> {
                         linearLayout1.visibility = View.GONE
                         cardView.visibility = View.VISIBLE
@@ -399,12 +377,10 @@ class AnalyticActivity : BaseActivity() {
             "All" -> {
                 response.filter { it.isSyn == 1 }
             }
-
             "Today`s" -> {
                 val todayDate = SimpleDateFormat("yyyy-M-dd", Locale.getDefault()).format(Date())
                 response.filter { it.isSyn == 1 && it.date == todayDate }
             }
-
             "Day Wise" -> {
                 val formattedSelectedDate = if (selected_date.isEmpty()) {
                     SimpleDateFormat("yyyy-M-dd", Locale.getDefault()).format(Date())
@@ -413,9 +389,8 @@ class AnalyticActivity : BaseActivity() {
                 }
                 response.filter { it.isSyn == 1 && it.date == formattedSelectedDate }
             }
-
             else -> {
-                emptyList() // Return empty list if selectedItem is not recognized
+                emptyList()
             }
         }
     }

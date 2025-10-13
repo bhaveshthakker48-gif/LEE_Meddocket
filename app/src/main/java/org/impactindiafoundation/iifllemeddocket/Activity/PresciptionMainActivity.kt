@@ -11,6 +11,8 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Html
 import android.util.Log
 import android.view.Gravity
@@ -101,32 +103,18 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
-
     private lateinit var popupWindow5: PopupWindow
-
     private var isCallInProgress = false
-
-    private var progressDialog1: ProgressDialog? = null
-
     private var isSyned = false
-
-    private var myProgressDialog: MyProgressDialog? = null
-
-
     private lateinit var popupWindow: PopupWindow
     private lateinit var popupWindow1: PopupWindow
     private lateinit var popupWindow2: PopupWindow
     private lateinit var popupWindow3: PopupWindow
-    private lateinit var popupWindow4: PopupWindow
     private var patientId = 0
     private var campId = 0
     private var intentDecodeText = ""
-
-
     lateinit var binding: ActivityPrescriptionMainBinding
-
     lateinit var appUpdateManager: AppUpdateManager
-    lateinit var appUpdateInfoTask: Task<AppUpdateInfo>
 
     companion object {
         private const val REQUEST_CODE_UPDATE = 100
@@ -138,14 +126,11 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars =
             true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
             // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
@@ -153,7 +138,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
 
@@ -169,9 +153,7 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         binding.fab.setOnClickListener(this)
         binding.tvUnsyncedForms.setOnClickListener(this)
         binding.tvUnsyncedImages.setOnClickListener(this)
-
         binding.ivRefreshSync.setOnClickListener(this)
-
         binding.aboutUsContainer.setOnClickListener {
             openAboutUsDailogueBox()
         }
@@ -180,7 +162,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         Log.d("eric", "Raw intent result: '$intentDecodeText'")
         if (!intentDecodeText.isNullOrEmpty()) {
             Log.d("eric", "Inside intentDecodeText block")
-            // Use Gson to parse the JSON string
             val gson = Gson()
             val patientData = gson.fromJson(intentDecodeText, PatientData::class.java)
             val patientData1 = gson.fromJson(intentDecodeText, PatientDataLocal::class.java)
@@ -215,41 +196,40 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun checkWhatsNew(context: Context) {
         val currentVersion = getAppVersion(context)
-
         val lastVersion = SharedPrefUtil.getPrfString(context, SharedPrefUtil.LAST_SEEN_VERSION)
-
         if (lastVersion.isEmpty() || currentVersion != lastVersion) {
-            showWhatsNewDialog()
+            showWhatsNewBottomSheet()
             SharedPrefUtil.savePrefString(context, SharedPrefUtil.LAST_SEEN_VERSION, currentVersion)
         }
     }
 
-    private fun showWhatsNewDialog() {
+    private fun showWhatsNewBottomSheet() {
         try {
-            // Get version name from PackageManager
-            val versionName = packageManager
-                .getPackageInfo(packageName, 0).versionName
+            val versionName = packageManager.getPackageInfo(packageName, 0).versionName
+            val bottomSheetDialog = com.google.android.material.bottomsheet.BottomSheetDialog(this, R.style.CustomBottomSheetDialog)
+            val view = layoutInflater.inflate(R.layout.layout_whats_new_bottomsheet, null)
+            bottomSheetDialog.setContentView(view)
 
-            // Build and show dialog
-            androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("What's New in version $versionName")
-                .setMessage(
-                    """
-                ✨ Latest Updates:
-                
-                • Faster performance
-                • Bug fixes
-                • New dashboard UI
-                
-                """.trimIndent()
-                )
-                .setPositiveButton("Got it", null)
-                .show()
+            view.findViewById<TextView>(R.id.titleText).text = "What's New in version $versionName"
+            view.findViewById<TextView>(R.id.messageText).text = """
+            ✨ Latest Updates:
+
+            • Faster performance
+            • Bug fixes
+            • New dashboard UI
+        """.trimIndent()
+
+            view.findViewById<Button>(R.id.btnGotIt).setOnClickListener {
+                bottomSheetDialog.dismiss()
+            }
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                bottomSheetDialog.show()
+            }, 600) // 600ms delay
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
-
 
     @Suppress("DEPRECATION")
     private fun openAboutUsDailogueBox() {
@@ -258,11 +238,9 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
             val versionName = packageManager
                 .getPackageInfo(packageName, 0).versionName
 
-            // Inflate custom view
             val inflater = LayoutInflater.from(this)
             val view = inflater.inflate(R.layout.dialog_about_us, null)
 
-            // Set text dynamically
             val aboutText = view.findViewById<TextView>(R.id.about_text)
 
             val message = """
@@ -279,10 +257,8 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
             You are currently using <b>version $versionName</b> of the LLE MedDocket App.
         """.trimIndent()
 
-            // Apply HTML formatting
             aboutText.text = Html.fromHtml(message)
 
-            // Set logo
             val logoVideo = view.findViewById<VideoView>(R.id.logo_video)
 
             val videoUri = Uri.parse("android.resource://${packageName}/${R.raw.logo_animation}")
@@ -293,7 +269,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                 logoVideo.start()
             }
 
-            // Show AlertDialog with custom view
             val builder = androidx.appcompat.app.AlertDialog.Builder(this)
             builder.setTitle("About Us")
                 .setView(view)
@@ -307,20 +282,16 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun getViewModel() {
         val LLE_MedDocketRespository = LLE_MedDocketRespository()
-        val LLE_MedDocketProviderFactory =
-            LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
+        val LLE_MedDocketProviderFactory = LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
         viewModel = ViewModelProvider(
             this,
             LLE_MedDocketProviderFactory
         ).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager = SessionManager(this)
-
     }
 
     private fun createRoomDatabase() {
@@ -331,21 +302,17 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         val Refractive_Error_DAO: Refractive_Error_DAO = database.Refractive_Error_DAO()
         val OPD_Investigations_DAO: OPD_Investigations_DAO = database.OPD_Investigations_DAO()
         val Eye_Pre_Op_Notes_DAO: Eye_Pre_Op_Notes_DAO = database.Eye_Pre_Op_Notes_DAO()
-        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO =
-            database.Eye_Pre_Op_Investigation_DAO()
-        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO =
-            database.Eye_Post_Op_AND_Follow_ups_DAO()
+        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO = database.Eye_Pre_Op_Investigation_DAO()
+        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO = database.Eye_Post_Op_AND_Follow_ups_DAO()
         val Eye_OPD_Doctors_Note_DAO: Eye_OPD_Doctors_Note_DAO = database.Eye_OPD_Doctors_Note_DAO()
-        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO =
-            database.Cataract_Surgery_Notes_DAO()
+        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO =database.Cataract_Surgery_Notes_DAO()
         val Patient_DAO: PatientDao = database.PatientDao()
         val Image_Upload_DAO: Image_Upload_DAO = database.Image_Upload_DAO()
         val Registration_DAO: Registration_DAO = database.Registration_DAO()
         val Prescription_DAO: Prescription_DAO = database.Prescription_DAO()
         val SynTable_DAO: SynTable_DAO = database.SynTable_DAO()
         val Final_Prescription_DAO: Final_Prescription_DAO = database.Final_Prescription_DAO()
-        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO =
-            database.SpectacleDisdributionStatus_DAO()
+        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO = database.SpectacleDisdributionStatus_DAO()
         val CurrentInventory_DAO: CurrentInventory_DAO = database.CurrentInventory_DAO()
         val InventoryUnit_DAO: InventoryUnit_DAO = database.InventoryUnit_DAO()
         val CreatePrescriptionDAO: CreatePrescriptionDAO = database.CreatePrescriptionDAO()
@@ -390,32 +357,21 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun GetPriscriptionStatusData() {
         viewModel.getPriscriptionStatusDetails(progressDialog)
-
         GetPriscriptionStatusDetailsResponse()
     }
 
     private fun GetPriscriptionStatusDetailsResponse() {
         viewModel.getPriscriptionGlassStatusDetailsResponse.observe(this, Observer { response ->
-
-
             when (response) {
                 is ResourceApp.Success -> {
                     progressDialog.dismiss()
                     val message = response.data!!.ErrorMessage
-
-                    Log.d(
-                        "pawan",
-                        "GetPriscriptionStatusDetailsResponse=>" + response.data.ErrorMessage
+                    Log.d("pawan", "GetPriscriptionStatusDetailsResponse=>" + response.data.ErrorMessage
                     )
-                    Log.d(
-                        "pawan",
-                        "GetPriscriptionStatusDetailsResponse=>" + response.data.PrescriptionGlasses
-                    )
-
+                    Log.d("pawan", "GetPriscriptionStatusDetailsResponse=>" + response.data.PrescriptionGlasses)
                     when (message) {
                         "Success" -> {
                             val PrescriptionGlasses = response.data.PrescriptionGlasses
-
                             for (data in PrescriptionGlasses) {
                                 val alternate_mobile = data.alternate_mobile
                                 val app_createdDate = data.app_createdDate
@@ -436,8 +392,7 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                                 val spectacle_not_matching = data.spectacle_not_matching
                                 val ordered_not_received = data.ordered_not_received
                                 val user_id = data.user_id
-                                val spectacle_not_matching_details =
-                                    data.spectacle_not_matching_details
+                                val spectacle_not_matching_details = data.spectacle_not_matching_details
 
                                 val SpectacleDisdributionStatusModel =
                                     SpectacleDisdributionStatusModel(
@@ -463,56 +418,37 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                                         "",
                                         user_id
                                     )
-
                                 InsertPrescriptionGlassStatus(SpectacleDisdributionStatusModel)
-
-
                             }
                         }
                     }
-
                 }
-
                 is ResourceApp.Error -> {
                     progressDialog.dismiss()
                 }
-
                 is ResourceApp.Loading -> {
                     progressDialog.show()
                 }
-
-                else -> {
-
-                }
+                else -> {}
             }
-
         })
     }
 
     private fun InsertPrescriptionGlassStatus(spectacleDisdributionStatusModel: SpectacleDisdributionStatusModel) {
-
-        Log.d(
-            "pawan",
-            "spectacleDisdributionStatusModel Insert=> ${spectacleDisdributionStatusModel}"
-        )
-
+        Log.d("pawan", "spectacleDisdributionStatusModel Insert=> ${spectacleDisdributionStatusModel}")
         viewModel1.insertSpectacleDisdributionStatusModel(spectacleDisdributionStatusModel)
     }
 
     private fun GetResgistrationData() {
         viewModel.getRegistrationDetails(progressDialog)
-
         GetRegistrationDataResponse()
     }
 
     private fun GetRegistrationDataResponse() {
         viewModel.getRegistrationDetailsResponse.observe(this, Observer { response ->
-
             Log.d("pawan", "getRegistrationDetailsResponse" + response.data.toString())
-
             response.data?.let { data ->
                 data.RegistrationDetails?.let { registration ->
-
                     for (data in registration) {
                         val aadharno = data.aadharno
                         val age = data.age
@@ -570,34 +506,25 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun InsertRegistration(registrationDetail: Patient_RegistrationModel) {
-
         viewModel1.insertRegistraion(registrationDetail)
-
     }
 
     private fun GetPriscriptionData() {
         viewModel.getPriscriptionDetails(progressDialog)
-
         GetPriscriptionDataResponse()
     }
 
     private fun GetPriscriptionDataResponse() {
         viewModel.getPrescriptiondetailsResponse.observe(this, Observer { response ->
-
             Log.d("pawan", "GetPriscriptionDataResponse" + response.data.toString())
-
-
             response.data?.let { data ->
                 data.patientPrescription?.let { prescriptions ->
-
                     for (data in prescriptions) {
-
                         val camp_id = data.camp_id
                         val fundus_notes = data.fundus_notes
                         val is_given = data.is_given
                         val is_ordered = data.is_ordered
                         val patient_id = data.patient_id
-
                         val re_bvd = data.re_bvd
                         val re_distant_vision_axis_left = data.re_distant_vision_axis_left
                         val re_distant_vision_axis_right = data.re_distant_vision_axis_right
@@ -632,9 +559,7 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                         val re_remarks = data.re_remarks
                         val reading_glass = data.reading_glass
                         val user_id = data.user_id
-
                         val presc_type = data.presc_type ?: "default_value"
-
 
                         val Prescription_Model = Prescription_Model(
                             0,
@@ -682,8 +607,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
             }
-
-
         })
     }
 
@@ -692,53 +615,42 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-
         when (v) {
             binding.tvUnsyncedForms -> {
                 startActivity(Intent(this, ViewStatusActivity::class.java))
             }
-
             binding.tvUnsyncedImages -> {
                 startActivity(Intent(this, PrescriptionReportActivity::class.java))
             }
-
             binding.CardViewLogout -> {
                 showPopup()
             }
-
             binding.ivRefreshSync -> {
                 checkSyncedData()
             }
-
             binding.CardViewScanQR -> {
                 val intent = Intent(this@PresciptionMainActivity, QrCodeActivity::class.java)
                 intent.putExtra("screen", Constants.SCREEN_PSD)
                 startActivity(intent)
             }
-
             binding.tvScanner -> {
                 val intent = Intent(this@PresciptionMainActivity, QrCodeActivity::class.java)
                 intent.putExtra("screen", Constants.SCREEN_PSD)
                 startActivity(intent)
                 finish()
             }
-
             binding.CardViewViewReport -> {
                 showPopupAadhar()
             }
-
             binding.tvAdharNo -> {
                 showPopupAadhar()
             }
-
             binding.CardViewViewPatientID -> {
                 showPopupPatientID()
             }
-
             binding.tvPatientID -> {
                 showPopupPatientID()
             }
-
             binding.fab -> {
                 if (isInternetAvailable(this@PresciptionMainActivity)) {
                     Log.d(ConstantsApp.TAG, "fab clicked")
@@ -748,7 +660,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
-
     }
 
     private fun Upload_Data_Local_Server() {
@@ -756,15 +667,11 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         progressDialog.setMessage("Uploading Data...")
         progressDialog.setCancelable(false)
         progressDialog.show()
-
         viewModel1.allFinalPrescriptionData.observe(this, Observer { response ->
             Log.d(ConstantsApp.TAG, "allFinalPrescriptionData=>" + response.toString())
-
             if (!isCallInProgress && response.isNotEmpty()) {
                 isCallInProgress = true  // Set the flag to true to indicate call in progress
-
                 val prescriptionGlassesFinalList = mutableListOf<PrescriptionGlasse>()
-
                 for (data in response) {
                     if (data.isSyn == 0) {
                         val _id = data._id
@@ -817,20 +724,12 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                         prescriptionGlassesFinalList.add(prescriptionGlasse)
                     }
                 }
-
                 if (prescriptionGlassesFinalList.isNotEmpty()) {
-                    Log.d(
-                        ConstantsApp.TAG,
-                        "PrescriptionGlassesFinalList=>" + prescriptionGlassesFinalList
-                    )
-
+                    Log.d(ConstantsApp.TAG, "PrescriptionGlassesFinalList=>" + prescriptionGlassesFinalList)
                     val addPrescriptionFinal = AddPrecriptionFinal(prescriptionGlassesFinalList)
-
                     viewModel.addPrecriptionGlassesResponse(progressDialog, addPrescriptionFinal)
                     AddPrecriptionGlassesResponse(progressDialog)
-
                     isCallInProgress = false
-
                 } else {
                     progressDialog.dismiss()
                     isCallInProgress = false
@@ -840,18 +739,14 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun checkSyncedData() {
-        // Show progress dialog
         val progressDialog = ProgressDialog(this)
         progressDialog.setMessage("Refreshing Synced Data...")
         progressDialog.setCancelable(false)
         progressDialog.show()
-
         viewModel1.allFinalPrescriptionDataForSync.observe(this, Observer { response ->
             Log.d(ConstantsApp.TAG, "allFinalPrescriptionData=>" + response.toString())
-
             if (!isCallInProgress && response.isNotEmpty()) {
                 isCallInProgress = true  // Set the flag to true to indicate call in progress
-
                 val unsyncedData = ArrayList<Int>()
                 var index = 0
                 for (data in response) {
@@ -860,29 +755,21 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                         index++
                     }
                 }
-
                 if (!unsyncedData.isNullOrEmpty()) {
-                    Log.d(
-                        "Unsynced Data",
-                        "Unsynced Count=>" + unsyncedData
-                    )
+                    Log.d("Unsynced Data", "Unsynced Count=>" + unsyncedData)
                     isCallInProgress = false
                     progressDialog.dismiss()
                     binding.tvSyncStatusDetail!!.text = "Sync Not Complete"
                     binding.tvSyncStatusDetail!!.setTextColor(resources.getColor(R.color.dark_red))
-
                 } else {
-                    // If no data to upload, dismiss dialog and reset flag
                     binding.tvSyncStatusDetail!!.text = "Sync Complete"
                     binding.tvSyncStatusDetail!!.setTextColor(resources.getColor(R.color.dark_green))
-
                     progressDialog.dismiss()
                     isCallInProgress = false
                 }
             } else {
                 binding.tvSyncStatusDetail!!.text = "Sync Complete"
                 binding.tvSyncStatusDetail!!.setTextColor(resources.getColor(R.color.dark_green))
-
                 progressDialog.dismiss()
                 isCallInProgress = false
             }
@@ -896,10 +783,7 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                 is ResourceApp.Success -> {
                     Log.d(ConstantsApp.TAG, "ErrorMessage=>" + response.data!!.ErrorMessage)
                     Log.d(ConstantsApp.TAG, "ErrorCode=>" + response.data!!.ErrorCode)
-                    Log.d(
-                        ConstantsApp.TAG,
-                        "prescriptionGlasses=>" + response.data!!.prescriptionGlasses
-                    )
+                    Log.d(ConstantsApp.TAG, "prescriptionGlasses=>" + response.data!!.prescriptionGlasses)
                     response.data.prescriptionGlasses?.let { data ->
                         for (prescriptionGlasses in data) {
                             val isSyn = 1
@@ -908,25 +792,16 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     this.progressDialog.dismiss()
                 }
-
                 is ResourceApp.Error -> {
                     this.progressDialog.dismiss()
-                    // Handle the error case if needed
                 }
-
                 is ResourceApp.Loading -> {
                     this.progressDialog.show()
                 }
-
-                else -> {
-
-                }
-
+                else -> {}
             }
-
         })
     }
-
 
     private fun UpdatePrescriptionGlassesResponse(_id: String, syn: Int) {
         viewModel1.UpdatePrescriptionGlassesResponse(_id, syn)
@@ -939,7 +814,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         val closeButton: Button = popupView.findViewById(R.id.popupButton)
         val popupEditText_Aadhar: EditText = popupView.findViewById(R.id.popupEditText_Aadhar)
         closeButton.setOnClickListener {
-
             val aadhar_no = popupEditText_Aadhar.text.toString()
             CheckStatus(aadhar_no)
             popupWindow1.dismiss()
@@ -952,7 +826,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         )
 
         popupWindow1.setBackgroundDrawable(resources.getDrawable(android.R.color.transparent))
-
         popupWindow1.showAtLocation(popupView, Gravity.CENTER, 0, 0)
     }
 
@@ -974,15 +847,13 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun GetPrescriptionStatusDetails(patientId: Int) {
-        val forceRefresh = true
         val progressDialog = ProgressDialog(this)
         progressDialog.setMessage("Waiting for data...")
         progressDialog.setCancelable(false)
         progressDialog.show()
 
         val patientId = patientId // Provide patient ID
-        val pageSize =
-            20 // Specify page size (e.g., 20, 50, or any value based on your requirement)
+        val pageSize = 20 // Specify page size (e.g., 20, 50, or any value based on your requirement)
         val firstPage = 0 // or 1 if pagination starts from 1
         viewModel1.getPrescriptionStatusDetailsWithPaginationNew(
             patientId,
@@ -1000,7 +871,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
             if (response != null && response.isNotEmpty()) {
                 var mostRecentData: SpectacleDisdributionStatusModel? = null
                 var mostRecentDate: LocalDateTime? = null
-
                 for (data in response) {
                     if (!data.app_createdDate.isNullOrBlank()) {
                         if (mostRecentDate == null) {
@@ -1014,20 +884,15 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                     Log.d("pawan", "app_createdDate: " + mostRecentData.app_createdDate)
                     Log.d("pawan", "patient_id: " + mostRecentData.patient_id)
                     Log.d("pawan", "spectacle_given: " + mostRecentData.spectacle_given)
-
                     val spectacle_given = mostRecentData.spectacle_given
                     val spectacle_not_matching = mostRecentData.spectacle_not_matching
                     val spectacle_not_received = mostRecentData.spectacle_not_received
                     val patient_call_again = mostRecentData.patient_call_again
                     val patient_not_come = mostRecentData.patient_not_come
-
                     when {
                         !spectacle_given && !spectacle_not_matching && !spectacle_not_received && !patient_call_again && !patient_not_come -> {
                             Log.d(ConstantsApp.TAG, "condition 1")
-                            val intent = Intent(
-                                this@PresciptionMainActivity,
-                                PrescriptionDisbributionActivity::class.java
-                            )
+                            val intent = Intent(this@PresciptionMainActivity, PrescriptionDisbributionActivity::class.java)
                             intent.putExtra("patient_id", patientId)
                             intent.putExtra("camp_id", camp_id)
                             intent.putExtra("result", intentDecodeText)
@@ -1055,10 +920,7 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                 }
             } else {
                 Log.d("pawan", "Response is null or empty=>" + response)
-                val intent = Intent(
-                    this@PresciptionMainActivity,
-                    PrescriptionDisbributionActivity::class.java
-                )
+                val intent = Intent(this@PresciptionMainActivity, PrescriptionDisbributionActivity::class.java)
                 Log.d("pawan", "patientId" + patientId)
                 Log.d("pawan", "campId" + camp_id)
                 Log.d("pawan", "intentDecodeText" + intentDecodeText)
@@ -1072,24 +934,19 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         val result = IntentIntegrator.parseActivityResult(resultCode, data)
         try {
             if (resultCode == RESULT_OK) {
                 try {
                     val decodedBytes: ByteArray = Base64.getDecoder().decode(result.contents)
                     val decodedText: String = String(decodedBytes, Charsets.UTF_8)
-
                     Log.d(ConstantsApp.TAG, "result.contents => $decodedText")
-
                     sessionManager.setPatientData(decodedText)
-
                     val decodedText1 = sessionManager.getPatientData()
                     val gson = Gson()
                     val patientData2 = gson.fromJson(decodedText1, PatientDataLocal::class.java)
                     GetPrescriptionStatusDetails(patientData2.patientId)
                 } catch (e: IllegalArgumentException) {
-                    // Handle the case where the Base64 content is invalid
                     Log.e(ConstantsApp.TAG, "Illegal base64 character", e)
                     Toast.makeText(this, "Invalid QR code", Toast.LENGTH_SHORT).show()
                 }
@@ -1101,12 +958,8 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-
     @SuppressLint("MissingInflatedId")
-    private fun showPopupCheckStatus(
-        mostRecentData: SpectacleDisdributionStatusModel,
-        message: String
-    ) {
+    private fun showPopupCheckStatus(mostRecentData: SpectacleDisdributionStatusModel, message: String) {
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.custom_popup_check_status_layout, null)
         val closeButton: Button = popupView.findViewById(R.id.popupButtonPatientID)
@@ -1119,13 +972,9 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
             val spectacle_not_received = mostRecentData.spectacle_not_received
             val patient_call_again = mostRecentData.patient_call_again
             val patient_not_come = mostRecentData.patient_not_come
-
             when {
                 !spectacle_given && !spectacle_not_matching && !spectacle_not_received && !patient_call_again && !patient_not_come -> {
-                    val intent = Intent(
-                        this@PresciptionMainActivity,
-                        PrescriptionDisbributionActivity::class.java
-                    )
+                    val intent = Intent(this@PresciptionMainActivity, PrescriptionDisbributionActivity::class.java)
                     intent.putExtra("patient_id", patientId)
                     intent.putExtra("camp_id", campId)
                     intent.putExtra("result", intentDecodeText)
@@ -1138,10 +987,7 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
 
                 spectacle_not_matching -> {
                     popupWindow3.dismiss()
-                    val intent = Intent(
-                        this@PresciptionMainActivity,
-                        PrescriptionDisbributionActivity::class.java
-                    )
+                    val intent = Intent(this@PresciptionMainActivity, PrescriptionDisbributionActivity::class.java)
                     intent.putExtra("patient_id", patientId)
                     intent.putExtra("camp_id", campId)
                     intent.putExtra("result", intentDecodeText)
@@ -1150,17 +996,13 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
 
                 spectacle_not_received -> {
                     popupWindow3.dismiss()
-                    val intent = Intent(
-                        this@PresciptionMainActivity,
-                        PrescriptionDisbributionActivity::class.java
-                    )
+                    val intent = Intent(this@PresciptionMainActivity, PrescriptionDisbributionActivity::class.java)
                     intent.putExtra("patient_id", patientId)
                     intent.putExtra("camp_id", campId)
                     intent.putExtra("result", intentDecodeText)
                     startActivity(intent)
                 }
             }
-
             popupWindow3.dismiss()
         }
 
@@ -1172,10 +1014,8 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         )
 
         popupWindow3.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
         popupWindow3.showAtLocation(popupView, Gravity.CENTER, 0, 0)
     }
-
 
     private fun GetPatientRegistrationDetails(patientId: Int): LiveData<List<Patient_RegistrationModel>> {
         var resultLiveData = MutableLiveData<List<Patient_RegistrationModel>>()
@@ -1185,7 +1025,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         })
         return resultLiveData
     }
-
 
     @SuppressLint("MissingInflatedId")
     private fun showPopupPatientID() {
@@ -1198,13 +1037,11 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                 val patientID = EditText_patientID.text.toString()
                 patientId = EditText_patientID.text.toString().toInt()
                 sessionManager.setPatientIdentity("", patientID)
-
                 GetPrescriptionStatusDetails(patientID.toInt())
                 popupWindow2.dismiss()
             } else {
                 popupWindow2.dismiss()
             }
-
         }
         popupWindow2 = PopupWindow(
             popupView,
@@ -1214,14 +1051,11 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         )
 
         popupWindow2.setBackgroundDrawable(resources.getDrawable(android.R.color.transparent))
-
         popupWindow2.showAtLocation(popupView, Gravity.CENTER, 0, 0)
     }
 
-
     @SuppressLint("MissingInflatedId")
     private fun showPopup() {
-
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.custom_popup_layout, null)
         val closeButton: Button = popupView.findViewById(R.id.popupButton)
@@ -1234,13 +1068,11 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
             startActivity(intent)
             finish()
             this.finish()
-
         }
         popupCancel.setOnClickListener {
             sessionManager.clearCache(this@PresciptionMainActivity)
             popupWindow.dismiss()
         }
-
         popupWindow = PopupWindow(
             popupView,
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -1249,7 +1081,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         )
 
         popupWindow.setBackgroundDrawable(resources.getDrawable(android.R.color.transparent))
-
         popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
     }
 
@@ -1259,13 +1090,10 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         finish()
     }
 
-
     @SuppressLint("MissingInflatedId")
     private fun showPopupSyn() {
-
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.custom_syn_layout1, null)
-
         val closeButton: Button = popupView.findViewById(R.id.popupButton1)
         val popupButtonCancel: Button = popupView.findViewById(R.id.popupButtonCancel)
         closeButton.setOnClickListener {
@@ -1278,7 +1106,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
             popupWindow1.dismiss()
         }
 
-        // Create the PopupWindow
         popupWindow1 = PopupWindow(
             popupView,
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -1286,17 +1113,13 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
             true
         )
 
-        // Set background to allow outside clicks to dismiss the popup
         popupWindow1.setBackgroundDrawable(resources.getDrawable(android.R.color.transparent))
-
-        // Show the popup at a specific location or anchor it to a view
         popupWindow1.showAtLocation(popupView, Gravity.CENTER, 0, 0)
     }
 
     private fun SynCompleted() {
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.custom_syn_completed_layout, null)
-
         val okayButton: Button = popupView.findViewById(R.id.popupButton_synCompleted)
         val popupButtonCancel: Button = popupView.findViewById(R.id.popupCancel_synCompleted)
         val popupCounts: TextView = popupView.findViewById(R.id.popupCounts)
@@ -1304,12 +1127,10 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         popupTitle.text = "All data have been synced successfully."
         popupCounts.visibility = View.GONE
         okayButton.setOnClickListener {
-
             if (!isSyned) {
                 SynedData()
                 isSyned = true
             }
-
             popupWindow5.dismiss()
             checkSyncedData()
         }
@@ -1317,7 +1138,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         popupButtonCancel.setOnClickListener {
             popupWindow5.dismiss()
             checkSyncedData()
-
         }
 
         popupWindow5 = PopupWindow(
@@ -1327,10 +1147,7 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
             true
         )
 
-        // Set background to allow outside clicks to dismiss the popup
         popupWindow5.setBackgroundDrawable(resources.getDrawable(android.R.color.transparent))
-
-        // Show the popup at a specific location or anchor it to a view
         popupWindow5.showAtLocation(popupView, Gravity.CENTER, 0, 0)
     }
 
@@ -1363,7 +1180,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                     getAllSynTableHistory()
                     Log.d(ConstantsApp.TAG, "insertSynedData=" + success)
                 }
-
                 0 -> {
                     Log.d(ConstantsApp.TAG, "insertSynedData=" + success)
                 }
@@ -1376,7 +1192,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
             val size_data = synedDataList.size
             if (size_data > 0) {
                 val SynedDataList = mutableListOf<SynedDataLive>()
-
                 for (i in 0 until synedDataList.size) {
                     val data = synedDataList[i]
                     val _id = data._id
@@ -1393,17 +1208,12 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                         SynedDataList.add(SynedDataLive)
                     }
                 }
-
                 if (SynedDataList.isNotEmpty()) {
                     val data = SynedDataModel(SynedDataList)
                     Log.d(ConstantsApp.TAG, "SynedDataList=>" + data)
                     viewModel.insertSynedData(progressDialog, data)
                     Insert_SynedData_Response()
-                } else {
-                    // Handle the case where there are no items with isSyn = 0
                 }
-            } else {
-                // The response is empty, handle it accordingly
             }
         })
     }
@@ -1430,15 +1240,12 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                         e.printStackTrace()
                     }
                 }
-
                 is ResourceApp.Error -> {
                     progressDialog.dismiss()
                 }
-
                 is ResourceApp.Loading -> {
                     progressDialog.show()
                 }
-
                 else -> {
                     progressDialog.dismiss()
                 }
@@ -1467,16 +1274,13 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                         )
                         requestUpdate(appUpdateInfo)
                     }
-
                     UpdateAvailability.UPDATE_NOT_AVAILABLE -> {
                         Log.d(ConstantsApp.TAG, "No updates available")
                     }
-
                     UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS -> {
                         Log.d(ConstantsApp.TAG, "Developer triggered update in progress")
                         onResume()
                     }
-
                     UpdateAvailability.UNKNOWN -> Log.d(ConstantsApp.TAG, "Update status unknown")
                 }
             }.addOnFailureListener { exception ->
@@ -1514,7 +1318,3 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 }
-
-
-
-

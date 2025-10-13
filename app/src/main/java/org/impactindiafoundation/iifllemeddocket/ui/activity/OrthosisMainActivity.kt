@@ -31,6 +31,8 @@ import androidx.activity.viewModels
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.Task
@@ -87,163 +89,32 @@ class OrthosisMainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityOrthosisMainBinding
     lateinit var sessionManager: SessionManager
-
     var flag = 0
-
     private val orthosisMainVM: OrthosisMainViewModel by viewModels()
     private var totalImageCount = 0
     private var formImageCount = 0
     private var orthosisImageCount = 0
     private var equipmentImageCount = 0
-    private var videosCount = ArrayList<String>()
-    private val campPatientList = ArrayList<CampPatientDataItem>()
     private var campPatientCount = 0
     private var localFormCount = 0
     private lateinit var popupWindow: PopupWindow
     private var isLogin = false
     private var unsycnedVideosCount = 0
     private var leastCampData: CampModel? = null
-
     lateinit var progressDialog: ProgressDialog
     private lateinit var localUser: UserModel
     private var isSycnComplete = true
-
-    private val handler = Handler(Looper.getMainLooper())
-    private lateinit var serviceCheckRunnable: Runnable
-
     var formImageIndexCheck = 0
     var formImageListForSync = ArrayList<FormImages>()
-
     var orthosisImageIndexCheck = 0
     var orthosisImageListForSync = ArrayList<OrthosisImages>()
-
     var formVideoIndexCheck = 0
     var formVideoListForSync = ArrayList<FormVideos>()
-
     var equipmentImageIndexCheck = 0
     var equipmentImageListForSync = ArrayList<EquipmentImage>()
 
     private var progressForThis = doctorProgress
-
-    private val progressReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val current = intent.getIntExtra("current", 0)
-            val total = intent.getIntExtra("total", 1)
-            val progressPercentage = (current * 100) / total
-        }
-    }
-
-    private val formTaskCompleteReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action == "TASK_COMPLETION") {
-                val dataImage = HashMap<String, Any>()
-                dataImage["patient"] = ""
-                val intentImage =
-                    Intent(this@OrthosisMainActivity, FormImageSyncService::class.java).apply {
-                        putExtra("QUERY_PARAMS", dataImage)
-                    }
-                startService(intentImage)
-            }
-        }
-    }
-
-
-    private val formImageTaskCompleteReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            when (intent?.action) {
-                OrthosisPatientFormService.ACTION_SERVICE_RUNNING -> {
-                }
-
-                OrthosisPatientFormService.ACTION_PROGRESS_UPDATE -> {
-                    val current = intent.getIntExtra("current", 0)
-                    val total = intent.getIntExtra("total", 0)
-                    updateProgressUI(current, total)
-                }
-
-                OrthosisPatientFormService.ACTION_TASK_COMPLETED -> {
-                    if (!isMyServiceRunning(FormImageSyncService::class.java)) {
-                        val dataVideo = HashMap<String, Any>()
-                        dataVideo["patient"] = ""
-                        val intentVideo =
-                            Intent(
-                                this@OrthosisMainActivity,
-                                FormVideoSyncService::class.java
-                            ).apply {
-                                putExtra("QUERY_PARAMS", dataVideo)
-                            }
-                        startService(intentVideo)
-                    }
-
-                }
-            }
-        }
-
-
-    }
-
-    private val formVideoTaskCompleteReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            when (intent?.action) {
-                OrthosisPatientFormService.ACTION_SERVICE_RUNNING -> {
-                }
-
-                OrthosisPatientFormService.ACTION_PROGRESS_UPDATE -> {
-                    val current = intent.getIntExtra("current", 0)
-                    val total = intent.getIntExtra("total", 0)
-                    updateProgressUI(current, total)
-                }
-
-                OrthosisPatientFormService.ACTION_TASK_COMPLETED -> {
-                    val dataOrthoImage = HashMap<String, Any>()
-                    dataOrthoImage["patient"] = ""
-                    val intentOrthoImage =
-                        Intent(
-                            this@OrthosisMainActivity,
-                            OrthosisImageSyncService::class.java
-                        ).apply {
-                            putExtra("QUERY_PARAMS", dataOrthoImage)
-                        }
-                    startService(intentOrthoImage)
-                }
-            }
-        }
-
-
-    }
-
-    private val formStatusReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            when (intent?.action) {
-                OrthosisPatientFormService.ACTION_SERVICE_RUNNING -> {
-                }
-
-                OrthosisPatientFormService.ACTION_PROGRESS_UPDATE -> {
-                    val current = intent.getIntExtra("current", 0)
-                    val total = intent.getIntExtra("total", 0)
-                    updateProgressUI(current, total)
-                }
-
-                OrthosisPatientFormService.ACTION_TASK_COMPLETED -> {
-                    if (!isMyServiceRunning(OrthosisPatientFormService::class.java)) {
-                        val dataImage = HashMap<String, Any>()
-                        dataImage["patient"] = ""
-                        val intentImage =
-                            Intent(
-                                this@OrthosisMainActivity,
-                                FormImageSyncService::class.java
-                            ).apply {
-                                putExtra("QUERY_PARAMS", dataImage)
-                            }
-                        startService(intentImage)
-                    }
-
-                }
-            }
-        }
-    }
-
     lateinit var appUpdateManager : AppUpdateManager
-    lateinit var appUpdateInfoTask: Task<AppUpdateInfo>
 
     companion object {
         private const val REQUEST_CODE_UPDATE = 100
@@ -251,35 +122,26 @@ class OrthosisMainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityOrthosisMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage("Syncing : Orthosis Form")
         }
-
-
         checkForAppUpdate()
         initUi()
         orthosisMainVM.getFormImages()
@@ -294,11 +156,7 @@ class OrthosisMainActivity : BaseActivity() {
         binding.aboutUsFab.setOnClickListener {
             openAboutUsDailogueBox()
         }
-
-
-
         checkWhatsNew(this)
-
     }
 
     private fun getAppVersion(context: Context): String {
@@ -310,47 +168,46 @@ class OrthosisMainActivity : BaseActivity() {
         }
     }
 
-
     private fun checkWhatsNew(context: Context) {
         val currentVersion = getAppVersion(context)
-
         val lastVersion = SharedPrefUtil.getPrfString(context, SharedPrefUtil.LAST_SEEN_VERSION)
-
         if (lastVersion.isEmpty() || currentVersion != lastVersion) {
-            showWhatsNewDialog()
+            showWhatsNewBottomSheet()
             SharedPrefUtil.savePrefString(context, SharedPrefUtil.LAST_SEEN_VERSION, currentVersion)
         }
     }
 
-
-
-    private fun showWhatsNewDialog() {
+    private fun showWhatsNewBottomSheet() {
         try {
-            // Get version name from PackageManager
             val versionName = packageManager
                 .getPackageInfo(packageName, 0).versionName
 
-            // Build and show dialog
-            androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("What's New in version $versionName")
-                .setMessage(
-                    """
-                ✨ Latest Updates:
-                
-                • Faster performance
-                • Bug fixes
-                • New dashboard UI
-                
-                """.trimIndent()
-                )
-                .setPositiveButton("Got it", null)
-                .show()
+            val bottomSheetDialog = com.google.android.material.bottomsheet.BottomSheetDialog(this, R.style.CustomBottomSheetDialog)
+            val view = layoutInflater.inflate(R.layout.layout_whats_new_bottomsheet, null)
+            bottomSheetDialog.setContentView(view)
+
+            // Set title + message
+            view.findViewById<TextView>(R.id.titleText).text = "What's New in version $versionName"
+            view.findViewById<TextView>(R.id.messageText).text = """
+            ✨ Latest Updates:
+
+            • Faster performance
+            • Bug fixes
+            • New dashboard UI
+        """.trimIndent()
+
+            // Button click
+            view.findViewById<Button>(R.id.btnGotIt).setOnClickListener {
+                bottomSheetDialog.dismiss()
+            }
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                bottomSheetDialog.show()
+            }, 600) // 600ms delay
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
-
-
 
     @Suppress("DEPRECATION")
     private fun openAboutUsDailogueBox() {
@@ -358,12 +215,8 @@ class OrthosisMainActivity : BaseActivity() {
             val appName = getString(R.string.app_name)
             val versionName = packageManager
                 .getPackageInfo(packageName, 0).versionName
-
-            // Inflate custom view
             val inflater = LayoutInflater.from(this)
             val view = inflater.inflate(R.layout.dialog_about_us, null)
-
-            // Set text dynamically
             val aboutText = view.findViewById<TextView>(R.id.about_text)
 
             val message = """
@@ -380,20 +233,14 @@ class OrthosisMainActivity : BaseActivity() {
             You are currently using <b>version $versionName</b> of the LLE MedDocket App.
         """.trimIndent()
 
-            // Apply HTML formatting
             aboutText.text = Html.fromHtml(message)
-
-            // Set logo
             val logoVideo = view.findViewById<VideoView>(R.id.logo_video)
-
             val videoUri = Uri.parse("android.resource://${packageName}/${R.raw.logo_animation}")
-
             logoVideo.setVideoURI(videoUri)
             logoVideo.setOnPreparedListener { mp ->
                 mp.isLooping = true   // loop forever
                 logoVideo.start()
             }
-
             // Show AlertDialog with custom view
             val builder = androidx.appcompat.app.AlertDialog.Builder(this)
             builder.setTitle("About Us")
@@ -414,7 +261,6 @@ class OrthosisMainActivity : BaseActivity() {
             if (flag == 0) {
                 flag = 1
                 binding.fab.visibility = View.VISIBLE
-
                 binding.addFab.visibility = View.GONE
                 binding.addAnalyticsText.visibility = View.GONE
                 binding.syncFabOrthisys.visibility = View.GONE
@@ -423,7 +269,6 @@ class OrthosisMainActivity : BaseActivity() {
                 binding.addPersonActionText.visibility = View.GONE
                 binding.analyticsFab.visibility = View.GONE
                 binding.addPersonActionText.visibility = View.GONE
-
                 Log.d(ConstantsApp.TAG, "0=>" + flag)
             } else if (flag == 1) {
                 flag = 0
@@ -452,18 +297,15 @@ class OrthosisMainActivity : BaseActivity() {
         binding.btnQrScan.setOnClickListener {
             getCampDataAndMoveToQrScan()
         }
-
         binding.btnViewReport.setOnClickListener {
             enterPatientIdDialog()
         }
         binding.syncFabOrthisys.setOnClickListener {
             showSyncDialog()
         }
-
         binding.btnLogout.setOnClickListener {
             showPopup()
         }
-
         binding.CardViewCampCompleted.setOnClickListener {
             if (isSycnComplete) {
                 if (leastCampData != null) {
@@ -473,40 +315,28 @@ class OrthosisMainActivity : BaseActivity() {
                     orthosisMainVM.updateSingleCamp(leastCampData!!)
                     Utility.successToast(this@OrthosisMainActivity, "Camp Completed")
                     progress.dismiss()
-
                 }
             } else {
                 Utility.infoToast(this@OrthosisMainActivity, "Please Sync Data")
             }
-
         }
-
         binding.ivRefreshSync.setOnClickListener {
             refreshCount()
-
-
         }
     }
 
     private fun initObserver() {
-
         orthosisMainVM.getOrthosisMasterApi()
         orthosisMainVM.getDiagnosisMaster()
         orthosisMainVM.getOrthosisEquipmentMasterApi()
-
-
         orthosisMainVM.othosisMasterResponse.observe(this) {
             when (it.status) {
                 Status.LOADING -> {
                     progress.show()
-//                    showImpactLoader()
                 }
-
                 Status.SUCCESS -> {
                     progress.dismiss()
-//                    stopImpactLoader()
                     if (it.data != null) {
-                        //Utility.successToast(this@MainActivity, it.data[0].name)
                         for (i in it.data) {
                             orthosisMainVM.insertOrthosisMasterLocal(
                                 OrthosisType(
@@ -514,23 +344,19 @@ class OrthosisMainActivity : BaseActivity() {
                                 )
                             )
                         }
-                        // gotoScreen(this,OrthosisActivity::class.java)
                     }
                 }
-
                 Status.ERROR -> {
                     progress.dismiss()
                 }
             }
         }
+
         orthosisMainVM.diagnosisMasterResponse.observe(this) {
             when (it.status) {
                 Status.LOADING -> {
                     progress.show()
-//                    showImpactLoader()
-
                 }
-
                 Status.SUCCESS -> {
                     progress.dismiss()
                     if (it.data != null) {
@@ -539,26 +365,20 @@ class OrthosisMainActivity : BaseActivity() {
                         }
                     }
                 }
-
                 Status.ERROR -> {
                     progress.dismiss()
-//                    stopImpactLoader()
                 }
             }
         }
+
         orthosisMainVM.othosisEquipmentMasterResponse.observe(this) {
             when (it.status) {
                 Status.LOADING -> {
                     progress.show()
-//                    showImpactLoader()
-
                 }
-
                 Status.SUCCESS -> {
                     progress.dismiss()
-//                    stopImpactLoader()
                     if (it.data != null) {
-                        //Utility.successToast(this@MainActivity, it.data[0].name)
                         for (i in it.data) {
                             orthosisMainVM.insertOrthosisEquipmentMasterLocal(
                                 Equipment(
@@ -568,16 +388,13 @@ class OrthosisMainActivity : BaseActivity() {
                                     equipment_support = i.equipment_support,
                                     given_when_case = i.given_when_case,
                                     name = i.name
-//                                    parentEquipment = i.parentEquipment
                                 )
                             )
                         }
                     }
                 }
-
                 Status.ERROR -> {
                     progress.dismiss()
-//                    stopImpactLoader()
                 }
             }
         }
@@ -585,16 +402,11 @@ class OrthosisMainActivity : BaseActivity() {
         orthosisMainVM.campPatienDetailsResponse.observe(this) { response ->
             when (response.status) {
                 Status.LOADING -> {
-                    // progress.show()
-
                 }
 
                 Status.SUCCESS -> {
-                    // progress.dismiss()
                     if (!response.data!!.patientOrthosisList.isNullOrEmpty()) {
                         val dataList = response.data.patientOrthosisList
-
-
                         val uniqueCamp = getUniqueCampIds(dataList)
                         val campList = ArrayList<CampModel>()
 
@@ -613,10 +425,8 @@ class OrthosisMainActivity : BaseActivity() {
                             binding.tvCampCompleted.text = "Complete Camp ${campLeastId.campId}"
                         } else {
                             binding.tvCampCompleted.text = "Complete Camp"
-
                         }
                         if (isLogin) {
-
                             orthosisMainVM.insertCampDetails(campList)
                         }
                         for (i in dataList) {
@@ -626,7 +436,6 @@ class OrthosisMainActivity : BaseActivity() {
                             if (i.equipment_status_notes.isNullOrEmpty()){
                                 i.equipment_status_notes = ""
                             }
-
                             if (i.equipment_category.isNullOrEmpty()){
                                 i.equipment_category = ""
                             }
@@ -635,38 +444,28 @@ class OrthosisMainActivity : BaseActivity() {
                             }
                             if (i.orthosis_date.isNullOrEmpty()) {
                                 i.orthosis_date = "2024-10-11"
-                                //  Utility.errorToast(this@OrthosisMainActivity,"emoty date")
                             }
                             i.isLocal = false
                         }
-
                         orthosisMainVM.insertCampPatientDetails(dataList)
-                        // CampPatientDataItem
                     }
                 }
-
                 Status.ERROR -> {
-                    // progress.dismiss()
                 }
             }
         }
 
-
-        //orthosis file operations
         orthosisMainVM.formImagesList.observe(this) {
             when (it.status) {
                 Status.LOADING -> {
                     progress.show()
                 }
-
                 Status.SUCCESS -> {
                     progress.dismiss()
                     try {
                         if (!it.data.isNullOrEmpty()) {
-
                             val unsyncedFormImages = it.data.filter { it.isSynced == 0 }
                             formImageCount = unsyncedFormImages.size
-
                             totalImageCount = formImageCount + orthosisImageCount + equipmentImageCount
                             binding.tvUnsyncedImages.text = "Unsynced Images :- ${totalImageCount}"
                         }
@@ -675,21 +474,18 @@ class OrthosisMainActivity : BaseActivity() {
                         Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
                     }
                 }
-
                 Status.ERROR -> {
                     progress.dismiss()
-
                     Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
-
                 }
             }
         }
+
         orthosisMainVM.orthosisImagesList.observe(this) {
             when (it.status) {
                 Status.LOADING -> {
                     progress.show()
                 }
-
                 Status.SUCCESS -> {
                     progress.dismiss()
                     try {
@@ -703,54 +499,41 @@ class OrthosisMainActivity : BaseActivity() {
                             binding.tvUnsyncedImages.text = "Unsynced Images :- ${totalImageCount}"
                         }
                     } catch (e: Exception) {
-
                         Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
-
                     }
                 }
 
                 Status.ERROR -> {
                     progress.dismiss()
-
                     Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
-
                 }
             }
         }
+
         orthosisMainVM.equipmentImagesList.observe(this) {
             when (it.status) {
                 Status.LOADING -> {
                     progress.show()
                 }
-
                 Status.SUCCESS -> {
                     progress.dismiss()
                     try {
                         if (!it.data.isNullOrEmpty()) {
-
                             val unsyncedEquipmentImages = it.data.filter { it.isSynced == 0 }
                             equipmentImageCount = unsyncedEquipmentImages.size
-
                             totalImageCount = formImageCount + orthosisImageCount + equipmentImageCount
                             binding.tvUnsyncedImages.text = "Unsynced Images :- ${totalImageCount}"
                         } else {
                             totalImageCount = formImageCount + orthosisImageCount + equipmentImageCount
                             binding.tvUnsyncedImages.text = "Unsynced Images :- ${totalImageCount}"
                         }
-
-
                     } catch (e: Exception) {
-
                         Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
-
                     }
                 }
-
                 Status.ERROR -> {
                     progress.dismiss()
-
                     Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
-
                 }
             }
         }
@@ -760,7 +543,6 @@ class OrthosisMainActivity : BaseActivity() {
                 Status.LOADING -> {
                     progress.show()
                 }
-
                 Status.SUCCESS -> {
                     progress.dismiss()
                     try {
@@ -769,14 +551,11 @@ class OrthosisMainActivity : BaseActivity() {
                             unsycnedVideosCount = unsycnedVideos.size
                             binding.tvUnsyncedVideos.text =
                                 "Unsynced Videos :- ${unsycnedVideosCount}"
-                        } else {
-
                         }
                     } catch (e: Exception) {
                         Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
                     }
                 }
-
                 Status.ERROR -> {
                     progress.dismiss()
                     Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
@@ -784,42 +563,35 @@ class OrthosisMainActivity : BaseActivity() {
             }
         }
 
-
         orthosisMainVM.campPatientList.observe(this) {
             when (it.status) {
                 Status.LOADING -> {
+                    Log.d("SyncForms", "campPatientList: LOADING...")
                     progress.show()
-//                    showImpactLoader()
                 }
-
                 Status.SUCCESS -> {
                     progress.dismiss()
-//                    stopImpactLoader()
                     try {
                         if (!it.data.isNullOrEmpty()) {
                             val unsyncedCampData = it.data.filter { it.isSynced == 0 }
                             campPatientCount = unsyncedCampData.size
-//                            val totalCount = campPatientCount + localFormCount
                             val totalCount = localFormCount
+                            Log.d("SyncForms", "campPatientList: SUCCESS → Unsynced Camp Count = $campPatientCount, Local Form Count = $localFormCount, Total = $totalCount")
                             binding.tvUnsyncedForms.text = "Unsysnced Forms :- ${totalCount}"
                         } else {
                             val totalCount = localFormCount
+                            Log.d("SyncForms", "campPatientList: SUCCESS → Empty data. Using Local Form Count = $totalCount")
                             binding.tvUnsyncedForms.text = "Unsysnced Forms :- ${totalCount}"
-//
                         }
-
-
                     } catch (e: Exception) {
-
+                        Log.e("SyncForms", "campPatientList: Exception -> ${e.message}", e)
                         Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
-
                     }
                 }
-
                 Status.ERROR -> {
                     progress.dismiss()
+                    Log.e("SyncForms", "campPatientList: ERROR -> Unexpected error")
                     Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
-
                 }
             }
         }
@@ -827,71 +599,67 @@ class OrthosisMainActivity : BaseActivity() {
         orthosisMainVM.orthosisPatientFormList.observe(this) { response ->
             when (response.status) {
                 Status.LOADING -> {
+                    Log.d("SyncForms", "orthosisPatientFormList: LOADING...")
                     progress.show()
                 }
-
                 Status.SUCCESS -> {
                     progress.dismiss()
                     try {
                         if (!response.data.isNullOrEmpty()) {
                             val unsyncedForm = response.data.filter { it.isSynced == 0 }
                             localFormCount = unsyncedForm.size
-                            //val totalCount = campPatientCount + localFormCount
                             val totalCount = localFormCount
+                            Log.d("SyncForms", "orthosisPatientFormList: SUCCESS → Unsynced Form Count = $localFormCount, Total = $totalCount")
                             binding.tvUnsyncedForms.text = "Unsysnced Forms :- ${totalCount}"
-
                             if (localFormCount == 0 && formImageCount == 0 && orthosisImageCount == 0 && unsycnedVideosCount == 0) {
                                 isSycnComplete = true
                                 binding.tvSyncStatusDetail.text = "Sync Complete"
                                 binding.tvSyncStatusDetail.setTextColor(resources.getColor(R.color.dark_green))
+                                Log.d("SyncForms", "orthosisPatientFormList: ✅ Sync Complete")
                             } else {
                                 isSycnComplete = false
                                 binding.tvSyncStatusDetail.text = "Sync Not Complete"
                                 binding.tvSyncStatusDetail.setTextColor(resources.getColor(R.color.dark_red))
-
+                                Log.d("SyncForms", "orthosisPatientFormList: ❌ Sync Not Complete")
                             }
                         } else {
                             val totalCount = localFormCount
+                            Log.d("SyncForms", "orthosisPatientFormList: SUCCESS → Empty data, Total Count = $totalCount")
                             binding.tvUnsyncedForms.text = "Unsysnced Forms :- ${totalCount}"
-
                             if (localFormCount == 0 && formImageCount == 0 && orthosisImageCount == 0 && unsycnedVideosCount == 0) {
                                 isSycnComplete = true
                                 binding.tvSyncStatusDetail.text = "Sync Complete"
                                 binding.tvSyncStatusDetail.setTextColor(resources.getColor(R.color.dark_green))
+                                Log.d("SyncForms", "orthosisPatientFormList: ✅ Sync Complete (Empty data)")
                             } else {
                                 isSycnComplete = false
                                 binding.tvSyncStatusDetail.text = "Sync Not Complete"
                                 binding.tvSyncStatusDetail.setTextColor(resources.getColor(R.color.dark_red))
-
+                                Log.d("SyncForms", "orthosisPatientFormList: ❌ Sync Not Complete (Empty data)")
                             }
                         }
-
-
                     } catch (e: Exception) {
-
+                        Log.e("SyncForms", "orthosisPatientFormList: Exception -> ${e.message}", e)
                         Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
-
                     }
                 }
 
                 Status.ERROR -> {
                     progress.dismiss()
-
+                    Log.e("SyncForms", "orthosisPatientFormList: ERROR -> Unexpected error")
                     Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
-
                 }
             }
         }
+
+
         orthosisMainVM.campDetailsResponse.observe(this) { response ->
             when (response.status) {
                 Status.LOADING -> {
                     progress.show()
-//                    showImpactLoader()
                 }
-
                 Status.SUCCESS -> {
                     progress.dismiss()
-//                    stopImpactLoader()
                     try {
                         val intent = Intent(this@OrthosisMainActivity, QrCodeActivity::class.java)
                         if (!response.data.isNullOrEmpty()) {
@@ -904,19 +672,18 @@ class OrthosisMainActivity : BaseActivity() {
                         Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
                     }
                 }
-
                 Status.ERROR -> {
                     progress.dismiss()
                     Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
                 }
             }
         }
+
         orthosisMainVM.campForViewReport.observe(this) { response ->
             when (response.status) {
                 Status.LOADING -> {
                     progress.show()
                 }
-
                 Status.SUCCESS -> {
                     progress.dismiss()
                     try {
@@ -929,29 +696,20 @@ class OrthosisMainActivity : BaseActivity() {
                         }
                         startActivity(intent)
                     } catch (e: Exception) {
-
                         Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
-
                     }
                 }
-
                 Status.ERROR -> {
                     progress.dismiss()
-
                     Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
-
                 }
             }
         }
 
         orthosisMainVM.userList.observe(this) {
             when (it.status) {
-                Status.LOADING -> {
-                    //    progress.show()
-                }
-
+                Status.LOADING -> {}
                 Status.SUCCESS -> {
-                    //  progress.dismiss()
                     try {
                         if (!it.data.isNullOrEmpty()) {
                             localUser = it.data[0]
@@ -962,56 +720,28 @@ class OrthosisMainActivity : BaseActivity() {
                             )
                             leastCampData = campData
                             orthosisMainVM.insertCampDetails(listOf(leastCampData!!))
-
                         }
-
-                    } catch (e: Exception) {
-
-                    }
+                    } catch (e: Exception) { }
                 }
-
-                Status.ERROR -> {
-
-                }
+                Status.ERROR -> {}
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         val result = IntentIntegrator.parseActivityResult(resultCode, data)
         try {
             if (resultCode == RESULT_OK) {
-                // Attempt to decode the Base64 content
                 try {
                     val decodedBytes: ByteArray = Base64.getDecoder().decode(result.contents)
                     val decodedText: String = String(decodedBytes, Charsets.UTF_8)
-
-
-
                     Log.d(ConstantsApp.TAG, "result.contents => $decodedText")
-
                     sessionManager.setPatientData(decodedText)
-
-                    val decodedText1 = sessionManager.getPatientData()
-
-                    // Use Gson to parse the JSON string
-                    val gson = Gson()
-
-                    val patientData1 = gson.fromJson(decodedText1, PatientData::class.java)
-                    val patientData2 = gson.fromJson(decodedText1, PatientDataLocal::class.java)
-
-                    //  insertPatientDataToLocal(patientData2)
-
-                    val intent = Intent(
-                        this@OrthosisMainActivity, OrthosisFittingActivity::class.java
-                    )
+                    val intent = Intent(this@OrthosisMainActivity, OrthosisFittingActivity::class.java)
                     intent.putExtra("result", decodedText)
                     startActivity(intent)
-
                 } catch (e: IllegalArgumentException) {
-                    // Handle the case where the Base64 content is invalid
                     Log.e(ConstantsApp.TAG, "Illegal base64 character", e)
                     Toast.makeText(this, "Invalid QR code", Toast.LENGTH_SHORT).show()
                 }
@@ -1033,50 +763,34 @@ class OrthosisMainActivity : BaseActivity() {
 
     @SuppressLint("MissingInflatedId")
     private fun showPopup() {
-
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.custom_popup_layout, null)
-
-        // Customize your popup view and set click listeners
-
         val logoutButton: Button = popupView.findViewById(R.id.popupButton)
         val closeButton: Button = popupView.findViewById(R.id.popupCancel)
-
-
-        // Create the PopupWindow
         popupWindow = PopupWindow(
             popupView,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             true
         )
-
-        // Set background to allow outside clicks to dismiss the popup
         popupWindow.setBackgroundDrawable(resources.getDrawable(android.R.color.transparent))
-
-        // Show the popup at a specific location or anchor it to a view
         popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
-
         logoutButton.setOnClickListener {
             Utility.successToast(this@OrthosisMainActivity,"Logged out successfully!")
             sessionManager.logoutClear(this@OrthosisMainActivity)
             popupWindow.dismiss()
-            // exitProcess(0)
             val intent = Intent(this@OrthosisMainActivity,LoginActivity::class.java)
             startActivity(intent)
             finish()
             this.finish()
-
         }
-
         closeButton.setOnClickListener {
             popupWindow.dismiss()
         }
     }
 
     fun isInternetAvailable(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val network = connectivityManager.activeNetwork ?: return false
         val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
         return when {
@@ -1100,23 +814,6 @@ class OrthosisMainActivity : BaseActivity() {
         orthosisMainVM.getCampForViewReport()
     }
 
-    private fun updateProgressUI(current: Int, total: Int) {
-        // Update your progress bar or text with the progress
-        // progressBar.progress = (current * 100) / total
-        //progressText.text = "Syncing $current of $total"
-    }
-
-
-    private fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
-        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
-            if (serviceClass.name == service.service.className) {
-                return true
-            }
-        }
-        return false
-    }
-
     private fun refreshCount() {
         progress.show()
         orthosisMainVM.getFormImages()
@@ -1132,22 +829,16 @@ class OrthosisMainActivity : BaseActivity() {
         val alertCustomDialog = layoutInflater.inflate(layoutResId, null)
         val messageDialog = AlertDialog.Builder(this@OrthosisMainActivity)
         messageDialog.setView(alertCustomDialog)
-
-
         val tvSyncForm: TextView = alertCustomDialog.findViewById(R.id.tvSyncForm)
         val tvSyncImages: TextView = alertCustomDialog.findViewById(R.id.tvSyncImages)
         val tvSyncVideos: TextView = alertCustomDialog.findViewById(R.id.tvSyncVideos)
-
         val finalDialog = messageDialog.create()
-
-
         tvSyncForm.setOnClickListener {
             finalDialog.dismiss()
             if (isInternetAvailable(this@OrthosisMainActivity)){
                 syncForms()
             }
-            else
-            {
+            else {
                 Utility.infoToast(this@OrthosisMainActivity,"Internet Not Available!")
             }
         }
@@ -1157,24 +848,20 @@ class OrthosisMainActivity : BaseActivity() {
             if (isInternetAvailable(this@OrthosisMainActivity)){
                 syncFormImages()
             }
-            else
-            {
+            else {
                 Utility.infoToast(this@OrthosisMainActivity,"Internet Not Available!")
             }
         }
-
         tvSyncVideos.setOnClickListener {
             finalDialog.dismiss()
             if (isInternetAvailable(this@OrthosisMainActivity)){
                 progressForThis.show()
                 syncFormVideos()
             }
-            else
-            {
+            else {
                 Utility.infoToast(this@OrthosisMainActivity,"Internet Not Available!")
             }
         }
-
         finalDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         finalDialog.show()
     }
@@ -1184,27 +871,20 @@ class OrthosisMainActivity : BaseActivity() {
         val alertCustomDialog = layoutInflater.inflate(layoutResId, null)
         val messageDialog = AlertDialog.Builder(this@OrthosisMainActivity)
         messageDialog.setView(alertCustomDialog)
-
-
         val etPatientId: TextInputEditText = alertCustomDialog.findViewById(R.id.etPatientId)
         val tvSubmit: TextView = alertCustomDialog.findViewById(R.id.tvSubmit)
-
         val finalDialog = messageDialog.create()
-
         tvSubmit.setOnClickListener {
             if (etPatientId.text.isNullOrEmpty()){
                 Utility.infoToast(this@OrthosisMainActivity,"Enter Patient Id")
             }
             else{
-                //
                 val intent = Intent(this@OrthosisMainActivity,OrthosisFittingActivity::class.java)
                 intent.putExtra("screen","PatientID")
                 intent.putExtra("temp_id",etPatientId.text.toString())
                 startActivity(intent)
             }
         }
-
-
         finalDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         finalDialog.show()
     }
@@ -1212,12 +892,14 @@ class OrthosisMainActivity : BaseActivity() {
     private fun syncForms() {
         if (isInternetAvailable(this)) {
             doctorProgress.show()
+            Log.d("SyncForms", "Starting OrthosisPatientFormService...")
             val data = HashMap<String, Any>()
             data["patient"] = ""
             val intent = Intent(this, OrthosisPatientFormService::class.java).apply {
                 putExtra("QUERY_PARAMS", data)
             }
             startService(intent)
+            Log.d("SyncForms", "Starting CampPatientFormService...")
             val campData = HashMap<String, Any>()
             campData["patient"] = ""
             val campIntent = Intent(this, CampPatientFormService::class.java).apply {
@@ -1229,59 +911,84 @@ class OrthosisMainActivity : BaseActivity() {
         }
     }
 
+    private val syncCompletedReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == OrthosisPatientFormService.ACTION_TASK_COMPLETED) {
+                Log.d("SyncForms", "Broadcast received: Sync completed")
+                if (doctorProgress.isShowing()) doctorProgress.dismiss()
+                Toast.makeText(this@OrthosisMainActivity, "All forms synced successfully!", Toast.LENGTH_LONG).show()
+                orthosisMainVM.getOrthosisPatientForm()
+                orthosisMainVM.getCampPatientList()
+                Log.d("SyncForms", "Requested fresh data from ViewModel after sync")
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        LocalBroadcastManager.getInstance(this)
+            .registerReceiver(syncCompletedReceiver, IntentFilter(OrthosisPatientFormService.ACTION_TASK_COMPLETED))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        LocalBroadcastManager.getInstance(this)
+            .unregisterReceiver(syncCompletedReceiver)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
 //        handler.removeCallbacks(serviceCheckRunnable)
     }
 
     private fun syncFormImages() {
+        Log.d("SyncImages", "Starting syncFormImages")
         doctorProgress.show()
-
         formImageIndexCheck = 0
         orthosisMainVM.getFormImagesForSync()
         orthosisMainVM.formImagesListForSync.observe(this) {
             when (it.status) {
                 Status.LOADING -> {
+                    Log.d("SyncImages", "Form images: LOADING")
                     doctorProgress.show()
                 }
-
                 Status.SUCCESS -> {
                     doctorProgress.dismiss()
+                    Log.d("SyncImages", "Form images: SUCCESS, total=${it.data?.size ?: 0}")
                     try {
                         if (!it.data.isNullOrEmpty()) {
                             formImageListForSync.clear()
                             for (i in it.data){
                                 if (i.isSynced == 0 ){
                                     formImageListForSync.add(i)
+                                    Log.d("SyncImages", "Form image added for sync: ${i.id}, file=${i.images}")
                                 }
-
                             }
                             syncNextFormImage()
                         }
                         else{
+                            Log.d("SyncImages", "No unsynced form images, moving to Orthosis images")
                             syncOrthosisImages()
                         }
                     } catch (e: Exception) {
+                        Log.e("SyncImages", "Form images exception: ${e.message}", e)
                         Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
                     }
                 }
                 Status.ERROR -> {
+                    Log.e("SyncImages", "Form images: ERROR")
                     doctorProgress.dismiss()
-
                     Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
-
                 }
             }
         }
-
-
     }
 
     private fun syncNextFormImage() {
         if (formImageListForSync.size != 0){
             if (formImageIndexCheck < formImageListForSync.size) {
                 val formImage = formImageListForSync[formImageIndexCheck]
-
+                Log.d("SyncImages", "Uploading form image ${formImage.id}, file=${formImage.images}")
                 val file = File(formImage.images)
                 val requestFile = RequestBody.create(
                     "multipart/form-data".toMediaTypeOrNull(),
@@ -1292,7 +999,6 @@ class OrthosisMainActivity : BaseActivity() {
                     file.name,
                     requestFile
                 )
-
                 val tempPatientIdRequestBody = RequestBody.create(
                     "text/plain".toMediaTypeOrNull(),
                     formImage.temp_patient_id
@@ -1316,97 +1022,101 @@ class OrthosisMainActivity : BaseActivity() {
                     patientIdRequestBody,
                     idRequestBody
                 )
-
                 orthosisMainVM.syncFormImages(imageUploadParams)
-
                 orthosisMainVM.formSyncResponse.observe(this) {
                     when (it.status) {
                         Status.LOADING -> {
+                            Log.d("SyncImages", "Form image ${formImage.id} uploading...")
                             doctorProgress.show()
                         }
-
                         Status.SUCCESS -> {
+                            Log.d("SyncImages", "Form image ${formImage.id} uploaded successfully, server success_id=${it.data?.success_id}")
                             doctorProgress.dismiss()
                             try {
                                 if (it.data != null) {
                                     orthosisMainVM.updateFormImageSynced(it.data.success_id ?: 0)
+                                    orthosisMainVM.getFormImages()
+                                    orthosisMainVM.getEquipmentImages()
                                     formImageIndexCheck++
                                     syncNextFormImage()
                                 }
-
                             } catch (e: Exception) {
-
                                 Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
-
                             }
                         }
-
                         Status.ERROR -> {
+                           Log.e("SyncImages", "Form image ${formImage.id} upload failed")
                             doctorProgress.dismiss()
-
                             Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
-
                         }
                     }
                 }
-//        }
             }
             else{
+                Log.d("SyncImages", "All form images uploaded, moving to Orthosis images")
                 doctorProgress.dismiss()
-//                progressForThis.dismiss()
-            syncOrthosisImages()
+                syncOrthosisImages()
             }
         }
         else{
+            Log.d("SyncImages", "All form images uploaded, moving to Orthosis images")
             doctorProgress.dismiss()
-//            progressForThis.dismiss()
             syncOrthosisImages()
         }
     }
 
     private fun syncOrthosisImages() {
+        Log.d("SyncImages", "Starting syncOrthosisImages")
         orthosisMainVM.getOrthosisImagesForSync()
         orthosisMainVM.orthosisImagesListForSync.observe(this) {
             when (it.status) {
                 Status.LOADING -> {
                     doctorProgress.show()
                 }
-
                 Status.SUCCESS -> {
                     doctorProgress.dismiss()
+                    Log.d("SyncImages", "Orthosis images: SUCCESS, total=${it.data?.size ?: 0}")
                     try {
-
                         if (!it.data.isNullOrEmpty()) {
                             orthosisImageListForSync.clear()
                             for (i in it.data){
                                 if (i.isSynced == 0){
                                     orthosisImageListForSync.add(i)
+                                    Log.d("SyncImages", "Orthosis image added for sync: ${i.id}, file=${i.images}")
                                 }
                             }
                             syncNextOrthosisImage()
                         }
                         else{
+                            Log.d("SyncImages", "No unsynced orthosis images, moving to equipment images")
                             syncEquipmentImages()
                         }
                     } catch (e: Exception) {
                         Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
                     }
                 }
-
                 Status.ERROR -> {
+                    Log.e("SyncImages", "Orthosis images: ERROR")
                     doctorProgress.dismiss()
                     Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
                 }
             }
         }
-
     }
 
-    private fun syncNextOrthosisImage(){
-        if (orthosisImageListForSync.size!=0){
+    private fun syncNextOrthosisImage() {
+        Log.d("SyncImages", "syncNextOrthosisImage called. Index=$orthosisImageIndexCheck, Total=${orthosisImageListForSync.size}")
+        if (orthosisImageListForSync.isNotEmpty()) {
             if (orthosisImageIndexCheck < orthosisImageListForSync.size) {
                 val orthosisImage = orthosisImageListForSync[orthosisImageIndexCheck]
+                Log.d("SyncImages", "Preparing to upload Orthosis image ID=${orthosisImage.id}, File=${orthosisImage.images}")
                 val file = File(orthosisImage.images)
+                if (!file.exists()) {
+                    Log.e("SyncImages", "File not found: ${orthosisImage.images}")
+                    orthosisImageIndexCheck++
+                    syncNextOrthosisImage()
+                    return
+                }
                 val requestFile = RequestBody.create(
                     "multipart/form-data".toMediaTypeOrNull(),
                     file
@@ -1416,7 +1126,6 @@ class OrthosisMainActivity : BaseActivity() {
                     file.name,
                     requestFile
                 )
-
                 val tempPatientIdRequestBody = RequestBody.create(
                     "text/plain".toMediaTypeOrNull(),
                     orthosisImage.temp_patient_id
@@ -1429,7 +1138,6 @@ class OrthosisMainActivity : BaseActivity() {
                     "text/plain".toMediaTypeOrNull(),
                     orthosisImage.orthosis_id
                 )
-
                 val amputationSideRequestBody = RequestBody.create(
                     "text/plain".toMediaTypeOrNull(),
                     orthosisImage.amputation_side
@@ -1442,7 +1150,6 @@ class OrthosisMainActivity : BaseActivity() {
                     "text/plain".toMediaTypeOrNull(),
                     orthosisImage.id.toString()
                 )
-
                 val imageUploadParams = OrthosisImageRequest(
                     body,
                     tempPatientIdRequestBody,
@@ -1452,79 +1159,85 @@ class OrthosisMainActivity : BaseActivity() {
                     patientIdRequestBody,
                     idRequestBody
                 )
-
+                Log.d("SyncImages", "Uploading Orthosis image ID=${orthosisImage.id} to server")
                 orthosisMainVM.syncOrthosisImages(imageUploadParams)
-
                 orthosisMainVM.orthosisImageSyncResponse.observe(this) {
                     when (it.status) {
                         Status.LOADING -> {
+                            Log.d("SyncImages", "Orthosis image ${orthosisImage.id} is uploading...")
                             doctorProgress.show()
                         }
-
                         Status.SUCCESS -> {
                             doctorProgress.dismiss()
+                            Log.d("SyncImages", "Orthosis image ${orthosisImage.id} uploaded successfully. Server success_id=${it.data?.success_id}")
                             try {
                                 if (it.data != null) {
                                     orthosisMainVM.updateOrthosisImageSynced(it.data.success_id ?: 0)
+                                    Log.d("SyncImages", "Marked Orthosis image ${orthosisImage.id} as synced in local DB")
+                                    orthosisMainVM.getFormImages()
+                                    orthosisMainVM.getEquipmentImages()
                                     orthosisImageIndexCheck++
                                     syncNextOrthosisImage()
                                 }
-
                             } catch (e: Exception) {
-
+                                Log.e("SyncImages", "Exception while updating Orthosis image ${orthosisImage.id}: ${e.message}", e)
                                 Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
-
                             }
                         }
-
                         Status.ERROR -> {
                             doctorProgress.dismiss()
-
+                            Log.e("SyncImages", "Failed to upload Orthosis image ${orthosisImage.id}")
                             Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
-
                         }
                     }
                 }
-
-            }
-            else{
+            } else {
+                Log.d("SyncImages", "All Orthosis images uploaded. Moving to Equipment images")
                 syncEquipmentImages()
             }
-        }
-        else{
+        } else {
+            Log.d("SyncImages", "No Orthosis images to sync. Moving to Equipment images")
             syncEquipmentImages()
         }
-
     }
 
     private fun syncEquipmentImages() {
+        Log.d("SyncImages", "syncEquipmentImages called. Resetting equipmentImageIndexCheck to 0")
         equipmentImageIndexCheck = 0
+        Log.d("SyncImages", "Fetching equipment images for sync from ViewModel")
         orthosisMainVM.getEquipmentImagesForSync()
-        orthosisMainVM.equipmentImagesListForSync.observe(this) {
-            when (it.status) {
+        orthosisMainVM.equipmentImagesListForSync.observe(this) { response ->
+            when (response.status) {
                 Status.LOADING -> {
+                    Log.d("SyncImages", "Equipment images: LOADING")
                     doctorProgress.show()
                 }
-
                 Status.SUCCESS -> {
                     doctorProgress.dismiss()
+                    Log.d("SyncImages", "Equipment images: SUCCESS, total=${response.data?.size ?: 0}")
                     try {
-                        if (!it.data.isNullOrEmpty()) {
+                        if (!response.data.isNullOrEmpty()) {
                             equipmentImageListForSync.clear()
-                            for (i in it.data){
-                                if (i.isSynced == 0){
+                            Log.d("SyncImages", "Cleared existing equipmentImageListForSync")
+                            for (i in response.data) {
+                                if (i.isSynced == 0) {
                                     equipmentImageListForSync.add(i)
+                                    Log.d("SyncImages", "Equipment image added for sync: ID=${i.id}, File=${i.images}")
                                 }
                             }
+                            Log.d("SyncImages", "Total unsynced equipment images to sync: ${equipmentImageListForSync.size}")
                             syncNextEquipmentImage()
+                        } else {
+                            Log.d("SyncImages", "No unsynced equipment images found")
                         }
                     } catch (e: Exception) {
+                        Log.e("SyncImages", "Exception while processing equipment images: ${e.message}", e)
                         Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
                     }
                 }
-
                 Status.ERROR -> {
                     doctorProgress.dismiss()
+                    Log.e("SyncImages", "Equipment images: ERROR while fetching from server")
                     Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
                 }
             }
@@ -1532,10 +1245,18 @@ class OrthosisMainActivity : BaseActivity() {
     }
 
     private fun syncNextEquipmentImage() {
-        if (equipmentImageListForSync.size !=0){
+        Log.d("SyncImages", "syncNextEquipmentImage called. Current index: $equipmentImageIndexCheck, total images: ${equipmentImageListForSync.size}")
+        if (equipmentImageListForSync.isNotEmpty()) {
             if (equipmentImageIndexCheck < equipmentImageListForSync.size) {
                 val equipmentImage = equipmentImageListForSync[equipmentImageIndexCheck]
+                Log.d("SyncImages", "Preparing to upload equipment image ID=${equipmentImage.id}, file=${equipmentImage.images}")
                 val file = File(equipmentImage.images)
+                if (!file.exists()) {
+                    Log.e("SyncImages", "File not found: ${equipmentImage.images}")
+                    equipmentImageIndexCheck++
+                    syncNextEquipmentImage()
+                    return
+                }
                 val requestFile = RequestBody.create(
                     "multipart/form-data".toMediaTypeOrNull(),
                     file
@@ -1545,7 +1266,6 @@ class OrthosisMainActivity : BaseActivity() {
                     file.name,
                     requestFile
                 )
-
                 val tempPatientIdRequestBody = RequestBody.create(
                     "text/plain".toMediaTypeOrNull(),
                     equipmentImage.temp_patient_id
@@ -1558,7 +1278,6 @@ class OrthosisMainActivity : BaseActivity() {
                     "text/plain".toMediaTypeOrNull(),
                     ""
                 )
-
                 val imageTypeRequestBody = RequestBody.create(
                     "text/plain".toMediaTypeOrNull(),
                     "equipment"
@@ -1567,7 +1286,6 @@ class OrthosisMainActivity : BaseActivity() {
                     "text/plain".toMediaTypeOrNull(),
                     equipmentImage.id.toString()
                 )
-
                 val imageUploadParams = EquipmentImageRequest(
                     body,
                     tempPatientIdRequestBody,
@@ -1576,174 +1294,140 @@ class OrthosisMainActivity : BaseActivity() {
                     patientIdRequestBody,
                     idRequestBody
                 )
-
+                Log.d("SyncImages", "Calling ViewModel to sync equipment image ID=${equipmentImage.id}")
                 orthosisMainVM.syncEquipmentImages(imageUploadParams)
-
-                orthosisMainVM.equipmentImageSyncResponse.observe(this) {
-                    when (it.status) {
+                orthosisMainVM.equipmentImageSyncResponse.observe(this) { response ->
+                    when (response.status) {
                         Status.LOADING -> {
+                            Log.d("SyncImages", "Uploading equipment image ID=${equipmentImage.id}...")
                             doctorProgress.show()
                         }
-
                         Status.SUCCESS -> {
                             doctorProgress.dismiss()
+                            Log.d("SyncImages", "Equipment image ID=${equipmentImage.id} uploaded successfully, server success_id=${response.data?.success_id}")
                             try {
-                                if (it.data != null) {
-                                    orthosisMainVM.updateEquipmentImageSynced(it.data.success_id ?: 0)
+                                if (response.data != null) {
+                                    orthosisMainVM.updateEquipmentImageSynced(response.data.success_id ?: 0)
+                                    orthosisMainVM.getFormImages()
+                                    orthosisMainVM.getEquipmentImages()
                                     equipmentImageIndexCheck++
+                                    Log.d("SyncImages", "Moving to next equipment image. Next index: $equipmentImageIndexCheck")
                                     syncNextEquipmentImage()
                                 }
-                                else{
-                                }
-
                             } catch (e: Exception) {
+                                Log.e("SyncImages", "Exception while updating synced status: ${e.message}", e)
                                 Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
                             }
                         }
-
                         Status.ERROR -> {
+                            Log.e("SyncImages", "Failed to upload equipment image ID=${equipmentImage.id}")
                             doctorProgress.dismiss()
                             Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
+                            equipmentImageIndexCheck++
+                            syncNextEquipmentImage() // continue with next image
                         }
                     }
                 }
-
+            } else {
+                Log.d("SyncImages", "All equipment images uploaded. Sync completed.")
+                doctorProgress.dismiss()
+                Toast.makeText(this, "All form, orthosis, and equipment images synced successfully!", Toast.LENGTH_LONG).show()
             }
-            else{
-                progressForThis.dismiss()
-            }
+        } else {
+            Log.d("SyncImages", "No equipment images to sync. Sync completed.")
+            doctorProgress.dismiss()
+            Toast.makeText(this, "All form, orthosis, and equipment images synced successfully!", Toast.LENGTH_LONG).show()
         }
-        else{
-            progressForThis.dismiss()
-        }
-
     }
 
     private fun syncFormVideos() {
+        Log.d("SyncVideos", "Starting syncFormVideos")
+        doctorProgress.show() // Show progress immediately
         orthosisMainVM.getFormVideosForSync()
-        orthosisMainVM.formVideosListForSync.observe(this) {
-            when (it.status) {
-                Status.LOADING -> {
-                    doctorProgress.show()
-                }
-
+        orthosisMainVM.formVideosListForSync.observe(this) { response ->
+            when (response.status) {
+                Status.LOADING -> Log.d("SyncVideos", "Form videos: LOADING")
                 Status.SUCCESS -> {
-                    doctorProgress.dismiss()
-                    try {
-
-                        if (!it.data.isNullOrEmpty()) {
-                            formVideoListForSync.clear()
-                            for (i in it.data){
-                                if (i.isSynced == 0){
-                                    formVideoListForSync.add(i)
-                                }
-                            }
-                            syncNextFormVideo()
+                    Log.d("SyncVideos", "Form videos: SUCCESS, total=${response.data?.size ?: 0}")
+                    formVideoListForSync.clear()
+                    response.data?.forEach { video ->
+                        if (video.isSynced == 0) {
+                            formVideoListForSync.add(video)
+                            Log.d("SyncVideos", "Form video added for sync: ID=${video.id}, file=${video.video}")
                         }
-                    } catch (e: Exception) {
-                        Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
+                    }
+                    if (formVideoListForSync.isNotEmpty()) {
+                        formVideoIndexCheck = 0
+                        observeFormVideoUpload() // observe once
+                        syncNextFormVideo()
+                    } else {
+                        Log.d("SyncVideos", "No unsynced form videos found")
+                        doctorProgress.dismiss()
                     }
                 }
                 Status.ERROR -> {
+                    Log.e("SyncVideos", "Error fetching form videos")
                     doctorProgress.dismiss()
-                    Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
+                }
+            }
+        }
+    }
+
+    private fun observeFormVideoUpload() {
+        orthosisMainVM.formVideoSyncResponse.observe(this) { response ->
+            val formVideo = formVideoListForSync.getOrNull(formVideoIndexCheck) ?: return@observe
+            when (response.status) {
+                Status.LOADING -> Log.d("SyncVideos", "Form video ${formVideo.id} uploading...")
+                Status.SUCCESS -> {
+                    Log.d("SyncVideos", "Form video ${formVideo.id} uploaded successfully")
+                    orthosisMainVM.updateFormVideoSynced(response.data?.success_id ?: 0)
+                    orthosisMainVM.getFormVideos()
+                    formVideoIndexCheck++
+                    if (formVideoIndexCheck < formVideoListForSync.size) {
+                        syncNextFormVideo()
+                    } else {
+                        Log.d("SyncVideos", "All form videos uploaded. Dismissing progress.")
+                        doctorProgress.dismiss()
+                        Toast.makeText(this, "All form videos synced successfully!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                Status.ERROR -> {
+                    Log.e("SyncVideos", "Failed to upload Form video ${formVideo.id}")
+                    Utility.errorToast(this, "Upload failed for video ${formVideo.id}")
+                    formVideoIndexCheck++
+                    if (formVideoIndexCheck < formVideoListForSync.size) {
+                        syncNextFormVideo()
+                    } else {
+                        doctorProgress.dismiss()
+                        Toast.makeText(this, "Form video sync completed with some errors.", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
     }
 
     private fun syncNextFormVideo() {
-        if (formVideoListForSync.size !=0){
-            if (formVideoIndexCheck < formVideoListForSync.size) {
-                val formVideo = formVideoListForSync[formVideoIndexCheck]
-                val dataMap = HashMap<String, String>()
-                val uriMap = HashMap<String, Uri>()
-                val fileMap = HashMap<String, File>()
-                dataMap["file_type"] = "image"
-                dataMap["temp_patient_id"] = formVideo.temp_patient_id
-                dataMap["camp_id"] = formVideo.camp_id
-                dataMap["patient_id"] = ""
-                dataMap["id"] = formVideo.id.toString()
-                val file = File(formVideo.video)
-                val requestFile = RequestBody.create(
-                    "multipart/form-data".toMediaTypeOrNull(),
-                    file
-                )
-                val body = MultipartBody.Part.createFormData(
-                    "video",
-                    file.name,
-                    requestFile
-                )
-
-                val tempPatientIdRequestBody = RequestBody.create(
-                    "text/plain".toMediaTypeOrNull(),
-                    formVideo.temp_patient_id
-                )
-                val campIdRequestBody = RequestBody.create(
-                    "text/plain".toMediaTypeOrNull(),
-                    formVideo.camp_id
-                )
-                val patientIdRequestBody = RequestBody.create(
-                    "text/plain".toMediaTypeOrNull(),
-                    ""
-                )
-                val idRequestBody = RequestBody.create(
-                    "text/plain".toMediaTypeOrNull(),
-                    formVideo.id.toString()
-                )
-
-
-
-                val imageUploadParams = FormVideoRquest(
-                    body,
-                    tempPatientIdRequestBody,
-                    campIdRequestBody,
-                    patientIdRequestBody,
-                    idRequestBody
-                )
-
-                orthosisMainVM.syncFormVideos(imageUploadParams)
-
-                orthosisMainVM.formVideoSyncResponse.observe(this) {
-                    when (it.status) {
-                        Status.LOADING -> {
-                            doctorProgress.show()
-                        }
-
-                        Status.SUCCESS -> {
-                            doctorProgress.dismiss()
-                            try {
-                                if (it.data != null) {
-                                    orthosisMainVM.updateFormVideoSynced(it.data.success_id ?: 0)
-                                    formVideoIndexCheck++
-                                    syncNextFormVideo()
-                                }
-
-                            } catch (e: Exception) {
-
-                                Utility.errorToast(this@OrthosisMainActivity, e.message.toString())
-
-                            }
-                        }
-
-                        Status.ERROR -> {
-                            doctorProgress.dismiss()
-
-                            Utility.errorToast(this@OrthosisMainActivity, "Unexpected error")
-
-                        }
-                    }
-                }
-
-            }
-            else{
-                progressForThis.dismiss()
-            }
+        val formVideo = formVideoListForSync.getOrNull(formVideoIndexCheck) ?: return
+        val file = File(formVideo.video)
+        if (!file.exists()) {
+            Log.e("SyncVideos", "File not found: ${formVideo.video}")
+            formVideoIndexCheck++
+            syncNextFormVideo()
+            return
         }
-        else{
-            progressForThis.dismiss()
-        }
-
+        val body = MultipartBody.Part.createFormData(
+            "video", file.name,
+            RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
+        )
+        val imageUploadParams = FormVideoRquest(
+            body,
+            RequestBody.create("text/plain".toMediaTypeOrNull(), formVideo.temp_patient_id),
+            RequestBody.create("text/plain".toMediaTypeOrNull(), formVideo.camp_id),
+            RequestBody.create("text/plain".toMediaTypeOrNull(), ""),
+            RequestBody.create("text/plain".toMediaTypeOrNull(), formVideo.id.toString())
+        )
+        Log.d("SyncVideos", "Uploading Form video ID=${formVideo.id} to server")
+        orthosisMainVM.syncFormVideos(imageUploadParams)
     }
 
     private fun checkForAppUpdate() {

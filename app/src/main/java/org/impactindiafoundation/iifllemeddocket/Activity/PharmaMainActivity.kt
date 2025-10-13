@@ -115,26 +115,19 @@ import kotlin.system.exitProcess
 class PharmaMainActivity : BaseActivity(), View.OnClickListener {
 
     lateinit var binding: ActivityPharmaMainBinding
-
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
-
     private lateinit var popupWindow: PopupWindow
     private lateinit var popupWindow1: PopupWindow
     private lateinit var popupWindow5: PopupWindow
-
     private var isSyned = false
-
     private var currentImageIndex = 0
     private lateinit var imagePrescriptionList: List<ImagePrescriptionModel>
-    private val pharmaMainViewModel: PharmaMainViewModel by viewModels()
     private val viewModel3: OpdPrescriptionFormViewModel by viewModels()
     private var isLogin = false
-
     lateinit var appUpdateManager: AppUpdateManager
-    lateinit var appUpdateInfoTask: Task<AppUpdateInfo>
 
     companion object {
         private const val REQUEST_CODE_UPDATE = 100
@@ -144,30 +137,22 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityPharmaMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
-
         getViewModel()
         createRoomDatabase()
         isLogin = intent.getBooleanExtra("isLogin", false)
-
         if (isLogin) {
             if (isInternetAvailable(this@PharmaMainActivity)) {
                 GetLocalCurrentInventoryItems()
@@ -179,17 +164,13 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
         binding.fab.setOnClickListener(this)
         binding.CardViewLogout.setOnClickListener(this)
         binding.tvViewReportMedicine.setOnClickListener(this)
-
         checkForAppUpdate()
-
         viewModel3.unsyncedFormsCount.observe(this) { count ->
             binding.tvUnsyncedForms.text = "Unsynced Forms: $count"
         }
-
         binding.aboutUsFab.setOnClickListener {
             openAboutUsDailogueBox()
         }
-
         checkWhatsNew(this)
     }
 
@@ -202,45 +183,40 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-
     private fun checkWhatsNew(context: Context) {
         val currentVersion = getAppVersion(context)
-
         val lastVersion = SharedPrefUtil.getPrfString(context, SharedPrefUtil.LAST_SEEN_VERSION)
-
         if (lastVersion.isEmpty() || currentVersion != lastVersion) {
-            showWhatsNewDialog()
+            showWhatsNewBottomSheet()
             SharedPrefUtil.savePrefString(context, SharedPrefUtil.LAST_SEEN_VERSION, currentVersion)
         }
     }
 
-    private fun showWhatsNewDialog() {
+    private fun showWhatsNewBottomSheet() {
         try {
-            // Get version name from PackageManager
-            val versionName = packageManager
-                .getPackageInfo(packageName, 0).versionName
+            val versionName = packageManager.getPackageInfo(packageName, 0).versionName
+            val bottomSheetDialog = com.google.android.material.bottomsheet.BottomSheetDialog(this, R.style.CustomBottomSheetDialog)
+            val view = layoutInflater.inflate(R.layout.layout_whats_new_bottomsheet, null)
+            bottomSheetDialog.setContentView(view)
+            view.findViewById<TextView>(R.id.titleText).text = "What's New in version $versionName"
+            view.findViewById<TextView>(R.id.messageText).text = """
+            ✨ Latest Updates:
 
-            // Build and show dialog
-            androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("What's New in version $versionName")
-                .setMessage(
-                    """
-                ✨ Latest Updates:
-                
-                • Faster performance
-                • Bug fixes
-                • New dashboard UI
-                
-                """.trimIndent()
-                )
-                .setPositiveButton("Got it", null)
-                .show()
+            • Faster performance
+            • Bug fixes
+            • New dashboard UI
+        """.trimIndent()
+
+            view.findViewById<Button>(R.id.btnGotIt).setOnClickListener {
+                bottomSheetDialog.dismiss()
+            }
+            Handler(Looper.getMainLooper()).postDelayed({
+                bottomSheetDialog.show()
+            }, 600) // 600ms delay
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
-
-
 
     @Suppress("DEPRECATION")
     private fun openAboutUsDailogueBox() {
@@ -248,12 +224,9 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
             val appName = getString(R.string.app_name)
             val versionName = packageManager
                 .getPackageInfo(packageName, 0).versionName
-
-            // Inflate custom view
             val inflater = LayoutInflater.from(this)
             val view = inflater.inflate(R.layout.dialog_about_us, null)
 
-            // Set text dynamically
             val aboutText = view.findViewById<TextView>(R.id.about_text)
 
             val message = """
@@ -270,10 +243,8 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
             You are currently using <b>version $versionName</b> of the LLE MedDocket App.
         """.trimIndent()
 
-            // Apply HTML formatting
             aboutText.text = Html.fromHtml(message)
 
-            // Set logo
             val logoVideo = view.findViewById<VideoView>(R.id.logo_video)
 
             val videoUri = Uri.parse("android.resource://${packageName}/${R.raw.logo_animation}")
@@ -284,7 +255,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
                 logoVideo.start()
             }
 
-            // Show AlertDialog with custom view
             val builder = androidx.appcompat.app.AlertDialog.Builder(this)
             builder.setTitle("About Us")
                 .setView(view)
@@ -303,7 +273,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
 
     private fun getInventoryUnitsResponse() {
         viewModel.getInventoryUnits.observe(this, Observer { response ->
-
             when (response) {
                 is ResourceApp.Success -> {
                     progressDialog.dismiss()
@@ -319,15 +288,12 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
                         )
                     })
                 }
-
                 is ResourceApp.Error -> {
                     progressDialog.dismiss()
                 }
-
                 is ResourceApp.Loading -> {
                     progressDialog.show()
                 }
-
                 else -> {
                     progressDialog.show()
                 }
@@ -342,8 +308,7 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
 
     private fun getViewModel() {
         val LLE_MedDocketRespository = LLE_MedDocketRespository()
-        val LLE_MedDocketProviderFactory =
-            LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
+        val LLE_MedDocketProviderFactory = LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
         viewModel = ViewModelProvider(
             this,
             LLE_MedDocketProviderFactory
@@ -355,7 +320,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
         }
 
         sessionManager = SessionManager(this)
-
     }
 
     private fun createRoomDatabase() {
@@ -366,21 +330,17 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
         val Refractive_Error_DAO: Refractive_Error_DAO = database.Refractive_Error_DAO()
         val OPD_Investigations_DAO: OPD_Investigations_DAO = database.OPD_Investigations_DAO()
         val Eye_Pre_Op_Notes_DAO: Eye_Pre_Op_Notes_DAO = database.Eye_Pre_Op_Notes_DAO()
-        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO =
-            database.Eye_Pre_Op_Investigation_DAO()
-        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO =
-            database.Eye_Post_Op_AND_Follow_ups_DAO()
+        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO = database.Eye_Pre_Op_Investigation_DAO()
+        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO = database.Eye_Post_Op_AND_Follow_ups_DAO()
         val Eye_OPD_Doctors_Note_DAO: Eye_OPD_Doctors_Note_DAO = database.Eye_OPD_Doctors_Note_DAO()
-        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO =
-            database.Cataract_Surgery_Notes_DAO()
+        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO = database.Cataract_Surgery_Notes_DAO()
         val Patient_DAO: PatientDao = database.PatientDao()
         val Image_Upload_DAO: Image_Upload_DAO = database.Image_Upload_DAO()
         val Registration_DAO: Registration_DAO = database.Registration_DAO()
         val Prescription_DAO: Prescription_DAO = database.Prescription_DAO()
         val SynTable_DAO: SynTable_DAO = database.SynTable_DAO()
         val Final_Prescription_DAO: Final_Prescription_DAO = database.Final_Prescription_DAO()
-        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO =
-            database.SpectacleDisdributionStatus_DAO()
+        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO = database.SpectacleDisdributionStatus_DAO()
         val CurrentInventory_DAO: CurrentInventory_DAO = database.CurrentInventory_DAO()
         val InventoryUnit_DAO: InventoryUnit_DAO = database.InventoryUnit_DAO()
         val CreatePrescriptionDAO: CreatePrescriptionDAO = database.CreatePrescriptionDAO()
@@ -420,19 +380,14 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
     private fun GetCurrentInventoryItems() {
         viewModel.GetCurrentInventoryItems(progressDialog)
         GetCurrentInventoryItemsResponse()
-
     }
 
     private fun GetCurrentInventoryItemsResponse() {
         viewModel.getCurrentInventoryItems.observe(this, Observer { response ->
-
             when (response) {
                 is ResourceApp.Success -> {
                     progressDialog.dismiss()
-                    Log.d(
-                        ConstantsApp.TAG,
-                        "GetCurrentInventoryItemsResponse=>" + response.data!!.currentInventory
-                    )
+                    Log.d(ConstantsApp.TAG, "GetCurrentInventoryItemsResponse=>" + response.data!!.currentInventory)
                     val currentInventoryData = ArrayList<CurrentInventoryLocal>()
                     for (item in response.data.currentInventory) {
                         val data = CurrentInventoryLocal(
@@ -474,15 +429,12 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
                 intent.putExtra("screen", Constants.SCREEN_OPD)
                 startActivity(intent)
             }
+
             binding.fab -> {
                 if (ConstantsApp.checkInternetConenction(applicationContext)) {
                     showPopupSyn()
                 } else {
-                    Toast.makeText(
-                        applicationContext,
-                        R.string.no_internet_connection,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(applicationContext, R.string.no_internet_connection, Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -496,35 +448,20 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun updateNewPrescriptionData(toInt: Int, syn: Int) {
-        viewModel1.updateNewPrescriptionData(toInt, syn)
-    }
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         val result = IntentIntegrator.parseActivityResult(resultCode, data)
         try {
             if (resultCode == RESULT_OK) {
-                // Attempt to decode the Base64 content
                 try {
                     val decodedBytes: ByteArray = Base64.getDecoder().decode(result.contents)
                     val decodedText: String = String(decodedBytes, Charsets.UTF_8)
                     sessionManager.setPatientData(decodedText)
-
                     val decodedText1 = sessionManager.getPatientData()
-
                     val gson = Gson()
-
                     val patientData2 = gson.fromJson(decodedText1, PatientDataLocal::class.java)
-
                     insertPatientDataToLocal(patientData2)
-
-                    val intent = Intent(
-                        this,
-                        PharmaFormActivity::class.java
-                    )
+                    val intent = Intent(this, PharmaFormActivity::class.java)
                     intent.putExtra("result", decodedText)
                     startActivity(intent)
                 } catch (e: IllegalArgumentException) {
@@ -550,12 +487,11 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun showToast(message: String) {
-        //Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+
     }
 
     @SuppressLint("MissingInflatedId")
     private fun showPopup() {
-
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.custom_popup_layout, null)
         val closeButton: Button = popupView.findViewById(R.id.popupButton)
@@ -573,8 +509,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
             sessionManager.clearCache(this@PharmaMainActivity)
             popupWindow.dismiss()
         }
-
-        // Create the PopupWindow
         popupWindow = PopupWindow(
             popupView,
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -582,34 +516,25 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
             true
         )
 
-        // Set background to allow outside clicks to dismiss the popup
         popupWindow.setBackgroundDrawable(resources.getDrawable(android.R.color.transparent))
 
-        // Show the popup at a specific location or anchor it to a view
         popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
     }
 
-
     @SuppressLint("MissingInflatedId")
     private fun showPopupSyn() {
-
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.custom_syn_layout1, null)
-
         val closeButton: Button = popupView.findViewById(R.id.popupButton1)
         val popupButtonCancel: Button = popupView.findViewById(R.id.popupButtonCancel)
         closeButton.setOnClickListener {
-
             progress.show()
             syncPharmaForm()
-
             getAllPrescriptionImageData()
-
             Handler(Looper.getMainLooper()).postDelayed({
                 progress.dismiss()
                 SynCompleted()
             }, 5000)
-
             popupWindow1.dismiss()
         }
 
@@ -684,7 +609,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
             ConstantsApp.getCurrentOnlyDate(),
             ConstantsApp.getCurrentTime()
         )
-
         viewModel1.insertSynedData(SynTableRequest)
         { success ->
             when (success) {
@@ -692,7 +616,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
                     getAllSynTableHistory()
                     Log.d(ConstantsApp.TAG, "insertSynedData=" + success)
                 }
-
                 0 -> {
                     Log.d(ConstantsApp.TAG, "insertSynedData=" + success)
                 }
@@ -721,14 +644,11 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
                         SynedDataList.add(SynedDataLive)
                     }
                 }
-
                 if (SynedDataList.isNotEmpty()) {
                     val data = SynedDataModel(SynedDataList)
                     viewModel.insertSynedData(progressDialog, data)
                     Insert_SynedData_Response()
-                } else {
                 }
-            } else {
             }
         })
     }
@@ -738,7 +658,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
             when (response) {
                 is ResourceApp.Success -> {
                     progressDialog.dismiss()
-
                     try {
                         when (response.data!!.ErrorMessage) {
                             "Success" -> {
@@ -756,15 +675,12 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
                         e.printStackTrace()
                     }
                 }
-
                 is ResourceApp.Error -> {
                     progressDialog.dismiss()
                 }
-
                 is ResourceApp.Loading -> {
                     progressDialog.show()
                 }
-
                 else -> {
                     progressDialog.dismiss()
                 }
@@ -796,7 +712,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
             )
             val idRequestBody =
                 RequestBody.create("text/plain".toMediaTypeOrNull(), currentImage._id.toString())
-
             val imageUploadParams = UploadImagePrescriptionRequest(
                 body,
                 patientIdRequestBody,
@@ -807,7 +722,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
             viewModel.uploadFileImagePrescription(progressDialog, imageUploadParams)
             observeImageUploadResponse()
         } else {
-            // All images have been uploaded
             Log.d(ConstantsApp.TAG, "All images uploaded successfully")
         }
     }
@@ -822,7 +736,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
                 Log.d(ConstantsApp.TAG, "ErrorMessage => $errorMessage")
                 Log.d(ConstantsApp.TAG, "ErrorCode => $errorCode")
                 Log.d(ConstantsApp.TAG, "image prescription id => $id")
-
                 when (errorMessage) {
                     "Success" -> {
                         UpdateImage(id)
@@ -921,7 +834,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
 
     private fun syncPharmaForm() {
         if (isInternetAvailable(this)) {
-            //sync service for Orthosis Patient Form
             val data = HashMap<String, Any>()
             data["patient"] = ""
             val intent = Intent(this, PharmaFormSyncService::class.java).apply {
@@ -931,7 +843,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
         } else {
             Utility.infoToast(this@PharmaMainActivity, "Internet Not Available")
         }
-
     }
 
 }

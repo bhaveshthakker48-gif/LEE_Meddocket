@@ -70,30 +70,39 @@ class OrthosisPatientFormService : LifecycleService() {
         }
     }
 
-    private fun syncDataToServer(unsyncedData:PatientFormMap) {
+    private fun syncDataToServer(unsyncedData: PatientFormMap) {
         serviceScope.launch {
             try {
                 delay(500)
                 val response = repository.syncOrthosisPatientForNew(unsyncedData)
-                Log.d("RESPONSE",response.message())
+                Log.d("SyncForms", "Server Response: ${response.message()}")
                 if (response.isSuccessful) {
+                    Log.d("SyncForms", "Sync success, updating local DB with IDs: ${response.body()!!.successSyncId}")
                     updateLocalDb(response.body()!!.successSyncId)
                 } else {
                     val error = response.body()?.message ?: "Unexpected Network Error"
-                    Log.d(ERR_TAG,error)
+                    Log.e("SyncForms", "Sync failed: $error")
                 }
             } catch (e: Exception) {
-                Log.d(ERR_TAG,e.message.toString())
+                Log.e("SyncForms", "Sync Exception: ${e.message}", e)
             }
         }
     }
 
-    private fun updateLocalDb(successIdList:List<Int>){
+    private fun updateLocalDb(successIdList: List<Int>) {
         serviceScope.launch {
+            Log.d("SyncForms", "Updating local DB with synced IDs: $successIdList")
             repository.updateSyncedForms(successIdList)
+
+            Log.d("SyncForms", "Local DB updated. Sending broadcast to refresh UI.")
+            val intent = Intent(ACTION_TASK_COMPLETED)
+            LocalBroadcastManager.getInstance(this@OrthosisPatientFormService).sendBroadcast(intent)
+
+            Log.d("SyncForms", "Broadcast sent successfully.")
+            stopSelf()
         }
-        stopSelf()
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

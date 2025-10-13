@@ -51,7 +51,7 @@ abstract class FormDataBase : RoomDatabase() {
                     FormDataBase::class.java,
                     Constants.ORTHOSIS_FORM_DATABASE_NAME
                 )
-                    .addMigrations(*migrations)
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance

@@ -90,9 +90,7 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
 
     lateinit var binding:ActivityEyePreOpNotesBinding
     lateinit var customDropDownAdapter: CustomDropDownAdapter
-
     var UpdatedfilePath:String=""
-
     var UnitArrayList:ArrayList<String>?=null
     var InvestigationArrayList:ArrayList<String>?=null
     var InvestigationArrayList1:ArrayList<String>?=null
@@ -103,12 +101,10 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
     var HistoryOfArrayList:ArrayList<String>?=null
     var HistoryOfArrayList1:ArrayList<String>?=null
     var IOLPowerArrayList:ArrayList<String>?=null
-
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
-
     var eye_pre_op_recommendation=""
     var eye_pre_op_recommendation_detail=""
     var eye_pre_op_identify_eye:String=""
@@ -157,6 +153,7 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
     var eye_pre_op_antibiotic_result=""
     var eye_pre_op_antibiotic_detail=""
     var eye_pre_op_discussed_with=""
+    private var isLineUpSurgeryVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,31 +161,24 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
     }
 
     override fun onResume() {
         super.onResume()
-
         getViewModel()
         createRoomDatabase()
-
         init()
     }
 
@@ -196,14 +186,11 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         val LLE_MedDocketRespository= LLE_MedDocketRespository()
         val LLE_MedDocketProviderFactory= LLE_MedDocketProviderFactory(LLE_MedDocketRespository,application)
         viewModel= ViewModelProvider(this,LLE_MedDocketProviderFactory).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager= SessionManager(this)
-
     }
 
     private fun createRoomDatabase() {
@@ -236,8 +223,7 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(LLE_MedDocket_ViewModel::class.java)
     }
 
-    private fun init()
-    {
+    private fun init() {
         binding.toolbarEyePreOpNotes.toolbar.title="Eye Pre-Op Notes"
 
         initView()
@@ -246,11 +232,7 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         UnitArrayList!!.add("Select Unit")
         UnitArrayList!!.add(0x00B0.toChar()+"C")
         UnitArrayList!!.add(0x00B0.toChar()+"F")
-
         HistoryOfArrayList1=ArrayList()
-
-
-
 
         IOLPowerArrayList= ArrayList()
         IOLPowerArrayList!!.add("Select")
@@ -377,7 +359,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         customDropDownAdapter= CustomDropDownAdapter(this,UnitArrayList!!)
         binding.spinnerTemperatureUnit!!.adapter=customDropDownAdapter
 
-
         customDropDownAdapter= CustomDropDownAdapter(this,EyeDropsArrayList!!)
         binding.Spinner2DropsOfTropicamide!!.adapter=customDropDownAdapter
 
@@ -395,7 +376,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
 
         customDropDownAdapter= CustomDropDownAdapter(this,AllergyTestArrayList!!)
         binding.SpinnerXylocaine!!.adapter=customDropDownAdapter
-
 
         customDropDownAdapter= CustomDropDownAdapter(this,DiscussedWithArrayList!!)
         binding.SpinnerDiscussedWith!!.adapter=customDropDownAdapter
@@ -433,7 +413,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         customDropDownAdapter= CustomDropDownAdapter(this,InvestigationArrayList1!!)
         binding.spinnerHcv!!.adapter=customDropDownAdapter
 
-
         binding.EditTextDateOfAdmission.setOnClickListener(this)
         binding.CheckBoxDiscussedWith.setOnClickListener(this)
         binding.radioButonLineUpForSurgery.setOnClickListener(this)
@@ -442,7 +421,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         binding.CardViewAddHistoryOf.setOnClickListener(this)
         binding.CardViewUploadImage.setOnClickListener(this)
         binding.cardViewSubmitEyePreOpNotes.setOnClickListener(this)
-
         binding.CheckBoxIdentifyCorrectEye.setOnCheckedChangeListener(this)
         binding.CheckBoxWashTheFace.setOnCheckedChangeListener(this)
         binding.CheckBoxNilByMouth4Hours.setOnCheckedChangeListener(this)
@@ -463,9 +441,7 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         binding.CheckBoxFlurEyeDrop.setOnCheckedChangeListener(this)
         binding.CheckBoxAmlodipine.setOnCheckedChangeListener(this)
 
-
-        binding.spinnerBloodSugarFasting.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerBloodSugarFasting.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -480,8 +456,8 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
             }
 
         }
-        binding.spinnerHaemoglobin.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+
+        binding.spinnerHaemoglobin.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -495,17 +471,15 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
-        binding.spinnerBloodSugarPp.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+
+        binding.spinnerBloodSugarPp.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                 eye_pre_op_bs_pp=binding.spinnerBloodSugarPp.selectedItem.toString()
 
             }
@@ -513,394 +487,285 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.spinnerProthrombinTime.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerProthrombinTime.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
-
                 eye_pre_op_pt=binding.spinnerProthrombinTime.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-
-        binding.spinnerCbc.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerCbc.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
-
                 eye_pre_op_cbc=binding.spinnerCbc.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.spinnerBleedingTime.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerBleedingTime.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
-
                 eye_pre_op_bt=binding.spinnerBleedingTime.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.spinnerHiv.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerHiv.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
-
                  eye_pre_op_hiv=binding.spinnerHiv.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.spinnerClottingTime.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerClottingTime.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
-
-
                  eye_pre_op_ct=binding.spinnerClottingTime.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-
-        binding.spinnerHbsag.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerHbsag.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
-
-
                 eye_pre_op_hbsag=binding.spinnerHbsag.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-
-        binding.spinnerHcv.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerHcv.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
-
-
                 eye_pre_op_hcv=binding.spinnerHcv.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-
-        binding.SpinnerECG.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerECG.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
-
-
                  eye_pre_op_ecg=binding.SpinnerECG.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-
-
-        binding.SpinnerXylocaine.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerXylocaine.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
-
-
-
                 eye_pre_op_xylocaine_detail=binding.SpinnerXylocaine.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-
-        binding.SpinnerXylocaineTestResult.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerXylocaineTestResult.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
-
-
-
-
                 eye_pre_op_xylocaine_result=binding.SpinnerXylocaineTestResult.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-
-        binding.Spinner2DropsOfTropicamide.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.Spinner2DropsOfTropicamide.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                 eye_pre_op_tropicamide=binding.Spinner2DropsOfTropicamide.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.Spinner2DropsOfBetadine.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.Spinner2DropsOfBetadine.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                 eye_pre_op_betadine=binding.Spinner2DropsOfBetadine.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.spinnerIOLPower.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerIOLPower.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                  eye_pre_op_iol_power=binding.spinnerIOLPower.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.spinnerTemperatureUnit.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerTemperatureUnit.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                 eye_pre_op_temp_unit=binding.spinnerTemperatureUnit.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerAnitiBioticTestResult.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerAnitiBioticTestResult.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                  eye_pre_op_antibiotic_result=binding.SpinnerAnitiBioticTestResult.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerCheckedSkinAfter20Minutes.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerCheckedSkinAfter20Minutes.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                 eye_pre_op_antibiotic_detail=binding.SpinnerCheckedSkinAfter20Minutes.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerDiscussedWith.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerDiscussedWith.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                 eye_pre_op_discussed_with=binding.SpinnerDiscussedWith.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
         binding.SpinnerDiscussedWith.visibility=View.GONE
         binding.EditTextDiscussedWith.visibility=View.GONE
-
         binding.EditTextUnfitForSurgery.visibility=View.GONE
         binding.EditTextCanNotOperate.visibility=View.GONE
-
         binding.EditTextAntihypertensiveMedication.visibility=View.GONE
         binding.EditTextHeartMedicationTaken.visibility=View.GONE
         binding.EditTextDiabetesMedicationTaken.visibility=View.GONE
         binding.EditTextAnyOtherInstruction.visibility=View.GONE
-
-        binding.LinearLayoutLineUpSurgery!!.visibility=View.GONE
+        binding.LinearLayoutLineUpSurgery!!.visibility =
+            if (isLineUpSurgeryVisible) View.VISIBLE else View.GONE
         binding.LinearLayoutAntibiotic.visibility=View.GONE
         binding.LinearLayoutXylocaine.visibility=View.GONE
-
         binding.RecyclerViewHistoryOf.visibility=View.GONE
-
-
         binding.EditTextDiastolic.addTextChangedListener(createTextWatcher(binding.EditTextDiastolic))
         binding.EditTextO2Saturation.addTextChangedListener(createTextWatcher(binding.EditTextO2Saturation))
-
     }
 
-
     private fun getPermission() {
-        // Set up listeners for camera and storage permissions
         val cameraPermissionListener: PermissionListener = object : EmptyPermissionListener() {
-            override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-                // Camera permission granted, handle accordingly
-                // For example, you can open the camera here
-            }
+            override fun onPermissionGranted(response: PermissionGrantedResponse?) {}
 
             override fun onPermissionDenied(response: PermissionDeniedResponse?) {
-                // Camera permission denied, handle accordingly
-                // Optionally, you can redirect the user to the app settings
                 showAppSettings()
             }
         }
@@ -918,7 +783,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
                 }
             }
 
-        // Request camera permission using Dexter
         Dexter.withActivity(this)
             .withPermission(Manifest.permission.CAMERA)
             .withListener(cameraPermissionListener)
@@ -931,8 +795,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         layoutManager.orientation= RecyclerView.VERTICAL
         binding.RecyclerViewHistoryOf!!.layoutManager=layoutManager
         binding.RecyclerViewHistoryOf!!.setHasFixedSize(true)
-
-
     }
 
 
@@ -945,17 +807,14 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         val datePickerDialog = DatePickerDialog(
             this,
             { _, selectedYear, selectedMonth, selectedDay ->
-                // Handle the selected date
                 val selectedDate = String.format(Locale.getDefault(), "%02d-%02d-%04d", selectedDay, selectedMonth + 1, selectedYear)
                 binding.EditTextDateOfAdmission.setText(selectedDate)
             },
             year, month, day
         )
 
-        // Set the minimum date to the current year
         datePickerDialog.datePicker.minDate = calendar.timeInMillis
 
-        // You can set a maximum date if you want, for example, allow selection up to 5 years from now
         val maxYear = calendar.get(Calendar.YEAR) + 5
         val endOfYearCalendar = Calendar.getInstance()
         endOfYearCalendar.set(maxYear, 11, 31, 23, 59, 59)
@@ -966,25 +825,20 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
 
     private fun AddHistory(selected_history: String, recyclerView: RecyclerView) {
         binding.RecyclerViewHistoryOf.visibility=View.VISIBLE
-
         HistoryOfArrayList1!!.add(selected_history)
         recyclerView.adapter = Adapter_Eye_Pre_Op_Notes_History(this, HistoryOfArrayList1!!)
     }
 
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        when(buttonView)
-        {
-            binding.CheckBoxDiscussedWith->
-            {
+        when(buttonView) {
+            binding.CheckBoxDiscussedWith-> {
                 binding.EditTextDiscussedWith.visibility = if (isChecked) View.VISIBLE else View.GONE
                 binding.SpinnerDiscussedWith.visibility = if (isChecked) View.VISIBLE else View.GONE
             }
-            binding.CheckBoxAlleryTestAntibiotic->
-            {
 
+            binding.CheckBoxAlleryTestAntibiotic-> {
                 binding.LinearLayoutAntibiotic.visibility = if (isChecked) View.VISIBLE else View.GONE
-
                 if (isChecked) {
                     eye_pre_op_antibiotic = binding.CheckBoxAlleryTestAntibiotic.text.toString()
                     Log.d(ConstantsApp.TAG, "eye_pre_op_antibiotic => $eye_pre_op_antibiotic")
@@ -992,215 +846,145 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
                     eye_pre_op_antibiotic = ""
                     Log.d(ConstantsApp.TAG, "eye_pre_op_antibiotic => $eye_pre_op_antibiotic")
                 }
-
             }
-            binding.CheckBoxCheckBoxAlleryTestXylocaine->
-            {
 
+            binding.CheckBoxCheckBoxAlleryTestXylocaine-> {
                 binding.LinearLayoutXylocaine.visibility = if (isChecked) View.VISIBLE else View.GONE
-
-                if (isChecked)
-                {
+                if (isChecked) {
                     eye_pre_op_xylocaine=binding.CheckBoxCheckBoxAlleryTestXylocaine.text.toString()
-                }
-                else
-                {
+                } else {
                     eye_pre_op_xylocaine=""
                 }
-
             }
 
-            binding.CheckBoxIdentifyCorrectEye->
-            {
-                if(isChecked)
-                {
+            binding.CheckBoxIdentifyCorrectEye-> {
+                if(isChecked) {
                     eye_pre_op_identify_eye=binding.CheckBoxIdentifyCorrectEye.text.toString()
-                }
-                else
-                {
+                } else {
                     eye_pre_op_identify_eye=" "
                 }
             }
 
-            binding.CheckBoxWashTheFace->
-            {
-                if(isChecked)
-                {
+            binding.CheckBoxWashTheFace-> {
+                if(isChecked) {
                     eye_pre_op_wash_face=binding.CheckBoxWashTheFace.text.toString()
-                }
-                else
-                {
+                } else {
                     eye_pre_op_wash_face=""
                 }
             }
-            binding.CheckBoxNilByMouth4Hours->
-            {
-                if(isChecked)
-                {
+
+            binding.CheckBoxNilByMouth4Hours-> {
+                if(isChecked) {
                     eye_pre_op_nil_mouth=binding.CheckBoxNilByMouth4Hours.text.toString()
-                }
-                else
-                {
+                } else {
                     eye_pre_op_nil_mouth=""
                 }
-
             }
-            binding.CheckBoxHeadBath->
-            {
-                if(isChecked)
-                {
-                    eye_pre_op_head_bath=binding.CheckBoxHeadBath.text.toString()
 
-                }
-                else
-                {
+            binding.CheckBoxHeadBath-> {
+                if(isChecked) {
+                    eye_pre_op_head_bath=binding.CheckBoxHeadBath.text.toString()
+                } else {
                     eye_pre_op_head_bath=""
                 }
             }
 
-            binding.CheckBoxAntihypertensiveMedication->
-            {
-                if(isChecked)
-                {
+            binding.CheckBoxAntihypertensiveMedication-> {
+                if(isChecked) {
                     binding.EditTextAntihypertensiveMedication.visibility=View.VISIBLE
                     eye_pre_op_antihyp=binding.CheckBoxAntihypertensiveMedication.text.toString()
-
-                }
-                else
-                {
+                } else {
                     eye_pre_op_antihyp=""
                 }
             }
 
-            binding.CheckBoxHeartMedicationTaken->
-            {
-                if(isChecked)
-                {
+            binding.CheckBoxHeartMedicationTaken-> {
+                if(isChecked) {
                     binding.EditTextHeartMedicationTaken.visibility=View.VISIBLE
                     eye_pre_op_heart=binding.CheckBoxHeartMedicationTaken.text.toString()
-
-                }
-                else
-                {
+                } else {
                     eye_pre_op_heart=""
                 }
             }
 
-            binding.CheckBoxDiabetesMedicationTaken->
-            {
-                if (isChecked)
-                {
+            binding.CheckBoxDiabetesMedicationTaken-> {
+                if (isChecked) {
                     binding.EditTextDiabetesMedicationTaken.visibility=View.VISIBLE
                     eye_pre_op_dia=binding.CheckBoxDiabetesMedicationTaken.text.toString()
-
-                }
-                else
-                {
+                } else {
                     eye_pre_op_dia=""
                 }
-
             }
-            binding.CheckBoxAnyOtherInstruction->
-            {
-                if (isChecked)
-                {
+
+            binding.CheckBoxAnyOtherInstruction-> {
+                if (isChecked) {
                     binding.EditTextAnyOtherInstruction.visibility=View.VISIBLE
                     eye_pre_op_other=binding.CheckBoxAnyOtherInstruction.text.toString()
-
-                }
-                else
-                {
+                } else {
                     eye_pre_op_other=""
                 }
-
             }
 
-            binding.CheckBoxDiamox->
-            {
-                if (isChecked)
-                {
+            binding.CheckBoxDiamox-> {
+                if (isChecked) {
                     eye_pre_op_diamox=binding.CheckBoxDiamox.text.toString()
-                }
-                else
-                {
+                } else {
                     eye_pre_op_diamox=""
                 }
             }
-            binding.CheckBoxAlprax->
-            {
-                if (isChecked)
-                {
+
+            binding.CheckBoxAlprax-> {
+                if (isChecked) {
                     eye_pre_op_alprax=binding.CheckBoxAlprax.text.toString()
-                }
-                else
-                {
+                } else {
                     eye_pre_op_alprax=""
                 }
             }
-            binding.CheckBoxCiplox->
-            {
-                if (isChecked)
-                {
+
+            binding.CheckBoxCiplox-> {
+                if (isChecked) {
                     eye_pre_op_ciplox=binding.CheckBoxCiplox.text.toString()
-                }
-                else
-                {
+                } else {
                     eye_pre_op_ciplox=""
                 }
             }
-            binding.CheckBoxTropicacylPlusEyeDrop->
-            {
-                if (isChecked)
-                {
+
+            binding.CheckBoxTropicacylPlusEyeDrop-> {
+                if (isChecked) {
                     eye_pre_op_tropical_drop=binding.CheckBoxTropicacylPlusEyeDrop.text.toString()
-                }
-                else
-                {
+                } else {
                     eye_pre_op_tropical_drop=""
                 }
-
             }
-            binding.CheckBoxPlainTropicacylIfMyopia->
-            {
-                if (isChecked)
-                {
+
+            binding.CheckBoxPlainTropicacylIfMyopia-> {
+                if (isChecked) {
                    eye_pre_op_plain_tropical=binding.CheckBoxPlainTropicacylIfMyopia.text.toString()
-                }
-                else
-                {
+                } else {
                     eye_pre_op_plain_tropical=""
                 }
             }
-            binding.CheckBoxCiploxAntibioticDrops->
-            {
-                if (isChecked)
-                {
+
+            binding.CheckBoxCiploxAntibioticDrops-> {
+                if (isChecked) {
                    eye_pre_op_ciplox_drop=binding.CheckBoxCiploxAntibioticDrops.text.toString()
-                }
-                else
-                {
+                } else {
                     eye_pre_op_ciplox_drop=""
                 }
             }
-            binding.CheckBoxFlurEyeDrop->
-            {
-                if (isChecked)
-                {
+
+            binding.CheckBoxFlurEyeDrop-> {
+                if (isChecked) {
                   eye_pre_op_flur_eye=binding.CheckBoxFlurEyeDrop.text.toString()
-                }
-                else
-                {
+                } else {
                     eye_pre_op_flur_eye=""
                 }
             }
-            binding.CheckBoxAmlodipine->
-            {
-                if (isChecked)
-                {
+
+            binding.CheckBoxAmlodipine-> {
+                if (isChecked) {
                   eye_pre_op_amlodipine=binding.CheckBoxAmlodipine.text.toString()
-                }
-                else
-                {
+                } else {
                     eye_pre_op_amlodipine=""
                 }
             }
@@ -1227,34 +1011,25 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
     private fun choosePhotoFromGallary1() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, GALLERY)
-
     }
 
     private fun takePhotoFromCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, CAMERA)
-
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == GALLERY) {
             val imageUri = data?.data
-
             filePath = RealPathUtil1.getRealPath(this, imageUri!!)
             Log.d(ConstantsApp.TAG,"filePath=>"+filePath)
             Log.d(ConstantsApp.TAG,"imageUri=>"+imageUri)
             binding.ImageViewEyePreOpNotes?.setImageURI(imageUri)
             binding.TextViewEyePreOpNotes.text=filePath
-
-
-
             val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             val fileName = "surgical_notes_image_$timestamp.jpg"
-
             val updatedPath = ConstantsApp.moveImageToLLEFolder(this, imageUri!!,fileName)
-
             UpdatedfilePath= updatedPath!!
             binding.ImageViewEyePreOpNotes?.setImageURI(Uri.fromFile(File(updatedPath)))
             binding.TextViewEyePreOpNotes.text = updatedPath
@@ -1262,22 +1037,17 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
 
         if (requestCode == CAMERA && resultCode == Activity.RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
-            //imageView.setImageBitmap(imageBitmap)
             filePath = saveBitmapToFile(imageBitmap, this)
             Log.d(ConstantsApp.TAG,"filepath on camera click=>"+filePath)
-
-
-
 
             val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             val fileName = "surgical_notes_image_$timestamp.jpg"
 
-            // Save the bitmap to a file
             val tempFile = ConstantsApp.saveBitmapToFile1(imageBitmap, fileName, this)
 
             val imageUri = FileProvider.getUriForFile(
                 this,
-                "org.impactindiafoundation.iifllemeddocket.fileprovider",  // Replace with your app's package name
+                "org.impactindiafoundation.iifllemeddocket.provider", // ✅ matches manifest
                 tempFile
             )
 
@@ -1288,7 +1058,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
             binding.TextViewEyePreOpNotes.text = updatedPath
         }
     }
-
 
     private fun showAppSettings() {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -1301,95 +1070,73 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         super.onBackPressed()
         gotoScreen(this,PatientForms::class.java)
     }
+
     fun gotoScreen(context: Context?, cls: Class<*>?) {
         val intent = Intent(context, cls)
         startActivity(intent)
         finish()
     }
 
-
     private fun createTextWatcher(editText: EditText): TextWatcher? {
-
-        return object : TextWatcher
-        {
+        return object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                val text = s.toString()
-                // Here, you can identify which EditText has changed by checking the ID or some other criteria
                 when (editText) {
                     binding.EditTextDiastolic -> {
                         setBloodPressure()
                     }
                     binding.EditTextO2Saturation -> {
                         interpretOxygenSaturation(s.toString())
-
                     }
-
                 }
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val text = s.toString()
-                // Here, you can identify which EditText has changed by checking the ID or some other criteria
                 when (editText) {
                     binding.EditTextDiastolic -> {
                         setBloodPressure()
                     }
                     binding.EditTextO2Saturation -> {
                         interpretOxygenSaturation(s.toString())
-
                     }
-
                 }
             }
 
             override fun afterTextChanged(s: Editable?) {
-
-
-                val text = s.toString()
-                // Here, you can identify which EditText has changed by checking the ID or some other criteria
                 when (editText) {
                     binding.EditTextDiastolic -> {
                         setBloodPressure()
                     }
                     binding.EditTextO2Saturation -> {
                         interpretOxygenSaturation(s.toString())
-
                     }
-
                 }
             }
-
         }
-
     }
 
-    private fun setBloodPressure()
-    {
+    private fun setBloodPressure() {
         val systolic = binding.EditTextSystolic.text.toString().toIntOrNull() ?: 0
         val diastolic = binding.EditTextDiastolic.text.toString().toIntOrNull() ?: 0
-
         val bloodPressureInfo = getBloodPressureType(systolic, diastolic)
-        // binding.tvInterpretationBP.text = "Blood Pressure Type: ${bloodPressureInfo.first}"
         binding.TextViewBPInterpretation.text = "${bloodPressureInfo.first}"
         binding.TextViewBPInterpretation.setTextColor(ContextCompat.getColor(this, bloodPressureInfo.second))
     }
 
     private fun getBloodPressureType(systolic: Int, diastolic: Int): Pair<String, Int> {
         return when {
-            systolic == 0 || diastolic == 0 -> Pair("", android.R.color.black) // Set a default color for zero values
+            systolic == 0 || diastolic == 0 -> Pair("", android.R.color.black)
             systolic < 90 || (diastolic in 0..60) -> Pair("Hypotension", R.color.blue)
             systolic < 120 && diastolic < 80 -> Pair("Normal", R.color.black)
             systolic in 120..139 || diastolic in 80..89 -> Pair("Prehypertension", R.color.red)
             systolic in 140..159 || diastolic in 90..99 -> Pair("Stage 1 Hypertension", R.color.red)
             systolic >= 160 || diastolic >= 100 -> Pair("Stage 2 Hypertension", R.color.red)
-            else -> Pair("Unknown", android.R.color.black) // Set a default color for unknown
+            else -> Pair("Unknown", android.R.color.black)
         }
     }
 
 
     private fun interpretOxygenSaturation(input: String) {
         val saturationLevel = input.toDoubleOrNull()
-
         saturationLevel?.let {
             val interpretation = when {
                 it >= 98.0 -> "Normal"
@@ -1398,12 +1145,9 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
                 it < 90.0 -> "Critical Hypoxia"
                 else -> "Not Defined"
             }
-
-            // Set interpretation text and color in the TextView
             binding.TextViewO2SaturationInterpretation.text = interpretation
             setColorBasedOnOxygenSaturation(interpretation)
         } ?: run {
-            // If input is empty, clear the TextView
             binding.TextViewO2SaturationInterpretation.text = ""
         }
     }
@@ -1415,83 +1159,68 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
             interpretation.contains("Hypoxia") || interpretation.contains("Critical Hypoxia") -> Color.BLUE
             else -> Color.BLACK
         }
-
         binding.TextViewO2SaturationInterpretation.setTextColor(color)
     }
 
 
     override fun onClick(v: View?) {
-        when(v)
-        {
-            binding.EditTextDateOfAdmission->
-            {
+        when(v) {
+            binding.EditTextDateOfAdmission-> {
                 showDatePickerDialog()
             }
 
-            binding.radioButonLineUpForSurgery->
-            {
+            binding.radioButonLineUpForSurgery-> {
                 binding.radioButonLineUpForSurgery.isChecked=true
                 binding.radioButonUnfitForSurgery.isChecked=false
                 binding.radioButonCanNotOperate.isChecked=false
-
                 binding.EditTextUnfitForSurgery.visibility=View.GONE
                 binding.EditTextCanNotOperate.visibility=View.GONE
-
                 binding.LinearLayoutLineUpSurgery!!.visibility=View.VISIBLE
+                isLineUpSurgeryVisible = true
                 eye_pre_op_recommendation=binding.radioButonLineUpForSurgery.text.toString()
                 eye_pre_op_recommendation_detail=""
             }
-            binding.radioButonUnfitForSurgery->
-            {
+
+            binding.radioButonUnfitForSurgery-> {
                 binding.radioButonUnfitForSurgery.isChecked=true
                 binding.radioButonLineUpForSurgery.isChecked=false
                 binding.radioButonCanNotOperate.isChecked=false
                 binding.EditTextUnfitForSurgery.visibility=View.VISIBLE
                 binding.EditTextCanNotOperate.visibility=View.GONE
-
                 binding.LinearLayoutLineUpSurgery!!.visibility=View.GONE
                 eye_pre_op_recommendation=binding.radioButonUnfitForSurgery.text.toString()
                 eye_pre_op_recommendation_detail=binding.EditTextUnfitForSurgery.text.toString()
-
-
             }
-            binding.radioButonCanNotOperate->
-            {
+
+            binding.radioButonCanNotOperate-> {
                 binding.radioButonCanNotOperate.isChecked=true
                 binding.radioButonUnfitForSurgery.isChecked=false
                 binding.radioButonLineUpForSurgery.isChecked=false
                 binding.EditTextUnfitForSurgery.visibility=View.GONE
                 binding.EditTextCanNotOperate.visibility=View.VISIBLE
-
                 binding.LinearLayoutLineUpSurgery!!.visibility=View.GONE
-
                 eye_pre_op_recommendation=binding.radioButonCanNotOperate.text.toString()
                 eye_pre_op_recommendation_detail=binding.EditTextCanNotOperate.text.toString()
             }
-            binding.CardViewAddHistoryOf->
-            {
+
+            binding.CardViewAddHistoryOf-> {
                 val selected_history=binding.SpinnerHistoryOf.selectedItem.toString()
                 Log.d(ConstantsApp.TAG,"selected_history=>"+selected_history)
                 AddHistory(selected_history,binding.RecyclerViewHistoryOf)
             }
-            binding.CardViewUploadImage->
-            {
+
+            binding.CardViewUploadImage-> {
                 showPictureDialog()
             }
-            binding.cardViewSubmitEyePreOpNotes->
-            {
-                if (filePath.isNullOrEmpty())
-                {
+
+            binding.cardViewSubmitEyePreOpNotes-> {
+                if (filePath.isNullOrEmpty()) {
                     Log.d(ConstantsApp.TAG,"Image no")
                     SubmitDataOnly()
-                }
-                else
-                {
+                } else {
                     Log.d(ConstantsApp.TAG,"Image yes")
                     SubmitDataOnly()
                 }
-
-
             }
         }
     }
@@ -1648,11 +1377,8 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         eye_pre_op_xylocaine_other: String,
         eye_pre_op_xylocaine_result: String,
         eye_pre_op_historyof: String
-    )
-    {
-
-        if (UpdatedfilePath=="")
-        {
+    ) {
+        if (UpdatedfilePath=="") {
             val eyePreNotes=Eye_Pre_Op_Notes(0,
                 camp_id!!,
                 current_Date,
@@ -1719,13 +1445,10 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
                 "",
                 "111"
             )
-
             Log.d(ConstantsApp.TAG,"eyePreNotes=>"+eyePreNotes)
             viewModel1.insertEye_Pre_Op_Notes1(eyePreNotes)
             InsertEye_Pre_Op_Notes_Localresponse()
-        }
-        else
-        {
+        } else {
             val eyePreNotes=Eye_Pre_Op_Notes(0,
                 camp_id!!,
                 current_Date,
@@ -1796,14 +1519,12 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
             viewModel1.insertEye_Pre_Op_Notes1(eyePreNotes)
             InsertEye_Pre_Op_Notes_Localresponse()
         }
-
     }
 
     private fun InsertEye_Pre_Op_Notes_Localresponse() {
         viewModel1.toastMessage.observe(this
             , Observer { message ->
                 showToast(message)
-                // gotoScreen(this,PatientForms::class.java)
             })
 
         viewModel1.insertResponse1.observe(this, Observer { response ->
@@ -1813,36 +1534,20 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
                 val patient_id = it.third
                 val userId = it.fourth
                 val filePath = it.fifth
-
-                // Check for null before using the properties
                 if (_id != null && camp_id != null && patient_id != null && userId != null && filePath != null) {
                     val fileName = ConstantsApp.getFileNameFromPath(filePath)
-
                     val imageModel = ImageModel(0, _id, fileName, "111", patient_id, camp_id, userId, filePath)
-
                     viewModel1.InsertImageLocal(imageModel)
-
                     gotoScreen(this, PatientForms::class.java)
                 } else {
-                    // Handle the case where any of the required properties is null
                     showToast("Some properties are null in the response")
                     gotoScreen(this, PatientForms::class.java)
                 }
             }
-        })
-
-    }
-
-    private fun ImageUploadResponse() {
-        viewModel1.toastImageMessage.observe(this, Observer {
-                result->
-            showToast(result)
         })
     }
 
     private fun showToast(message:String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-
-
 }
