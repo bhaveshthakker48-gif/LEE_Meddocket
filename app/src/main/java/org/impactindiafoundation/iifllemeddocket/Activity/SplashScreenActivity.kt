@@ -48,12 +48,8 @@ lateinit var binding:ActivitySplashScreenBinding
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
-
     private val MY_REQUEST_CODE = 1000  // Choose any code you prefer
-
-    lateinit var appUpdateInfoTask: Task<AppUpdateInfo>
     private val appUpdateManager: AppUpdateManager by lazy { AppUpdateManagerFactory.create(this) }
-
 
     companion object {
         private const val REQUEST_CODE_UPDATE = 100
@@ -66,29 +62,22 @@ lateinit var binding:ActivitySplashScreenBinding
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
 
         getViewModel()
-
         binding.textViewAboveBottom.text="Version "+getAppVersion()
-
         checkForUpdate()
-
     }
 
     private fun checkForUpdate() {
@@ -130,13 +119,10 @@ lateinit var binding:ActivitySplashScreenBinding
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == MY_REQUEST_CODE) {
             if (resultCode != RESULT_OK) {
-                // If the update is not completed, you can handle it here
                 Toast.makeText(this,"Update Incomplete",Toast.LENGTH_SHORT).show()
             } else {
-                // Update completed successfully, open the main activity
                 requestPermission()
             }
         }
@@ -152,7 +138,6 @@ lateinit var binding:ActivitySplashScreenBinding
                 )
             .withListener(object : MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                    // Check if all permissions are granted
                     if (report != null && report.areAllPermissionsGranted()) {
                         Log.d(ConstantsApp.TAG,"Check if all permissions are granted")
                         loadMainActivity()
@@ -175,35 +160,29 @@ lateinit var binding:ActivitySplashScreenBinding
         val LLE_MedDocketRespository= LLE_MedDocketRespository()
         val LLE_MedDocketProviderFactory= LLE_MedDocketProviderFactory(LLE_MedDocketRespository,application)
         viewModel= ViewModelProvider(this,LLE_MedDocketProviderFactory).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager= SessionManager(this)
     }
 
     private fun loadMainActivity() {
         try {
             val loginData=sessionManager.getLoginData()
-            if (loginData!!.size>0)
-            {
-                for (login in loginData)
-                {
+            if (loginData!!.size>0) {
+                for (login in loginData) {
                     handleSuccessfulLogin(login.Designation_name)
                 }
             }
-            else
-            {
+            else {
                 Handler().postDelayed({
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish() // Close the splash activity so that it's not accessible with the back button
                 }, 3000)
             }
         }
-        catch (e:Exception)
-        {
+        catch (e:Exception) {
             e.printStackTrace()
             Handler().postDelayed({
                 startActivity(Intent(this, LoginActivity::class.java))
@@ -217,6 +196,7 @@ lateinit var binding:ActivitySplashScreenBinding
             "Data Entry Volunteer(LLE)" -> {
                 startActivity(Intent(this, MainActivity::class.java))
             }
+
             "PSD Volunteer(LLE)" -> {
                 startActivity(Intent(this, PresciptionMainActivity::class.java))
             }
@@ -231,11 +211,11 @@ lateinit var binding:ActivitySplashScreenBinding
                 startActivity(intent)
                 finish()
             }
+
             else -> {
                 startActivity(Intent(this,MainActivity::class.java))
                 finish()
             }
-
         }
         finish()
     }

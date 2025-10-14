@@ -24,12 +24,6 @@ class CampPatientViewModel @Inject constructor(private val newMainRepository: Ne
     private var _campPatientList = MutableLiveData<Resource<List<CampPatientDataItem>>>()
     val campPatientList: LiveData<Resource<List<CampPatientDataItem>>> get() = _campPatientList
 
-    private var _campPatientListById = MutableLiveData<Resource<List<CampPatientDataItem>>>()
-    val campPatientListById: LiveData<Resource<List<CampPatientDataItem>>> get() = _campPatientListById
-
-    private var _orthosisPatientFormListById = MutableLiveData<Resource<List<OrthosisPatientForm>>>()
-    val orthosisPatientFormListById: LiveData<Resource<List<OrthosisPatientForm>>> get() = _orthosisPatientFormListById
-
     private var _orthosisPatientFormList = MutableLiveData<Resource<List<OrthosisPatientForm>>>()
     val orthosisPatientFormList: LiveData<Resource<List<OrthosisPatientForm>>> get() = _orthosisPatientFormList
 
@@ -47,14 +41,11 @@ class CampPatientViewModel @Inject constructor(private val newMainRepository: Ne
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _campPatientList.postValue(Resource.error(e.message.toString(), null))
         }
     }
-
 
     fun getOrthosisPatientForm() = CoroutineScope(Dispatchers.IO).launch {
         _orthosisPatientFormList.postValue(Resource.loading(null))
@@ -70,13 +61,9 @@ class CampPatientViewModel @Inject constructor(private val newMainRepository: Ne
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _orthosisPatientFormList.postValue(Resource.error(e.message.toString(), null))
         }
     }
-
-
 }

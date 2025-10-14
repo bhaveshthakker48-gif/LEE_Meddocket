@@ -66,19 +66,14 @@ import java.io.IOException
 class PrescriptionPreviewActivity:AppCompatActivity(), View.OnClickListener {
 
     lateinit var binding:ActivityPrintPharmaDescriptionBinding
-
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
     private lateinit var printManager: PrintManager
-
     private lateinit var printJob: PrintJob
-
     lateinit var adapter: AdapterPrescriptionData1
-
     var patient_id=""
-
     var prescriptionDataList:ArrayList<CreatePrescriptionModel>?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,30 +82,28 @@ class PrescriptionPreviewActivity:AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
     }
 
     override fun onResume() {
         super.onResume()
+
         getViewModel()
         createRoomDatabase()
+
         prescriptionDataList= ArrayList()
+
         val decodedText=sessionManager.getPatientData()
         val gson = Gson()
         val patientData = gson.fromJson(decodedText, PatientData::class.java)
@@ -149,14 +142,11 @@ class PrescriptionPreviewActivity:AppCompatActivity(), View.OnClickListener {
         val LLE_MedDocketRespository= LLE_MedDocketRespository()
         val LLE_MedDocketProviderFactory= LLE_MedDocketProviderFactory(LLE_MedDocketRespository,application)
         viewModel= ViewModelProvider(this,LLE_MedDocketProviderFactory).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager= SessionManager(this)
-
     }
 
     private fun createRoomDatabase() {
@@ -185,10 +175,8 @@ class PrescriptionPreviewActivity:AppCompatActivity(), View.OnClickListener {
         val FinalPrescriptionDrugDAO: FinalPrescriptionDrugDAO =database.FinalPrescriptionDrugDAO()
 
         val repository = LLE_MedDocket_Repository(Vital_DAO, VisualAcuity_DAO, Refractive_Error_DAO, OPD_Investigations_DAO, Eye_Pre_Op_Notes_DAO, Eye_Pre_Op_Investigation_DAO, Eye_Post_Op_AND_Follow_ups_DAO, Eye_OPD_Doctors_Note_DAO, Cataract_Surgery_Notes_DAO, Patient_DAO,Image_Upload_DAO,Registration_DAO,Prescription_DAO,Final_Prescription_DAO,SpectacleDisdributionStatus_DAO,SynTable_DAO,CurrentInventory_DAO,InventoryUnit_DAO,CreatePrescriptionDAO,Image_Prescription_DAO,FinalPrescriptionDrugDAO,database)
-
         viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(LLE_MedDocket_ViewModel::class.java)
     }
-
 
     override fun onClick(v: View?) {
         when (v) {

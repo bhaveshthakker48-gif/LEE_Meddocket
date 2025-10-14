@@ -21,21 +21,16 @@ class RefractiveErrorViewModel @Inject constructor(private val mainRepository: N
 
     val allRefractive_Error:LiveData<List<RefractiveError>> = mainRepository.allRefractive_Error
 
-    val uniqueRefractivePatientCount: LiveData<Int> = mainRepository.uniqueRefractivePatientCount
-
-
     private var _insertRefractiveResponse = MutableLiveData<Resource<Long>>()
     val insertRefractiveResponse: LiveData<Resource<Long>> get() = _insertRefractiveResponse
 
-    private var _refractiveFormListById =
-        MutableLiveData<Resource<List<RefractiveError>>>()
+    private var _refractiveFormListById = MutableLiveData<Resource<List<RefractiveError>>>()
     val refractiveFormListById: LiveData<Resource<List<RefractiveError>>> get() = _refractiveFormListById
 
     fun insertRefractiveForm(refractiveForm: RefractiveError) {
         CoroutineScope(Dispatchers.IO).launch {
             val message = mainRepository.insertRefractiveForm(refractiveForm)
             _insertRefractiveResponse.postValue(Resource.success(message))
-
             if (message.equals(null)) {
                 _insertRefractiveResponse.postValue(Resource.error("Local Db Error", null))
             } else {
@@ -58,9 +53,7 @@ class RefractiveErrorViewModel @Inject constructor(private val mainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _refractiveFormListById.postValue(Resource.error(e.message.toString(), null))
         }

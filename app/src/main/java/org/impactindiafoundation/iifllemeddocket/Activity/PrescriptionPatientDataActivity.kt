@@ -17,8 +17,7 @@ import org.impactindiafoundation.iifllemeddocket.architecture.viewModel.ent.EntP
 import org.impactindiafoundation.iifllemeddocket.databinding.ActivityPrescriptionPatientDataBinding
 import org.impactindiafoundation.iifllemeddocket.ui.activity.BaseActivity
 
-class PrescriptionPatientDataActivity : BaseActivity(),
-    PrescriptionPatientReportAdapter.PatientReportAdapterEvent {
+class PrescriptionPatientDataActivity : BaseActivity(), PrescriptionPatientReportAdapter.PatientReportAdapterEvent {
 
     private lateinit var binding: ActivityPrescriptionPatientDataBinding
     private val patientReportVM: EntPatientReportViewModel by viewModels()
@@ -31,21 +30,16 @@ class PrescriptionPatientDataActivity : BaseActivity(),
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
 
@@ -53,7 +47,6 @@ class PrescriptionPatientDataActivity : BaseActivity(),
         observeViewModel()
         setUpOfToolbar()
 
-        // 🔹 Trigger API/DB fetch
         patientReportVM.getPrescriptionPatientReportList()
     }
 
@@ -62,8 +55,7 @@ class PrescriptionPatientDataActivity : BaseActivity(),
     }
 
     private fun setUpRecyclerView() {
-        prescriptionPatientReportAdapter =
-            PrescriptionPatientReportAdapter(this, patientReportList, this)
+        prescriptionPatientReportAdapter = PrescriptionPatientReportAdapter(this, patientReportList, this)
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(this@PrescriptionPatientDataActivity)
@@ -83,7 +75,6 @@ class PrescriptionPatientDataActivity : BaseActivity(),
                         prescriptionPatientReportAdapter.notifyDataSetChanged()
                     }
                 }
-
                 Status.ERROR -> {
                     progress.dismiss()
                     Utility.errorToast(this, "Unexpected error")
@@ -109,5 +100,4 @@ class PrescriptionPatientDataActivity : BaseActivity(),
         }
         startActivity(intent)
     }
-
 }

@@ -84,36 +84,30 @@ class NewMainRepository @Inject constructor(
 ) {
 
     suspend fun getAllUsers() = userDatabase.userDao().getAll()
+
     fun insertAllUser(userList: UserModel) = userDatabase.userDao().insertAll(userList)
 
     //orthosis master operations
     suspend fun getOrthosisType() = apiHelper.getOrthosisType()
 
     suspend fun getOrthosisMaster() = userDatabase.orthosisMasterDao().getOrthosisMaster()
-    fun insertOrthosisMasterr(orthosisMaster: OrthosisType) =
-        userDatabase.orthosisMasterDao().insertOrthosisMaster(orthosisMaster)
+
+    fun insertOrthosisMasterr(orthosisMaster: OrthosisType) = userDatabase.orthosisMasterDao().insertOrthosisMaster(orthosisMaster)
 
     //orthosis patient form operations
-    fun insertOrthosisForm(orthosisPatientForm: OrthosisPatientForm) =
-        orthosisFormDataBase.orthosisFormDao().insertOrthosisForm(orthosisPatientForm)
+    fun insertOrthosisForm(orthosisPatientForm: OrthosisPatientForm) = orthosisFormDataBase.orthosisFormDao().insertOrthosisForm(orthosisPatientForm)
 
-    suspend fun getOrthosisPatientForm() =
-        orthosisFormDataBase.orthosisFormDao().getOrthosisPatientForm()
+    suspend fun getOrthosisPatientForm() = orthosisFormDataBase.orthosisFormDao().getOrthosisPatientForm()
 
-    fun updateSyncedForms(syncedForms: List<Int>) =
-        orthosisFormDataBase.orthosisFormDao().updateSyncedForms(syncedForms)
+    fun updateSyncedForms(syncedForms: List<Int>) = orthosisFormDataBase.orthosisFormDao().updateSyncedForms(syncedForms)
 
-    fun getOrthosisPatientFormById(localPatientId: Int) =
-        orthosisFormDataBase.orthosisFormDao().getOrthosisPatientFormById(localPatientId)
+    fun getOrthosisPatientFormById(localPatientId: Int) = orthosisFormDataBase.orthosisFormDao().getOrthosisPatientFormById(localPatientId)
 
-    fun getOrthosisPatientFormByTempId(tempId: Int) =
-        orthosisFormDataBase.orthosisFormDao().getOrthosisPatientFormByTempId(tempId)
+    fun getOrthosisPatientFormByTempId(tempId: Int) = orthosisFormDataBase.orthosisFormDao().getOrthosisPatientFormByTempId(tempId)
 
-    suspend fun syncOrthosisPatientForNew(formData: PatientFormMap) =
-        apiHelper.syncOrthosisPatientForNew(formData)
+    suspend fun syncOrthosisPatientForNew(formData: PatientFormMap) = apiHelper.syncOrthosisPatientForNew(formData)
 
-    suspend fun syncCampPatientForNew(formData: PatientFormMap) =
-        apiHelper.syncCampPatientForNew(formData)
+    suspend fun syncCampPatientForNew(formData: PatientFormMap) = apiHelper.syncCampPatientForNew(formData)
 
     suspend fun syncFormImagesNew(formImageRequest: FormImageRequest) = apiHelper.syncFormImagesNew(
         formImageRequest.filePart,
@@ -155,75 +149,50 @@ class NewMainRepository @Inject constructor(
     suspend fun getCampPatientDetailsApi() = apiHelper.getCampPatientDataApi()
 
     //camp patient details operations
-    suspend fun insertCampPatientDetails(campPatientList: List<CampPatientDataItem>) =
-        campPatientDataBase.campPatientDao().insertCampPatient(campPatientList)
+    suspend fun insertCampPatientDetails(campPatientList: List<CampPatientDataItem>) = campPatientDataBase.campPatientDao().insertCampPatient(campPatientList)
 
-    suspend fun insertSingleCampPatient(campPatient: CampPatientDataItem) =
-        campPatientDataBase.campPatientDao().insertSingleCampPatient(campPatient)
+    suspend fun insertSingleCampPatient(campPatient: CampPatientDataItem) = campPatientDataBase.campPatientDao().insertSingleCampPatient(campPatient)
 
-    suspend fun getCampPatientDetailsDb() =
-        campPatientDataBase.campPatientDao().getCampPatientList()
+    suspend fun getCampPatientDetailsDb() = campPatientDataBase.campPatientDao().getCampPatientList()
 
-    suspend fun getCampPatientListById(tempId: Int) =
-        campPatientDataBase.campPatientDao().getCampPatientListById(tempId)
-
-    //orthosis files operations
-
+    suspend fun getCampPatientListById(tempId: Int) = campPatientDataBase.campPatientDao().getCampPatientListById(tempId)
 
     //form image
     suspend fun getFormImages() = orthosisFileDataBase.orthosisFileDao().getFormImage()
+
     suspend fun getFormImagesForSync() = orthosisFileDataBase.orthosisFileDao().getFormImage()
-    suspend fun insertFormImage(formImage: FormImages) =
-        orthosisFileDataBase.orthosisFileDao().insertFormImage(formImage)
 
-    fun updateSyncedImages(syncedImages: List<Int>) =
-        orthosisFileDataBase.orthosisFileDao().updateSyncedImages(syncedImages)
+    suspend fun updateSyncedImage(syncedImage: Int) = orthosisFileDataBase.orthosisFileDao().updateSyncedImage(syncedImage)
 
-    suspend fun updateSyncedImage(syncedImage: Int) =
-        orthosisFileDataBase.orthosisFileDao().updateSyncedImage(syncedImage)
+    suspend fun insertFormImageList(formImageList: List<FormImages>) = orthosisFileDataBase.orthosisFileDao().insertFormImageList(formImageList)
 
-    suspend fun insertFormImageList(formImageList: List<FormImages>) =
-        orthosisFileDataBase.orthosisFileDao().insertFormImageList(formImageList)
+    suspend fun deleteFormImages(formImageList: List<FormImages>) = orthosisFileDataBase.orthosisFileDao().deleteFormImages(formImageList)
 
-    suspend fun deleteFormImages(formImageList: List<FormImages>) =
-        orthosisFileDataBase.orthosisFileDao().deleteFormImages(formImageList)
+    suspend fun deleteFormImagesById(formImageList: List<Int>) = orthosisFileDataBase.orthosisFileDao().deleteFormImagesById(formImageList)
 
-    suspend fun deleteFormImagesById(formImageList: List<Int>) =
-        orthosisFileDataBase.orthosisFileDao().deleteFormImagesById(formImageList)
-
-    suspend fun getFormImageListByFormId(formId: Int) =
-        orthosisFileDataBase.orthosisFileDao().getFormImageList(formId)
-
+    suspend fun getFormImageListByFormId(formId: Int) = orthosisFileDataBase.orthosisFileDao().getFormImageList(formId)
 
     //orthosis image
-    suspend fun insertOrthosisImageList(imageList: List<OrthosisImages>) =
-        orthosisFileDataBase.orthosisFileDao().insertOrthosisImageList(imageList)
+    suspend fun insertOrthosisImageList(imageList: List<OrthosisImages>) = orthosisFileDataBase.orthosisFileDao().insertOrthosisImageList(imageList)
 
     suspend fun getFormOrthosisImages() = orthosisFileDataBase.orthosisFileDao().getOrthosisImage()
-    suspend fun getOrthosisImageByFormId(formId: String) =
-        orthosisFileDataBase.orthosisFileDao().getOrthosisImageByFormId(formId)
 
-    suspend fun updateSyncedOrthoImage(syncedImage: Int) =
-        orthosisFileDataBase.orthosisFileDao().updateSyncedOrthoImage(syncedImage)
+    suspend fun getOrthosisImageByFormId(formId: String) = orthosisFileDataBase.orthosisFileDao().getOrthosisImageByFormId(formId)
 
-    suspend fun deleteOrthosisImages(orthosisImagesList: List<OrthosisImages>) =
-        orthosisFileDataBase.orthosisFileDao().deleteOrthosisImages(orthosisImagesList)
+    suspend fun updateSyncedOrthoImage(syncedImage: Int) = orthosisFileDataBase.orthosisFileDao().updateSyncedOrthoImage(syncedImage)
+
+    suspend fun deleteOrthosisImages(orthosisImagesList: List<OrthosisImages>) = orthosisFileDataBase.orthosisFileDao().deleteOrthosisImages(orthosisImagesList)
 
     //form videos
-
-    suspend fun insertFormVideoList(formVideoList: List<FormVideos>) =
-        orthosisFileDataBase.orthosisFileDao().insertFormVideoList(formVideoList)
+    suspend fun insertFormVideoList(formVideoList: List<FormVideos>) = orthosisFileDataBase.orthosisFileDao().insertFormVideoList(formVideoList)
 
     suspend fun getFormVideos() = orthosisFileDataBase.orthosisFileDao().getFormVideo()
-    suspend fun getFormVideosById(formId: Int) =
-        orthosisFileDataBase.orthosisFileDao().getFormVideoById(formId)
 
-    suspend fun updateSyncedVideo(syncedVideo: Int) =
-        orthosisFileDataBase.orthosisFileDao().updateSyncedVideo(syncedVideo)
+    suspend fun getFormVideosById(formId: Int) = orthosisFileDataBase.orthosisFileDao().getFormVideoById(formId)
 
-    suspend fun deleteFormVideosById(formVideosId: List<Int>) =
-        orthosisFileDataBase.orthosisFileDao().deleteFormVideosById(formVideosId)
+    suspend fun updateSyncedVideo(syncedVideo: Int) = orthosisFileDataBase.orthosisFileDao().updateSyncedVideo(syncedVideo)
 
+    suspend fun deleteFormVideosById(formVideosId: List<Int>) = orthosisFileDataBase.orthosisFileDao().deleteFormVideosById(formVideosId)
 
     fun uploadFile(
         context: Context,
@@ -233,7 +202,6 @@ class NewMainRepository @Inject constructor(
         url: String,
         type: String
     ) = CoroutineScope(Dispatchers.IO).launch {
-        // uploadFileResponse.postValue(Resource.loading(null))
         FileUploader.uploadFiles(context,
             url,
             uriMap,
@@ -241,15 +209,12 @@ class NewMainRepository @Inject constructor(
             dataMap,
             type,
             object : FileUploader.UploadCallback {
-                override fun onFileUploadError(errorMessage: String?) {
-                    // uploadFileResponse.postValue(Resource.error(errorMessage!!, null))
-                }
+                override fun onFileUploadError(errorMessage: String?) {}
 
                 override fun onAllFilesUploaded(string: String) {
                     Log.d("File upload", string)
                     string?.let {
                         try {
-                            // Parse the JSON response
                             val gson = Gson()
                             val data = gson.fromJson(it, ImageSyncResponse::class.java)
 
@@ -257,15 +222,11 @@ class NewMainRepository @Inject constructor(
                                 CoroutineScope(Dispatchers.IO).launch {
                                     updateSyncedImage(data.success_id)
                                 }
-
-                                //uploadFileResponse.postValue(Resource.success(data))
                             } else {
-                                // uploadFileResponse.postValue(Resource.error("Upload failed with success_id: ${data.success_id}", null))
-                            }
 
+                            }
                         } catch (e: Exception) {
                             Log.e("ERROR", e.message!!)
-                            //   uploadFileResponse.postValue(Resource.error("Failed to parse response", null))
                         }
                     } ?: run {
                         //  uploadFileResponse.postValue(Resource.error("Server Error", null))
@@ -282,7 +243,6 @@ class NewMainRepository @Inject constructor(
         url: String,
         type: String
     ) = CoroutineScope(Dispatchers.IO).launch {
-        // uploadFileResponse.postValue(Resource.loading(null))
         FileUploader.uploadFiles(context,
             url,
             uriMap,
@@ -291,7 +251,6 @@ class NewMainRepository @Inject constructor(
             type,
             object : FileUploader.UploadCallback {
                 override fun onFileUploadError(errorMessage: String?) {
-                    // uploadFileResponse.postValue(Resource.error(errorMessage!!, null))
                     Log.e("ERROR", errorMessage ?: "Unknown network error")
                 }
 
@@ -307,11 +266,9 @@ class NewMainRepository @Inject constructor(
                                 CoroutineScope(Dispatchers.IO).launch {
                                     updateSyncedVideo(data.success_id)
                                 }
-
                             } else {
 
                             }
-
                         } catch (e: Exception) {
                             Log.e("ERROR", e.message!!)
                         }
@@ -330,7 +287,6 @@ class NewMainRepository @Inject constructor(
         url: String,
         type: String
     ) = CoroutineScope(Dispatchers.IO).launch {
-        // uploadFileResponse.postValue(Resource.loading(null))
         FileUploader.uploadFiles(context,
             url,
             uriMap,
@@ -339,7 +295,6 @@ class NewMainRepository @Inject constructor(
             type,
             object : FileUploader.UploadCallback {
                 override fun onFileUploadError(errorMessage: String?) {
-                    // uploadFileResponse.postValue(Resource.error(errorMessage!!, null))
                     Log.e("ERROR", errorMessage ?: "Unknown network error")
                 }
 
@@ -347,7 +302,6 @@ class NewMainRepository @Inject constructor(
                     Log.d("File upload", string)
                     string?.let {
                         try {
-                            // Parse the JSON response
                             val gson = Gson()
                             val data = gson.fromJson(it, ImageSyncResponse::class.java)
 
@@ -355,11 +309,9 @@ class NewMainRepository @Inject constructor(
                                 CoroutineScope(Dispatchers.IO).launch {
                                     updateSyncedOrthoImage(data.success_id)
                                 }
-
                             } else {
 
                             }
-
                         } catch (e: Exception) {
                             Log.e("ERROR", e.message!!)
                         }
@@ -379,7 +331,6 @@ class NewMainRepository @Inject constructor(
         url: String,
         type: String
     ) = CoroutineScope(Dispatchers.IO).launch {
-        // uploadFileResponse.postValue(Resource.loading(null))
         FileUploader.uploadFiles(context,
             url,
             uriMap,
@@ -388,7 +339,6 @@ class NewMainRepository @Inject constructor(
             type,
             object : FileUploader.UploadCallback {
                 override fun onFileUploadError(errorMessage: String?) {
-                    // uploadFileResponse.postValue(Resource.error(errorMessage!!, null))
                     Log.e("ERROR", errorMessage ?: "Unknown network error")
                 }
 
@@ -396,7 +346,6 @@ class NewMainRepository @Inject constructor(
                     Log.d("File upload", string)
                     string?.let {
                         try {
-                            // Parse the JSON response
                             val gson = Gson()
                             val data = gson.fromJson(it, ImageSyncResponse::class.java)
 
@@ -404,7 +353,6 @@ class NewMainRepository @Inject constructor(
                                 CoroutineScope(Dispatchers.IO).launch {
                                     updateSyncedEquipmentImage(data.success_id)
                                 }
-
                             } else {
 
                             }
@@ -420,8 +368,7 @@ class NewMainRepository @Inject constructor(
     }
 
     //camp db details operations
-    suspend fun insertCampDetails(campList: List<CampModel>) =
-        campDataBase.campDao().insertCampDetail(campList)
+    suspend fun insertCampDetails(campList: List<CampModel>) = campDataBase.campDao().insertCampDetail(campList)
 
     suspend fun updateSingleCamp(camp: CampModel) = campDataBase.campDao().updateSingleCamp(camp)
 
@@ -430,141 +377,98 @@ class NewMainRepository @Inject constructor(
     //Diagnosis Master
     suspend fun getDiagnosisMaster() = apiHelper.getDiagnosisMaster()
 
-    fun insertDiagnosisMaster(diagnosisMaster: DiagnosisType) =
-        userDatabase.diagnosisMasterDao().insertDiagnosisMaster(diagnosisMaster)
+    fun insertDiagnosisMaster(diagnosisMaster: DiagnosisType) = userDatabase.diagnosisMasterDao().insertDiagnosisMaster(diagnosisMaster)
 
     suspend fun getDiagnosisMasterLocal() = userDatabase.diagnosisMasterDao().getDiagnosisMaster()
 
-
-    //Inventory Master
-
-
     //refractive error form operations
+    val allRefractive_Error: LiveData<List<RefractiveError>> = refractiveFormDao.getAllRefractiveErrorData()
 
-    val allRefractive_Error: LiveData<List<RefractiveError>> =
-        refractiveFormDao.getAllRefractiveErrorData()
+    fun insertRefractiveForm(refractiveForm: RefractiveError) = refractiveFormDao.insertRefractiveForm(refractiveForm)
 
-    val uniqueRefractivePatientCount: LiveData<Int> = refractiveFormDao.getUniquePatientCount()
-
-
-    fun insertRefractiveForm(refractiveForm: RefractiveError) =
-        refractiveFormDao.insertRefractiveForm(refractiveForm)
-
-    fun getRefractiveFormById(localPatientId: Int) =
-        refractiveFormDao.getRefractiveFormById(localPatientId)
+    fun getRefractiveFormById(localPatientId: Int) = refractiveFormDao.getRefractiveFormById(localPatientId)
 
     suspend fun getRefractiveForm() = refractiveFormDao.getRefractiveForm()
-    fun updateSyncedRefractiveForms(syncedForms: List<Int>) =
-        refractiveFormDao.updateRefractiveForms(syncedForms)
 
-    suspend fun syncRefractiveErrorForm(data: NewRefractiveErrorRequest) =
-        apiHelper.sendRefractiveToServer(data)
+    fun updateSyncedRefractiveForms(syncedForms: List<Int>) = refractiveFormDao.updateRefractiveForms(syncedForms)
+
+    suspend fun syncRefractiveErrorForm(data: NewRefractiveErrorRequest) = apiHelper.sendRefractiveToServer(data)
 
     //orthosis equipment master
     suspend fun getOrthosisEquipmentMaster() = apiHelper.getOrthosisEquipmentMaster()
 
-    suspend fun getOrthosisEquipmentMasterLocal() =
-        userDatabase.orthosisEquipmentMasterDao().getEquipmentMaster()
+    suspend fun getOrthosisEquipmentMasterLocal() = userDatabase.orthosisEquipmentMasterDao().getEquipmentMaster()
 
-    fun insertOrthosisEquipmentMaster(equipmentMaster: Equipment) =
-        userDatabase.orthosisEquipmentMasterDao().insertEquipmentMaster(equipmentMaster)
-
-
-//    suspend fun insertRefractiveError(refractiveError: RefractiveError) = oldRefractiveDao.insertRefractiveError(refractiveError)
+    fun insertOrthosisEquipmentMaster(equipmentMaster: Equipment) = userDatabase.orthosisEquipmentMasterDao().insertEquipmentMaster(equipmentMaster)
 
     //orthosis equipment image
-    suspend fun insertEquipmentImageList(imageList: List<EquipmentImage>) =
-        orthosisFileDataBase.orthosisFileDao().insertEquipmentImageList(imageList)
+    suspend fun insertEquipmentImageList(imageList: List<EquipmentImage>) = orthosisFileDataBase.orthosisFileDao().insertEquipmentImageList(imageList)
 
     suspend fun getEquipmentImage() = orthosisFileDataBase.orthosisFileDao().getEquipmentImage()
-    suspend fun getEquipmentImageByFormId(formId: String) =
-        orthosisFileDataBase.orthosisFileDao().getEquipmentImageByFormId(formId)
 
-    suspend fun updateSyncedEquipmentImage(syncedVideo: Int) =
-        orthosisFileDataBase.orthosisFileDao().updateSyncedEquipmentImage(syncedVideo)
+    suspend fun getEquipmentImageByFormId(formId: String) = orthosisFileDataBase.orthosisFileDao().getEquipmentImageByFormId(formId)
 
-    suspend fun deleteEquipmentImage(image: String) =
-        orthosisFileDataBase.orthosisFileDao().deleteEquipmentImage(image)
+    suspend fun updateSyncedEquipmentImage(syncedVideo: Int) = orthosisFileDataBase.orthosisFileDao().updateSyncedEquipmentImage(syncedVideo)
+
+    suspend fun deleteEquipmentImage(image: String) = orthosisFileDataBase.orthosisFileDao().deleteEquipmentImage(image)
 
     //Vitals form operations
-
     val allVitals: LiveData<List<Vitals>> = vitalsFormDao.getAllVitailsData()
 
-    val uniqueVitalPatientCount: LiveData<Int> = vitalsFormDao.getUniquePatientCount()
-
-
-    fun insertVitalsForm(vitalsForm: Vitals) =
-        vitalsFormDao.insertVitalsForm(vitalsForm)
+    fun insertVitalsForm(vitalsForm: Vitals) = vitalsFormDao.insertVitalsForm(vitalsForm)
 
     suspend fun getVitalsForm() = vitalsFormDao.getVitalsForm()
-    fun updateVitalsForms(syncedForms: List<Int>) =
-        vitalsFormDao.updateVitalsForms(syncedForms)
 
-    fun getVitalsFormById(localPatientId: Int) =
-        vitalsFormDao.getVitalsFormById(localPatientId)
+    fun updateVitalsForms(syncedForms: List<Int>) = vitalsFormDao.updateVitalsForms(syncedForms)
 
-    suspend fun syncNewVitalsForm(data: NewVitalsRequest) =
-        apiHelper.syncNewVitalsForm(data)
+    fun getVitalsFormById(localPatientId: Int) = vitalsFormDao.getVitalsFormById(localPatientId)
 
+    suspend fun syncNewVitalsForm(data: NewVitalsRequest) = apiHelper.syncNewVitalsForm(data)
 
     //OPD Investigations form operations
-    val allOPD_Investigations: LiveData<List<OPD_Investigations>> =
-        opdFormDao.getAllOPD_InvestigationsData()
+    val allOPD_Investigations: LiveData<List<OPD_Investigations>> = opdFormDao.getAllOPD_InvestigationsData()
 
-    val uniqueOpdInestigationPatientCount: LiveData<Int> = opdFormDao.getUniquePatientCount()
-
-    fun insertOpdForm(opdForm: OPD_Investigations) =
-        opdFormDao.insertOpdForm(opdForm)
+    fun insertOpdForm(opdForm: OPD_Investigations) = opdFormDao.insertOpdForm(opdForm)
 
     suspend fun getOpdForm() = opdFormDao.getOpdForm()
-    fun updateOpdForms(syncedForms: List<Int>) =
-        opdFormDao.updateOpdForms(syncedForms)
 
-    fun getOpdFormById(localPatientId: Int) =
-        opdFormDao.getOpdFormById(localPatientId)
+    fun updateOpdForms(syncedForms: List<Int>) = opdFormDao.updateOpdForms(syncedForms)
 
-    suspend fun syncNewOpdForm(data: OpdFormRequest) =
-        apiHelper.syncNewOpdForm(data)
+    fun getOpdFormById(localPatientId: Int) = opdFormDao.getOpdFormById(localPatientId)
+
+    suspend fun syncNewOpdForm(data: OpdFormRequest) = apiHelper.syncNewOpdForm(data)
 
     //Visual Acuity form operations
     val allVisualAcuity: LiveData<List<VisualAcuity>> = visualAcuityFormDao.getAllVisualAcuityData()
 
-    val uniqueVisualPatientCount: LiveData<Int> = visualAcuityFormDao.getUniquePatientCount()
-
-
-    fun insertVisualAcuityForm(visualAcuityForm: VisualAcuity) =
-        visualAcuityFormDao.insertVisualAcuityForm(visualAcuityForm)
+    fun insertVisualAcuityForm(visualAcuityForm: VisualAcuity) = visualAcuityFormDao.insertVisualAcuityForm(visualAcuityForm)
 
     suspend fun getVisualAcuityForm() = visualAcuityFormDao.getVisualAcuityForm()
-    fun updateVisualAcuityForms(syncedForms: List<Int>) =
-        visualAcuityFormDao.updateVisualAcuityForms(syncedForms)
 
-    fun getVisualAcuityFormById(localPatientId: Int) =
-        visualAcuityFormDao.getVisualAcuityFormById(localPatientId)
+    fun updateVisualAcuityForms(syncedForms: List<Int>) = visualAcuityFormDao.updateVisualAcuityForms(syncedForms)
 
-    suspend fun syncNewVisualAcuityForm(data: NewVisualAcuityRequest) =
-        apiHelper.syncNewVisualAcuityForm(data)
+    fun getVisualAcuityFormById(localPatientId: Int) = visualAcuityFormDao.getVisualAcuityFormById(localPatientId)
 
+    suspend fun syncNewVisualAcuityForm(data: NewVisualAcuityRequest) = apiHelper.syncNewVisualAcuityForm(data)
 
     //Patient Report operations
-    fun insertPatientReport(patientReport: PatientReport) =
-        patietnReportDao.insertPatientReport(patientReport)
+    fun insertPatientReport(patientReport: PatientReport) = patietnReportDao.insertPatientReport(patientReport)
 
     suspend fun getPatientReport() = patietnReportDao.getPatientReport()
 
-    fun updatePatientForms(syncedForms: List<Int>, formType: String) =
-        patietnReportDao.updatePatientForms(syncedForms, formType)
+    fun updatePatientForms(syncedForms: List<Int>, formType: String) = patietnReportDao.updatePatientForms(syncedForms, formType)
 
     //OPD Prescription Form Database Operations
     suspend fun insertFinalPrescriptionDrug(prescription: PatientMedicine) = opdPrescriptionsDao.insertFinalPrescriptionDrug(prescription)
 
     val unsyncedFormsCount: LiveData<Int> = opdPrescriptionsDao.getUnsyncedFormsCount()
 
-
     suspend fun updatePrescription(prescription: PatientMedicine) {
         opdPrescriptionsDao.updatePrescription(prescription)
     }
+
     suspend fun getPatientMedicineReport() = opdPrescriptionsDao.getAllFinalPrescriptionDrugs()
+
     suspend fun getFinalPrescriptionByFormId(opdFormId:Int) = opdPrescriptionsDao.getFinalPrescriptionByFormId(opdFormId)
 
     suspend fun InsertFinalPrescriptionDrug(data: SendFinalPrescriptionDrug)= apiHelper.InsertFinalPrescriptionDrug(data)
@@ -572,11 +476,9 @@ class NewMainRepository @Inject constructor(
     suspend fun updateFinalPrescriptionDrug1(id: Int, newIsSyn: Int) = opdPrescriptionsDao.updateFinalPrescriptionDrug1(id, newIsSyn)
 
     //OPD Sync Table Database Operations
-
     suspend fun insertOpdSyncTable(opdSyncItem: OpdSyncTable) = opdSyncDao.insertOpdSyncTable(opdSyncItem)
 
     suspend fun getOpdSyncTable() = opdSyncDao.getOpdSyncTable()
-
 
     // ENT
     // eye symptoms
@@ -605,6 +507,4 @@ class NewMainRepository @Inject constructor(
     suspend fun insertEntImpression(impressionType: ImpressionType): Long {
         return userDatabase.entImpressionDao().insertEntImpression(impressionType)
     }
-
-
 }

@@ -126,12 +126,10 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars =
-            true
+        WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
@@ -140,7 +138,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
             )
             insets
         }
-
         getViewModel()
         createRoomDatabase()
 
@@ -343,7 +340,6 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
             FinalPrescriptionDrugDAO,
             database
         )
-
         viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(
             LLE_MedDocket_ViewModel::class.java
         )
@@ -366,8 +362,7 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                 is ResourceApp.Success -> {
                     progressDialog.dismiss()
                     val message = response.data!!.ErrorMessage
-                    Log.d("pawan", "GetPriscriptionStatusDetailsResponse=>" + response.data.ErrorMessage
-                    )
+                    Log.d("pawan", "GetPriscriptionStatusDetailsResponse=>" + response.data.ErrorMessage)
                     Log.d("pawan", "GetPriscriptionStatusDetailsResponse=>" + response.data.PrescriptionGlasses)
                     when (message) {
                         "Success" -> {
@@ -1173,8 +1168,7 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
             )
         }
 
-        viewModel1.insertSynedData(synTableRequest)
-        { success ->
+        viewModel1.insertSynedData(synTableRequest) { success ->
             when (success) {
                 1 -> {
                     getAllSynTableHistory()

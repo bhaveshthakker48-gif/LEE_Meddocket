@@ -86,24 +86,16 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-class PrescriptionDisbributionActivity : BaseActivity(),
-    CompoundButton.OnCheckedChangeListener,
-    View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+class PrescriptionDisbributionActivity : BaseActivity(), CompoundButton.OnCheckedChangeListener, View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
     lateinit var binding: ActivityPrescriptionDisbributionBinding
-
     lateinit var customDropDownAdapter: CustomDropDownAdapter
-
     private lateinit var progressDialog1: ProgressDialog
-
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     private val patientReportVM: EntPatientReportViewModel by viewModels()
-
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
-
-    //    var patientID: Int = 0
     var camp_id: Int? = 0
     var user_id: Int = 0
     var spectacle_given: Boolean = false
@@ -113,16 +105,12 @@ class PrescriptionDisbributionActivity : BaseActivity(),
     var spectacle_not_matching: Boolean = false
     var ordered_not_received: Boolean = false
     var patient_call_again: Boolean = false
-    var spectacle_not_received: Boolean = false
     var NotMatchingArrayList: ArrayList<String>? = null
     var SpectacleTypeArrayList: ArrayList<String>? = null
-
     private var intentDecodeText = ""
     private var campId = 0
     private var patientId = 0
-
     private lateinit var popupWindow3: PopupWindow
-
     private var intentFormId = 0
     private var localFormId = 0
     private var patientReportFormId = 0
@@ -136,28 +124,22 @@ class PrescriptionDisbributionActivity : BaseActivity(),
     var camp = ""
     var ageUnit=""
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPrescriptionDisbributionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
 
@@ -178,10 +160,8 @@ class PrescriptionDisbributionActivity : BaseActivity(),
         }
 
         val decodedText = sessionManager.getPatientData()
-
         val gson = Gson()
         val patientData = gson.fromJson(decodedText, PatientData::class.java)
-
 
         if (patientData != null) {
             patientId = patientData.patientId
@@ -192,7 +172,6 @@ class PrescriptionDisbributionActivity : BaseActivity(),
             patientId = intent.getIntExtra("patient_id", 0)
             campId = intent.getIntExtra("camp_id", 0)
             intentDecodeText = intent.getStringExtra("result") ?: ""
-
             if (!intentDecodeText.isNullOrEmpty()) {
                 val gsonn = Gson()
                 val patientDataN = gsonn.fromJson(intentDecodeText, PatientData::class.java)
@@ -200,8 +179,6 @@ class PrescriptionDisbributionActivity : BaseActivity(),
                 patientId = patientDataN.patientId
             }
         }
-
-        Log.d("xyz", "on Create=>" + patientId)
 
         binding.CheckBoxSameAs.setOnCheckedChangeListener(this)
         binding.cardViewSubmit.setOnClickListener(this)
@@ -217,15 +194,12 @@ class PrescriptionDisbributionActivity : BaseActivity(),
 
         initObserver()
         setPatientData()
-
     }
 
     private fun initObserver(){
         viewModel1.insertionprescriptionGlassesStatus.observe(this) {
             when (it.status) {
-                Status.LOADING -> {
-
-                }
+                Status.LOADING -> {}
                 Status.SUCCESS -> {
                     try {
                         val patientReport = PrescriptionPatientReport(
@@ -240,28 +214,21 @@ class PrescriptionDisbributionActivity : BaseActivity(),
                             location = camp,
                             AgeUnit =ageUnit,
                         )
-
                         Log.d("xyz", "insertData : ${patientReport.toString()}")
-
-
                         patientReportVM.insertPrescriptionPatientReport(patientReport)
                     } catch (e: Exception) {
                         Log.e("FormSaveError", e.message!!)
-
                     }
                 }
                 Status.ERROR -> {
                     Utility.errorToast(this@PrescriptionDisbributionActivity, "Unexpected error")
-
                 }
             }
         }
 
         patientReportVM.insertPatientReportResponse.observe(this) {
             when (it.status) {
-                Status.LOADING -> {
-
-                }
+                Status.LOADING -> {}
                 Status.SUCCESS -> {
                     try {
                         Utility.successToast(
@@ -281,9 +248,7 @@ class PrescriptionDisbributionActivity : BaseActivity(),
 
         viewModel1.prescriptionDataById.observe(this) {
             when (it.status) {
-                Status.LOADING -> {
-
-                }
+                Status.LOADING -> {}
                 Status.SUCCESS -> {
                     try {
                         if (!it.data.isNullOrEmpty()){
@@ -291,7 +256,6 @@ class PrescriptionDisbributionActivity : BaseActivity(),
                             localFormId = preOpDetails._id
                             isFormLocal = true
                             canEdit = false
-
                             if (preOpDetails.isSyn == 1) {
                                 binding.btnEdit.visibility = View.GONE
                                 binding.cardViewSubmit.visibility = View.GONE
@@ -299,7 +263,6 @@ class PrescriptionDisbributionActivity : BaseActivity(),
                                 binding.btnEdit.visibility = View.VISIBLE
                                 binding.cardViewSubmit.visibility = View.GONE
                             }
-
                             allowClickableEditText(false)
                             setUpFormData(preOpDetails)
                         }
@@ -320,7 +283,6 @@ class PrescriptionDisbributionActivity : BaseActivity(),
                 }
             }
         }
-
     }
 
     private fun setUpFormData(formData: PrescriptionGlassesFinal) {
@@ -352,7 +314,6 @@ class PrescriptionDisbributionActivity : BaseActivity(),
             }
         }
 
-        // Spinner - Prescription type
         formData.given_presc_type?.let {
             val adapter = binding.SpinnerPrescType.adapter
             for (i in 0 until adapter.count) {
@@ -363,7 +324,6 @@ class PrescriptionDisbributionActivity : BaseActivity(),
             }
         }
 
-        // Call again date
         binding.edittextCallAgain.setText(formData.call_again_date)
     }
 
@@ -424,7 +384,7 @@ class PrescriptionDisbributionActivity : BaseActivity(),
         val PrescriptionGlassesFinal = PrescriptionGlassesFinal(
             localFormId,
             alternate_mobile,
-            getCurrentDate(),//new date
+            getCurrentDate(),
             call_again_date,
             campId.toString(),
             patientId.toString(),
@@ -468,30 +428,24 @@ class PrescriptionDisbributionActivity : BaseActivity(),
 
     override fun onResume() {
         super.onResume()
-
         binding.LinearLayoutCallAgain.visibility = View.GONE
         binding.LinearLayoutAddress.visibility = View.GONE
         binding.LinearLayoutSpectacleNotMatching.visibility = View.GONE
-
         binding.LinearLayoutPrescriptionType.visibility = View.GONE
 
         NotMatchingArrayList = ArrayList()
-
         NotMatchingArrayList!!.add("Select")
         NotMatchingArrayList!!.add("Call again")
         NotMatchingArrayList!!.add("Send by post")
-
         customDropDownAdapter = CustomDropDownAdapter(this, NotMatchingArrayList!!)
         binding.SpinnerNotMatchingDetails!!.adapter = customDropDownAdapter
 
         SpectacleTypeArrayList = ArrayList()
-
         SpectacleTypeArrayList!!.add("Select")
         SpectacleTypeArrayList!!.add("Single Vision")
         SpectacleTypeArrayList!!.add("Single Vision (HP)")
         SpectacleTypeArrayList!!.add("Bifocal")
         SpectacleTypeArrayList!!.add("Bifocal (HP)")
-
         customDropDownAdapter = CustomDropDownAdapter(this, NotMatchingArrayList!!)
         binding.SpinnerNotMatchingDetails!!.adapter = customDropDownAdapter
 
@@ -506,27 +460,23 @@ class PrescriptionDisbributionActivity : BaseActivity(),
                     position: Int,
                     id: Long
                 ) {
-                    // Assuming NotMatchingArrayList is a List<String?>?
                     val selectedItem =
-                        NotMatchingArrayList?.get(position) // Replace selectedIndex with the actual index or logic to get the selected item
+                        NotMatchingArrayList?.get(position)
 
                     when (selectedItem) {
                         "Call again" -> {
-                            // Make layout 1 visible and layout 2 gone
                             binding.LinearLayoutCallAgain.visibility = View.VISIBLE
                             binding.LinearLayoutAddress.visibility = View.GONE
                             binding.LinearLayoutPrescriptionType.visibility = View.GONE
                         }
 
                         "Send by post" -> {
-                            // Make layout 2 visible and layout 1 gone
                             binding.LinearLayoutCallAgain.visibility = View.GONE
                             binding.LinearLayoutAddress.visibility = View.VISIBLE
                             binding.LinearLayoutPrescriptionType.visibility = View.VISIBLE
                         }
 
                         else -> {
-                            // For "Select" or other cases, make both layouts gone
                             binding.LinearLayoutCallAgain.visibility = View.GONE
                             binding.LinearLayoutAddress.visibility = View.GONE
                         }
@@ -546,7 +496,6 @@ class PrescriptionDisbributionActivity : BaseActivity(),
                     id: Long
                 ) {
                     val selectedItem = parent?.getItemAtPosition(position) as? String
-
                     selected_given_presc_type = selectedItem.toString()
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -557,20 +506,16 @@ class PrescriptionDisbributionActivity : BaseActivity(),
 
     private fun getViewModel() {
         val LLE_MedDocketRespository = LLE_MedDocketRespository()
-        val LLE_MedDocketProviderFactory =
-            LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
+        val LLE_MedDocketProviderFactory = LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
         viewModel = ViewModelProvider(
             this,
             LLE_MedDocketProviderFactory
         ).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager = SessionManager(this)
-
     }
 
     private fun createRoomDatabase() {
@@ -581,21 +526,17 @@ class PrescriptionDisbributionActivity : BaseActivity(),
         val Refractive_Error_DAO: Refractive_Error_DAO = database.Refractive_Error_DAO()
         val OPD_Investigations_DAO: OPD_Investigations_DAO = database.OPD_Investigations_DAO()
         val Eye_Pre_Op_Notes_DAO: Eye_Pre_Op_Notes_DAO = database.Eye_Pre_Op_Notes_DAO()
-        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO =
-            database.Eye_Pre_Op_Investigation_DAO()
-        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO =
-            database.Eye_Post_Op_AND_Follow_ups_DAO()
+        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO = database.Eye_Pre_Op_Investigation_DAO()
+        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO = database.Eye_Post_Op_AND_Follow_ups_DAO()
         val Eye_OPD_Doctors_Note_DAO: Eye_OPD_Doctors_Note_DAO = database.Eye_OPD_Doctors_Note_DAO()
-        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO =
-            database.Cataract_Surgery_Notes_DAO()
+        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO = database.Cataract_Surgery_Notes_DAO()
         val Patient_DAO: PatientDao = database.PatientDao()
         val Image_Upload_DAO: Image_Upload_DAO = database.Image_Upload_DAO()
         val Registration_DAO: Registration_DAO = database.Registration_DAO()
         val Prescription_DAO: Prescription_DAO = database.Prescription_DAO()
         val SynTable_DAO: SynTable_DAO = database.SynTable_DAO()
         val Final_Prescription_DAO: Final_Prescription_DAO = database.Final_Prescription_DAO()
-        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO =
-            database.SpectacleDisdributionStatus_DAO()
+        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO = database.SpectacleDisdributionStatus_DAO()
         val CurrentInventory_DAO: CurrentInventory_DAO = database.CurrentInventory_DAO()
         val InventoryUnit_DAO: InventoryUnit_DAO = database.InventoryUnit_DAO()
         val CreatePrescriptionDAO: CreatePrescriptionDAO = database.CreatePrescriptionDAO()
@@ -642,7 +583,7 @@ class PrescriptionDisbributionActivity : BaseActivity(),
 
     private fun getRegistrationResponse() {
         viewModel1.registration.observe(this, Observer { response ->
-            progressDialog1.dismiss()   // ✅ dismiss AFTER data is received
+            progressDialog1.dismiss()
             Log.d("xyz", "getRegistrationResponse => $response")
             if (response.isNotEmpty()) {
                 val data = response[0]
@@ -673,7 +614,6 @@ class PrescriptionDisbributionActivity : BaseActivity(),
             }
         })
     }
-
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when (buttonView) {
@@ -778,8 +718,7 @@ class PrescriptionDisbributionActivity : BaseActivity(),
                 binding.SpinnerNotMatchingDetails.setSelection(0)
                 customDropDownAdapter.notifyDataSetChanged()
                 binding.CheckBoxSameAs.isChecked = false
-                binding.TextViewCallAgain.text =
-                    "Prescription spectacles NOT GIVEN as received spectacles were NOT MATCHING prescription"
+                binding.TextViewCallAgain.text = "Prescription spectacles NOT GIVEN as received spectacles were NOT MATCHING prescription"
             }
 
             R.id.RadioButton_ordered_but_NOT_RECEIVED -> {
@@ -801,8 +740,7 @@ class PrescriptionDisbributionActivity : BaseActivity(),
                 binding.LinearLayoutAddress.visibility = View.GONE
                 binding.LinearLayoutSpectacleNotMatching.visibility = View.GONE
                 binding.LinearLayoutPrescriptionType.visibility = View.GONE
-                binding.TextViewCallAgain.text =
-                    "Spectacles NOT YET RECEIVED hence patient CALLED AGAIN on"
+                binding.TextViewCallAgain.text = "Spectacles NOT YET RECEIVED hence patient CALLED AGAIN on"
                 binding.CheckBoxSameAs.isChecked = false
                 binding.SpinnerNotMatchingDetails.setSelection(0)
                 customDropDownAdapter.notifyDataSetChanged()
@@ -820,7 +758,6 @@ class PrescriptionDisbributionActivity : BaseActivity(),
         val datePickerDialog = DatePickerDialog(
             this,
             { _, selectedYear, selectedMonth, selectedDay ->
-                // Handle the selected date
                 val selectedDate = String.format(
                     Locale.getDefault(),
                     "%02d-%02d-%04d",
@@ -833,15 +770,12 @@ class PrescriptionDisbributionActivity : BaseActivity(),
             year, month, day
         )
 
-        // Set the minimum date to the current year
         datePickerDialog.datePicker.minDate = calendar.timeInMillis
 
-        // You can set a maximum date if you want, for example, allow selection up to 5 years from now
         val maxYear = calendar.get(Calendar.YEAR) + 5
         val endOfYearCalendar = Calendar.getInstance()
         endOfYearCalendar.set(maxYear, 11, 31, 23, 59, 59)
         datePickerDialog.datePicker.maxDate = endOfYearCalendar.timeInMillis
-
         datePickerDialog.show()
     }
 
@@ -909,9 +843,7 @@ class PrescriptionDisbributionActivity : BaseActivity(),
                 }
             }
 
-            else -> {
-                // Handle other cases or provide a default action
-            }
+            else -> {}
         }
     }
 
@@ -941,7 +873,6 @@ class PrescriptionDisbributionActivity : BaseActivity(),
 
     private fun validation2(): Boolean {
         var flag = true
-
         if (!MyValidator.isValidField1(binding.EditTextPostalAddressLine1)) {
             flag = false
         }
@@ -960,216 +891,25 @@ class PrescriptionDisbributionActivity : BaseActivity(),
         if (!MyValidator.isValidField1(binding.EditTextPostalPincode)) {
             flag = false
         }
-
-        if (!MyValidator.isValidSpinner17(
-                binding.SpinnerPrescType,
-                "Select Prescription Type",
-                this
-            )
-        ) {
+        if (!MyValidator.isValidSpinner17(binding.SpinnerPrescType, "Select Prescription Type", this)) {
             flag = false
         }
-
-        if (!MyValidator.isValidSpinner17(
-                binding.SpinnerNotMatchingDetails,
-                "Select something",
-                this
-            )
-        ) {
+        if (!MyValidator.isValidSpinner17(binding.SpinnerNotMatchingDetails, "Select something", this)) {
             flag = false
         }
-
         return flag
     }
-
 
     private fun validation3(): Boolean {
         var flag = true
-        if (!MyValidator.isValidSpinner17(
-                binding.SpinnerPrescType,
-                "Select Prescription Type",
-                this
-            )
-        ) {
+        if (!MyValidator.isValidSpinner17(binding.SpinnerPrescType, "Select Prescription Type", this)) {
             flag = false
         }
-
         return flag
-    }
-
-    private fun GetPrescriptionStatusDetails(patientId: Int) {
-        Log.d(ConstantsApp.TAG, "GetPrescriptionStatusDetails=>" + patientId)
-        val forceRefresh = true
-        viewModel1.GetPrescriptionStatusDetails(patientId, forceRefresh)
-        viewModel1.getPrescriptionDataPatientID(patientId)
-        GetPrescriptionStatusDetailsResponse(patientId)
-    }
-
-    private fun GetPrescriptionStatusDetailsResponse(patientId: Int) {
-        viewModel1.prescriptionsStatus.observe(this, Observer { response ->
-            if (response != null && response.isNotEmpty()) {
-                Log.d(ConstantsApp.TAG, "Response is not null and not empty")
-
-                var mostRecentData: SpectacleDisdributionStatusModel? = null
-                var mostRecentDate: LocalDateTime? = null
-
-                for (data in response) {
-                    if (!data.app_createdDate.isNullOrBlank()) {
-                        val currentDateTime = LocalDateTime.parse(
-                            data.app_createdDate,
-                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                        )
-
-                        if (mostRecentDate == null || currentDateTime.isAfter(mostRecentDate)) {
-                            mostRecentDate = currentDateTime
-                            mostRecentData = data
-                        }
-                    }
-                }
-
-                if (mostRecentData != null) {
-
-                    Log.d("pawan", "mostRecentData=>" + mostRecentData)
-                    val spectacle_given = mostRecentData.spectacle_given
-                    val spectacle_not_matching = mostRecentData.spectacle_not_matching
-                    val spectacle_not_received = mostRecentData.spectacle_not_received
-                    val patient_call_again = mostRecentData.patient_call_again
-                    val patient_not_come = mostRecentData.patient_not_come
-
-                    when {
-                        !spectacle_given && !spectacle_not_matching && !spectacle_not_received && !patient_call_again && !patient_not_come -> {
-                        }
-
-                        spectacle_given -> {
-
-                            val presc_type =
-                                (binding.SpinnerPrescType.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf(
-                                    mostRecentData.given_presc_type
-                                )
-                            (binding.SpinnerPrescType.setSelection(presc_type!!))
-                        }
-
-                        spectacle_not_matching -> {
-                            binding.RadioButtonSpectaclesMATCHINGPrescription.isChecked = true
-
-                            when (mostRecentData.spectacle_not_matching_details) {
-                                "Call again" -> {
-                                    binding.LinearLayoutCallAgain.visibility = View.VISIBLE
-                                    binding.LinearLayoutAddress.visibility = View.GONE
-
-                                    val dayWisePosition =
-                                        (binding.SpinnerNotMatchingDetails.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf(
-                                            "Call again"
-                                        )
-
-                                    (binding.SpinnerNotMatchingDetails.setSelection(dayWisePosition!!))
-
-
-                                    val presc_type =
-                                        (binding.SpinnerPrescType.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf(
-                                            mostRecentData.given_presc_type
-                                        )
-
-                                    (binding.SpinnerPrescType.setSelection(presc_type!!))
-                                    binding.edittextCallAgain.setText(mostRecentData.call_again_date)
-                                }
-
-                                "Send by post" -> {
-                                    binding.LinearLayoutCallAgain.visibility = View.GONE
-                                    binding.LinearLayoutAddress.visibility = View.VISIBLE
-
-                                    val dayWisePosition =
-                                        (binding.SpinnerNotMatchingDetails.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf(
-                                            "Send by post"
-                                        )
-
-                                    (binding.SpinnerNotMatchingDetails.setSelection(dayWisePosition!!))
-
-                                    val presc_type =
-                                        (binding.SpinnerPrescType.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf(
-                                            mostRecentData.given_presc_type
-                                        )
-
-                                    (binding.SpinnerPrescType.setSelection(presc_type!!))
-                                    binding.EditTextPostalCity.setText(mostRecentData.postal_city)
-                                    binding.EditTextPostalCountry.setText("India")
-                                    binding.EditTextPostalState.setText(mostRecentData.postal_state)
-                                    binding.EditTextPostalPincode.setText(mostRecentData.postal_pincode)
-                                    binding.EditTextPostalAddressLine1.setText(mostRecentData.postal_addressline1)
-                                    binding.EditTextPostalAddressLine2.setText(mostRecentData.postal_addressline2)
-                                }
-                            }
-                        }
-
-                        spectacle_not_received -> {
-                            binding.RadioButtonOrderedButNOTRECEIVED.isChecked = true
-                        }
-
-                        patient_not_come -> {
-                            val presc_type =
-                                (binding.SpinnerPrescType.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf(
-                                    mostRecentData.given_presc_type
-                                )
-                            (binding.SpinnerPrescType.setSelection(presc_type!!))
-                        }
-                    }
-                } else {
-                    Log.d("pawan", "No valid data in the response.")
-                }
-            } else {
-                Log.d("pawan", "prescriptionsStatus is null or empty, checking prescriptionData")
-                viewModel1.prescriptionData.observe(this, Observer { fallbackData ->
-                    Log.d("pawan", "fallbackData $fallbackData")
-                    if (fallbackData.isNullOrEmpty()) {
-                        Log.d("pawan", "Fallback prescriptionData is null or empty.")
-                        showNoDataFoundPopUp()
-                    } else {
-                        val prescription = fallbackData[0]
-
-                        binding.TextViewDistanceRightSph.text = prescription.re_distant_vision_sphere_right
-                        binding.TextViewDistanceRightCyl.text = prescription.re_distant_vision_cylinder_right
-                        binding.TextViewDistanceRightAxis.text = prescription.re_distant_vision_axis_right
-                        binding.TextViewPD.text = prescription.re_pupipllary_distance
-                        binding.TextViewBVD.text = prescription.re_bvd
-                        binding.TextViewPrismRight.text = prescription.re_prism_right
-                        binding.TextViewBaseRight.text = prescription.re_prism_unit_right
-                        binding.TextViewDistanceLeftSph.text = prescription.re_distant_vision_sphere_left
-                        binding.TextViewDistanceLeftCyl.text = prescription.re_distant_vision_cylinder_left
-                        binding.TextViewDistanceLeftAxis.text = prescription.re_distant_vision_axis_left
-                        binding.TextViewPrismLeft.text = prescription.re_prism_left
-                        binding.TextViewBaseLeft.text = prescription.re_prism_unit_left
-                    }
-                })
-            }
-        })
     }
 
     private fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         return dateFormat.format(Date())
-    }
-
-    @SuppressLint("MissingInflatedId")
-    private fun showNoDataFoundPopUp() {
-        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popupView: View = inflater.inflate(R.layout.custom_popup_check_status_layout, null)
-        val closeButton: Button = popupView.findViewById(R.id.popupButtonPatientID)
-        val TextView_status: TextView = popupView.findViewById(R.id.TextView_status)
-        TextView_status.text = "No Data Found!"
-        closeButton.setOnClickListener {
-            popupWindow3.dismiss()
-            onBackPressed()
-        }
-        popupWindow3 = PopupWindow(
-            popupView,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            false
-        ).apply {
-            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            isOutsideTouchable = false // Prevent touches outside the popup
-            isFocusable = false         // Allow focus for the popup to capture input
-        }
-        popupWindow3.showAtLocation(popupView, Gravity.CENTER, 0, 0)
     }
 }

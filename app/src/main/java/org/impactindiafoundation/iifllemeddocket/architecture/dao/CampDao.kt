@@ -17,10 +17,6 @@ interface CampDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateSingleCamp(camp: CampModel)
 
-//    @Query("UPDATE camp_table SET userName = :newUserName WHERE id = :userId")
-//    suspend fun updateSingleCampById(userId: Int, newUserName: String)
-
-
     @Query("SELECT * FROM camp_table")
     suspend fun getCampList(): List<CampModel>
 

@@ -58,7 +58,6 @@ import org.impactindiafoundation.iifllemeddocket.databinding.ActivityPrescriptio
 class PrescriptionReportActivity:AppCompatActivity() {
 
     lateinit var binding:ActivityPrescriptionReportBinding
-
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog

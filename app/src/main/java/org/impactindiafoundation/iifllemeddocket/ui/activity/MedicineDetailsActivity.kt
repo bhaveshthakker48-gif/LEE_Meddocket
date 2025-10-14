@@ -27,24 +27,18 @@ class MedicineDetailsActivity : BaseActivity() {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
-
         setUpMedicineRecyclerView()
         initUi()
     }
@@ -66,14 +60,9 @@ class MedicineDetailsActivity : BaseActivity() {
                 binding.llMedicineColumn.visibility = View.VISIBLE
                 binding.tvNoDataFound.visibility = View.GONE
             }
-
-
-
         }catch (e:Exception){
             Log.d("ERROR",e.message.toString())
         }
-
-
     }
 
     private fun setUpMedicineRecyclerView(){
@@ -82,6 +71,5 @@ class MedicineDetailsActivity : BaseActivity() {
             adapter = medicineAdapter
             layoutManager = LinearLayoutManager(this@MedicineDetailsActivity)
         }
-
     }
 }

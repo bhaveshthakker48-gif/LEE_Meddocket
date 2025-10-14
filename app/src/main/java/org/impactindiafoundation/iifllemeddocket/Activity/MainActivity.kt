@@ -2560,7 +2560,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     private fun SurgicalNotes() {
         viewModel1.fetchUnsyncedSurgicalNotes { unsyncedList ->
             Log.d("pawan_sync", "Unsynced records count: ${unsyncedList.size}")
-
             if (unsyncedList.isNotEmpty()) {
                 val requestList = unsyncedList.map { data ->
                     CataractSurgery(
@@ -2730,11 +2729,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         userId = data.userId
                     )
                 }
-
                 val request = SurgicalNotesRequest(requestList)
-
                 viewModel.insertSurgicalData(progressDialog, request)
-
                 viewModel.getSurgicalNotesResponse.observe(this) { response ->
                     if (response is ResourceApp.Success && response.data?.ErrorMessage == "Success") {
                         unsyncedList.forEach {
@@ -2749,7 +2745,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     private fun Insert_Eye_Pre_Op_Notes() {
         viewModel1.fetchUnsyncedPreOpNotes { unsyncedList ->
             Log.d("pawan_sync", "Unsynced records count: ${unsyncedList.size}")
-
             if (unsyncedList.isNotEmpty()) {
                 val requestList = unsyncedList.map { data ->
                     EyePreOpNote(
@@ -2818,11 +2813,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         user_id = data.user_id
                     )
                 }
-
                 val request = AddEyePreOpNotesRequest(requestList)
-
                 viewModel.insertEyePreOpNotes(request, progressDialog)
-
                 viewModel.getEyePreOpNotesResponse.observe(this) { response ->
                     if (response is ResourceApp.Success && response.data?.ErrorMessage == "Success") {
                         unsyncedList.forEach {
@@ -2837,7 +2829,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     private fun Insert_Eye_Pre_Op_Investigation() {
         viewModel1.fetchUnsyncedInvestigations  { unsyncedList ->
             Log.d("pawan_sync", "Unsynced records count: ${unsyncedList.size}")
-
             if (unsyncedList.isNotEmpty()) {
                 val requestList = unsyncedList.map { data ->
                     EyePreOpInvestigation(
@@ -2889,11 +2880,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         user_id = data.user_id!!
                     )
                 }
-
                 val request = AddEyePreOpInvestigationsRequest(requestList)
-
                 viewModel.insertEyePreOPInvestigation(progressDialog, request)
-
                 viewModel.getEyePreOpInvestigationData.observe(this) { response ->
                     if (response is ResourceApp.Success && response.data?.ErrorMessage == "Success") {
                         unsyncedList.forEach {
@@ -3009,19 +2997,14 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-
     private fun logResult(tag: String, success: Boolean, message: String?, count: Int) {
         if (success) {
             Toast.makeText(this, "$tag: Successfully sent $count records", Toast.LENGTH_SHORT).show()
             Log.d("SyncCheck $tag", "Successfully sent $count records.")
         } else {
-//            Toast.makeText(this, "$tag: Failed - $message", Toast.LENGTH_LONG).show()
             Log.e("SyncCheck $tag", "Sync failed: $message")
         }
     }
-
-
-    private var equipmentImageListForSync = ArrayList<AudiometryImageEntity>()
 
     private suspend fun loadAndUploadAudiometryImage() {
         val unsyncedList = withContext(Dispatchers.IO) {
@@ -3036,7 +3019,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
             val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
             val multipartBody = MultipartBody.Part.createFormData("fileName", imageFile.name, requestFile)
-
             val patientId = imageEntity.patientId.toString().toRequestBody()
             val campId = imageEntity.campId.toString().toRequestBody()
             val userId = imageEntity.userId.toString().toRequestBody()
@@ -3044,28 +3026,22 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             val appId = (imageEntity.app_id ?: "1").toRequestBody()
             val uniqueId = imageEntity.id.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
-
             try {
                 val response = withContext(Dispatchers.IO) {
                     entAudiometryViewModel.syncAudiometryImagesNew(
                         multipartBody, patientId, campId, userId, appCreatedDate, appId, uniqueId
                     )
                 }
-
                 if (response.isSuccessful) {
                     withContext(Dispatchers.IO) {
                         entAudiometryViewModel.updateAudiometryImageAppId(imageEntity.id, "1")
                     }
                 }
-
             } catch (e: Exception) {
                 Log.e("Audiometry Upload", "Exception: ${e.message}")
             }
         }
     }
-
-
-    private var pathologyImageListForSync = ArrayList<PathologyImageEntity>()
 
     private suspend fun loadAndUploadPathologyImage() {
         val unsyncedList = withContext(Dispatchers.IO) {
@@ -3073,14 +3049,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
 
         if (unsyncedList.isEmpty()) return
-
         for (imageEntity in unsyncedList) {
             val imageFile = File(imageEntity.filename)
             if (!imageFile.exists()) continue
 
             val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
             val multipartBody = MultipartBody.Part.createFormData("fileName", imageFile.name, requestFile)
-
             val patientId = imageEntity.patientId.toString().toRequestBody()
             val campId = imageEntity.campId.toString().toRequestBody()
             val userId = imageEntity.userId.toString().toRequestBody()
@@ -3095,21 +3069,16 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         multipartBody, patientId, campId, userId, appCreatedDate, reportType, appId, uniqueId
                     )
                 }
-
                 if (response.isSuccessful) {
                     withContext(Dispatchers.IO) {
                         pathologyViewModel.updatePathologyImageAppId(imageEntity.id, "1")
                     }
                 }
-
             } catch (e: Exception) {
                 Log.e("Pathology Upload", "Exception: ${e.message}")
             }
         }
     }
-
-
-    private var preOpImageListForSync = ArrayList<PreOpImageEntity>()
 
     private suspend fun loadAndUploadPreOpImage() {
         val unsyncedList = withContext(Dispatchers.IO) {
@@ -3117,14 +3086,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
 
         if (unsyncedList.isEmpty()) return
-
         for (imageEntity in unsyncedList) {
             val imageFile = File(imageEntity.filename)
             if (!imageFile.exists()) continue
 
             val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
             val multipartBody = MultipartBody.Part.createFormData("fileName", imageFile.name, requestFile)
-
             val patientId = imageEntity.patientId.toString().toRequestBody()
             val campId = imageEntity.campId.toString().toRequestBody()
             val userId = imageEntity.userId.toString().toRequestBody()
@@ -3138,19 +3105,16 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         multipartBody, patientId, campId, userId, appCreatedDate, appId, uniqueId
                     )
                 }
-
                 if (response.isSuccessful) {
                     withContext(Dispatchers.IO) {
                         entPreOpDetailsViewModel.updatePreOpImageDetailsAppId(imageEntity.id, "1")
                     }
                 }
-
             } catch (e: Exception) {
                 Log.e("PreOp Upload", "Exception: ${e.message}")
             }
         }
     }
-
 
     // Get Ent Updated Data From Server
     private fun getUpdatePreOpDetailsFromServer(){
@@ -3198,12 +3162,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         pathologyViewModel.getUpdatedPathologyImageDetailsFromServer()
     }
 
-
-
     private fun Insert_Eye_OPD_Doctors_Note() {
         viewModel1.fetchUnsyncedOpDoctorNotes { unsyncedList ->
-            Log.d("pawan_sync", "Unsynced records count: ${unsyncedList.size}")
-
             if (unsyncedList.isNotEmpty()) {
                 val requestList = unsyncedList.map { data ->
                     Eyeopddocnote(
@@ -3222,11 +3182,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         user_id = data.user_id
                     )
                 }
-
                 val request = sendEyeOPDDoctorsNoteData(requestList)
 
                 viewModel.insertEyeOPDDoctorNote(progressDialog, request)
-
                 viewModel.getEyeOPDDoctorsNoteData.observe(this) { response ->
                     if (response is ResourceApp.Success && response.data?.ErrorMessage == "Success") {
                         unsyncedList.forEach {
@@ -3239,8 +3197,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
-
 
     private fun Clear_Vitals() {
         viewModel1.allVitals.observe(this, Observer { response ->
@@ -3290,8 +3246,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         )
                     viewModel1.deleteVitals(vitals)
                 }
-            } else {
-                // The response is empty, handle it accordingly
             }
         })
     }
@@ -3334,8 +3288,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     )
                     viewModel1.deleteOPDInvestigations(opdInvestigations)
                 }
-            } else {
-                // The response is empty, handle it accordingly
             }
         })
     }
@@ -3356,16 +3308,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     insertPatientDataToLocal(patientData2)
                     val designation = sessionManager.getLoginData()!!.get(0).Designation_name
                     if (designation.equals("Orthotist", true)) {
-                        val intent = Intent(
-                            this@MainActivity, CampPatientListActivity::class.java
-                        )
+                        val intent = Intent(this@MainActivity, CampPatientListActivity::class.java)
                         intent.putExtra("result", decodedText)
                         startActivity(intent)
                     } else {
-                        val intent = Intent(
-                            this@MainActivity,
-                            PatientForms::class.java
-                        )
+                        val intent = Intent(this@MainActivity, PatientForms::class.java)
                         intent.putExtra("result", decodedText)
                         startActivity(intent)
                     }
@@ -3381,7 +3328,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-
     private fun insertPatientDataToLocal(patientData: PatientDataLocal) {
         viewModel1.insertPatient(patientData)
         InsertPatientToLocal()
@@ -3393,21 +3339,17 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         })
     }
 
-    private fun showToast(message: String) {
-        //Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
+    private fun showToast(message: String) {}
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_READ_EXTERNAL_STORAGE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
             } else {
                 Log.d(ConstantsApp.TAG, "Read external storage permission denied")
             }
         }
-
         when (requestCode) {
             STORAGE_PERMISSION_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -3420,43 +3362,15 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun observeImageUploadResponse() {
-        viewModel.getImageUploadResponse.observe(this, Observer { response ->
-            val data = response.data
-            if (data != null) {
-                val errorMessage = data.ErrorMessage
-                Log.d(ConstantsApp.TAG, "ErrorMessage => $errorMessage")
-            } else {
-                Log.e(ConstantsApp.TAG, "Response data is null")
-            }
-        })
-    }
-
-    private fun checkStoragePermission(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            this, Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun requestStoragePermission() {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-            STORAGE_PERMISSION_REQUEST_CODE
-        )
-    }
-
     fun getFileNameFromPath(filePath: String): String {
         val file = File(filePath)
         return file.name
     }
 
-
     private fun getInternalFilePath(fileName: String): String {
         return File(this.filesDir, fileName).absolutePath
     }
 
-    // Function to get the file path for a given file name in external storage
     private fun getExternalFilePath(fileName: String): String {
         return File(this.getExternalFilesDir(null), fileName).absolutePath
     }
@@ -3464,24 +3378,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     private fun doesFileExist(filePath: String): Boolean {
         val file = File(filePath)
         return file.exists()
-    }
-
-    private fun dummyOrthosis(): List<OrthosisTypeModelItem> {
-        val measurementList1 = listOf(
-            Measurement(false, "", "Length HEEL TO 1st TOE", 1),
-            Measurement(false, "", "FORE FOOT CIRCUMFERENCE at metatarsal level", 2),
-            Measurement(false, "", "ANKEL CIRCUMFERENCE 1 inch bellow the head of fibula", 3)
-        )
-        val measurementList2 = listOf(
-            Measurement(false, "", "HEEL TO TOE", 1),
-            Measurement(false, "", "FOREFOOT", 2),
-            Measurement(false, "", "ANKEL", 3)
-        )
-        return listOf(
-            OrthosisTypeModelItem(
-                false, 1, measurementList1, "ANKEL FOOT ORTHOSIS(PP) WITH FIXED 90 DEGREE ANKEL"
-            ), OrthosisTypeModelItem(false, 2, measurementList2, "DYNAMIC ANKEL FOOT ORTHOSIS(PP)")
-        )
     }
 
     fun isInternetAvailable(context: Context): Boolean {
@@ -3509,16 +3405,13 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         )
                         requestUpdate(appUpdateInfo)
                     }
-
                     UpdateAvailability.UPDATE_NOT_AVAILABLE -> {
                         Log.d(ConstantsApp.TAG, "No updates available")
                     }
-
                     UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS -> {
                         Log.d(ConstantsApp.TAG, "Developer triggered update in progress")
                         onResume()
                     }
-
                     UpdateAvailability.UNKNOWN -> Log.d(ConstantsApp.TAG, "Update status unknown")
                 }
             }.addOnFailureListener { exception ->
@@ -3543,26 +3436,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun startUpdate(appUpdateInfo: AppUpdateInfo, updateType: Int) {
-        appUpdateManager.startUpdateFlowForResult(
-            appUpdateInfo,
-            updateType,
-            this,
-            REQUEST_CODE_UPDATE
-        )
-    }
-
-    private fun showUpdateCompleteDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("Update Completed")
-            .setMessage("Restart the app to apply the update.")
-            .setPositiveButton("Restart") { _, _ ->
-                appUpdateManager.completeUpdate()
-            }
-            .setCancelable(false)
-            .show()
-    }
-
     private fun syncNewVitals() {
         if (isInternetAvailable(this)) {
             val data = HashMap<String, Any>()
@@ -3574,12 +3447,10 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         } else {
             Utility.infoToast(this@MainActivity, "Internet Not Available")
         }
-
     }
 
     private fun syncNewOpdForm() {
         if (isInternetAvailable(this)) {
-            //sync service for Orthosis Patient Form
             val data = HashMap<String, Any>()
             data["patient"] = ""
             val intent = Intent(this, OpdFormService::class.java).apply {
@@ -3589,12 +3460,10 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         } else {
             Utility.infoToast(this@MainActivity, "Internet Not Available")
         }
-
     }
 
     private fun syncNewVisualAcuity() {
         if (isInternetAvailable(this)) {
-            //sync service for Orthosis Patient Form
             val data = HashMap<String, Any>()
             data["patient"] = ""
             val intent = Intent(this, VisualAcuityFormService::class.java).apply {
@@ -3604,7 +3473,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         } else {
             Utility.infoToast(this@MainActivity, "Internet Not Available")
         }
-
     }
 
     private fun reportDialog() {

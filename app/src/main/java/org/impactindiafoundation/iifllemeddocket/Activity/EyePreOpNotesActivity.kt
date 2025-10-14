@@ -85,8 +85,7 @@ import java.util.Date
 import java.util.Locale
 
 
-class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
-    CompoundButton.OnCheckedChangeListener {
+class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     lateinit var binding:ActivityEyePreOpNotesBinding
     lateinit var customDropDownAdapter: CustomDropDownAdapter
@@ -352,64 +351,44 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
 
         customDropDownAdapter= CustomDropDownAdapter(this,HistoryOfArrayList!!)
         binding.SpinnerHistoryOf!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,IOLPowerArrayList!!)
         binding.spinnerIOLPower!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,UnitArrayList!!)
         binding.spinnerTemperatureUnit!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,EyeDropsArrayList!!)
         binding.Spinner2DropsOfTropicamide!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,EyeDropsArrayList!!)
         binding.Spinner2DropsOfBetadine!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,AllergyTestResultArrayList!!)
         binding.SpinnerAnitiBioticTestResult!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,AllergyTestResultArrayList!!)
         binding.SpinnerXylocaineTestResult!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,AllergyTestArrayList!!)
         binding.SpinnerCheckedSkinAfter20Minutes!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,AllergyTestArrayList!!)
         binding.SpinnerXylocaine!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,DiscussedWithArrayList!!)
         binding.SpinnerDiscussedWith!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,InvestigationArrayList!!)
         binding.spinnerBloodSugarFasting!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,InvestigationArrayList!!)
         binding.spinnerBloodSugarPp!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,InvestigationArrayList!!)
         binding.spinnerHaemoglobin!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,InvestigationArrayList!!)
         binding.spinnerProthrombinTime!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,InvestigationArrayList!!)
         binding.spinnerCbc!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,InvestigationArrayList!!)
         binding.spinnerBleedingTime!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,InvestigationArrayList1!!)
         binding.spinnerHiv!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,InvestigationArrayList!!)
         binding.spinnerClottingTime!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,InvestigationArrayList1!!)
         binding.spinnerHbsag!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,InvestigationArrayList!!)
         binding.SpinnerECG!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,InvestigationArrayList1!!)
         binding.spinnerHcv!!.adapter=customDropDownAdapter
 
@@ -454,7 +433,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
         binding.spinnerHaemoglobin.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
@@ -464,7 +442,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
                 position: Int,
                 id: Long
             ) {
-
                  eye_pre_op_haemoglobin=binding.spinnerHaemoglobin.selectedItem.toString()
             }
 
@@ -481,7 +458,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
                 id: Long
             ) {
                 eye_pre_op_bs_pp=binding.spinnerBloodSugarPp.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -752,8 +728,7 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         binding.EditTextHeartMedicationTaken.visibility=View.GONE
         binding.EditTextDiabetesMedicationTaken.visibility=View.GONE
         binding.EditTextAnyOtherInstruction.visibility=View.GONE
-        binding.LinearLayoutLineUpSurgery!!.visibility =
-            if (isLineUpSurgeryVisible) View.VISIBLE else View.GONE
+        binding.LinearLayoutLineUpSurgery!!.visibility = if (isLineUpSurgeryVisible) View.VISIBLE else View.GONE
         binding.LinearLayoutAntibiotic.visibility=View.GONE
         binding.LinearLayoutXylocaine.visibility=View.GONE
         binding.RecyclerViewHistoryOf.visibility=View.GONE
@@ -819,7 +794,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         val endOfYearCalendar = Calendar.getInstance()
         endOfYearCalendar.set(maxYear, 11, 31, 23, 59, 59)
         datePickerDialog.datePicker.maxDate = endOfYearCalendar.timeInMillis
-
         datePickerDialog.show()
     }
 
@@ -828,7 +802,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         HistoryOfArrayList1!!.add(selected_history)
         recyclerView.adapter = Adapter_Eye_Pre_Op_Notes_History(this, HistoryOfArrayList1!!)
     }
-
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when(buttonView) {
@@ -1034,7 +1007,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
             binding.ImageViewEyePreOpNotes?.setImageURI(Uri.fromFile(File(updatedPath)))
             binding.TextViewEyePreOpNotes.text = updatedPath
         }
-
         if (requestCode == CAMERA && resultCode == Activity.RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             filePath = saveBitmapToFile(imageBitmap, this)
@@ -1044,7 +1016,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
             val fileName = "surgical_notes_image_$timestamp.jpg"
 
             val tempFile = ConstantsApp.saveBitmapToFile1(imageBitmap, fileName, this)
-
             val imageUri = FileProvider.getUriForFile(
                 this,
                 "org.impactindiafoundation.iifllemeddocket.provider", // ✅ matches manifest
@@ -1052,7 +1023,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
             )
 
             val updatedPath = ConstantsApp.moveImageToLLEFolder(this, imageUri!!,fileName)
-
             UpdatedfilePath= updatedPath!!
             binding.ImageViewEyePreOpNotes?.setImageURI(Uri.fromFile(File(updatedPath)))
             binding.TextViewEyePreOpNotes.text = updatedPath
@@ -1134,7 +1104,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         }
     }
 
-
     private fun interpretOxygenSaturation(input: String) {
         val saturationLevel = input.toDoubleOrNull()
         saturationLevel?.let {
@@ -1161,7 +1130,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         }
         binding.TextViewO2SaturationInterpretation.setTextColor(color)
     }
-
 
     override fun onClick(v: View?) {
         when(v) {
@@ -1225,7 +1193,6 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         }
     }
 
-
     private fun SubmitDataOnly() {
         val (patientId, campId, userId) = ConstantsApp.extractPatientAndLoginData(sessionManager)
         val current_Date= ConstantsApp.getCurrentDate()
@@ -1248,6 +1215,7 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener,
         val eye_pre_op_xylocaine_other=binding.EditTextXylocaineOther.text.toString()
         val eye_pre_op_historyof: String = HistoryOfArrayList1?.joinToString(",") ?: ""
         Log.d(ConstantsApp.TAG,"eye_pre_op_recommendation=>"+eye_pre_op_recommendation)
+
         SubmitEyePreOPNotes(
             campId,
             userId,

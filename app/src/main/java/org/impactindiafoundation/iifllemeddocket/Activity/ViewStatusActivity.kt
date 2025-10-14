@@ -62,36 +62,26 @@ import java.util.Locale
 class ViewStatusActivity:AppCompatActivity(), TextWatcher {
 
     lateinit var binding:ActivityViewStatusBinding
-
     lateinit var customDropDownAdapter: CustomDropDownAdapter
-
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
-
     var spectacle_given: Boolean=false
     var spectacle_not_matching: Boolean=false
     var spectacle_not_received: Boolean=false
     var patient_call_again: Boolean=false
     var patient_not_come: Boolean=false
-
     var selectedCondition:String=""
     var selectedDuration:String=""
     var selectedSpectacleType:String=""
     var selectedDates:String=""
-
     var PrescriptionSpectacleCountArrayList:ArrayList<PrescriptionSpectacleCount>?=null
     var ReportArrayList:ArrayList<String>?=null
-
     var StatusArrayList:ArrayList<String>?=null
-
     var registrationData: List<Patient_RegistrationModel>?=null
-
     var SpectacleTypeArrayList:ArrayList<String>?=null
-
     var ReportDatesArrayList:ArrayList<String>?=null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,7 +105,6 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
         ReportArrayList!!.add("Day Wise")
 
         SpectacleTypeArrayList= ArrayList()
-
         SpectacleTypeArrayList!!.add("Select")
         SpectacleTypeArrayList!!.add("Single Vision")
         SpectacleTypeArrayList!!.add("Single Vision (HP)")
@@ -124,7 +113,6 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
 
         customDropDownAdapter = CustomDropDownAdapter(this, SpectacleTypeArrayList!!)
         binding.SpinnerCondition1!!.adapter=customDropDownAdapter
-
         customDropDownAdapter = CustomDropDownAdapter(this, ReportArrayList!!)
         binding.SpinnerDuration!!.adapter=customDropDownAdapter
 
@@ -143,19 +131,16 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
 
         combineAndLogData1("", "All", "","","")
        setDates()
-        binding.SpinnerDuration.onItemSelectedListener=object:AdapterView.OnItemSelectedListener
-        {
+
+        binding.SpinnerDuration.onItemSelectedListener=object:AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                 val selectedItem = parent?.getItemAtPosition(position) as? String
-
                 hideSpinner(position,binding.SpinnerDuration,binding.SpinnerDuration1)
-
                 selectedDuration= (parent?.getItemAtPosition(position) as? String)!!
                 combineAndLogData(selectedCondition, selectedDuration, selectedDates, selectedSpectacleType,"")
             }
@@ -163,11 +148,9 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerDuration1.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerDuration1.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -182,18 +165,15 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
                     selectedSpectacleType,
                     ""
                 )
-
                 Log.d(ConstantsApp.TAG,"selectedDates=>"+selectedDates)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerCondition.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerCondition.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -201,13 +181,9 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
                 id: Long
             ) {
                 val selectedItem = parent?.getItemAtPosition(position) as? String
-
                 hideSpinner(position,binding.SpinnerCondition,binding.SpinnerCondition1)
-
-                when(position)
-                {
-                    1->
-                    {
+                when(position) {
+                    1-> {
                          selectedCondition="Spectacle Given"
                         combineAndLogData(
                             selectedCondition,
@@ -215,9 +191,7 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
                             selectedDates,
                             selectedSpectacleType,""
                         )
-                    }
-                    2->
-                    {
+                    }2-> {
                         selectedCondition="Patient Call Again"
                         combineAndLogData(
                             selectedCondition,
@@ -225,9 +199,7 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
                             selectedDates,
                             selectedSpectacleType,""
                         )
-                    }
-                    3->
-                    {
+                    }3-> {
                         selectedCondition="Not Matching"
                         combineAndLogData(
                             selectedCondition,
@@ -235,9 +207,7 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
                             selectedDates,
                             selectedSpectacleType,""
                         )
-                    }
-                    4->
-                    {
+                    }4-> {
                         selectedCondition="Patient Not Come"
                         combineAndLogData(
                             selectedCondition,
@@ -245,9 +215,7 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
                             selectedDates,
                             selectedSpectacleType,""
                         )
-                    }
-                    5->
-                    {
+                    }5-> {
                         selectedCondition="Spectacle Not Received"
                         combineAndLogData(
                             selectedCondition,
@@ -262,11 +230,9 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerCondition1.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerCondition1.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -274,46 +240,33 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
                 id: Long
             ) {
                  selectedSpectacleType = (parent?.getItemAtPosition(position) as? String).toString()
-
                 Log.d(ConstantsApp.TAG,"selectedItem in SpinnerCondition1=>"+selectedSpectacleType)
-
                 combineAndLogData(selectedCondition, selectedDuration, selectedDates,selectedSpectacleType,"")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
-
         binding.EditTextSearch.addTextChangedListener(this)
     }
 
     private fun hideSpinner(position: Int, spinnerCondition: Spinner, spinnerCondition1: Spinner) {
-        when(spinnerCondition)
-        {
-            binding.SpinnerCondition->
-            {
-                when(position)
-                {
-                    1->
-                    {
+        when(spinnerCondition) {
+            binding.SpinnerCondition-> {
+                when(position) {
+                    1-> {
                         spinnerCondition1.visibility=View.VISIBLE
-
-
                     }
-                    else->
-                    {
+                    else-> {
                         spinnerCondition1.visibility=View.GONE
                     }
                 }
             }
-            binding.SpinnerDuration->
-            {
-                when(position)
-                {
-                    2->
-                    {
+
+            binding.SpinnerDuration-> {
+                when(position) {
+                    2-> {
                         spinnerCondition1.visibility=View.VISIBLE
                         val layoutParams = binding.SpinnerCondition1.layoutParams as LinearLayout.LayoutParams
                         layoutParams.weight = 1f // Set the weight to 1 for equal division
@@ -324,9 +277,7 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
                         layoutParams1.weight = 1f // Set the weight to 1 for equal division
                         layoutParams1.width = 0 // Set width to 0 to use weight
                         binding.SpinnerDuration1.layoutParams = layoutParams1
-                    }
-                    else->
-                    {
+                    }else-> {
                         spinnerCondition1.visibility=View.GONE
                     }
                 }
@@ -334,20 +285,17 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
         }
     }
 
-
     private fun getViewModel() {
         val LLE_MedDocketRespository= LLE_MedDocketRespository()
         val LLE_MedDocketProviderFactory= LLE_MedDocketProviderFactory(LLE_MedDocketRespository,application)
         viewModel= ViewModelProvider(this,LLE_MedDocketProviderFactory).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager=SessionManager(this)
-
     }
+
     private fun createRoomDatabase() {
         val database = LLE_MedDocket_Room_Database.getDatabase(this)
 
@@ -374,7 +322,6 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
         val FinalPrescriptionDrugDAO: FinalPrescriptionDrugDAO =database.FinalPrescriptionDrugDAO()
 
         val repository = LLE_MedDocket_Repository(Vital_DAO, VisualAcuity_DAO, Refractive_Error_DAO, OPD_Investigations_DAO, Eye_Pre_Op_Notes_DAO, Eye_Pre_Op_Investigation_DAO, Eye_Post_Op_AND_Follow_ups_DAO, Eye_OPD_Doctors_Note_DAO, Cataract_Surgery_Notes_DAO, Patient_DAO,Image_Upload_DAO,Registration_DAO,Prescription_DAO,Final_Prescription_DAO,SpectacleDisdributionStatus_DAO,SynTable_DAO,CurrentInventory_DAO,InventoryUnit_DAO,CreatePrescriptionDAO,Image_Prescription_DAO,FinalPrescriptionDrugDAO,database)
-
         viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(LLE_MedDocket_ViewModel::class.java)
     }
 
@@ -386,11 +333,8 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
         searchText:String
     ) {
         viewModel1.allRegistration.observe(this, Observer { registrationData ->
-            viewModel1.allSpectacleDisdributionStatus.observe(this, Observer
-            { spectacleData ->
-
-                viewModel1.allPrescription.observe(this, Observer {
-                    prescription->
+            viewModel1.allSpectacleDisdributionStatus.observe(this, Observer { spectacleData ->
+                viewModel1.allPrescription.observe(this, Observer { prescription->
                     val selectedItem = binding.SpinnerCondition.selectedItem as? String
                     val filteredData = when (selectedCondition) {
                         "Spectacle Given" -> combineAndFilterData(registrationData, spectacleData,prescription) { it.SpectacleDisdributionStatusModel!!.spectacle_given }
@@ -422,44 +366,32 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
                     }
                     Log.d(ConstantsApp.TAG,"filteredData=>"+filteredData)
 
-                    when(selectedDuration)
-                    {
-                        "All"->
-                        {
+                    when(selectedDuration) {
+                        "All"-> {
                             val sortedCombinedData = selectedSpectacleTypeData.sortedByDescending { it.SpectacleDisdributionStatusModel.app_createdDate }
                             setDataToRecycleView(sortedCombinedData)
                         }
-                        "Today`s"->
-                        {
+                        "Today`s"-> {
                             val sortedCombinedData = selectedSpectacleTypeData.sortedByDescending { it.SpectacleDisdributionStatusModel.app_createdDate }
-
                             val todayDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-
                             val todayRecords: List<PatientPrescriptionRegistrationCombined> = sortedCombinedData.filter { it.SpectacleDisdributionStatusModel.app_createdDate?.startsWith(todayDate) == true }
-
                             setDataToRecycleView(todayRecords)
-
-
                         }
-                        "Day Wise"->
-                        {
-                            when(selectedDates)
-                            {
-                                ""->
-                                {
+                        "Day Wise"-> {
+                            when(selectedDates) {
+                                ""-> {
                                     val sortedCombinedData = selectedSpectacleTypeData.sortedByDescending { it.SpectacleDisdributionStatusModel.app_createdDate }
                                     val todayDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
                                     val todayRecords: List<PatientPrescriptionRegistrationCombined> = sortedCombinedData.filter { it.SpectacleDisdributionStatusModel.app_createdDate?.startsWith(todayDate) == true }
                                     setDataToRecycleView(todayRecords)
                                 }
-                                selectedDates->
-                                {
+                                selectedDates-> {
                                     val sortedCombinedData = selectedSpectacleTypeData.sortedByDescending { it.SpectacleDisdributionStatusModel.app_createdDate }
                                     val selectedDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                                     val parsedSelectedDate = selectedDateFormat.parse(selectedDates)
                                     val formattedSelectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(parsedSelectedDate)
-                                    val todayRecords: List<PatientPrescriptionRegistrationCombined> = sortedCombinedData.filter { it.SpectacleDisdributionStatusModel.app_createdDate?.startsWith(formattedSelectedDate) == true }
-
+                                    val todayRecords: List<PatientPrescriptionRegistrationCombined> = sortedCombinedData.filter { it.SpectacleDisdributionStatusModel.app_createdDate?.startsWith(formattedSelectedDate) == true
+                                    }
                                     setDataToRecycleView(todayRecords)
                                 }
                             }
@@ -478,9 +410,7 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
         searchText:String
     ) {
         viewModel1.allRegistration.observe(this, Observer { registrationData ->
-            viewModel1.allSpectacleDisdributionStatus.observe(this, Observer
-            { spectacleData ->
-
+            viewModel1.allSpectacleDisdributionStatus.observe(this, Observer { spectacleData ->
                 viewModel1.allPrescription.observe(this, Observer { prescription->
                     val selectedItem = binding.SpinnerCondition.selectedItem as? String
                     val filteredData = when (selectedCondition) {
@@ -503,56 +433,37 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
                         // Add more cases for other spectacle types if needed
                         else -> filteredData
                     }
-
                     if (selectedSpectacleTypeData.isEmpty()) {
                         binding.TextViewNoDataAvailable.visibility = View.VISIBLE
                     } else {
                         binding.TextViewNoDataAvailable.visibility = View.GONE
                     }
-
                     Log.d(ConstantsApp.TAG,"filteredData=>"+filteredData)
-
-                    when(selectedDuration)
-                    {
-                        "All"->
-                        {
+                    when(selectedDuration) {
+                        "All"-> {
                             val sortedCombinedData = selectedSpectacleTypeData.sortedByDescending { it.SpectacleDisdributionStatusModel.app_createdDate }
                             setDataToRecycleView(sortedCombinedData)
                         }
-                        "Today`s"->
-                        {
+                        "Today`s"-> {
                             val sortedCombinedData = selectedSpectacleTypeData.sortedByDescending { it.SpectacleDisdributionStatusModel.app_createdDate }
-
                             val todayDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-
                             val todayRecords: List<PatientPrescriptionRegistrationCombined> = sortedCombinedData.filter { it.SpectacleDisdributionStatusModel.app_createdDate?.startsWith(todayDate) == true }
-
                             setDataToRecycleView(todayRecords)
-
-
                         }
-                        "Day Wise"->
-                        {
-                            when(selectedDates)
-                            {
-                                ""->
-                                {
+                        "Day Wise"-> {
+                            when(selectedDates) {
+                                ""-> {
                                     val sortedCombinedData = selectedSpectacleTypeData.sortedByDescending { it.SpectacleDisdributionStatusModel.app_createdDate }
-
                                     val todayDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-
                                     val todayRecords: List<PatientPrescriptionRegistrationCombined> = sortedCombinedData.filter { it.SpectacleDisdributionStatusModel.app_createdDate?.startsWith(todayDate) == true }
-
                                     setDataToRecycleView(todayRecords)
                                 }
-                                selectedDates->
-                                {
+                                selectedDates-> {
                                     val sortedCombinedData = selectedSpectacleTypeData.sortedByDescending { it.SpectacleDisdributionStatusModel.app_createdDate }
                                     val selectedDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                                     val parsedSelectedDate = selectedDateFormat.parse(selectedDates)
                                     val formattedSelectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(parsedSelectedDate)
                                     val todayRecords: List<PatientPrescriptionRegistrationCombined> = sortedCombinedData.filter { it.SpectacleDisdributionStatusModel.app_createdDate?.startsWith(formattedSelectedDate) == true }
-
                                     setDataToRecycleView(todayRecords)
                                 }
                             }
@@ -562,7 +473,6 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
             })
         })
     }
-
 
     private fun setDataToRecycleView(sortedCombinedData: List<PatientPrescriptionRegistrationCombined>) {
         val adapter = CombinedDataAdapter(this, sortedCombinedData)
@@ -587,8 +497,6 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
     ): List<PatientPrescriptionRegistrationCombined> {
         val recentSpectacleMap = mutableMapOf<Int, SpectacleDisdributionStatusModel>()
         val prescriptionMap = mutableMapOf<Int, Prescription_Model>()
-
-        // Iterate over spectacleData to find the most recent record for each patient ID
         for (spectacle in spectacleData) {
             if (!recentSpectacleMap.containsKey(spectacle.patient_id) ||
                 spectacle.app_createdDate > recentSpectacleMap[spectacle.patient_id]?.app_createdDate ?: ""
@@ -602,7 +510,6 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
         }
 
         val combinedList = mutableListOf<PatientPrescriptionRegistrationCombined>()
-
         for (registration in registrationData) {
             val mostRecentSpectacle = recentSpectacleMap.remove(registration.patient_id)
             val prescription = prescriptionMap[registration.patient_id]
@@ -633,9 +540,7 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
 
         combinedList.forEach { it.counts = counts }
 
-
         PrescriptionSpectacleCountArrayList= ArrayList()
-
         PrescriptionSpectacleCountArrayList!!.add(PrescriptionSpectacleCount("","Total Prescription Spectacles Ordered",counts.spectacleGivenCount+counts.spectacleNotReceivedCount+counts.spectacleNotMatchingCount+counts.patientNotComeCount,0,0,0,0))
         PrescriptionSpectacleCountArrayList!!.add(PrescriptionSpectacleCount("","Given",counts.spectacleGivenCount,counts.singleVisionCount,counts.singleVisionHPCount,counts.bifocalCount,counts.bifocalHPCount))
         PrescriptionSpectacleCountArrayList!!.add(PrescriptionSpectacleCount("","Spectacles not arrived",counts.spectacleNotReceivedCount,0,0,0,0))
@@ -644,73 +549,12 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
 
         val adapter = PrescriptionGridAdapter(this, PrescriptionSpectacleCountArrayList!!)
         binding.GridViewCount.adapter = adapter
-
-
         return combinedList
-    }
-
-
-
-
-    private fun combineWithListAndCountData(
-        registrationData: List<Patient_RegistrationModel>,
-        spectacleData: List<SpectacleDisdributionStatusModel>,
-        prescriptionData: List<Prescription_Model>
-    ): CombinedDataResult {
-        val recentSpectacleMap = mutableMapOf<Int, SpectacleDisdributionStatusModel>()
-        val prescriptionMap = mutableMapOf<Int, Prescription_Model>()
-
-        for (spectacle in spectacleData) {
-            if (!recentSpectacleMap.containsKey(spectacle.patient_id) ||
-                spectacle.app_createdDate > recentSpectacleMap[spectacle.patient_id]?.app_createdDate ?: ""
-            ) {
-                recentSpectacleMap[spectacle.patient_id] = spectacle
-            }
-        }
-
-        for (prescription in prescriptionData) {
-            prescriptionMap[prescription.patient_id] = prescription
-        }
-
-        val combinedList = mutableListOf<PatientPrescriptionRegistrationCombined>()
-
-        for (registration in registrationData) {
-            val mostRecentSpectacle = recentSpectacleMap.remove(registration.patient_id)
-            val prescription = prescriptionMap[registration.patient_id]
-
-            if (mostRecentSpectacle != null) {
-                combinedList.add(
-                    PatientPrescriptionRegistrationCombined(
-                        registration,
-                        mostRecentSpectacle,
-                        prescription
-                    )
-                )
-            }
-        }
-
-        var counts = SpectacleCountModel(
-            patientNotComeCount = combinedList.count { it.SpectacleDisdributionStatusModel?.patient_not_come == true },
-            patientCallAgainCount = combinedList.count { it.SpectacleDisdributionStatusModel?.patient_call_again == true },
-            spectacleGivenCount = combinedList.count { it.SpectacleDisdributionStatusModel?.spectacle_given == true },
-            spectacleNotMatchingCount = combinedList.count { it.SpectacleDisdributionStatusModel?.spectacle_not_matching == true },
-            spectacleNotReceivedCount = combinedList.count { it.SpectacleDisdributionStatusModel?.spectacle_not_received == true },
-            singleVisionCount = combinedList.count { it.SpectacleDisdributionStatusModel?.spectacle_given == true && it.prescription?.presc_type == "Single Vision" },
-            singleVisionHPCount = combinedList.count { it.SpectacleDisdributionStatusModel?.spectacle_given == true && it.prescription?.presc_type == "Single Vision (HP)" },
-            bifocalCount = combinedList.count { it.SpectacleDisdributionStatusModel?.spectacle_given == true && it.prescription?.presc_type == "Bifocal" },
-            bifocalHPCount = combinedList.count { it.SpectacleDisdributionStatusModel?.spectacle_given == true && it.prescription?.presc_type == "Bifocal (HP)" }
-
-        )
-
-        combinedList.forEach { it.counts = counts }
-
-        return CombinedDataResult(combinedList, counts)
     }
 
     private fun setDates() {
         viewModel1.allSpectacleDisdributionStatus.observe(this, Observer { vitalList->
-            for (data in vitalList)
-            {
+            for (data in vitalList) {
                     Log.d(ConstantsApp.TAG,"dates=>"+data.app_createdDate)
                     val datesInOriginalFormat = mutableListOf(data.app_createdDate)
                  val uniqueDatesSet = HashSet<String>(ReportDatesArrayList!!)
@@ -726,26 +570,18 @@ class ViewStatusActivity:AppCompatActivity(), TextWatcher {
     private fun convertDatesToDesiredFormat(originalDates: List<String>): ArrayList<String> {
         val desiredDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val convertedDates = ArrayList<String>()
-
         for (originalDate in originalDates) {
             try {
-                // Parse the original date
-                val parsedDate =
-                    SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).parse(originalDate)
-
-                // Convert to the desired format and add to the ArrayList
+                val parsedDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).parse(originalDate)
                 convertedDates.add(desiredDateFormat.format(parsedDate!!))
             } catch (e: Exception) {
-                // Handle parsing exceptions if needed
                 e.printStackTrace()
             }
         }
-
         return convertedDates
     }
 
     override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
-
         val searchText = charSequence.toString().trim()
         combineAndLogData(selectedCondition, selectedDuration, selectedDates, selectedSpectacleType,searchText)
     }

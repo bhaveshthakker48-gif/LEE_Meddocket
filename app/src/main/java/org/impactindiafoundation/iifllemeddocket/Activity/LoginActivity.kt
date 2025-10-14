@@ -75,13 +75,11 @@ import org.impactindiafoundation.iifllemeddocket.ui.activity.OrthosisMainActivit
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
     lateinit var binding: ActivityLoginBinding
-
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
     private val loginViewModel: LoginViewModel by viewModels()
-
     lateinit var appUpdateManager : AppUpdateManager
     lateinit var appUpdateInfoTask: Task<AppUpdateInfo>
 
@@ -95,21 +93,16 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
 
@@ -121,8 +114,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         super.onResume()
         getViewModel()
         createRoomDatabase()
-
-
 
         binding.chkKeepMeLogIn.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
@@ -148,22 +139,12 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun initObserver() {
         loginViewModel.insertUserResponse.observe(this) {
             when (it.status) {
-                Status.LOADING -> {
-                    //    progress.show()
-                }
-
+                Status.LOADING -> {}
                 Status.SUCCESS -> {
-                    //  progress.dismiss()
-                    try {
-
-                    } catch (e: Exception) {
-
-                    }
+                    try { }
+                    catch (e: Exception) { }
                 }
-
-                Status.ERROR -> {
-
-                }
+                Status.ERROR -> {}
             }
         }
     }
@@ -182,21 +163,17 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         val Refractive_Error_DAO: Refractive_Error_DAO = database.Refractive_Error_DAO()
         val OPD_Investigations_DAO: OPD_Investigations_DAO = database.OPD_Investigations_DAO()
         val Eye_Pre_Op_Notes_DAO: Eye_Pre_Op_Notes_DAO = database.Eye_Pre_Op_Notes_DAO()
-        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO =
-            database.Eye_Pre_Op_Investigation_DAO()
-        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO =
-            database.Eye_Post_Op_AND_Follow_ups_DAO()
+        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO = database.Eye_Pre_Op_Investigation_DAO()
+        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO = database.Eye_Post_Op_AND_Follow_ups_DAO()
         val Eye_OPD_Doctors_Note_DAO: Eye_OPD_Doctors_Note_DAO = database.Eye_OPD_Doctors_Note_DAO()
-        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO =
-            database.Cataract_Surgery_Notes_DAO()
+        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO = database.Cataract_Surgery_Notes_DAO()
         val Patient_DAO: PatientDao = database.PatientDao()
         val Image_Upload_DAO: Image_Upload_DAO = database.Image_Upload_DAO()
         val Registration_DAO: Registration_DAO = database.Registration_DAO()
         val Prescription_DAO: Prescription_DAO = database.Prescription_DAO()
         val SynTable_DAO: SynTable_DAO = database.SynTable_DAO()
         val Final_Prescription_DAO: Final_Prescription_DAO = database.Final_Prescription_DAO()
-        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO =
-            database.SpectacleDisdributionStatus_DAO()
+        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO = database.SpectacleDisdributionStatus_DAO()
         val CurrentInventory_DAO: CurrentInventory_DAO = database.CurrentInventory_DAO()
         val InventoryUnit_DAO: InventoryUnit_DAO = database.InventoryUnit_DAO()
         val CreatePrescriptionDAO: CreatePrescriptionDAO = database.CreatePrescriptionDAO()
@@ -227,7 +204,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             FinalPrescriptionDrugDAO,
             database
         )
-
         viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(
             LLE_MedDocket_ViewModel::class.java
         )
@@ -246,24 +222,18 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager = SessionManager(this)
-
     }
 
     override fun onClick(v: View?) {
         when (v) {
             binding.btnLogin -> {
-
-
                 if (validation()) {
                     val user_name = binding.editTextUsername?.text.toString()
                     val password = binding.editTextPassword?.text.toString()
 
                     val sessionData = sessionManager.getLoginData()
-
                     if (sessionData != null) {
-                        // Check if the user credentials match any saved session data
                         for (data in sessionData) {
                             val email_id = data?.Emailid
                             val password1 = data?.Password
@@ -289,9 +259,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             }
 
             "PSD Volunteer(LLE)" -> {
-
                 sessionManager.setCampUserID(data.camp_id.toString(), data.Userid.toString())
-//                gotoScreen(this, PresciptionMainActivity::class.java)
                 val intent = Intent(this@LoginActivity, PresciptionMainActivity::class.java)
                 intent.putExtra(PSD_LOGIN, true)
                 startActivity(intent)
@@ -300,7 +268,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
             "Indent User" -> {
                 sessionManager.setCampUserID(data.camp_id.toString(), data.Userid.toString())
-//                gotoScreen(this, PharmaMainActivity::class.java)
                 val intent = Intent(this@LoginActivity, PharmaMainActivity::class.java)
                 intent.putExtra("isLogin",true)
                 startActivity(intent)
@@ -313,7 +280,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 intent.putExtra(ORTHOSIS_LOGIN, true)
                 startActivity(intent)
                 finish()
-                // gotoScreen(this, OrthosisMainActivity::class.java)
             }
         }
         finish()
@@ -322,19 +288,16 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun userLogin(user_name: String, password: String) {
         val loginRequest = LoginRequest(user_name, password)
         viewModel.login(loginRequest, progressDialog)
-
         loginResponse()
     }
 
     private fun loginResponse() {
         viewModel.userLoginLive.observe(this, Observer { response ->
-
             when (response) {
                 is ResourceApp.Success -> {
                     progressDialog.dismiss()
                     when (response.data!!.ErrorMessage) {
                         "success" -> {
-
                             if (binding.chkKeepMeLogIn.isChecked) {
                                 val loginData = response.data.LoginData
 
@@ -410,7 +373,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                                         finish()
                                     }
                                 }
-
                             } else {
                                 gotoScreen(this, LoginActivity::class.java)
                             }
@@ -422,34 +384,26 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                             Toast.makeText(this, "Credentials Wrong", Toast.LENGTH_SHORT).show()
                         }
                     }
-
                 }
-
                 is ResourceApp.Error -> {
                     progressDialog.dismiss()
                 }
-
                 is ResourceApp.Loading -> {
                     progressDialog.show()
                 }
-
             }
-
         })
     }
 
 
     private fun validation(): Boolean {
         var flag = true
-
         if (!MyValidator.isValidField(binding.editTextUsername)) {
             flag = false
         }
-
         if (!MyValidator.isValidField(binding.editTextPassword)) {
             flag = false
         }
-
         return flag
     }
 
@@ -508,5 +462,4 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
 }

@@ -40,21 +40,17 @@ import org.impactindiafoundation.iifllemeddocket.databinding.ActivityCampPatient
 import org.impactindiafoundation.iifllemeddocket.ui.adapter.recycler.CampPatientAdapter
 
 class CampPatientListActivity : BaseActivity() {
+
     private lateinit var binding: ActivityCampPatientListBinding
     private lateinit var campPatientAdapter: CampPatientAdapter
     private val campPatientList = ArrayList<CampPatientDataItem>()
     private val tempCampPatientList = ArrayList<CampPatientDataItem>()
-    private val campPatientListNew = ArrayList<OrthosisPatientForm>()
-    private val orthosisPatientForm = ArrayList<OrthosisPatientForm>()
     private val campPatientViewModel: CampPatientViewModel by viewModels()
     lateinit var sessionManager: SessionManager
-
     private var leastCampId = 0
     private var isCampComplete = false
     private var campPatientPresent = false
-
     private val filteredCampPatientList = ArrayList<CampPatientDataItem>()
-    private var progressForThis = progress
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,21 +59,16 @@ class CampPatientListActivity : BaseActivity() {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
 
@@ -98,8 +89,7 @@ class CampPatientListActivity : BaseActivity() {
     private fun initUi() {
         leastCampId = intent.getIntExtra(Constants.LEAST_CAMP_ID, 0)
         if (leastCampId == 0) {
-            leastCampId =
-                SharedPrefUtil.getPrfInt(this@CampPatientListActivity, SharedPrefUtil.USER_CAMP)
+            leastCampId = SharedPrefUtil.getPrfInt(this@CampPatientListActivity, SharedPrefUtil.USER_CAMP)
         }
         isCampComplete = intent.getBooleanExtra(Constants.IS_CAMP_COMPLETE, false)
 
@@ -122,7 +112,6 @@ class CampPatientListActivity : BaseActivity() {
                 campPatientAdapter.notifyDataSetChanged()
             }
         }
-
     }
 
     private fun initObserver() {
@@ -149,7 +138,6 @@ class CampPatientListActivity : BaseActivity() {
                         Utility.errorToast(this@CampPatientListActivity, e.message.toString())
                     }
                 }
-
                 Status.ERROR -> {
                     progress.dismiss()
                     Utility.errorToast(this@CampPatientListActivity, "Unexpected error")
@@ -162,7 +150,6 @@ class CampPatientListActivity : BaseActivity() {
                 Status.LOADING -> {
                     showImpactLoader()
                 }
-
                 Status.SUCCESS -> {
                     progress.dismiss()
                     try {
@@ -222,7 +209,6 @@ class CampPatientListActivity : BaseActivity() {
                                 binding.rvCampPatientList.visibility = View.VISIBLE
                                 binding.tvNoDataFound.visibility = View.GONE
                             }
-
                         } else {
                             if (!campPatientPresent) {
                                 binding.rvCampPatientList.visibility = View.GONE
@@ -236,13 +222,11 @@ class CampPatientListActivity : BaseActivity() {
                                 binding.tvNoDataFound.visibility = View.GONE
                             }
                         }
-
                     } catch (e: Exception) {
                         Utility.errorToast(this@CampPatientListActivity, e.message.toString())
                     }
                     stopImpactLoader()
                 }
-
                 Status.ERROR -> {
                     progress.dismiss()
                     Utility.errorToast(this@CampPatientListActivity, "Unexpected error")
@@ -260,8 +244,7 @@ class CampPatientListActivity : BaseActivity() {
                     val patientData = filteredCampPatientList[position]
                     if (patientData.isLocal) {
                         if (leastCampId == 0) {
-                            val intent =
-                                Intent(this@CampPatientListActivity, OrthosisActivity::class.java)
+                            val intent = Intent(this@CampPatientListActivity, OrthosisActivity::class.java)
                             intent.putExtra("screen", "Camp_List")
                             intent.putExtra("temp_id", patientData.temp_patient_id)
                             intent.putExtra("local_patient_id", patientData.id.toString())
@@ -276,16 +259,9 @@ class CampPatientListActivity : BaseActivity() {
                                 Utility.infoToast(this@CampPatientListActivity, "Camp Completed")
                             } else {
                                 if (patientData.camp_id.toInt() > leastCampId || patientData.camp_id.toInt() != leastCampId) {
-                                    Utility.infoToast(
-                                        this@CampPatientListActivity,
-                                        "Complete Previous Camp"
-                                    )
+                                    Utility.infoToast(this@CampPatientListActivity, "Complete Previous Camp")
                                 } else {
-                                    val intent =
-                                        Intent(
-                                            this@CampPatientListActivity,
-                                            OrthosisActivity::class.java
-                                        )
+                                    val intent = Intent(this@CampPatientListActivity, OrthosisActivity::class.java)
                                     intent.putExtra("screen", "Camp_List")
                                     intent.putExtra("temp_id", patientData.temp_patient_id)
                                     intent.putExtra("local_patient_id", patientData.id.toString())
@@ -304,10 +280,7 @@ class CampPatientListActivity : BaseActivity() {
                         } else {
                             if (patientData.camp_id.toInt() > leastCampId || patientData.camp_id.toInt() != leastCampId) {
                                 if (leastCampId == 0) {
-                                    val intent = Intent(
-                                        this@CampPatientListActivity,
-                                        OrthosisFittingActivity::class.java
-                                    )
+                                    val intent = Intent(this@CampPatientListActivity, OrthosisFittingActivity::class.java)
                                     intent.putExtra("screen", "Camp_List")
                                     intent.putExtra("temp_id", patientData.temp_patient_id)
                                     intent.putExtra("local_patient_id", patientData.id)
@@ -321,16 +294,10 @@ class CampPatientListActivity : BaseActivity() {
                                     }
                                     startActivity(intent)
                                 } else {
-                                    Utility.infoToast(
-                                        this@CampPatientListActivity,
-                                        "Complete Previous Camp"
-                                    )
+                                    Utility.infoToast(this@CampPatientListActivity, "Complete Previous Camp")
                                 }
                             } else {
-                                val intent = Intent(
-                                    this@CampPatientListActivity,
-                                    OrthosisFittingActivity::class.java
-                                )
+                                val intent = Intent(this@CampPatientListActivity, OrthosisFittingActivity::class.java)
                                 intent.putExtra("screen", "Camp_List")
                                 intent.putExtra("temp_id", patientData.temp_patient_id)
                                 intent.putExtra("local_patient_id", patientData.id)
@@ -364,7 +331,6 @@ class CampPatientListActivity : BaseActivity() {
     private fun showImpactLoader(){
         binding.tvNoDataFound.visibility = View.GONE
         binding.ivImpactLoader.visibility = View.VISIBLE
-
         Glide.with(this)
             .asGif()
             .load(R.raw.preloader) // Replace with your GIF resource
@@ -373,7 +339,6 @@ class CampPatientListActivity : BaseActivity() {
 
     private fun stopImpactLoader(){
         binding.ivImpactLoader.visibility = View.GONE
-
         Glide.with(this).clear(binding.ivImpactLoader)
     }
 }

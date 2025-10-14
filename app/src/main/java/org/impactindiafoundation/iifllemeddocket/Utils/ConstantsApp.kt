@@ -22,14 +22,10 @@ import java.util.Locale
 
 class ConstantsApp {
 
-    companion object
-    {
-
+    companion object {
         const val BASE_URL="https://impactindiafoundation.org/ImpactWebService/rest/LLEwebcall/"
-//                const val BASE_URL="http://192.168.0.141:8089/ImpactWebService/rest/LLEwebcall/"
 
         const val LOCAL_URL="http://192.168.0.160:8095/ImpactWebService/rest/LLEwebcall/"
-        //const val LOCAL_URL="http://192.168.0.178:8090/ImpactWebService/rest/LLEwebcall/"
 
         const val TAG="mytag"
 
@@ -44,7 +40,6 @@ class ConstantsApp {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss") // Choose your desired date and time format
             return currentDateTime.format(formatter)
         }
-
 
         fun extractPatientAndLoginData(sessionManager: SessionManager): Triple<Int?, Int?, String?> {
             val decodedText = sessionManager.getPatientData()
@@ -76,11 +71,8 @@ class ConstantsApp {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
             return imageFile.absolutePath
         }
-
-
 
         fun saveBitmapToFile1(bitmap: Bitmap, fileName: String, context: Context): File {
             val picturesDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -94,7 +86,6 @@ class ConstantsApp {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-
             return file
         }
 

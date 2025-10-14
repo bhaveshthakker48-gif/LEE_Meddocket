@@ -31,9 +31,7 @@ import org.impactindiafoundation.iifllemeddocket.databinding.ActivityViewReportB
 class ViewReportActivity:AppCompatActivity(),FormClick {
 
      lateinit var binding:ActivityViewReportBinding
-
      lateinit var adapter: ViewReportAdapter
-     
      var patientID:String=""
     var patientData:PatientDataLocal?=null
 
@@ -43,28 +41,22 @@ class ViewReportActivity:AppCompatActivity(),FormClick {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
     }
 
     override fun onResume() {
         super.onResume()
-
         binding.toolbarViewReport.toolbar.title="Patient Details"
         patientData= intent.getParcelableExtra("PatientDataLocal")
         patientID= patientData!!.patientId.toString()
@@ -74,16 +66,13 @@ class ViewReportActivity:AppCompatActivity(),FormClick {
         val ageUnit=patientData!!.AgeUnit
         val patientGender=patientData!!.patientGen
         val camp=patientData!!.location
-
         binding.edtPatientName.setText("Name:- "+patientFname+" "+patientLname)
         binding.edtAge.setText("Age:- " +patientAge.toString()+" "+ageUnit)
         binding.edtId.text="Patient ID:- "+patientID.toString()
         binding.edtGend.setText("Gender:- "+patientGender)
         binding.edtCampLoc.setText("Camp :- "+camp)
-        
         Log.d(ConstantsApp.TAG,"patientData=>"+patientData)
         val labels1 = arrayOf("Vital", "OPD Investigation", "Visual Acuity", "Refractive Error", "Eye OPD Doctor Note", "Eye Pre-Op Investigation", "Eye Pre-Op Notes", "Surgical Notes", "Eye Post-Op and Follow Ups")
-
         adapter = ViewReportAdapter(this,labels1,this)
         binding.RecyclerViewViewReport.adapter = adapter
         binding.RecyclerViewViewReport.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
@@ -110,75 +99,71 @@ class ViewReportActivity:AppCompatActivity(),FormClick {
     }
 
     private fun setForm(form: String, patientID: String) {
-        when(form)
-        {
-            "Vital"->
-            {
+        when(form) {"Vital"-> {
                 val vitalFormFragment = VitalFragment()
                 val bundle = Bundle()
                 bundle.putParcelable("patientData", patientData)
                 vitalFormFragment.arguments = bundle
                 setFragment(vitalFormFragment, bundle)
-
             }
-            "OPD Investigation"->
-            {
+
+            "OPD Investigation"-> {
                 val vitalFormFragment = OPD_InvestigationFragment()
                 val bundle = Bundle()
                 bundle.putParcelable("patientData", patientData)
                 vitalFormFragment.arguments = bundle
                 setFragment(vitalFormFragment, bundle)
             }
-            "Visual Acuity"->
-            {
+
+            "Visual Acuity"-> {
                 val vitalFormFragment = VisualAcuityFragment()
                 val bundle = Bundle()
                 bundle.putParcelable("patientData", patientData)
                 vitalFormFragment.arguments = bundle
                 setFragment(vitalFormFragment, bundle)
             }
-            "Refractive Error"->
-            {
+
+            "Refractive Error"-> {
                 val vitalFormFragment = RefractiveErrorFragment()
                 val bundle = Bundle()
                 bundle.putParcelable("patientData", patientData)
                 vitalFormFragment.arguments = bundle
                 setFragment(vitalFormFragment, bundle)
             }
-            "Eye OPD Doctor Note"->
-            {
+
+            "Eye OPD Doctor Note"-> {
                 val vitalFormFragment = Eye_OPD_Doctor_NoteFragment()
                 val bundle = Bundle()
                 bundle.putParcelable("patientData", patientData)
                 vitalFormFragment.arguments = bundle
                 setFragment(vitalFormFragment, bundle)
             }
-            "Eye Pre-Op Investigation"->
-            {
+
+            "Eye Pre-Op Investigation"-> {
                 val vitalFormFragment = Eye_Pre_Op_InvestigationFragment()
                 val bundle = Bundle()
                 bundle.putParcelable("patientData", patientData)
                 vitalFormFragment.arguments = bundle
                 setFragment(vitalFormFragment, bundle)
             }
-            "Eye Pre-Op Notes"->
-            {
+
+            "Eye Pre-Op Notes"-> {
                 val vitalFormFragment = Eye_Pre_Op_NotesFragment()
                 val bundle = Bundle()
                 bundle.putParcelable("patientData", patientData)
                 vitalFormFragment.arguments = bundle
                 setFragment(vitalFormFragment, bundle)
             }
-            "Surgical Notes"->
-            {
+
+            "Surgical Notes"-> {
                 val vitalFormFragment = Surgical_NotesFragment()
                 val bundle = Bundle()
                 bundle.putParcelable("patientData", patientData)
                 vitalFormFragment.arguments = bundle
                 setFragment(vitalFormFragment, bundle)
             }
-            "Eye Post-Op and Follow Ups"->
-            {
+
+            "Eye Post-Op and Follow Ups"-> {
                 val vitalFormFragment = Eye_Post_Op_and_Follow_UpsFragment()
                 val bundle = Bundle()
                 bundle.putParcelable("patientData", patientData)
@@ -186,7 +171,6 @@ class ViewReportActivity:AppCompatActivity(),FormClick {
                 setFragment(vitalFormFragment, bundle)
             }
         }
-
     }
 
     fun setFragment(fragment: Fragment, bundle: Bundle? = null) {
@@ -198,13 +182,11 @@ class ViewReportActivity:AppCompatActivity(),FormClick {
             .commit()
     }
 
-    fun setFirstFragment()
-    {
+    fun setFirstFragment() {
         val vitalFormFragment = VitalFragment()
         val bundle = Bundle()
         bundle.putParcelable("patientData", patientData)
         vitalFormFragment.arguments = bundle
         setFragment(vitalFormFragment, bundle)
     }
-
 }

@@ -42,6 +42,7 @@ import java.io.UnsupportedEncodingException
 
 
 class PrintActivity1 : AppCompatActivity() {
+
     lateinit var binding: ActivityPrintBinding
     private lateinit var printJob: PrintJob
     lateinit var sessionManager: SessionManager
@@ -103,6 +104,7 @@ class PrintActivity1 : AppCompatActivity() {
                     binding.TextViewDistanceRightCyl.text=refractiveError.re_distant_vision_cylinder_right
                 }
             }
+
             when(refractiveError.re_distant_vision_cylinder_left) {
                 "cylinder"-> {
                     binding.TextViewDistanceLeftCyl.text=""
@@ -175,31 +177,25 @@ class PrintActivity1 : AppCompatActivity() {
                     binding.TextViewBaseLeft.text=refractiveError.re_prism_unit_left
                 }
             }
+
             when(refractiveError.re_reading_addition_right_details) {
-                "select"->
-                {
+                "select"-> {
                     binding.TextViewAddAmountRightCyl.text=""
-                }
-                else->
-                {
+                }else-> {
                     binding.TextViewAddAmountRightCyl.text=refractiveError.re_reading_addition_right_details
                 }
             }
 
-            when(refractiveError.re_reading_addition_left_details)
-            {
-                "select"->
-                {
+            when(refractiveError.re_reading_addition_left_details) {
+                "select"-> {
                     binding.TextViewAddAmountLeftCyl.text=""
-                }
-                else->
-                {
+                }else->
+            {
                     binding.TextViewAddAmountLeftCyl.text=refractiveError.re_reading_addition_left_details
                 }
             }
-        } else {
-            // Handle the case where Gson couldn't deserialize the JSON string
-        }
+        } else { }
+
         val loginData=sessionManager.getLoginData()
         val decodedText=sessionManager.getPatientData()
         val patientData = gson.fromJson(decodedText, PatientData::class.java)
@@ -214,9 +210,7 @@ class PrintActivity1 : AppCompatActivity() {
         val registrationNumber = patientData.RegNo
         val data=buildJsonString(firstName,lastName,patientID,registrationNumber,gender,age,campID,location,ageUnit)
         val base64Data = encodeToBase64(data)
-        // Generate QR code bitmap
         val bitmap = generateQRCode(base64Data)
-        // Set the bitmap to the ImageView
         val imageView: ImageView = findViewById(R.id.ImageViewQRCode)
         imageView.setImageBitmap(bitmap)
         printOutJobName=patientData.patientId.toString()+"_"+patientData.patientFname+"_"+patientData.patientLname
@@ -225,11 +219,9 @@ class PrintActivity1 : AppCompatActivity() {
         val printAdapter = PrintableDocumentAdapter(findViewById(R.id.mainLayout),printOutJobName!!)
         binding.TextViewPatientName.text=patientData.patientFname+" "+patientData.patientLname
         binding.TextViewPatientID.text= patientData.patientId.toString()
-        for (data in loginData!!)
-        {
+        for (data in loginData!!) {
             binding.TextViewCampName.text=data.camp_name
         }
-
 
         printJob = printManager.print(printOutJobName!!, printAdapter, null)
     }
@@ -271,7 +263,6 @@ class PrintActivity1 : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // Ensure to cancel the print job when the activity is destroyed
         printJob.cancel()
     }
 }
@@ -298,7 +289,6 @@ class PrintableDocumentAdapter(private val rootView: View, private val printOutJ
         cancellationSignal: CancellationSignal?,
         callback: WriteResultCallback
     ) {
-        // Write content to the output file (PDF document)
         try {
             val document = PdfDocument()
             val pageInfo = PdfDocument.PageInfo.Builder(

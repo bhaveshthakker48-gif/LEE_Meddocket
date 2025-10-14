@@ -75,10 +75,8 @@ class PatientForms:AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.setPadding(
@@ -87,7 +85,6 @@ class PatientForms:AppCompatActivity(), View.OnClickListener {
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
 
@@ -140,29 +137,22 @@ class PatientForms:AppCompatActivity(), View.OnClickListener {
         }
     }
 
-
-
     override fun onResume() {
         super.onResume()
         getViewModel()
         createRoomDatabase()
         init()
-
-
     }
 
     private fun getViewModel() {
         val LLE_MedDocketRespository= LLE_MedDocketRespository()
         val LLE_MedDocketProviderFactory= LLE_MedDocketProviderFactory(LLE_MedDocketRespository,application)
         viewModel= ViewModelProvider(this,LLE_MedDocketProviderFactory).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager= SessionManager(this)
-
     }
 
     private fun createRoomDatabase() {
@@ -191,13 +181,10 @@ class PatientForms:AppCompatActivity(), View.OnClickListener {
         val FinalPrescriptionDrugDAO: FinalPrescriptionDrugDAO =database.FinalPrescriptionDrugDAO()
 
         val repository = LLE_MedDocket_Repository(Vital_DAO, VisualAcuity_DAO, Refractive_Error_DAO, OPD_Investigations_DAO, Eye_Pre_Op_Notes_DAO, Eye_Pre_Op_Investigation_DAO, Eye_Post_Op_AND_Follow_ups_DAO, Eye_OPD_Doctors_Note_DAO, Cataract_Surgery_Notes_DAO, Patient_DAO,Image_Upload_DAO,Registration_DAO,Prescription_DAO,Final_Prescription_DAO,SpectacleDisdributionStatus_DAO,SynTable_DAO,CurrentInventory_DAO,InventoryUnit_DAO,CreatePrescriptionDAO,Image_Prescription_DAO,FinalPrescriptionDrugDAO,database)
-
         viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(LLE_MedDocket_ViewModel::class.java)
     }
 
-    private fun init()
-    {
-
+    private fun init() {
         binding.toolbarForm.toolbar.title="Patient Form"
         val decodedText=sessionManager.getPatientData()
         intentDecodeText = sessionManager.getPatientData().toString()
@@ -214,7 +201,6 @@ class PatientForms:AppCompatActivity(), View.OnClickListener {
         val ageUnit=patientData.AgeUnit
         campId = patientData.camp_id
 
-
         binding.edtPatientName.setText("Name :- "+patientFname+" "+patientLname)
         binding.edtAge.setText("Age :- " +patientAge.toString()+" "+ageUnit)
         binding.edtId.text="Patient ID :- "+patientID.toString()
@@ -222,56 +208,50 @@ class PatientForms:AppCompatActivity(), View.OnClickListener {
         binding.edtCampLoc.setText("Camp :- "+camp)
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
     override fun onClick(v: View?) {
-        when(v)
-        {
-            binding.cvVital->
-            {
+        when(v) {
+            binding.cvVital-> {
                 val intent = Intent(this@PatientForms,NewVitalsActivity::class.java)
                 intent.putExtra("result", intentDecodeText)
                 intent.putExtra("campId", campId)
                 startActivity(intent)
             }
-            binding.cvInvestigations->
-            {
+
+            binding.cvInvestigations-> {
                 val intent = Intent(this@PatientForms, NewOpdInvestigationsActivity::class.java)
                 intent.putExtra("result", intentDecodeText)
                 intent.putExtra("campId", campId)
                 startActivity(intent)
             }
-            binding.cvVision->
-            {
+
+            binding.cvVision-> {
                 val intent = Intent(this@PatientForms,NewVisualAcuityActivity::class.java)
                 intent.putExtra("result", intentDecodeText)
                 intent.putExtra("campId", campId)
                 startActivity(intent)
             }
-            binding.cvEyePostOpAndFollowUps->
-            {
+
+            binding.cvEyePostOpAndFollowUps-> {
                 gotoScreen(this,EyePostOpAndFollowUpsActivity::class.java)
             }
-            binding.cvSurgicalNotes->
-            {
+
+            binding.cvSurgicalNotes-> {
                 gotoScreen(this,SurgicalNotesActivity::class.java)
             }
-            binding.cvEyePreOpNotes->
-            {
+
+            binding.cvEyePreOpNotes-> {
                 gotoScreen(this,EyePreOpNotesActivity::class.java)
             }
-            binding.cvEyePreOpInvestigation->
-            {
+
+            binding.cvEyePreOpInvestigation-> {
                 gotoScreen(this,EyePreOPInvestigationsActivity::class.java)
             }
-            binding.cvEyeOPDDoctorsNote->
-            {
+
+            binding.cvEyeOPDDoctorsNote-> {
                 gotoScreen(this,EyeOPDDoctorsNoteActivity::class.java)
             }
-            binding.cvRefractiveError->
-            {
+
+            binding.cvRefractiveError-> {
                 val intent = Intent(this@PatientForms,RefractiveErrorFormActivity::class.java)
                 intent.putExtra("result", intentDecodeText)
                 intent.putExtra("campId", campId)

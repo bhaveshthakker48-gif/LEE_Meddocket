@@ -39,33 +39,20 @@ import javax.inject.Inject
 class OrthosisMainViewModel @Inject constructor(private val newMainRepository: NewMainRepository) :
     ViewModel() {
 
-
     private var _othosisMasterResponse = MutableLiveData<Resource<List<OrthosisTypeModelItem>>>()
     val othosisMasterResponse: LiveData<Resource<List<OrthosisTypeModelItem>>> get() = _othosisMasterResponse
-
 
     private var _insertOrthosisResponse = MutableLiveData<Resource<Long>>()
     val insertOrthosisResponse: LiveData<Resource<Long>> get() = _insertOrthosisResponse
 
-    private var _orthosisMasterList = MutableLiveData<Resource<List<OrthosisTypeModelItem>>>()
-    val orthosisMasterList: LiveData<Resource<List<OrthosisTypeModelItem>>> get() = _orthosisMasterList
-
     private var _campPatienDetailsResponse = MutableLiveData<Resource<CampPatientData>>()
     val campPatienDetailsResponse: LiveData<Resource<CampPatientData>> get() = _campPatienDetailsResponse
-
-
-    private var _insertCampPatientResponse = MutableLiveData<Resource<Long>>()
-    val insertCampPatientResponse: LiveData<Resource<Long>> get() = _insertCampPatientResponse
 
     private var _formImagesList = MutableLiveData<Resource<List<FormImages>>>()
     val formImagesList: LiveData<Resource<List<FormImages>>> get() = _formImagesList
 
-
     private var _formImagesListForSync = MutableLiveData<Resource<List<FormImages>>>()
     val formImagesListForSync: LiveData<Resource<List<FormImages>>> get() = _formImagesListForSync
-
-    private var _formImagesListSync = MutableLiveData<Resource<List<FormImages>>>()
-    val formImagesListSync: LiveData<Resource<List<FormImages>>> get() = _formImagesListSync
 
     private var _orthosisImagesList = MutableLiveData<Resource<List<OrthosisImages>>>()
     val orthosisImagesList: LiveData<Resource<List<OrthosisImages>>> get() = _orthosisImagesList
@@ -85,7 +72,6 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
     private var _formVideosListForSync = MutableLiveData<Resource<List<FormVideos>>>()
     val formVideosListForSync: LiveData<Resource<List<FormVideos>>> get() = _formVideosListForSync
 
-
     private var _campPatientList = MutableLiveData<Resource<List<CampPatientDataItem>>>()
     val campPatientList: LiveData<Resource<List<CampPatientDataItem>>> get() = _campPatientList
 
@@ -98,9 +84,6 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
     private var _campForViewReport = MutableLiveData<Resource<List<CampModel>>>()
     val campForViewReport: LiveData<Resource<List<CampModel>>> get() = _campForViewReport
 
-    private val _formProgress = MutableLiveData<String>()  // Pair of (current, total)
-    val formProgress: LiveData<String> get() = _formProgress
-
     private var _userList = MutableLiveData<Resource<List<UserModel>>>()
     val userList: LiveData<Resource<List<UserModel>>> get() = _userList
 
@@ -109,7 +92,6 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
 
     private var _insertDiagnosisResponse = MutableLiveData<Resource<Long>>()
     val insertDiagnosisResponse: LiveData<Resource<Long>> get() = _insertDiagnosisResponse
-
 
     private var _othosisEquipmentMasterResponse = MutableLiveData<Resource<List<Equipment>>>()
     val othosisEquipmentMasterResponse: LiveData<Resource<List<Equipment>>> get() = _othosisEquipmentMasterResponse
@@ -125,6 +107,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
 
     private var _formVideoSyncResponse = MutableLiveData<Resource<FormImageSyncResponse>>()
     val formVideoSyncResponse: LiveData<Resource<FormImageSyncResponse>> get() = _formVideoSyncResponse
+
     fun getOrthosisMasterApi() = CoroutineScope(Dispatchers.IO).launch {
         _othosisMasterResponse.postValue(Resource.loading(null))
         try {
@@ -139,21 +122,18 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _othosisMasterResponse.postValue(Resource.error(e.message.toString(), null))
         }
     }
 
-    fun insertOrthosisMasterLocal(orthosisMaster:OrthosisType) {
+    fun insertOrthosisMasterLocal(orthosisMaster: OrthosisType) {
         CoroutineScope(Dispatchers.IO).launch {
             val message = newMainRepository.insertOrthosisMasterr(orthosisMaster)
             _insertOrthosisResponse.postValue(Resource.success(message))
-
             if (message.equals(null)) {
-                _insertOrthosisResponse.postValue(Resource.error("Local Db Error",null))
+                _insertOrthosisResponse.postValue(Resource.error("Local Db Error", null))
             } else {
                 _insertOrthosisResponse.postValue(Resource.success(message))
             }
@@ -174,9 +154,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _campPatienDetailsResponse.postValue(Resource.error(e.message.toString(), null))
         }
@@ -188,7 +166,6 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
         }
     }
 
-    //Orthosis Files Operations
     fun getFormImages() = CoroutineScope(Dispatchers.IO).launch {
         _formImagesList.postValue(Resource.loading(null))
         try {
@@ -203,9 +180,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _formImagesList.postValue(Resource.error(e.message.toString(), null))
         }
@@ -225,9 +200,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _formImagesListForSync.postValue(Resource.error(e.message.toString(), null))
         }
@@ -247,9 +220,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _orthosisImagesList.postValue(Resource.error(e.message.toString(), null))
         }
@@ -269,9 +240,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _orthosisImagesListForSync.postValue(Resource.error(e.message.toString(), null))
         }
@@ -292,13 +261,12 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _equipmentImagesList.postValue(Resource.error(e.message.toString(), null))
         }
     }
+
     fun getEquipmentImagesForSync() = CoroutineScope(Dispatchers.IO).launch {
         _equipmentImagesListForSync.postValue(Resource.loading(null))
         try {
@@ -313,9 +281,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _equipmentImagesListForSync.postValue(Resource.error(e.message.toString(), null))
         }
@@ -335,9 +301,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _formVideosList.postValue(Resource.error(e.message.toString(), null))
         }
@@ -357,14 +321,11 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _formVideosListForSync.postValue(Resource.error(e.message.toString(), null))
         }
     }
-    //orthosis form get operations for count purpose only
 
     fun getCampPatientList() = CoroutineScope(Dispatchers.IO).launch {
         _campPatientList.postValue(Resource.loading(null))
@@ -380,13 +341,12 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _campPatientList.postValue(Resource.error(e.message.toString(), null))
         }
     }
+
     fun getOrthosisPatientForm() = CoroutineScope(Dispatchers.IO).launch {
         _orthosisPatientFormList.postValue(Resource.loading(null))
         try {
@@ -401,9 +361,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _orthosisPatientFormList.postValue(Resource.error(e.message.toString(), null))
         }
@@ -415,7 +373,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
         }
     }
 
-    fun updateSingleCamp(camp:CampModel) {
+    fun updateSingleCamp(camp: CampModel) {
         viewModelScope.launch {
             newMainRepository.updateSingleCamp(camp)
         }
@@ -435,9 +393,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _campDetailsResponse.postValue(Resource.error(e.message.toString(), null))
         }
@@ -457,9 +413,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _campForViewReport.postValue(Resource.error(e.message.toString(), null))
         }
@@ -479,27 +433,23 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _diagnosisMasterResponse.postValue(Resource.error(e.message.toString(), null))
         }
     }
 
-    fun insertDiagnosisMasterLocal(diagnosisMaster:DiagnosisType) {
+    fun insertDiagnosisMasterLocal(diagnosisMaster: DiagnosisType) {
         CoroutineScope(Dispatchers.IO).launch {
             val message = newMainRepository.insertDiagnosisMaster(diagnosisMaster)
             _insertDiagnosisResponse.postValue(Resource.success(message))
-
             if (message.equals(null)) {
-                _insertDiagnosisResponse.postValue(Resource.error("Local Db Error",null))
+                _insertDiagnosisResponse.postValue(Resource.error("Local Db Error", null))
             } else {
                 _insertDiagnosisResponse.postValue(Resource.success(message))
             }
         }
     }
-
 
     fun getOrthosisEquipmentMasterApi() = CoroutineScope(Dispatchers.IO).launch {
         _othosisEquipmentMasterResponse.postValue(Resource.loading(null))
@@ -515,21 +465,18 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _othosisEquipmentMasterResponse.postValue(Resource.error(e.message.toString(), null))
         }
     }
 
-    fun insertOrthosisEquipmentMasterLocal(equipmentMaster:Equipment) {
+    fun insertOrthosisEquipmentMasterLocal(equipmentMaster: Equipment) {
         CoroutineScope(Dispatchers.IO).launch {
             val message = newMainRepository.insertOrthosisEquipmentMaster(equipmentMaster)
             _insertOrthosisResponse.postValue(Resource.success(message))
-
             if (message.equals(null)) {
-                _insertOrthosisResponse.postValue(Resource.error("Local Db Error",null))
+                _insertOrthosisResponse.postValue(Resource.error("Local Db Error", null))
             } else {
                 _insertOrthosisResponse.postValue(Resource.success(message))
             }
@@ -537,7 +484,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
     }
 
     //Images and Videos Sync Operation
-    fun syncFormImages(formImageRequest: FormImageRequest){
+    fun syncFormImages(formImageRequest: FormImageRequest) {
         CoroutineScope(Dispatchers.IO).launch {
             _formSyncResponse.postValue(Resource.loading(null))
             try {
@@ -552,109 +499,100 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
                             null
                         )
                     )
-
                 }
-
             } catch (e: Exception) {
                 _formSyncResponse.postValue(Resource.error(e.message.toString(), null))
             }
         }
     }
 
-     fun syncFormVideos(formImageRequest: FormVideoRquest){
-         CoroutineScope(Dispatchers.IO).launch {
-             _formVideoSyncResponse.postValue(Resource.loading(null))
-             try {
-                 try {
-                     newMainRepository.syncFormVideosNew(formImageRequest).let {
-                         _formVideoSyncResponse.postValue(Resource.success(it.body()))
-                     }
-                 } catch (e: Exception) {
-                     _formVideoSyncResponse.postValue(
-                         Resource.error(
-                             e.toString(),
-                             null
-                         )
-                     )
-
-                 }
-
-             } catch (e: Exception) {
-                 _formVideoSyncResponse.postValue(Resource.error(e.message.toString(), null))
-             }
-         }
-    }
-
-     fun syncOrthosisImages(formImageRequest: OrthosisImageRequest){
-         CoroutineScope(Dispatchers.IO).launch {
-             _orthosisImageSyncResponse.postValue(Resource.loading(null))
-             try {
-                 try {
-                     newMainRepository.syncOrthosisImagesNew(formImageRequest).let {
-                         _orthosisImageSyncResponse.postValue(Resource.success(it.body()))
-                     }
-                 } catch (e: Exception) {
-                     _orthosisImageSyncResponse.postValue(
-                         Resource.error(
-                             e.toString(),
-                             null
-                         )
-                     )
-
-                 }
-
-             } catch (e: Exception) {
-                 _orthosisImageSyncResponse.postValue(Resource.error(e.message.toString(), null))
-             }
-         }
-    }
-
-     fun syncEquipmentImages(formImageRequest: EquipmentImageRequest){
-         CoroutineScope(Dispatchers.IO).launch {
-             _equipmentImageSyncResponse.postValue(Resource.loading(null))
-             try {
-                 try {
-                     newMainRepository.syncEquipmentImagesNew(formImageRequest).let {
-                         _equipmentImageSyncResponse.postValue(Resource.success(it.body()))
-                     }
-                 } catch (e: Exception) {
-                     _equipmentImageSyncResponse.postValue(
-                         Resource.error(
-                             e.toString(),
-                             null
-                         )
-                     )
-
-                 }
-
-             } catch (e: Exception) {
-                 _equipmentImageSyncResponse.postValue(Resource.error(e.message.toString(), null))
-             }
-         }
-    }
-
-    fun updateFormImageSynced(imageId:Int) {
+    fun syncFormVideos(formImageRequest: FormVideoRquest) {
         CoroutineScope(Dispatchers.IO).launch {
-         newMainRepository.updateSyncedImage(imageId)
+            _formVideoSyncResponse.postValue(Resource.loading(null))
+            try {
+                try {
+                    newMainRepository.syncFormVideosNew(formImageRequest).let {
+                        _formVideoSyncResponse.postValue(Resource.success(it.body()))
+                    }
+                } catch (e: Exception) {
+                    _formVideoSyncResponse.postValue(
+                        Resource.error(
+                            e.toString(),
+                            null
+                        )
+                    )
+                }
+            } catch (e: Exception) {
+                _formVideoSyncResponse.postValue(Resource.error(e.message.toString(), null))
+            }
         }
     }
 
-    fun updateOrthosisImageSynced(imageId:Int) {
+    fun syncOrthosisImages(formImageRequest: OrthosisImageRequest) {
+        CoroutineScope(Dispatchers.IO).launch {
+            _orthosisImageSyncResponse.postValue(Resource.loading(null))
+            try {
+                try {
+                    newMainRepository.syncOrthosisImagesNew(formImageRequest).let {
+                        _orthosisImageSyncResponse.postValue(Resource.success(it.body()))
+                    }
+                } catch (e: Exception) {
+                    _orthosisImageSyncResponse.postValue(
+                        Resource.error(
+                            e.toString(),
+                            null
+                        )
+                    )
+                }
+            } catch (e: Exception) {
+                _orthosisImageSyncResponse.postValue(Resource.error(e.message.toString(), null))
+            }
+        }
+    }
+
+    fun syncEquipmentImages(formImageRequest: EquipmentImageRequest) {
+        CoroutineScope(Dispatchers.IO).launch {
+            _equipmentImageSyncResponse.postValue(Resource.loading(null))
+            try {
+                try {
+                    newMainRepository.syncEquipmentImagesNew(formImageRequest).let {
+                        _equipmentImageSyncResponse.postValue(Resource.success(it.body()))
+                    }
+                } catch (e: Exception) {
+                    _equipmentImageSyncResponse.postValue(
+                        Resource.error(
+                            e.toString(),
+                            null
+                        )
+                    )
+                }
+            } catch (e: Exception) {
+                _equipmentImageSyncResponse.postValue(Resource.error(e.message.toString(), null))
+            }
+        }
+    }
+
+    fun updateFormImageSynced(imageId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            newMainRepository.updateSyncedImage(imageId)
+        }
+    }
+
+    fun updateOrthosisImageSynced(imageId: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             newMainRepository.updateSyncedOrthoImage(imageId)
-
         }
     }
-    fun updateEquipmentImageSynced(imageId:Int) {
+
+    fun updateEquipmentImageSynced(imageId: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             newMainRepository.updateSyncedEquipmentImage(imageId)
-
         }
     }
-    fun updateFormVideoSynced(videoId:Int) {
+
+    fun updateFormVideoSynced(videoId: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             newMainRepository.updateSyncedVideo(videoId)
-
         }
     }
 }

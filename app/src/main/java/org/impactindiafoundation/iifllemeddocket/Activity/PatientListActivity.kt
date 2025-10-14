@@ -53,7 +53,6 @@ import org.impactindiafoundation.iifllemeddocket.databinding.ActivityPatientList
 class PatientListActivity:AppCompatActivity(),CardViewClick {
 
     lateinit var binding:ActivityPatientListBinding
-
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
@@ -66,50 +65,38 @@ class PatientListActivity:AppCompatActivity(),CardViewClick {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
     }
 
     override fun onResume() {
         super.onResume()
+
         AllPatientList= ArrayList()
-
         getViewModel()
-
         createRoomDatabase()
-
-        viewModel1.allPatient.observe(this, Observer {
-                patientList->
-
+        viewModel1.allPatient.observe(this, Observer { patientList->
             val uniquePatientIds = patientList.map { it.patientId }.distinct()
 
             for (patientId in uniquePatientIds) {
                 val patientData = patientList.find { it.patientId == patientId }
                 Log.d(ConstantsApp.TAG, "Patient ID: $patientId, Data: $patientData")
-
                 AllPatientList!!.add(patientData!!)
             }
 
             val adapter = AllPatientAdapter(this, AllPatientList!!,this)
             binding.recyclerPatientList.adapter = adapter
             binding.recyclerPatientList.layoutManager = LinearLayoutManager(this)
-
-
         })
 
         binding.toolbar.toolbar.title="Patient List"
@@ -119,14 +106,13 @@ class PatientListActivity:AppCompatActivity(),CardViewClick {
         val LLE_MedDocketRespository= LLE_MedDocketRespository()
         val LLE_MedDocketProviderFactory= LLE_MedDocketProviderFactory(LLE_MedDocketRespository,application)
         viewModel= ViewModelProvider(this,LLE_MedDocketProviderFactory).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager= SessionManager(this)
     }
+
     private fun createRoomDatabase() {
         val database = LLE_MedDocket_Room_Database.getDatabase(this)
 
@@ -153,7 +139,6 @@ class PatientListActivity:AppCompatActivity(),CardViewClick {
         val FinalPrescriptionDrugDAO: FinalPrescriptionDrugDAO =database.FinalPrescriptionDrugDAO()
 
         val repository = LLE_MedDocket_Repository(Vital_DAO, VisualAcuity_DAO, Refractive_Error_DAO, OPD_Investigations_DAO, Eye_Pre_Op_Notes_DAO, Eye_Pre_Op_Investigation_DAO, Eye_Post_Op_AND_Follow_ups_DAO, Eye_OPD_Doctors_Note_DAO, Cataract_Surgery_Notes_DAO, Patient_DAO,Image_Upload_DAO,Registration_DAO,Prescription_DAO,Final_Prescription_DAO,SpectacleDisdributionStatus_DAO,SynTable_DAO,CurrentInventory_DAO,InventoryUnit_DAO,CreatePrescriptionDAO,Image_Prescription_DAO,FinalPrescriptionDrugDAO,database)
-
         viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(LLE_MedDocket_ViewModel::class.java)
     }
 
@@ -165,7 +150,6 @@ class PatientListActivity:AppCompatActivity(),CardViewClick {
         val intent = Intent(context, cls)
         intent.putExtra("PatientDataLocal",data)
         startActivity(intent)
-       // finish()
     }
 
     override fun onBackPressed() {
@@ -175,7 +159,6 @@ class PatientListActivity:AppCompatActivity(),CardViewClick {
 
     fun gotoScreen1(context: Context?, cls: Class<*>?) {
         val intent = Intent(context, cls)
-
         startActivity(intent)
         finish()
     }

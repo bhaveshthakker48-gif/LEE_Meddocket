@@ -28,9 +28,6 @@ import javax.inject.Inject
 @HiltViewModel
 class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMainRepository) :
     ViewModel() {
-    private var _othosisMasterResponse = MutableLiveData<Resource<List<OrthosisTypeModelItem>>>()
-    val othosisMasterResponse: LiveData<Resource<List<OrthosisTypeModelItem>>> get() = _othosisMasterResponse
-
 
     private var _insertOrthosisResponse = MutableLiveData<Resource<Long>>()
     val insertOrthosisResponse: LiveData<Resource<Long>> get() = _insertOrthosisResponse
@@ -44,32 +41,19 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
     private var _insertOrthosisFormResponse = MutableLiveData<Resource<Long>>()
     val insertOrthosisFormResponse: LiveData<Resource<Long>> get() = _insertOrthosisFormResponse
 
-
     private var _orthosisPatientFormListById =
         MutableLiveData<Resource<List<OrthosisPatientForm>>>()
     val orthosisPatientFormListById: LiveData<Resource<List<OrthosisPatientForm>>> get() = _orthosisPatientFormListById
 
-
     //orthosis file datas
-    private var _insertOrthosisImageResponse = MutableLiveData<Resource<Long>>()
-    val insertOrthosisImageResponse: LiveData<Resource<Long>> get() = _insertOrthosisImageResponse
-
     private val _insertedFormImageIds = MutableLiveData<Resource<List<Long>>>()
     val insertedFormImageIds: LiveData<Resource<List<Long>>> get() = _insertedFormImageIds
-
-    private var _insertFormImageResponse = MutableLiveData<Resource<Long>>()
-    val insertFormImageResponse: LiveData<Resource<Long>> get() = _insertFormImageResponse
-
-    private var _insertVideosResponse = MutableLiveData<Resource<Long>>()
-    val insertVideosResponse: LiveData<Resource<Long>> get() = _insertVideosResponse
-
 
     private var _userList = MutableLiveData<Resource<List<UserModel>>>()
     val userList: LiveData<Resource<List<UserModel>>> get() = _userList
 
     private var _formImageListFormId = MutableLiveData<Resource<List<FormImages>>>()
     val formImageListFormId: LiveData<Resource<List<FormImages>>> get() = _formImageListFormId
-
 
     private var _formVideosListById = MutableLiveData<Resource<List<FormVideos>>>()
     val formVideosListById: LiveData<Resource<List<FormVideos>>> get() = _formVideosListById
@@ -83,11 +67,7 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
     private var _orthosisEquipmentMasterList = MutableLiveData<Resource<List<Equipment>>>()
     val orthosisEquipmentMasterList: LiveData<Resource<List<Equipment>>> get() = _orthosisEquipmentMasterList
 
-
     //equipment file datas
-    private var _insertEquipmentImageResponse = MutableLiveData<Resource<Long>>()
-    val insertEquipmentImageResponse: LiveData<Resource<Long>> get() = _insertEquipmentImageResponse
-
     private var _equipmentImagesList = MutableLiveData<Resource<List<EquipmentImage>>>()
     val equipmentImagesList: LiveData<Resource<List<EquipmentImage>>> get() = _equipmentImagesList
 
@@ -105,20 +85,16 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _formVideosListById.postValue(Resource.error(e.message.toString(), null))
         }
     }
 
-
     fun insertOrthosisMasterLocal(orthosisMaster: OrthosisType) {
         CoroutineScope(Dispatchers.IO).launch {
             val message = newMainRepository.insertOrthosisMasterr(orthosisMaster)
             _insertOrthosisResponse.postValue(Resource.success(message))
-
             if (message.equals(null)) {
                 _insertOrthosisResponse.postValue(Resource.error("Local Db Error", null))
             } else {
@@ -141,9 +117,7 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _orthosisMasterList.postValue(Resource.error(e.message.toString(), null))
         }
@@ -163,9 +137,7 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _orthosisPatientFormList.postValue(Resource.error(e.message.toString(), null))
         }
@@ -175,7 +147,6 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
         CoroutineScope(Dispatchers.IO).launch {
             val message = newMainRepository.insertOrthosisForm(orthosisPatientForm)
             _insertOrthosisFormResponse.postValue(Resource.success(message))
-
             if (message.equals(null)) {
                 _insertOrthosisFormResponse.postValue(Resource.error("Local Db Error", null))
             } else {
@@ -198,9 +169,7 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _orthosisPatientFormListById.postValue(Resource.error(e.message.toString(), null))
         }
@@ -219,8 +188,7 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
         }
     }
 
-
-    fun getOrthosisImageByFormId(formId:String) = CoroutineScope(Dispatchers.IO).launch {
+    fun getOrthosisImageByFormId(formId: String) = CoroutineScope(Dispatchers.IO).launch {
         _orthosisImagesList.postValue(Resource.loading(null))
         try {
             try {
@@ -234,20 +202,16 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _orthosisImagesList.postValue(Resource.error(e.message.toString(), null))
         }
     }
 
     fun insertFormImageList(formImageList: List<FormImages>) {
-
         CoroutineScope(Dispatchers.IO).launch {
             val message = newMainRepository.insertFormImageList(formImageList)
             _insertedFormImageIds.postValue(Resource.success(message))
-
             if (message.equals(null)) {
                 _insertedFormImageIds.postValue(Resource.error("Local Db Error", null))
             } else {
@@ -268,7 +232,6 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
         }
     }
 
-
     fun getFormImageListByFormId(formId: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -283,9 +246,7 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
                             null
                         )
                     )
-
                 }
-
             } catch (e: Exception) {
                 _formImageListFormId.postValue(Resource.error(e.message.toString(), null))
             }
@@ -312,9 +273,7 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _userList.postValue(Resource.error(e.message.toString(), null))
         }
@@ -338,7 +297,7 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
         }
     }
 
-    fun getEquipmentImageByFormId(formId:String) = CoroutineScope(Dispatchers.IO).launch {
+    fun getEquipmentImageByFormId(formId: String) = CoroutineScope(Dispatchers.IO).launch {
         _equipmentImagesList.postValue(Resource.loading(null))
         try {
             try {
@@ -352,9 +311,7 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _equipmentImagesList.postValue(Resource.error(e.message.toString(), null))
         }
@@ -374,9 +331,7 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _diagnosisMasterList.postValue(Resource.error(e.message.toString(), null))
         }
@@ -396,12 +351,9 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _orthosisEquipmentMasterList.postValue(Resource.error(e.message.toString(), null))
         }
     }
-
 }

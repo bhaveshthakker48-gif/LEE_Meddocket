@@ -21,17 +21,10 @@ class OpdFormViewModel @Inject constructor(val mainRepository: NewMainRepository
 
     val allOPD_Investigations:LiveData<List<OPD_Investigations>> = mainRepository.allOPD_Investigations
 
-    val uniqueOpdInestigationPatientCount: LiveData<Int> = mainRepository.uniqueOpdInestigationPatientCount
-
-
     private var _insertOpdResponse = MutableLiveData<Resource<Long>>()
     val insertOpdResponse: LiveData<Resource<Long>> get() = _insertOpdResponse
 
-    private var _opdList = MutableLiveData<Resource<List<OPD_Investigations>>>()
-    val opdList: LiveData<Resource<List<OPD_Investigations>>> get() = _opdList
-
-    private var _opdFormListById =
-        MutableLiveData<Resource<List<OPD_Investigations>>>()
+    private var _opdFormListById = MutableLiveData<Resource<List<OPD_Investigations>>>()
     val opdFormListById: LiveData<Resource<List<OPD_Investigations>>> get() = _opdFormListById
 
     fun insertOpdForm(opdForm: OPD_Investigations) {
@@ -46,6 +39,7 @@ class OpdFormViewModel @Inject constructor(val mainRepository: NewMainRepository
             }
         }
     }
+
     fun getOpdFormById(localPatientId: Int) = CoroutineScope(Dispatchers.IO).launch {
         _opdFormListById.postValue(Resource.loading(null))
         try {
@@ -60,9 +54,7 @@ class OpdFormViewModel @Inject constructor(val mainRepository: NewMainRepository
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _opdFormListById.postValue(Resource.error(e.message.toString(), null))
         }

@@ -35,21 +35,16 @@ class NewMedicineReportActivity : BaseActivity() {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
 
@@ -69,7 +64,6 @@ class NewMedicineReportActivity : BaseActivity() {
                 Status.LOADING -> {
                     progress.show()
                 }
-
                 Status.SUCCESS -> {
                     progress.dismiss()
                     try {
@@ -77,8 +71,6 @@ class NewMedicineReportActivity : BaseActivity() {
                             patientMedicineList.clear()
                             patientMedicineList.addAll(it.data)
                             patientMedicineAdapter.notifyDataSetChanged()
-
-
                             binding.llPatientColumn.visibility = View.VISIBLE
                             binding.rvPatientMedicine.visibility = View.VISIBLE
                             binding.tvNoDataFound.visibility = View.GONE
@@ -86,23 +78,14 @@ class NewMedicineReportActivity : BaseActivity() {
                             binding.tvNoDataFound.visibility = View.VISIBLE
                             binding.llPatientColumn.visibility = View.GONE
                             binding.rvPatientMedicine.visibility = View.GONE
-
-
                         }
-
-
                     } catch (e: Exception) {
-
                         Utility.errorToast(this@NewMedicineReportActivity, e.message.toString())
-
                     }
                 }
-
                 Status.ERROR -> {
                     progress.dismiss()
-
                     Utility.errorToast(this@NewMedicineReportActivity, "Unexpected error")
-
                 }
             }
         }
@@ -113,7 +96,6 @@ class NewMedicineReportActivity : BaseActivity() {
         patientMedicineAdapter = PatientMedicineAdapter(this@NewMedicineReportActivity,patientMedicineList,object:PatientMedicineAdapter.PatientMedicineAdapterEvent{
             override fun onItemClick(position: Int,isEdit:Boolean) {
                 if (isEdit){
-                    //go to Edit Screen
                     val intent = Intent(this@NewMedicineReportActivity,PharmaFormActivity::class.java)
                     intent.putExtra("formId", patientMedicineList[position]._id)
                     intent.putExtra("editMode", true)
@@ -127,7 +109,6 @@ class NewMedicineReportActivity : BaseActivity() {
                     startActivity(intent)
                 }
             }
-
         })
 
         binding.rvPatientMedicine.apply {

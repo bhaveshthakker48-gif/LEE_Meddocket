@@ -60,27 +60,19 @@ import org.impactindiafoundation.iifllemeddocket.databinding.ActivityEyeOpdDocto
 class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
 
     lateinit var binding:ActivityEyeOpdDoctorsNotesBinding
-
     lateinit var customDropDownAdapter: CustomDropDownAdapter
-
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
-
-
-
     var EyeArrayList:ArrayList<String>?=null
     var SymptomsArrayList:ArrayList<String>?=null
     var ExaminationList:ArrayList<String>?=null
     var DiagnosisList:ArrayList<String>?=null
-
     var AddSymptomsArrayList:ArrayList<AddSymptomsModel>?=null
     var AddExaminationArrayList:ArrayList<AddSymptomsModel>?=null
     var AddDiagnosisArrayList:ArrayList<AddSymptomsModel>?=null
     var RecommendedradioButton:String=""
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,35 +80,25 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
     }
 
     override fun onResume() {
         super.onResume()
-
         binding.toolbarEyeOPDDoctorsNote.toolbar.title="Eye OPD Doctors Note"
-
         getViewModel()
-
         createRoomDatabase()
-
-
         initView()
 
         AddSymptomsArrayList= ArrayList()
@@ -172,19 +154,14 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
 
         customDropDownAdapter = CustomDropDownAdapter(this, EyeArrayList!!)
         binding.spinnerSystomsEye!!.adapter=customDropDownAdapter
-
         customDropDownAdapter = CustomDropDownAdapter(this, EyeArrayList!!)
         binding.spinnerDiagnosisEye!!.adapter=customDropDownAdapter
-
         customDropDownAdapter = CustomDropDownAdapter(this, EyeArrayList!!)
         binding.spinnerExaminationEye!!.adapter=customDropDownAdapter
-
         customDropDownAdapter = CustomDropDownAdapter(this, SymptomsArrayList!!)
         binding.spinnerSystoms!!.adapter=customDropDownAdapter
-
         customDropDownAdapter = CustomDropDownAdapter(this, ExaminationList!!)
         binding.spinnerExamination!!.adapter=customDropDownAdapter
-
         customDropDownAdapter = CustomDropDownAdapter(this, DiagnosisList!!)
         binding.spinnerDiagnosis!!.adapter=customDropDownAdapter
 
@@ -194,8 +171,7 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
         binding.cardViewSubmitEyeOpdDoctorsNote.setOnClickListener(this)
 
 
-        binding.spinnerSystoms.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerSystoms.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -208,11 +184,9 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.spinnerExamination.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerExamination.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -229,11 +203,9 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.spinnerDiagnosis.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerDiagnosis.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -250,7 +222,6 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
     }
 
@@ -258,12 +229,10 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
         val LLE_MedDocketRespository= LLE_MedDocketRespository()
         val LLE_MedDocketProviderFactory= LLE_MedDocketProviderFactory(LLE_MedDocketRespository,application)
         viewModel= ViewModelProvider(this,LLE_MedDocketProviderFactory).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager= SessionManager(this)
     }
 
@@ -293,7 +262,6 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
         val FinalPrescriptionDrugDAO: FinalPrescriptionDrugDAO =database.FinalPrescriptionDrugDAO()
 
         val repository = LLE_MedDocket_Repository(Vital_DAO, VisualAcuity_DAO, Refractive_Error_DAO, OPD_Investigations_DAO, Eye_Pre_Op_Notes_DAO, Eye_Pre_Op_Investigation_DAO, Eye_Post_Op_AND_Follow_ups_DAO, Eye_OPD_Doctors_Note_DAO, Cataract_Surgery_Notes_DAO, Patient_DAO,Image_Upload_DAO,Registration_DAO,Prescription_DAO,Final_Prescription_DAO,SpectacleDisdributionStatus_DAO,SynTable_DAO,CurrentInventory_DAO,InventoryUnit_DAO,CreatePrescriptionDAO,Image_Prescription_DAO,FinalPrescriptionDrugDAO,database)
-
         viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(LLE_MedDocket_ViewModel::class.java)
     }
 
@@ -302,10 +270,7 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
         layout: LinearLayout,
         editText:EditText
     ) {
-
         val selectedValue = spinner.selectedItem.toString()
-
-        // Check if the selected value is "Others"
         if (selectedValue == "Others") {
             layout.visibility = View.VISIBLE
             editText.visibility=View.GONE
@@ -333,10 +298,8 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-       when(v)
-       {
-           binding.cardViewSubmitSymptoms->
-           {
+       when(v) {
+           binding.cardViewSubmitSymptoms-> {
                var selected_eye=binding.spinnerSystomsEye.selectedItem.toString()
                var selected_symptoms=binding.spinnerSystoms.selectedItem.toString()
                var selected_eye_symptoms_details=binding.edittextSystomes.text.toString()
@@ -349,8 +312,7 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
                add_Symptoms(selected_eye!!,selected_symptoms,resultDetails)
            }
 
-           binding.cardViewSubmitExamination->
-           {
+           binding.cardViewSubmitExamination-> {
                var selected_eye=binding.spinnerExaminationEye.selectedItem.toString()
                var selected_symptoms=binding.spinnerExamination.selectedItem.toString()
                var selected_eye_symptoms_details=binding.edittextExamination.text.toString()
@@ -360,11 +322,10 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
                    "Others" -> other_eye_symptoms_details
                    else -> selected_eye_symptoms_details
                }
-
                add_Examination(selected_eye!!,selected_symptoms,resultDetails)
            }
-           binding.cardViewSubmitDiagnosis->
-           {
+
+           binding.cardViewSubmitDiagnosis-> {
                var selected_eye=binding.spinnerDiagnosisEye.selectedItem.toString()
                var selected_symptoms=binding.spinnerDiagnosis.selectedItem.toString()
                var selected_eye_symptoms_details=binding.edittextDiagnosis.text.toString()
@@ -376,69 +337,50 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
                }
                add_Diagnosis(selected_eye!!,selected_symptoms,resultDetails)
            }
-           binding.cardViewSubmitEyeOpdDoctorsNote->
-           {
+
+           binding.cardViewSubmitEyeOpdDoctorsNote-> {
                val radioGroup = binding.radioGroup
                val selectedRadioButtonId = radioGroup.checkedRadioButtonId
-
                if (selectedRadioButtonId != -1) {
-                   // Access the RadioButton using the selectedRadioButtonId
                    val selectedRadioButton = binding.root.findViewById<RadioButton>(selectedRadioButtonId)
                     RecommendedradioButton = selectedRadioButton.text.toString()
-
-               }
-               else {
                }
 
-              //Symptoms Details
                val formattedStringSymptoms = AddSymptomsArrayList!!.joinToString { model ->
                    "${model.selected_symptoms} = ${model.selected_eye}"
                }
-
                val finalStringSymptomes = "{$formattedStringSymptoms}"
 
                val formattedStringSymptomsDetails = AddSymptomsArrayList!!.joinToString { model ->
                    "${model.selected_symptoms} = ${model.selected_eye_symptoms_details}"
                }
-
                val finalStringSymptomsDetails = "{$formattedStringSymptomsDetails}"
 
-
-               //Examinations Details
                val formattedStringExaminations = AddExaminationArrayList!!.joinToString { model ->
                    "${model.selected_symptoms} = ${model.selected_eye}"
                }
-
                val finalStringExaminations = "{$formattedStringExaminations}"
 
                val formattedStringExaminationsDetails = AddExaminationArrayList!!.joinToString { model ->
                    "${model.selected_symptoms} = ${model.selected_eye_symptoms_details}"
                }
-
                val finalStringExaminationsDetails = "{$formattedStringExaminationsDetails}"
 
-               //Diagnosis Details
                val formattedStringDiagnosis = AddDiagnosisArrayList!!.joinToString { model ->
                    "${model.selected_symptoms} = ${model.selected_eye}"
                }
-
                val finalStringDiagnosis = "{$formattedStringDiagnosis}"
 
                val formattedStringDiagnosisDetails = AddDiagnosisArrayList!!.joinToString { model ->
                    "${model.selected_symptoms} = ${model.selected_eye_symptoms_details}"
                }
-
                val finalStringDiagnosisDetails = "{$formattedStringDiagnosisDetails}"
 
                val notes=binding.EditTextNotes.text.toString()
 
-
-               if (RecommendedradioButton!!.isNullOrEmpty())
-               {
+               if (RecommendedradioButton!!.isNullOrEmpty()) {
                    Toast.makeText(this,"Recommendation required",Toast.LENGTH_SHORT).show()
-               }
-               else
-               {
+               } else {
                    submitLocalEye_OPD_Doctors_Note(finalStringSymptomes,
                        finalStringSymptomsDetails,
                        finalStringExaminations,
@@ -491,11 +433,7 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
     }
 
 
-    private fun add_Diagnosis(
-        selected_eye: String,
-        selected_symptoms: String,
-        selected_eye_symptoms_details: String
-    ) {
+    private fun add_Diagnosis(selected_eye: String, selected_symptoms: String, selected_eye_symptoms_details: String) {
         if (selected_eye == "Select Eye") {
             showToast("Please select eye")
         } else if (selected_symptoms == "Select Diagnosis") {
@@ -506,7 +444,6 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
             } ?: false
 
             if (isSymptomExists) {
-                //showToast("Symptom already selected")
                 val existingIndex = AddDiagnosisArrayList?.indexOfFirst {
                     it.selected_symptoms == selected_symptoms
                 } ?: -1
@@ -514,25 +451,15 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
                 if (existingIndex != -1) {
                     updateSymptom(existingIndex, selected_eye, selected_symptoms, selected_eye_symptoms_details,binding.RecyclerViewDiagnosis,AddDiagnosisArrayList!!,binding.LinearLayoutDiagnosisList!!)
                 } else {
-                    addNewSymptom(selected_eye, selected_symptoms, selected_eye_symptoms_details,binding.RecyclerViewDiagnosis,AddDiagnosisArrayList!!,
-                        binding.LinearLayoutDiagnosisList!!
-                    )
-
+                    addNewSymptom(selected_eye, selected_symptoms, selected_eye_symptoms_details,binding.RecyclerViewDiagnosis,AddDiagnosisArrayList!!, binding.LinearLayoutDiagnosisList!!)
                 }
             } else {
-
                 addNewSymptom(selected_eye, selected_symptoms, selected_eye_symptoms_details,binding.RecyclerViewDiagnosis,AddDiagnosisArrayList!!,binding.LinearLayoutDiagnosisList!!)
-
             }
         }
     }
 
-
-    private fun add_Examination(
-        selected_eye: String,
-        selected_symptoms: String,
-        selected_eye_symptoms_details: String
-    ) {
+    private fun add_Examination(selected_eye: String, selected_symptoms: String, selected_eye_symptoms_details: String) {
         if (selected_eye == "Select Eye") {
             showToast("Please select eye")
         } else if (selected_symptoms == "Select Examination") {
@@ -543,7 +470,6 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
             } ?: false
 
             if (isSymptomExists) {
-                //showToast("Symptom already selected")
                 val existingIndex = AddExaminationArrayList?.indexOfFirst {
                     it.selected_symptoms == selected_symptoms
                 } ?: -1
@@ -554,18 +480,12 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
                     addNewSymptom(selected_eye, selected_symptoms, selected_eye_symptoms_details,binding.RecyclerViewExamination,AddExaminationArrayList!!,binding.LinearLayoutExaminationList)
                 }
             } else {
-
                 addNewSymptom(selected_eye, selected_symptoms, selected_eye_symptoms_details,binding.RecyclerViewExamination,AddExaminationArrayList!!,binding.LinearLayoutExaminationList)
-
             }
         }
     }
 
-    private fun add_Symptoms(
-        selected_eye: String,
-        selected_symptoms: String,
-        selected_eye_symptoms_details: String
-    ) {
+    private fun add_Symptoms(selected_eye: String, selected_symptoms: String, selected_eye_symptoms_details: String) {
         if (selected_eye == "Select Eye") {
             showToast("Please select eye")
         }
@@ -577,7 +497,6 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
             } ?: false
 
             if (isSymptomExists) {
-                //showToast("Symptom already selected")
                 val existingIndex = AddSymptomsArrayList?.indexOfFirst {
                     it.selected_symptoms == selected_symptoms
                 } ?: -1
@@ -588,9 +507,7 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
                     addNewSymptom(selected_eye, selected_symptoms, selected_eye_symptoms_details,binding.RecyclerViewSymptoms,AddSymptomsArrayList!!,binding.LinearLayoutSymptomsList)
                 }
             } else {
-
                 addNewSymptom(selected_eye, selected_symptoms, selected_eye_symptoms_details,binding.RecyclerViewSymptoms,AddSymptomsArrayList!!,binding.LinearLayoutSymptomsList)
-
             }
         }
     }
@@ -610,10 +527,8 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
                 selected_eye_symptoms_details = selected_eye_symptoms_details
             )
 
-            // Replace the old instance with the updated one
             arrayList?.set(index, updatedItem)
 
-            // Notify the adapter that the data has changed
             recyclerView.adapter?.notifyItemChanged(index)
 
             val dayWisePosition = ( binding.spinnerSystomsEye.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf("Select Eye")
@@ -622,12 +537,10 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
             val dayWisePosition1 = ( binding.spinnerSystoms.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf("Select Symptoms")
             binding.spinnerSystoms.setSelection(dayWisePosition1!!)
             binding.edittextSystomes.setText(null)
-            //showToast("Symptom data updated")
         }
     }
 
     private fun addNewSymptom(selected_eye: String, selected_symptoms: String, selected_eye_symptoms_details: String,recyclerView: RecyclerView,arrayList:ArrayList<AddSymptomsModel>,layout: LinearLayout) {
-
         recyclerView.visibility=View.VISIBLE
         layout.visibility=View.VISIBLE
         arrayList?.add(
@@ -660,15 +573,13 @@ class EyeOPDDoctorsNoteActivity:AppCompatActivity(), View.OnClickListener {
         val dayWisePosition5 = ( binding.spinnerDiagnosis.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf("Select Diagnosis")
         binding.spinnerDiagnosis.setSelection(dayWisePosition5!!)
         binding.edittextDiagnosis.setText(null)
-
-
-
-
     }
+
     override fun onBackPressed() {
         super.onBackPressed()
         gotoScreen(this,PatientForms::class.java)
     }
+
     fun gotoScreen(context: Context?, cls: Class<*>?) {
         val intent = Intent(context, cls)
         startActivity(intent)

@@ -137,6 +137,7 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityPharmaMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
@@ -150,6 +151,7 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
             )
             insets
         }
+
         getViewModel()
         createRoomDatabase()
         isLogin = intent.getBooleanExtra("isLogin", false)
@@ -160,17 +162,21 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
                 GetInventoryUnits()
             }
         }
+
         binding.CardViewScanQR.setOnClickListener(this)
         binding.fab.setOnClickListener(this)
         binding.CardViewLogout.setOnClickListener(this)
         binding.tvViewReportMedicine.setOnClickListener(this)
+
         checkForAppUpdate()
+
         viewModel3.unsyncedFormsCount.observe(this) { count ->
             binding.tvUnsyncedForms.text = "Unsynced Forms: $count"
         }
         binding.aboutUsFab.setOnClickListener {
             openAboutUsDailogueBox()
         }
+
         checkWhatsNew(this)
     }
 
@@ -313,12 +319,10 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
             this,
             LLE_MedDocketProviderFactory
         ).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager = SessionManager(this)
     }
 
@@ -371,7 +375,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
             FinalPrescriptionDrugDAO,
             database
         )
-
         viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(
             LLE_MedDocket_ViewModel::class.java
         )

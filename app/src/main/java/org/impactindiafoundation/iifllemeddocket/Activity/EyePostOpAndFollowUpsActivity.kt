@@ -74,7 +74,6 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
 
     lateinit var binding:ActivityEyePostOpAndFollowUpsBinding
     lateinit var customDropDownAdapter: CustomDropDownAdapter
-
     var UnitArrayList:ArrayList<String>?=null
     var FollowUpsArrayList:ArrayList<String>?=null
     var NearVisionArrayList:ArrayList<String>?=null
@@ -89,14 +88,10 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
     var BloodPressureDataArrayList:ArrayList<BloodPressureData>?=null
     var PulseRateArrayList:ArrayList<TwoValueModel>?=null
     var RespiratoryRateArrayList:ArrayList<TwoValueModel>?=null
-
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
-
-
-
     var camp_id:Int=0
     var createdDate:String=""
     var eye_post_op_2nd_date:String=""
@@ -184,34 +179,25 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
     }
 
     override fun onResume() {
         super.onResume()
-
         getViewModel()
-
         createRoomDatabase()
-
         init()
-
         initView()
     }
 
@@ -220,12 +206,10 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         val LLE_MedDocketRespository= LLE_MedDocketRespository()
         val LLE_MedDocketProviderFactory= LLE_MedDocketProviderFactory(LLE_MedDocketRespository,application)
         viewModel= ViewModelProvider(this,LLE_MedDocketProviderFactory).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager= SessionManager(this)
     }
 
@@ -255,7 +239,6 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         val FinalPrescriptionDrugDAO: FinalPrescriptionDrugDAO =database.FinalPrescriptionDrugDAO()
 
         val repository = LLE_MedDocket_Repository(Vital_DAO, VisualAcuity_DAO, Refractive_Error_DAO, OPD_Investigations_DAO, Eye_Pre_Op_Notes_DAO, Eye_Pre_Op_Investigation_DAO, Eye_Post_Op_AND_Follow_ups_DAO, Eye_OPD_Doctors_Note_DAO, Cataract_Surgery_Notes_DAO, Patient_DAO,Image_Upload_DAO,Registration_DAO,Prescription_DAO,Final_Prescription_DAO,SpectacleDisdributionStatus_DAO,SynTable_DAO,CurrentInventory_DAO,InventoryUnit_DAO,CreatePrescriptionDAO,Image_Prescription_DAO,FinalPrescriptionDrugDAO,database)
-
         viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(LLE_MedDocket_ViewModel::class.java)
     }
 
@@ -286,8 +269,7 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         binding.RecyclerViewRespirationRate!!.setHasFixedSize(true)
     }
 
-    private fun init()
-    {
+    private fun init() {
         binding.toolbarEyePostOpFollowUps.toolbar.title="Eye Post-Op and Follow Ups"
 
         BloodPressureDataArrayList= ArrayList()
@@ -315,8 +297,6 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         CheckedPupilArrayList!!.add("Select")
         CheckedPupilArrayList!!.add("Dilated")
         CheckedPupilArrayList!!.add("Not Dilated")
-
-
 
         RightVisionMetersArrayList=ArrayList()
         PinHoleArrayList=ArrayList()
@@ -355,7 +335,6 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         RightVisionArrayList!!.add("Hand motion")
         RightVisionArrayList!!.add("Light perception")
         RightVisionArrayList!!.add("No Light perception")
-
 
         RightVisionMetersArrayList!!.add("Meters")
         RightVisionMetersArrayList!!.add("logMAR")
@@ -417,62 +396,40 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         logMARArrayList!!.add("0.98")
         logMARArrayList!!.add("1.00")
 
-
         customDropDownAdapter= CustomDropDownAdapter(this,AccessCataractWoundArrayList!!)
         binding.SpinnerAssessTheCataractWound!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,CheckedPupilArrayList!!)
         binding.SpinnerCheckPupil!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,NearVisionArrayList!!)
         binding.SpinnerWithoutPinHoleNVRightEye!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,NearVisionArrayList!!)
         binding.SpinnerWithoutPinHoleNVLeftEye!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,RightVisionMetersArrayList!!)
         binding.SpinnerWithoutPinHoleDVRightEye!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,RightVisionMetersArrayList!!)
         binding.SpinnerWithoutPinHoleDVLeftEye!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,RightVisionMetersArrayList!!)
         binding.SpinnerWithPinHolePinHoleRightEyeUnit!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,RightVisionMetersArrayList!!)
         binding.SpinnerWithPinHolePinHoleLeftEyeUnit!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,PinHoleArrayList!!)
         binding.SpinnerWithPinHolePinHoleRightEye!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,PinHoleArrayList!!)
         binding.SpinnerWithPinHolePinHoleLeftEye!!.adapter=customDropDownAdapter
-
-
-
         customDropDownAdapter= CustomDropDownAdapter(this,NearVisionArrayList!!)
         binding.SpinnerWithPinHoleNVRightEye!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,NearVisionArrayList!!)
         binding.SpinnerWithPinHoleNVLeftEye!!.adapter=customDropDownAdapter
-
-
         customDropDownAdapter= CustomDropDownAdapter(this,UnitArrayList!!)
         binding.SpinnerMonitorTemperature!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,FollowUpsArrayList!!)
         binding.SpinnerEarlyPostoperativeComplications!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,FollowUpsArrayList!!)
         binding.SpinnerFundusPathology!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,RightVisionMetersArrayList!!)
         binding.SpinnerWithPinHoleDVRightEye!!.adapter=customDropDownAdapter
-
         customDropDownAdapter= CustomDropDownAdapter(this,RightVisionMetersArrayList!!)
         binding.SpinnerWithPinHoleDVLeftEye!!.adapter=customDropDownAdapter
-
-
 
         binding.edittextTabCifloxacin.visibility=View.GONE
         binding.EditTextTabDiclofenac.visibility=View.GONE
@@ -490,14 +447,11 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         binding.EditTextLubricantDropRefresh.visibility=View.GONE
         binding.EditTextOnTheDayOfDischargeED.visibility=View.GONE
         binding.EditTextOtherMedication.visibility=View.GONE
-
         binding.linearEarlyPostoperative.visibility=View.GONE
-
         binding.texViewInstructionToPatients.visibility=View.GONE
         binding.RecyclerViewEarlyPostoperative.visibility=View.GONE
         binding.LinearLayoutAssessTheCataractWound.visibility=View.GONE
         binding.LinearLayoutCheckThePupil.visibility=View.GONE
-
         binding.RecyclerViewBp.visibility=View.GONE
         binding.LinearLayoutBloodPressure.visibility=View.GONE
         binding.RecyclerViewPulseRate.visibility=View.GONE
@@ -521,8 +475,6 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         binding.checkboxOnTheDayOfDischarge.setOnCheckedChangeListener(this)
         binding.checkboxOtherMedication.setOnCheckedChangeListener(this)
         binding.cardViewSumbitEyePostFollow.setOnClickListener(this)
-
-
         binding.textViewInstructionsToPatientsReadMore.setOnClickListener(this)
         binding.textViewCounselingAndHealthEducationReadMore.setOnClickListener(this)
         binding.cardViewEarlyPostoperativeComplications.setOnClickListener(this)
@@ -536,15 +488,12 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         binding.cardViewAddMonitorPulseRate.setOnClickListener(this)
         binding.cardViewAddMonitorRespirationRate.setOnClickListener(this)
 
-
         //binding.editTextMonitorSystolic.addTextChangedListener(createTextWatcher(binding.editTextMonitorSystolic))
         binding.editTextMonitorDiastolic.addTextChangedListener(createTextWatcher(binding.editTextMonitorDiastolic))
         binding.editTextMonitorPulseRate.addTextChangedListener(createTextWatcher(binding.editTextMonitorPulseRate))
         binding.editTextMonitorRespirationRate.addTextChangedListener(createTextWatcher(binding.editTextMonitorRespirationRate))
 
-
-        binding.SpinnerEarlyPostoperativeComplications.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerEarlyPostoperativeComplications.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -552,14 +501,10 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
                 id: Long
             ) {
                 val selectedItem = parent?.getItemAtPosition(position).toString()
-
-                // Check the selected item and update the visibility of the layout
                 if (selectedItem == "Present") {
-                    // If "Present" is selected, make the layout visible
                     binding.linearEarlyPostoperative.visibility = View.VISIBLE
                     binding.cardViewEarlyPostoperativeComplications.visibility=View.GONE
                 } else {
-                    // If any other item is selected, make the layout gone
                     binding.linearEarlyPostoperative.visibility = View.GONE
                     binding.cardViewEarlyPostoperativeComplications.visibility=View.VISIBLE
                 }
@@ -568,11 +513,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerFundusPathology.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerFundusPathology.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -580,14 +523,10 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
                 id: Long
             ) {
                 val selectedItem = parent?.getItemAtPosition(position).toString()
-
-                // Check the selected item and update the visibility of the layout
                 if (selectedItem == "Present") {
-                    // If "Present" is selected, make the layout visible
                     binding.linearFundusPathology.visibility = View.VISIBLE
                     binding.cardViewFundusPathology.visibility=View.GONE
                 } else {
-                    // If any other item is selected, make the layout gone
                     binding.linearFundusPathology.visibility = View.GONE
                     binding.cardViewFundusPathology.visibility=View.VISIBLE
                 }
@@ -596,21 +535,16 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerWithPinHoleDVRightEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithPinHoleDVRightEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                 eye_post_op_w_distant_vision_unit_right=binding.SpinnerWithPinHoleDVRightEye.selectedItem.toString()
-
-
                 val selectedItem=binding.SpinnerWithPinHoleDVRightEye.selectedItem.toString()
 
                 Log.d(ConstantsApp.TAG,"selectedItem=>"+selectedItem)
@@ -625,20 +559,16 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerWithPinHoleDVLeftEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithPinHoleDVLeftEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                 eye_post_op_w_distant_vision_unit_left=binding.SpinnerWithPinHoleDVLeftEye.selectedItem.toString()
-
                 val selectedOption = RightVisionMetersArrayList!![position]
                 updateVisualAcuityDetailsSpinner(selectedOption,
                     binding.SpinnerWithPinHoleDVLeftEyeDetails!!
@@ -648,13 +578,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-
-
-        binding.SpinnerWithPinHolePinHoleRightEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithPinHolePinHoleRightEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -673,11 +599,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerWithPinHolePinHoleLeftEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithPinHolePinHoleLeftEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -685,12 +609,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
                 id: Long
             ) {
                 eye_post_op_w_pinhole_left=binding.SpinnerWithPinHolePinHoleLeftEye.selectedItem.toString()
-
                 val selectedItem=binding.SpinnerWithPinHolePinHoleLeftEye.selectedItem.toString()
                 Log.d(ConstantsApp.TAG,""+binding.SpinnerWithPinHolePinHoleLeftEye.selectedItem.toString())
-                updateSpinnerVisibility(binding.SpinnerWithPinHolePinHoleLeftEyeUnit,
-                    binding.SpinnerWithPinHolePinHoleLeftEyeDetails,selectedItem)
-
+                updateSpinnerVisibility(binding.SpinnerWithPinHolePinHoleLeftEyeUnit, binding.SpinnerWithPinHolePinHoleLeftEyeDetails,selectedItem)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -699,17 +620,14 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
 
         }
 
-        binding.SpinnerWithPinHolePinHoleRightEyeUnit.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithPinHolePinHoleRightEyeUnit.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                 eye_post_op_w_pinhole_improve_unit_right=binding.SpinnerWithPinHolePinHoleRightEyeUnit.selectedItem.toString()
-
                 val selectedOption = RightVisionMetersArrayList!![position]
                 updateVisualAcuityDetailsSpinner(selectedOption,
                     binding.SpinnerWithPinHolePinHoleRightEyeDetails!!
@@ -719,20 +637,16 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerWithPinHolePinHoleLeftEyeUnit.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithPinHolePinHoleLeftEyeUnit.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-
                 eye_post_op_w_pinhole_improve_unit_left=binding.SpinnerWithPinHolePinHoleLeftEyeUnit.selectedItem.toString()
-
                 val selectedOption = RightVisionMetersArrayList!![position]
                 updateVisualAcuityDetailsSpinner(selectedOption,
                     binding.SpinnerWithPinHolePinHoleLeftEyeDetails!!
@@ -742,11 +656,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerWithoutPinHoleDVRightEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithoutPinHoleDVRightEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -754,7 +666,6 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
                 id: Long
             ) {
                 eye_post_op_distant_vision_unit_right=binding.SpinnerWithoutPinHoleDVRightEye.selectedItem.toString()
-
                 val selectedOption = RightVisionMetersArrayList!![position]
                 updateVisualAcuityDetailsSpinner(selectedOption,
                     binding.SpinnerWithoutPinHoleDVRightEyeDetails!!
@@ -764,11 +675,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerWithoutPinHoleDVLeftEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithoutPinHoleDVLeftEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -776,7 +685,6 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
                 id: Long
             ) {
                 eye_post_op_distant_vision_unit_left=binding.SpinnerWithoutPinHoleDVLeftEye.selectedItem.toString()
-
                 val selectedOption = RightVisionMetersArrayList!![position]
                 updateVisualAcuityDetailsSpinner(selectedOption,
                     binding.SpinnerWithoutPinHoleDVLeftEyeDetails!!
@@ -786,14 +694,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-
-
-
-        binding.SpinnerAssessTheCataractWound.onItemSelectedListener=object:AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerAssessTheCataractWound.onItemSelectedListener=object:AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -802,28 +705,23 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             ) {
                 val selectedItem = binding.SpinnerAssessTheCataractWound.selectedItem.toString()
                 eye_post_op_assess_catract=binding.SpinnerAssessTheCataractWound.selectedItem.toString()
-
                 when (selectedItem) {
                     "Not Opposed Well", "Opposed Well" -> {
                         binding.LinearLayoutAssessTheCataractWound.visibility = View.VISIBLE
                     }
-
                     "Select" -> {
                         binding.LinearLayoutAssessTheCataractWound.visibility = View.GONE
                     }
                 }
-
                 Log.d(ConstantsApp.TAG, "Selected Item: $selectedItem")
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerCheckPupil.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerCheckPupil.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -831,21 +729,16 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
                 id: Long
             ) {
                 val selectedItem=binding.SpinnerCheckPupil.selectedItem.toString()
-
                 eye_post_op_check_pupil=binding.SpinnerCheckPupil.selectedItem.toString()
-
                 HideShowLayout1(selectedItem,binding.LinearLayoutCheckThePupil)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-
-        binding.SpinnerMonitorTemperature.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerMonitorTemperature.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -858,11 +751,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerWithPinHoleNVRightEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithPinHoleNVRightEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -875,11 +766,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerWithPinHoleNVLeftEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithPinHoleNVLeftEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -892,11 +781,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerWithPinHoleDVRightEyeDetails.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithPinHoleDVRightEyeDetails.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -909,11 +796,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerWithPinHoleDVLeftEyeDetails.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithPinHoleDVLeftEyeDetails.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -926,25 +811,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        binding.SpinnerWithPinHolePinHoleRightEyeDetails.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithPinHolePinHoleRightEyeDetails.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -956,11 +825,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerWithPinHolePinHoleLeftEyeDetails.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithPinHolePinHoleLeftEyeDetails.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -973,49 +840,39 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerWithoutPinHoleNVRightEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithoutPinHoleNVRightEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                eye_post_op_near_vision_right=binding.SpinnerWithoutPinHoleNVRightEye.selectedItem.toString()      }
+                eye_post_op_near_vision_right=binding.SpinnerWithoutPinHoleNVRightEye.selectedItem.toString()
+            }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.SpinnerWithoutPinHoleNVLeftEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithoutPinHoleNVLeftEye.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                eye_post_op_near_vision_left=binding.SpinnerWithoutPinHoleNVLeftEye.selectedItem.toString()    }
+                eye_post_op_near_vision_left=binding.SpinnerWithoutPinHoleNVLeftEye.selectedItem.toString()
+            }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-
-
-
-
-
-
-        binding.SpinnerWithoutPinHoleDVRightEyeDetails.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithoutPinHoleDVRightEyeDetails.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -1028,13 +885,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-
-
-        binding.SpinnerWithoutPinHoleDVLeftEyeDetails.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerWithoutPinHoleDVLeftEyeDetails.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -1042,61 +895,31 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
                 id: Long
             ) {
                 eye_post_op_distant_vision_left=binding.SpinnerWithoutPinHoleDVLeftEyeDetails.selectedItem.toString()
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
     }
 
     private fun HideShowLayout1(selectedItem: String, layout: LinearLayout?) {
-
-        when(selectedItem)
-        {
-            "Not Dilated"->
-            {
+        when(selectedItem) {
+            "Not Dilated"-> {
                 layout!!.visibility=View.VISIBLE
             }
-            "Dilated"->
-            {
+            "Dilated"-> {
                 layout!!.visibility=View.VISIBLE
             }
-            "Select"->
-            {
+            "Select"-> {
                 layout!!.visibility=View.GONE
             }
         }
-
-    }
-
-    private fun HideShowLayout(selectedItem: String, layout: LinearLayout?) {
-
-        when(selectedItem)
-        {
-            "Not Opposed well"->
-            {
-                layout!!.visibility=View.VISIBLE
-            }
-            "Opposed well"->
-            {
-                layout!!.visibility=View.VISIBLE
-            }
-            "Select"->
-            {
-                layout!!.visibility=View.GONE
-            }
-        }
-
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        when(buttonView)
-        {
-            binding.checkboxTabCifloxacin->
-            {
+        when(buttonView) {
+            binding.checkboxTabCifloxacin-> {
                 if (isChecked) {
                     eye_post_op_cifloxacin=binding.checkboxTabCifloxacin.text.toString()
                     binding.edittextTabCifloxacin.visibility = View.VISIBLE
@@ -1104,8 +927,8 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
                     binding.edittextTabCifloxacin.visibility = View.GONE
                 }
             }
-            binding.checkboxTabDiclofenac->
-            {
+
+            binding.checkboxTabDiclofenac-> {
                 if (isChecked) {
                     eye_post_op_diclofenac=binding.checkboxTabDiclofenac.text.toString()
                     binding.EditTextTabDiclofenac.visibility = View.VISIBLE
@@ -1113,187 +936,131 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
                     binding.EditTextTabDiclofenac.visibility = View.GONE
                 }
             }
-            binding.checkboxTabPantaprezol->
-            {
+
+            binding.checkboxTabPantaprezol-> {
                 if (isChecked) {
                     eye_post_op_pantaprezol=binding.checkboxTabPantaprezol.text.toString()
                     binding.EditTextTabPantaprezol.visibility = View.VISIBLE
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
                     binding.EditTextTabPantaprezol.visibility = View.GONE
                 }
             }
-            binding.checkboxTabDimox->
-            {
+
+            binding.checkboxTabDimox-> {
                 if (isChecked) {
-                    // CheckBox is checked
-                    // Make EditText visible
                     eye_post_op_dimox=binding.checkboxTabDimox.text.toString()
                     binding.EditTextTabDimox.visibility = View.VISIBLE
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
                     binding.EditTextTabDimox.visibility = View.GONE
                 }
             }
+
             binding.checkboxEyeDropMoxifloxacin8->
             {
                 if (isChecked) {
-                    // CheckBox is checked
-                    // Make EditText visible
                     eye_post_op_eye_1=binding.checkboxEyeDropMoxifloxacin8.text.toString()
                     binding.EditTextEyeDropMoxifloxacin8.visibility = View.VISIBLE
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
                     binding.EditTextEyeDropMoxifloxacin8.visibility = View.GONE
                 }
             }
-            binding.checkboxEyeDropMoxifloxacin6->
-            {
+
+            binding.checkboxEyeDropMoxifloxacin6-> {
                 if (isChecked) {
-                    // CheckBox is checked
-                    // Make EditText visible
                     eye_post_op_eye_2=binding.checkboxEyeDropMoxifloxacin6.text.toString()
                     binding.EditTextEyeDropMoxifloxacin6.visibility = View.VISIBLE
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
                     binding.EditTextEyeDropMoxifloxacin6.visibility = View.GONE
                 }
             }
-            binding.checkboxEyeDropMoxifloxacin4->
-            {
+
+            binding.checkboxEyeDropMoxifloxacin4-> {
                 if (isChecked) {
-                    // CheckBox is checked
-                    // Make EditText visible
                     eye_post_op_eye_3=binding.checkboxEyeDropMoxifloxacin4.text.toString()
                     binding.EditTextEyeDropMoxifloxacin4.visibility = View.VISIBLE
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
                     binding.EditTextEyeDropMoxifloxacin4.visibility = View.GONE
                 }
             }
-            binding.checkboxEyeDropMoxifloxacin2->
-            {
+
+            binding.checkboxEyeDropMoxifloxacin2-> {
                 if (isChecked) {
-                    // CheckBox is checked
-                    // Make EditText visible
                     eye_post_op_eye_4=binding.checkboxEyeDropMoxifloxacin2.text.toString()
                     binding.EditTextEyeDropMoxifloxacin2.visibility = View.VISIBLE
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
                     binding.EditTextEyeDropMoxifloxacin2.visibility = View.GONE
                 }
             }
-            binding.checkboxEyeDropMoxifloxacin5thweek->
-            {
+
+            binding.checkboxEyeDropMoxifloxacin5thweek-> {
                 if (isChecked) {
-                    // CheckBox is checked
-                    // Make EditText visible
                     eye_post_op_eye_5=binding.checkboxEyeDropMoxifloxacin5thweek.text.toString()
                     binding.EditTextEyeDropMoxifloxacin5thweek.visibility = View.VISIBLE
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
                     binding.EditTextEyeDropMoxifloxacin5thweek.visibility = View.GONE
                 }
             }
-            binding.checkboxEyeDropMoxifloxacinP->
-            {
+
+            binding.checkboxEyeDropMoxifloxacinP-> {
                 if (isChecked) {
-                    // CheckBox is checked
-                    // Make EditText visible
                     eye_post_op_moxifloxacin=binding.checkboxEyeDropMoxifloxacinP.text.toString()
                     binding.EditTextEyeDropMoxifloxacinP.visibility = View.VISIBLE
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
                     binding.EditTextEyeDropMoxifloxacinP.visibility = View.GONE
                 }
             }
-            binding.checkboxEyeDropHomide->
-            {
+
+            binding.checkboxEyeDropHomide-> {
                 if (isChecked) {
-                    // CheckBox is checked
-                    // Make EditText visible
                     eye_post_op_homide=binding.checkboxEyeDropHomide.text.toString()
                     binding.EditTextEyeDropHomide.visibility = View.VISIBLE
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
                     binding.EditTextEyeDropHomide.visibility = View.GONE
                 }
             }
-            binding.checkboxEyeDropTimololSos->
-            {
+
+            binding.checkboxEyeDropTimololSos-> {
                 if (isChecked) {
-                    // CheckBox is checked
-                    // Make EditText visible
                     eye_post_op_timolol=binding.checkboxEyeDropTimololSos.text.toString()
                     binding.EditTextEyeDropTimololSos.visibility = View.VISIBLE
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
                     binding.EditTextEyeDropTimololSos.visibility = View.GONE
                 }
             }
-            binding.checkboxEyeDropHypersolSos->
-            {
+
+            binding.checkboxEyeDropHypersolSos-> {
                 if (isChecked) {
-                    // CheckBox is checked
-                    // Make EditText visible
                     eye_post_op_hypersol=binding.checkboxEyeDropHypersolSos.text.toString()
                     binding.EditTextEyeDropHypersolSos.visibility = View.VISIBLE
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
                     binding.EditTextEyeDropHypersolSos.visibility = View.GONE
                 }
             }
-            binding.checkboxLubricantDropRefresh->
-            {
+
+            binding.checkboxLubricantDropRefresh-> {
                 if (isChecked) {
-                    // CheckBox is checked
-                    // Make EditText visible
                     eye_post_op_lubricant=binding.checkboxLubricantDropRefresh.text.toString()
                     binding.EditTextLubricantDropRefresh.visibility = View.VISIBLE
-
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
-
                     binding.EditTextLubricantDropRefresh.visibility = View.GONE
-                   // binding.cardViewEarlyPostoperativeComplications.visibility=View.VISIBLE
                 }
             }
-            binding.checkboxOnTheDayOfDischarge->
-            {
+
+            binding.checkboxOnTheDayOfDischarge-> {
                 if (isChecked) {
-                    // CheckBox is checked
-                    // Make EditText visible
                     eye_post_op_ed_homide=binding.checkboxOnTheDayOfDischarge.text.toString()
                     binding.EditTextOnTheDayOfDischargeED.visibility = View.VISIBLE
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
                     binding.EditTextOnTheDayOfDischargeED.visibility = View.GONE
                 }
             }
-            binding.checkboxOtherMedication->
-            {
+
+            binding.checkboxOtherMedication-> {
                 if (isChecked) {
-                    // CheckBox is checked
-                    // Make EditText visible
                     eye_post_op_other=binding.checkboxOtherMedication.text.toString()
                     Log.d(ConstantsApp.TAG,"eye_post_op_other=>"+eye_post_op_other)
                     binding.EditTextOtherMedication.visibility = View.VISIBLE
                 } else {
-                    // CheckBox is unchecked
-                    // Make EditText gone
                     binding.EditTextOtherMedication.visibility = View.GONE
                 }
             }
@@ -1301,55 +1068,40 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
     }
 
     override fun onClick(v: View?) {
-      when(v)
-      {
-          binding.textViewInstructionsToPatientsReadMore->
-          {
+      when(v) {
+          binding.textViewInstructionsToPatientsReadMore-> {
               val text=binding.textViewInstructionsToPatientsReadMore.text.toString()
-              when(text)
-              {
-                  "Read More..."->
-                  {
+              when(text) {
+                  "Read More..."-> {
                       binding.texViewInstructionToPatients.visibility=View.VISIBLE
                       binding.textViewInstructionsToPatientsReadMore.text="Read Less..."
                   }
-                  "Read Less..."->
-                  {
+                  "Read Less..."-> {
                       binding.texViewInstructionToPatients.visibility=View.GONE
                       binding.textViewInstructionsToPatientsReadMore.text="Read More..."
-
                   }
               }
           }
-          binding.textViewCounselingAndHealthEducationReadMore->
-          {
+
+          binding.textViewCounselingAndHealthEducationReadMore-> {
               val text=binding.textViewCounselingAndHealthEducationReadMore.text.toString()
-              when(text)
-              {
-                  "Read More..."->
-                  {
+              when(text) {
+                  "Read More..."-> {
                       binding.texViewCounselingAndHealthEducation.visibility=View.VISIBLE
                       binding.textViewCounselingAndHealthEducationReadMore.text="Read Less..."
                   }
-                  "Read Less..."->
-                  {
+                  "Read Less..."-> {
                       binding.texViewCounselingAndHealthEducation.visibility=View.GONE
                       binding.textViewCounselingAndHealthEducationReadMore.text="Read More..."
-
                   }
               }
           }
-          binding.cardViewSumbitEyePostFollow->
-          {
 
+          binding.cardViewSumbitEyePostFollow-> {
               val (patientId, campId, userId) = ConstantsApp.extractPatientAndLoginData(sessionManager)
               val current_Date= ConstantsApp.getCurrentDate()
 
-
-
-
               eye_post_op_temp=binding.editTextMonitorTemperature.text.toString()
-
               eye_post_op_pressure_regular=binding.editTextMonitorEyePressure.text.toString()
               eye_post_op_head_position=binding.editTextMonitorHeadPosition.text.toString()
               eye_post_op_cifloxacin_detail=binding.edittextTabCifloxacin.text.toString()
@@ -1369,101 +1121,65 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
               eye_post_op_ed_homide_detail=binding.EditTextOnTheDayOfDischargeED.text.toString()
               eye_post_op_other_detail=binding.EditTextOtherMedication.text.toString()
               eye_post_op_discharge_check=binding.EditTextCounselingAndHealthEducation.text.toString()
-
               eye_post_op_2nd_date=binding.EditText2ndFollowUp.text.toString()
               eye_post_op_3rd_date=binding.EditText3ndFollowUp.text.toString()
               eye_post_op_last_date=binding.EditText4weeksFollowUp.text.toString()
               eye_post_op_asses_imedi=binding.EditTextAssessTheImmediatePostoperative.text.toString()
-
-
-
-
               eye_post_op_w_addi_detail_right=binding.EditTextAdditionalDetailsRightEye.text.toString()
               eye_post_op_w_addi_detail_left=binding.EditTextAdditionalDetailsLeftEye.text.toString()
-
-
-
               eye_post_op_addi_detail_right=binding.EditTextWithoutPinHoleAdditionalDetailsRightEye.text.toString()
               eye_post_op_addi_detail_left=binding.EditTextWithoutPinHoleAdditionalDetailsLeftEye.text.toString()
-
               eye_post_op_slit_lamp_exam=binding.EditTextSlitLampExamination.text.toString()
               eye_post_op_fundus_exam=binding.EditTextFundusExamination.text.toString()
-
               eye_post_op_assess_catract_detail=binding.EditTextAssessTheCataractWound.text.toString()
               eye_post_op_location_centration=binding.EditTextTheLocationAndCentrationOfTheIOL.text.toString()
-
               eye_post_op_check_pupil_detail=binding.EditTextCheckThePupil.text.toString()
               eye_post_op_counseling=binding.EditTextCounseling.text.toString()
 
-
-
-
-
-
-              if (BloodPressureDataArrayList!!.isNotEmpty())
-              {
+              if (BloodPressureDataArrayList!!.isNotEmpty()) {
                   val formattedStringSymptoms = BloodPressureDataArrayList!!.joinToString { model ->
                       "{${model.systolic} = ${model.diastolic}}"+"="+model.bp_interpretation
                   }
-
                   val finalStringSymptomes = "{$formattedStringSymptoms}"
                   eye_post_op_bp=finalStringSymptomes
               }
 
-              if (PulseRateArrayList!!.isNotEmpty())
-              {
+              if (PulseRateArrayList!!.isNotEmpty()) {
                   val formattedStringSymptoms = PulseRateArrayList!!.joinToString { model ->
                       "${model.text} = ${model.interpretation}"
                   }
-
                   val finalStringSymptomes = "{$formattedStringSymptoms}"
                   eye_post_op_pr=finalStringSymptomes
               }
 
-              if (RespiratoryRateArrayList!!.isNotEmpty())
-              {
+              if (RespiratoryRateArrayList!!.isNotEmpty()) {
                   val formattedStringSymptoms = RespiratoryRateArrayList!!.joinToString { model ->
                       "${model.text} = ${model.interpretation}"
                   }
-
                   val finalStringSymptomes = "{$formattedStringSymptoms}"
                   eye_post_op_rr=finalStringSymptomes
               }
 
-
-
-              if (FollowUpEarly!!.isNotEmpty())
-              {
+              if (FollowUpEarly!!.isNotEmpty()) {
                   val formattedStringSymptoms = FollowUpEarly!!.joinToString { model ->
                       "${model.complication_details} = ${model.complication}"
                   }
-
                   val finalStringSymptomes = "{$formattedStringSymptoms}"
                   eye_post_op_early_post_op=finalStringSymptomes
-              }
-              else
-              {
+              } else {
                   eye_post_op_early_post_op=""
               }
 
-              if (FollowUpFundus!!.isNotEmpty())
-              {
+              if (FollowUpFundus!!.isNotEmpty()) {
                   val formattedStringSymptoms = FollowUpFundus!!.joinToString { model ->
                       "${model.complication_details} = ${model.complication}"
                   }
-
                   val finalStringSymptomes = "{$formattedStringSymptoms}"
                   eye_post_op_fundus_pathology=finalStringSymptomes
-              }
-              else
-              {
+              } else {
                   eye_post_op_fundus_pathology=""
               }
 
-
-
-
-              
               SubmitEyePostOpAndFollw(campId!!,
                   current_Date!!,
                   eye_post_op_2nd_date!!,
@@ -1545,132 +1261,104 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
                   patientId!!,
                   userId!!)
           }
-          binding.cardViewEarlyPostoperativeComplications1->
-          {
+
+          binding.cardViewEarlyPostoperativeComplications1-> {
               val selected_complications=binding.SpinnerEarlyPostoperativeComplications.selectedItem.toString()
-              //var selected_complications_details=binding.EditTextEarlyPostoperative.text.toString()
-
-
-
-              when(selected_complications)
-              {
-                  "Absent"->
-                  {
+              when(selected_complications) {
+                  "Absent"-> {
                       val selected_complications_details="-"
                       addComplications(selected_complications,selected_complications_details,FollowUpEarly)
                   }
-                  "Present"->
-                  {
+                  "Present"-> {
                       val selected_complications_details=binding.EditTextEarlyPostoperative.text.toString()
                       addComplications(selected_complications,selected_complications_details,FollowUpEarly)
                   }
-                  else->
-                  {
+                  else-> {
                       val selected_complications_details="-"
                       addComplications(selected_complications,selected_complications_details,FollowUpEarly)
                   }
               }
-
-
-
-
-
           }
-          binding.cardViewEarlyPostoperativeComplications->
-          {
+
+          binding.cardViewEarlyPostoperativeComplications-> {
               val selected_complications=binding.SpinnerEarlyPostoperativeComplications.selectedItem.toString()
-              when(selected_complications)
-              {
-                  "Absent"->
-                  {
+              when(selected_complications) {
+                  "Absent"-> {
                       val selected_complications_details="-"
                       addComplications(selected_complications,selected_complications_details,FollowUpEarly)
                   }
-                  "Present"->
-                  {
+                  "Present"-> {
                       val selected_complications_details=binding.EditTextEarlyPostoperative.text.toString()
                       addComplications(selected_complications,selected_complications_details,FollowUpEarly)
                   }
-                  else->
-                  {
+                  else-> {
                       val selected_complications_details="-"
                       addComplications(selected_complications,selected_complications_details,FollowUpEarly)
                   }
               }
           }
-          binding.cardViewFundusPathology->
-          {
-              val selected_complications=binding.SpinnerFundusPathology.selectedItem.toString()
-              when(selected_complications)
-              {
-                  "Absent"->
-                  {
-                      val selected_complications_details="-"
-                      addFundusComplications(selected_complications,selected_complications_details,FollowUpFundus)
-              }
-              "Present"->
-                  {
-                      val selected_complications_details=binding.EditTextFundusPathology.text.toString()
-                      addFundusComplications(selected_complications,selected_complications_details,FollowUpFundus)
-                  }
-                  else->
-                  {
-                      val selected_complications_details="-"
-                      addFundusComplications(selected_complications,selected_complications_details,FollowUpFundus)
-                  }
-              }
-          }
-          binding.cardViewFundusPathologyComplications1->
-          {
 
+          binding.cardViewFundusPathology-> {
               val selected_complications=binding.SpinnerFundusPathology.selectedItem.toString()
-              when(selected_complications)
-              {
-                  "Absent"->
-                  {
+              when(selected_complications) {
+                  "Absent"-> {
                       val selected_complications_details="-"
                       addFundusComplications(selected_complications,selected_complications_details,FollowUpFundus)
                   }
-                  "Present"->
-                  {
-                      val selected_complications_details=binding.EditTextFundusPathology.text.toString()
+                 "Present"-> { val selected_complications_details=binding.EditTextFundusPathology.text.toString()
                       addFundusComplications(selected_complications,selected_complications_details,FollowUpFundus)
                   }
-                  else->
-                  {
+                  else-> {
                       val selected_complications_details="-"
                       addFundusComplications(selected_complications,selected_complications_details,FollowUpFundus)
                   }
               }
           }
-          binding.EditText2ndFollowUp->
-          {
+
+          binding.cardViewFundusPathologyComplications1-> {
+              val selected_complications=binding.SpinnerFundusPathology.selectedItem.toString()
+              when(selected_complications) {
+                  "Absent"-> {
+                      val selected_complications_details="-"
+                      addFundusComplications(selected_complications,selected_complications_details,FollowUpFundus)
+                  }
+                  "Present"-> {
+                      val selected_complications_details=binding.EditTextFundusPathology.text.toString()
+                      addFundusComplications(selected_complications,selected_complications_details,FollowUpFundus)
+                  }
+                  else-> {
+                      val selected_complications_details="-"
+                      addFundusComplications(selected_complications,selected_complications_details,FollowUpFundus)
+                  }
+              }
+          }
+
+          binding.EditText2ndFollowUp-> {
               showDatePickerDialog(binding.EditText2ndFollowUp)
           }
-          binding.EditText3ndFollowUp->
-          {
+
+          binding.EditText3ndFollowUp-> {
               showDatePickerDialog(binding.EditText3ndFollowUp)
           }
-          binding.EditText4weeksFollowUp->
-          {
+
+          binding.EditText4weeksFollowUp-> {
               showDatePickerDialog(binding.EditText4weeksFollowUp)
           }
-          binding.cardViewAddMonitorBp->
-          {
+
+          binding.cardViewAddMonitorBp-> {
              val systolic=binding.editTextMonitorSystolic.text.toString()
               val diastolic=binding.editTextMonitorDiastolic.text.toString()
               val bp_interpretation=binding.textViewMonitorBpInterpretation.text.toString()
-
               AddBloodPressure(systolic,diastolic,bp_interpretation)
           }
-          binding.cardViewAddMonitorPulseRate->
-          {
+
+          binding.cardViewAddMonitorPulseRate-> {
               val text=binding.editTextMonitorPulseRate.text.toString()
               val text1=binding.textViewMonitorPulseRateInterpretation.text.toString()
               AddPulseRate(text,text1,binding.RecyclerViewPulseRate,PulseRateArrayList,binding.LinearLayoutPulseRate)
           }
-          binding.cardViewAddMonitorRespirationRate->
-          {
+
+          binding.cardViewAddMonitorRespirationRate-> {
               val text=binding.editTextMonitorRespirationRate.text.toString()
               val text1=binding.textViewMonitorRespirationRateInterpretation.text.toString()
               AddPulseRate(
@@ -1690,19 +1378,11 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         recyclerView: RecyclerView?,
         arrayList: ArrayList<TwoValueModel>?,
         linearLayoutPulseRate: LinearLayout?,
-
         ) {
         recyclerView!!.visibility=View.VISIBLE
         linearLayoutPulseRate!!.visibility=View.VISIBLE
-
         arrayList!!.add(TwoValueModel(text,text1))
-
         recyclerView.adapter=TwoValueAdapter(this,arrayList)
-
-
-
-
-
     }
 
     private fun AddBloodPressure(systolic: String, diastolic: String, bpInterpretation: String) {
@@ -1710,10 +1390,7 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         binding.LinearLayoutBloodPressure.visibility=View.VISIBLE
 
         BloodPressureDataArrayList!!.add(BloodPressureData(systolic,diastolic,bpInterpretation))
-
-        binding.RecyclerViewBp.adapter =
-            BloodPressureAdapter(this, BloodPressureDataArrayList!!)
-
+        binding.RecyclerViewBp.adapter = BloodPressureAdapter(this, BloodPressureDataArrayList!!)
     }
 
     private fun addComplications(
@@ -1721,58 +1398,41 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         selectedComplicationsDetails: String,
         arrayList: ArrayList<FollowUpsData>?
     ) {
-
-        if (selectedComplications == "Select")
-        {
+        if (selectedComplications == "Select") {
             showToast("Please select")
-        }
-        else
-        {
+        } else {
             val isComplicationExists = FollowUpEarly?.any {
                 it.complication == selectedComplications
             } ?: false
 
-            if (isComplicationExists)
-            {
+            if (isComplicationExists) {
                 val existingIndex = arrayList?.indexOfFirst {
                     it.complication == selectedComplications
                 } ?: -1
 
-                if (existingIndex != -1)
-                {
+                if (existingIndex != -1) {
                     updateComplicationData(existingIndex,selectedComplications,selectedComplicationsDetails,binding.RecyclerViewEarlyPostoperative,FollowUpEarly)
-                }
-                else
-                {
+                } else {
                     addComplicationData(selectedComplications,selectedComplicationsDetails,binding.RecyclerViewEarlyPostoperative,FollowUpEarly)
-
                 }
-            }
-            else
-            {
+            } else {
                 addComplicationData(selectedComplications,selectedComplicationsDetails,binding.RecyclerViewEarlyPostoperative,FollowUpEarly)
             }
         }
     }
 
     private fun addComplicationData(selectedComplications: String, selectedComplicationsDetails: String, recyclerView: RecyclerView, arrayList: ArrayList<FollowUpsData>?) {
-
         recyclerView.visibility=View.VISIBLE
-        //layout.visibility=View.VISIBLE
         arrayList?.add(
             FollowUpsData(
                 selectedComplications,
                 selectedComplicationsDetails,
-
             )
         )
-        recyclerView.adapter =
-            FollowUpsAdapter(this, arrayList!!)
+        recyclerView.adapter = FollowUpsAdapter(this, arrayList!!)
 
         val dayWisePosition = ( binding.SpinnerEarlyPostoperativeComplications.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf("Select")
         binding.SpinnerEarlyPostoperativeComplications.setSelection(dayWisePosition!!)
-
-
         binding.EditTextEarlyPostoperative.setText(null)
     }
 
@@ -1783,9 +1443,7 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         recyclerView: RecyclerView,
         arrayList: ArrayList<FollowUpsData>?
     ) {
-
         recyclerView.visibility=View.VISIBLE
-        //layout.visibility=View.VISIBLE
 
         arrayList?.get(index)?.let { existingItem ->
             val updatedItem = existingItem.copy(
@@ -1793,18 +1451,13 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
                 complication_details = selectedComplicationsDetails
             )
 
-            // Replace the old instance with the updated one
             arrayList?.set(index, updatedItem)
 
-            // Notify the adapter that the data has changed
             recyclerView.adapter?.notifyItemChanged(index)
 
             val dayWisePosition = ( binding.SpinnerEarlyPostoperativeComplications.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf("Select")
             binding.SpinnerEarlyPostoperativeComplications.setSelection(dayWisePosition!!)
-
-
             binding.EditTextEarlyPostoperative.setText(null)
-            //showToast("Symptom data updated")
         }
     }
 
@@ -1814,61 +1467,43 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         selectedComplicationsDetails: String,
         arrayList: ArrayList<FollowUpsData>?
     ) {
-
-        if (selectedComplications == "Select")
-        {
+        if (selectedComplications == "Select") {
             showToast("Please select")
-        }
-        else
-        {
+        } else {
             val isComplicationExists = FollowUpFundus?.any {
                 it.complication == selectedComplications
             } ?: false
 
-            if (isComplicationExists)
-            {
+            if (isComplicationExists) {
                 val existingIndex = arrayList?.indexOfFirst {
                     it.complication == selectedComplications
                 } ?: -1
 
-                if (existingIndex != -1)
-                {
+                if (existingIndex != -1) {
                     updateFundusComplicationData(existingIndex,selectedComplications,selectedComplicationsDetails,binding.RecyclerViewFundusPathology,FollowUpFundus)
-                }
-                else
-                {
+                } else {
                     addFundusComplicationData(selectedComplications,selectedComplicationsDetails,binding.RecyclerViewFundusPathology,FollowUpFundus)
-
                 }
             }
-            else
-            {
+            else {
                 addFundusComplicationData(selectedComplications,selectedComplicationsDetails,binding.RecyclerViewFundusPathology,FollowUpFundus)
             }
         }
     }
 
     private fun addFundusComplicationData(selectedComplications: String, selectedComplicationsDetails: String, recyclerView: RecyclerView, arrayList: ArrayList<FollowUpsData>?) {
-
         recyclerView.visibility=View.VISIBLE
-        //layout.visibility=View.VISIBLE
         arrayList?.add(
             FollowUpsData(
                 selectedComplications,
                 selectedComplicationsDetails,
-
                 )
         )
-        recyclerView.adapter =
-            FollowUpsAdapter1(this, arrayList!!)
+        recyclerView.adapter = FollowUpsAdapter1(this, arrayList!!)
 
         val dayWisePosition = ( binding.SpinnerEarlyPostoperativeComplications.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf("Select")
         binding.SpinnerFundusPathology.setSelection(dayWisePosition!!)
-
-
         binding.EditTextFundusPathology.setText(null)
-
-
     }
 
     private fun updateFundusComplicationData(
@@ -1878,27 +1513,19 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         recyclerView: RecyclerView,
         arrayList: ArrayList<FollowUpsData>?
     ) {
-
         recyclerView.visibility=View.VISIBLE
-        //layout.visibility=View.VISIBLE
-
         arrayList?.get(index)?.let { existingItem ->
             val updatedItem = existingItem.copy(
                 complication = selectedComplications,
                 complication_details = selectedComplicationsDetails
             )
 
-            // Replace the old instance with the updated one
             arrayList?.set(index, updatedItem)
 
-            // Notify the adapter that the data has changed
             recyclerView.adapter?.notifyItemChanged(index)
             val dayWisePosition = ( binding.SpinnerEarlyPostoperativeComplications.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf("Select")
             binding.SpinnerFundusPathology.setSelection(dayWisePosition!!)
-
-
             binding.EditTextFundusPathology.setText(null)
-            //showToast("Symptom data updated")
         }
     }
 
@@ -1985,7 +1612,6 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         patient_id: Int,
         user_id:String
     ) {
-
         val Eye_Post_Op_AND_Follow_ups= Eye_Post_Op_AND_Follow_ups(0,camp_id,
             createdDate,
             eye_post_op_2nd_date,
@@ -2068,9 +1694,7 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             user_id)
 
         viewModel1.insertEyePostOpAndFollowUps(Eye_Post_Op_AND_Follow_ups)
-
         EyePostOpAndFollowUpsResponse()
-
     }
 
     private fun EyePostOpAndFollowUpsResponse() {
@@ -2083,30 +1707,22 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
 
 
     private fun createTextWatcher(editText: EditText): TextWatcher? {
-
-        return object : TextWatcher
-        {
+        return object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 val text = s.toString()
-                // Here, you can identify which EditText has changed by checking the ID or some other criteria
                 when (editText) {
-                    binding.editTextMonitorSystolic->
-                    {
+                    binding.editTextMonitorSystolic-> {
                         setBloodPressure()
                     }
-                    binding.editTextMonitorDiastolic->
-                    {
+                    binding.editTextMonitorDiastolic-> {
                         setBloodPressure()
                     }
-                    binding.editTextMonitorPulseRate->
-                    {
+                    binding.editTextMonitorPulseRate-> {
                         setPulseRateInfo()
                     }
-                    binding.editTextMonitorRespirationRate->
-                    {
+                    binding.editTextMonitorRespirationRate-> {
                         interpretRespirationRate();
                     }
-                    // Add more cases if needed
                 }
             }
 
@@ -2114,68 +1730,46 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
                 val text = s.toString()
                 // Here, you can identify which EditText has changed by checking the ID or some other criteria
                 when (editText) {
-
-                    binding.editTextMonitorSystolic->
-                    {
+                    binding.editTextMonitorSystolic-> {
                         setBloodPressure()
                     }
-                    binding.editTextMonitorDiastolic->
-                    {
+                    binding.editTextMonitorDiastolic-> {
                         setBloodPressure()
                     }
-                    binding.editTextMonitorPulseRate->
-                    {
+                    binding.editTextMonitorPulseRate-> {
                         setPulseRateInfo()
                     }
-                    binding.editTextMonitorRespirationRate->
-                    {
+                    binding.editTextMonitorRespirationRate-> {
                         interpretRespirationRate();
                     }
-
-                    // Add more cases if needed
                 }
             }
 
             override fun afterTextChanged(s: Editable?) {
-
-
                 val text = s.toString()
-                // Here, you can identify which EditText has changed by checking the ID or some other criteria
                 when (editText) {
-
-
-                    binding.editTextMonitorSystolic->
-                    {
+                    binding.editTextMonitorSystolic-> {
                         setBloodPressure()
                     }
-                    binding.editTextMonitorDiastolic->
-                    {
+                    binding.editTextMonitorDiastolic-> {
                         setBloodPressure()
                     }
-                    binding.editTextMonitorPulseRate->
-                    {
+                    binding.editTextMonitorPulseRate-> {
                         setPulseRateInfo()
                     }
-                    binding.editTextMonitorRespirationRate->
-                    {
+                    binding.editTextMonitorRespirationRate-> {
                         interpretRespirationRate();
                     }
-                    // Add more cases if needed
                 }
             }
-
         }
-
     }
 
-
-    private fun setBloodPressure()
-    {
+    private fun setBloodPressure() {
         val systolic = binding.editTextMonitorSystolic.text.toString().toIntOrNull() ?: 0
         val diastolic = binding.editTextMonitorDiastolic.text.toString().toIntOrNull() ?: 0
 
         val bloodPressureInfo = getBloodPressureType(systolic, diastolic)
-        // binding.tvInterpretationBP.text = "Blood Pressure Type: ${bloodPressureInfo.first}"
         binding.textViewMonitorBpInterpretation.text = "${bloodPressureInfo.first}"
         binding.textViewMonitorBpInterpretation.setTextColor(ContextCompat.getColor(this, bloodPressureInfo.second))
     }
@@ -2192,11 +1786,9 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         }
     }
 
-    private fun setPulseRateInfo()
-    {
+    private fun setPulseRateInfo() {
         val pulseRate = binding.editTextMonitorPulseRate.text.toString().toIntOrNull() ?: 0
         val pulseRateInfo = getPulseRateInfo(pulseRate)
-        // binding.tvInterpretationPR.text = "Pulse Rate Type: ${pulseRateInfo.first}"
         binding.textViewMonitorPulseRateInterpretation.text = "${pulseRateInfo.first}"
         binding.textViewMonitorPulseRateInterpretation.setTextColor(ContextCompat.getColor(this, pulseRateInfo.second))
     }
@@ -2209,7 +1801,6 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             else -> Pair("Unknown", android.R.color.black) // Set a default color for unknown
         }
     }
-
 
     private fun interpretRespirationRate() {
         val input: String = binding.editTextMonitorRespirationRate.getText().toString().trim()
@@ -2248,7 +1839,6 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         }
     }
 
-
     private class InterpretationResult internal constructor(var message: String, var color: Int)
 
     private fun showToast(message: String) {
@@ -2264,19 +1854,15 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
             "logMAR" -> logMARArrayList
             else -> arrayListOf("Select") // Handle other cases if needed
         }
-
         val detailsAdapter = CustomDropDownAdapter(this, detailsArrayList!!)
         spinner!!.adapter = detailsAdapter
     }
 
     fun updateSpinnerVisibility(spinner: Spinner, spinner1: Spinner, selectedItem: String?) {
-
         if (selectedItem.equals("Select")||selectedItem.equals("Not Improved")) {
-
             spinner.visibility = View.GONE
             spinner1.visibility = View.GONE
         } else {
-            // Show layout1 and layout2
             spinner.visibility = View.VISIBLE
             spinner1.visibility = View.VISIBLE
         }
@@ -2287,21 +1873,16 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-
         val datePickerDialog = DatePickerDialog(
             this,
             { _, selectedYear, selectedMonth, selectedDay ->
-                // Handle the selected date
                 val selectedDate = String.format(Locale.getDefault(), "%02d-%02d-%04d", selectedDay, selectedMonth + 1, selectedYear)
                 editText.setText(selectedDate)
             },
             year, month, day
         )
 
-        // Set the minimum date to the current year
         datePickerDialog.datePicker.minDate = calendar.timeInMillis
-
-        // You can set a maximum date if you want, for example, allow selection up to 5 years from now
         val maxYear = calendar.get(Calendar.YEAR) + 5
         val endOfYearCalendar = Calendar.getInstance()
         endOfYearCalendar.set(maxYear, 11, 31, 23, 59, 59)
@@ -2314,16 +1895,10 @@ class EyePostOpAndFollowUpsActivity:AppCompatActivity(), CompoundButton.OnChecke
         super.onBackPressed()
         gotoScreen(this,PatientForms::class.java)
     }
+
     fun gotoScreen(context: Context?, cls: Class<*>?) {
         val intent = Intent(context, cls)
         startActivity(intent)
         finish()
     }
-
-
-
-
-
 }
-
-

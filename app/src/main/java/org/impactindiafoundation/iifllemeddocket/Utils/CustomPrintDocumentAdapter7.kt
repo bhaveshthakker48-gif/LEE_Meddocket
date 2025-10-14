@@ -16,15 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.impactindiafoundation.iifllemeddocket.R
 import java.io.FileOutputStream
 
-class CustomPrintDocumentAdapter7(
-    private val context: Context,
-    private val recyclerView: RecyclerView,
-    val camp: String,
-    val patientName: String,
-    val genderAge: String
-) : PrintDocumentAdapter() {
-
-    private var totalPages = 0
+class CustomPrintDocumentAdapter7(private val context: Context, private val recyclerView: RecyclerView, val camp: String, val patientName: String, val genderAge: String) : PrintDocumentAdapter() {
 
     override fun onLayout(
         oldAttributes: PrintAttributes?,
@@ -37,7 +29,6 @@ class CustomPrintDocumentAdapter7(
             .setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT)
             .setPageCount(PrintDocumentInfo.PAGE_COUNT_UNKNOWN)
             .build()
-
         callback?.onLayoutFinished(printDocumentInfo, true)
     }
 

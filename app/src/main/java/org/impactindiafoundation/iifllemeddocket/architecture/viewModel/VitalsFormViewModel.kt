@@ -20,24 +20,16 @@ class VitalsFormViewModel @Inject constructor(val mainRepository: NewMainReposit
 
     val allVitals:LiveData<List<Vitals>> = mainRepository.allVitals
 
-    val uniqueVitalPatientCount: LiveData<Int> = mainRepository.uniqueVitalPatientCount
-
-
     private var _insertVitalsResponse = MutableLiveData<Resource<Long>>()
     val insertVitalsResponse: LiveData<Resource<Long>> get() = _insertVitalsResponse
 
-    private var _vitalsList = MutableLiveData<Resource<List<Vitals>>>()
-    val vitalsList: LiveData<Resource<List<Vitals>>> get() = _vitalsList
-
-    private var _vitalsFormListById =
-        MutableLiveData<Resource<List<Vitals>>>()
+    private var _vitalsFormListById = MutableLiveData<Resource<List<Vitals>>>()
     val vitalsFormListById: LiveData<Resource<List<Vitals>>> get() = _vitalsFormListById
 
     fun insertVitalsForm(vitalsForm:Vitals) {
         CoroutineScope(Dispatchers.IO).launch {
             val message = mainRepository.insertVitalsForm(vitalsForm)
             _insertVitalsResponse.postValue(Resource.success(message))
-
             if (message.equals(null)) {
                 _insertVitalsResponse.postValue(Resource.error("Local Db Error", null))
             } else {
@@ -60,12 +52,9 @@ class VitalsFormViewModel @Inject constructor(val mainRepository: NewMainReposit
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _vitalsFormListById.postValue(Resource.error(e.message.toString(), null))
         }
     }
-
 }

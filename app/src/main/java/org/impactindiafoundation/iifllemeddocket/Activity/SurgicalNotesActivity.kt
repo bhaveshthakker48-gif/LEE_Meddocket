@@ -69,20 +69,14 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
-    CompoundButton.OnCheckedChangeListener {
+class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     lateinit var binding:ActivitySurgicalNotesBinding
-
     lateinit var customDropDownAdapter: CustomDropDownAdapter
-
     var PatientConfirmArrayList:ArrayList<String>?=null
-
     private val GALLERY:Int = 1
     private  var CAMERA:Int = 2
-
     var filePath:String?=null
-
     var UpdatedfilePath:String=""
     var PatientHaveArrayList:ArrayList<String>?=null
     var SurgenReviewArrayList:ArrayList<String>?=null
@@ -93,12 +87,10 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
     var selectedSurgenAndNurseOrallyConfirmList = mutableListOf<String>()
     val sn_intra_occular_lensArrayList= mutableListOf<String>()
     val sn_type_of_surgery_list= mutableListOf<String>()
-
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
-
     var sn_anticoagulant_detail:String=""
     var sn_before_incision_all_team:String=""
     var sn_cataract_lieberman:String=""
@@ -114,80 +106,43 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
      var sn_cataract_keretome_phaco :String=""
      var sn_cataract_sinsky :String=""
      var sn_cataract_irrigation :String=""
-
     var sn_cataract_capsulotomy :String=""
     var sn_cataract_colibri :String=""
     var sn_cataract_castroviejo :String=""
-
     var sn_common_dislocation :String=""
-
     var sn_common_endophthalmitis :String=""
-
     var sn_common_endothelial :String=""
-
     var sn_common_fluid :String=""
-
     var sn_common_hyphema :String=""
-
     var sn_common_light :String=""
-
     var sn_common_macular :String=""
-
     var sn_common_ocular :String=""
-
     var sn_common_posterior_opacification :String=""
-
     var sn_common_posterior_rent :String=""
-
     var sn_common_retinal :String=""
-
     var sn_common_vitreous :String=""
-
     var sn_intra_adrenaline:String=""
-
     var sn_intra_combination:String=""
-
     var sn_intra_gentamycin:String=""
-
     var sn_intra_intasol:String=""
-
     var sn_intra_mannitol:String=""
-
     var sn_intra_moxifloxacin:String=""
-
-
     var sn_intra_prednisolone:String=""
-
     var sn_intra_vigamox:String=""
-
     var sn_intra_visco:String=""
-
     var sn_post_cifloxacin:String=""
-
     var sn_post_diclofenac:String=""
-
     var sn_post_dimox:String=""
-
     var sn_post_eye_1:String=""
-
     var sn_post_eye_2:String=""
-
     var sn_post_eye_3:String=""
-
     var sn_post_eye_4:String=""
-
     var sn_post_eye_5:String=""
-
     var sn_post_eye_homide:String=""
-
     var sn_post_eye_hypersol:String=""
-
     var sn_post_eye_lubricant:String=""
-
     var sn_post_eye_moxifloxacin:String=""
-
     var sn_post_eye_timolol:String=""
-
     var sn_post_pantaprezol:String=""
     var sn_before_or_key:String=""
     var sn_before_or_weather:String=""
@@ -199,21 +154,16 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
     }
@@ -229,12 +179,10 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
         val LLE_MedDocketRespository= LLE_MedDocketRespository()
         val LLE_MedDocketProviderFactory= LLE_MedDocketProviderFactory(LLE_MedDocketRespository,application)
         viewModel= ViewModelProvider(this,LLE_MedDocketProviderFactory).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager= SessionManager(this)
     }
 
@@ -264,12 +212,10 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
         val FinalPrescriptionDrugDAO: FinalPrescriptionDrugDAO =database.FinalPrescriptionDrugDAO()
 
         val repository = LLE_MedDocket_Repository(Vital_DAO, VisualAcuity_DAO, Refractive_Error_DAO, OPD_Investigations_DAO, Eye_Pre_Op_Notes_DAO, Eye_Pre_Op_Investigation_DAO, Eye_Post_Op_AND_Follow_ups_DAO, Eye_OPD_Doctors_Note_DAO, Cataract_Surgery_Notes_DAO, Patient_DAO,Image_Upload_DAO,Registration_DAO,Prescription_DAO,Final_Prescription_DAO,SpectacleDisdributionStatus_DAO,SynTable_DAO,CurrentInventory_DAO,InventoryUnit_DAO,CreatePrescriptionDAO,Image_Prescription_DAO,FinalPrescriptionDrugDAO,database)
-
         viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(LLE_MedDocket_ViewModel::class.java)
     }
 
-    private fun init()
-    {
+    private fun init() {
         binding.toolbarSurgicalNotes.toolbar.title="Surgical Notes"
         PatientConfirmArrayList= ArrayList()
         PatientConfirmArrayList!!.add("Select")
@@ -313,55 +259,38 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
 
         customDropDownAdapter=CustomDropDownAdapter(this,Sclera_Cornea_ArrayList!!)
         binding.SpinnerSclera1.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,ScleraArrayList!!)
         binding.SpinnerSclera2.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,Sclera_Cornea_ArrayList!!)
         binding.SpinnerCornea.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,PatientConfirmArrayList!!)
         binding.spinnerAllergies.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,PatientConfirmArrayList!!)
         binding.spinnerConsent.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,PatientConfirmArrayList!!)
         binding.spinnerIdentity.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,PatientConfirmArrayList!!)
         binding.spinnerProcedure.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,PatientConfirmArrayList!!)
         binding.spinnerSiteMarked.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,PatientConfirmArrayList!!)
         binding.spinnerHistoryPhysical.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,PatientConfirmArrayList!!)
         binding.spinnerPreSurgicalAssessment.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,PatientConfirmArrayList!!)
         binding.spinnerPreAnaesthesiaAssessment.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,PatientHaveArrayList!!)
         binding.spinnerDifficultAirwayAspirationRisk!!.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,PatientConfirmArrayList!!)
         binding.spinnerHistoryFlomax!!.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,PatientConfirmArrayList!!)
         binding.spinnerHistoryAnticoagulants!!.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,SurgenReviewArrayList!!)
         binding.spinnerCriticalOrUnexpectedSteps!!.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,BeforeleavingOpRoomArrayList!!)
         binding.spinnerInstrumentSponge!!.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,BeforeleavingOpRoomArrayList!!)
         binding.spinnerSpecimenLabelled!!.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,GenderArrayList!!)
         binding.spinnerGender!!.adapter=customDropDownAdapter
 
@@ -424,7 +353,6 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
         binding.editTextLubricantDropRefresh.visibility=View.GONE
         binding.editTextWheatherEuipmentAddressed.visibility=View.GONE
         binding.editTextKeyConcerns.visibility=View.GONE
-
         binding.LinearLayoutHistoryAnticoagulants.visibility=View.GONE
         binding.EditTextDifficultAirwayAspirationRisk.visibility=View.GONE
         binding.LinearLayoutCriticalOrUnexpected.visibility=View.GONE
@@ -438,7 +366,6 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
         binding.checkboxSurgery.setOnCheckedChangeListener(this)
         binding.checkboxStyExcision.setOnCheckedChangeListener(this)
         binding.checkboxPtosisCorrection.setOnCheckedChangeListener(this)
-
         binding.checkboxAcIol.setOnCheckedChangeListener(this)
         binding.checkboxPcIol.setOnCheckedChangeListener(this)
         binding.checkboxIRIS.setOnCheckedChangeListener(this)
@@ -497,7 +424,6 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
         binding.checkboxKeyConcerns.setOnCheckedChangeListener(this)
         binding.CheckBoxContinued.setOnCheckedChangeListener(this)
         binding.CheckBoxStoppedAsInstructed.setOnCheckedChangeListener(this)
-
         binding.checkboxBeforeIncision.setOnCheckedChangeListener(this)
         binding.checkboxSNOrallyConfirmAntibiotic.setOnCheckedChangeListener(this)
         binding.checkboxSNOrallyConfirmImplants.setOnCheckedChangeListener(this)
@@ -512,24 +438,18 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
 
         binding.spinnerDifficultAirwayAspirationRisk.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // Check if the selected item is "yes"
                 val selectedItem = PatientHaveArrayList!![position]
                 if (selectedItem == "Yes") {
-                    // If "yes," make the EditText visible
                     binding.EditTextDifficultAirwayAspirationRisk.visibility = View.VISIBLE
                 } else {
-                    // If not "yes," hide the EditText
                     binding.EditTextDifficultAirwayAspirationRisk.visibility = View.GONE
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Handle when nothing is selected (if needed)
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        binding.spinnerHistoryAnticoagulants.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerHistoryAnticoagulants.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -538,10 +458,8 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
             ) {
                 val selectedItem = PatientConfirmArrayList!![position]
                 if (selectedItem == "Yes") {
-                    // If "yes," make the EditText visible
                     binding.LinearLayoutHistoryAnticoagulants.visibility = View.VISIBLE
                 } else {
-                    // If not "yes," hide the EditText
                     binding.LinearLayoutHistoryAnticoagulants.visibility = View.GONE
                 }
             }
@@ -549,11 +467,9 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        binding.spinnerCriticalOrUnexpectedSteps.onItemSelectedListener=object :AdapterView.OnItemSelectedListener
-        {
+        binding.spinnerCriticalOrUnexpectedSteps.onItemSelectedListener=object :AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -562,10 +478,8 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
             ) {
                 val selectedItem = SurgenReviewArrayList!![position]
                 if (selectedItem == "Operative duration") {
-                    // If "yes," make the EditText visible
                     binding.LinearLayoutCriticalOrUnexpected.visibility = View.VISIBLE
                 } else {
-                    // If not "yes," hide the EditText
                     binding.LinearLayoutCriticalOrUnexpected.visibility = View.GONE
                 }
             }
@@ -573,45 +487,35 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
     }
 
     override fun onClick(v: View?) {
-        when(v)
-        {
-            binding.edittextDateOfSurgery->
-            {
+        when(v) {
+            binding.edittextDateOfSurgery-> {
                 showDatePickerDialog()
             }
-            binding.textViewReadMore->
-            {
-                val text=binding.textViewReadMore.text
 
-                when(text)
-                {
-                    "Read More..."->
-                    {
+            binding.textViewReadMore-> {
+                val text=binding.textViewReadMore.text
+                when(text) {
+                    "Read More..."-> {
                         binding.textViewAnaesthesia!!.visibility=View.VISIBLE
                         binding.textViewReadMore.text="Read Less..."
                     }
-                    "Read Less..."->
-                    {
+                    "Read Less..."-> {
                         binding.textViewAnaesthesia!!.visibility=View.GONE
                         binding.textViewReadMore.text="Read More..."
                     }
                 }
-
             }
-            binding.carddviewUploadImplantLabelDetails->
-            {
+
+            binding.carddviewUploadImplantLabelDetails-> {
                 showPictureDialog()
             }
-            binding.cardViewSumbitSurgicalNotes->
-            {
 
+            binding.cardViewSumbitSurgicalNotes-> {
                 Log.d(ConstantsApp.TAG,"Submit click")
-
                 val (patientId, campId, userId) = ConstantsApp.extractPatientAndLoginData(sessionManager)
                 val current_Date= ConstantsApp.getCurrentDate()
                 val camp_id=campId
@@ -727,6 +631,7 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
                 val sn_type_of_surgery_other=binding.editTextTypesOfSurgeryOther.text.toString()
                 val sn_unexpected_step=binding.spinnerCriticalOrUnexpectedSteps.selectedItem.toString()
                 val sn_unexpected_step_detail=binding.EditTextCriticalOrUnexpected.text.toString()
+
                 SubmitSurgicalNotes(
                     camp_id.toString(),
                     createdDate,
@@ -921,7 +826,6 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
     private fun takePhotoFromCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, CAMERA)
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -933,14 +837,12 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
             Log.d(ConstantsApp.TAG,"imageUri=>"+imageUri)
             val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
             val fileName = "surgical_notes_image_$timestamp.jpg"
-
             val updatedPath = ConstantsApp.moveImageToLLEFolder(this, imageUri!!,fileName)
 
             UpdatedfilePath= updatedPath!!
             binding.ImageViewSurgicalNotes?.setImageURI(Uri.fromFile(File(updatedPath)))
             binding.TextViewSurgicalNotes.text = updatedPath
         }
-
         if (requestCode == CAMERA && resultCode == Activity.RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             filePath = ConstantsApp.saveBitmapToFile(imageBitmap, this)
@@ -950,7 +852,7 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
             val tempFile = ConstantsApp.saveBitmapToFile1(imageBitmap, fileName, this)
             val imageUri = FileProvider.getUriForFile(
                 this,
-                "org.impactindiafoundation.iifllemeddocket.fileprovider",  // Replace with your app's package name
+                "org.impactindiafoundation.iifllemeddocket.provider", // ✅ matches manifest
                 tempFile
             )
 
@@ -1127,9 +1029,7 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
         sn_unexpected_step_detail  :String,
         userId: String?
     ) {
-
-        if (UpdatedfilePath=="")
-        {
+        if (UpdatedfilePath=="") {
             val surgicalNote= Cataract_Surgery_Notes(0,
                 camp_id.toInt() ,
                 createdDate ,
@@ -1298,9 +1198,7 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
             )
             viewModel1.insert_Surgical_Notes1(surgicalNote)
             InsertSurgicalNotesLocalResponse()
-        }
-        else
-        {
+        } else {
             val surgicalNote= Cataract_Surgery_Notes(0,
                 camp_id.toInt() ,
                 createdDate ,
@@ -1466,7 +1364,6 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
                 sn_unexpected_step_detail ,
                 userId.toString(),
                 UpdatedfilePath
-
             )
             viewModel1.insert_Surgical_Notes1(surgicalNote)
             InsertSurgicalNotesLocalResponse()
@@ -1474,8 +1371,7 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
     }
 
     private fun InsertSurgicalNotesLocalResponse() {
-        viewModel1.toastMessage.observe(this
-            , Observer { message ->
+        viewModel1.toastMessage.observe(this, Observer { message ->
                 showToast(message)
             })
         viewModel1.insertResponse1.observe(this, Observer { response ->
@@ -1485,7 +1381,6 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
             val userId = response?.fourth
             val filePath = response?.fifth
 
-            // Check for null before using the properties
             if (_id != null && camp_id != null && patient_id != null && userId != null && filePath != null) {
                 val fileName = ConstantsApp.getFileNameFromPath(filePath)
                 val imageModel = ImageModel(0, _id, fileName, "222", patient_id, camp_id, userId, filePath)
@@ -1511,943 +1406,699 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
         val datePickerDialog = DatePickerDialog(
             this,
             { _, selectedYear, selectedMonth, selectedDay ->
-                // Handle the selected date
                 val selectedDate = String.format(Locale.getDefault(), "%02d-%02d-%04d", selectedDay, selectedMonth + 1, selectedYear)
                 binding.edittextDateOfSurgery.setText(selectedDate)
             },
             year, month, day
         )
-
         datePickerDialog.datePicker.minDate = calendar.timeInMillis
         val maxYear = calendar.get(Calendar.YEAR) + 5
         val endOfYearCalendar = Calendar.getInstance()
         endOfYearCalendar.set(maxYear, 11, 31, 23, 59, 59)
         datePickerDialog.datePicker.maxDate = endOfYearCalendar.timeInMillis
-
         datePickerDialog.show()
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-       when(buttonView)
-       {
-           binding.checkboxOtherTypesOfSurgery->
-           {
+       when(buttonView) {
+           binding.checkboxOtherTypesOfSurgery-> {
                if (isChecked) {
-
                    binding.editTextTypesOfSurgeryOther.visibility = View.VISIBLE
                    val text=binding.checkboxOtherTypesOfSurgery.text.toString()
                    sn_type_of_surgery_list.add(text)
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextTypesOfSurgeryOther.visibility = View.GONE
                }
            }
-           binding.checkboxLieberman->
-           {
+
+           binding.checkboxLieberman-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    val text= binding.checkboxLieberman.text.toString()
                    sn_cataract_lieberman=text
                    binding.editTextLieberman.visibility = View.VISIBLE
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextLieberman.visibility = View.GONE
-
                    sn_cataract_lieberman="null"
                }
            }
-           binding.checkboxCastroviejo->
-           {
+
+           binding.checkboxCastroviejo-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    val text= binding.checkboxCastroviejo.text.toString()
                    sn_cataract_castroviejo=text
                    binding.editTextCastroviejo.visibility = View.VISIBLE
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextCastroviejo.visibility = View.GONE
                    sn_cataract_castroviejo="null"
                }
            }
-           binding.checkboxColibri->
-           {
+
+           binding.checkboxColibri-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    val text= binding.checkboxColibri.text.toString()
                    sn_cataract_colibri=text
                    binding.editTextColibri.visibility = View.VISIBLE
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextColibri.visibility = View.GONE
                    sn_cataract_colibri="null"
                }
            }
-           binding.checkboxCapsulotomy->
-           {
+
+           binding.checkboxCapsulotomy-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextCapsulotomy.visibility = View.VISIBLE
                    val text= binding.checkboxCapsulotomy.text.toString()
                    sn_cataract_capsulotomy=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextCapsulotomy.visibility = View.GONE
                    sn_cataract_capsulotomy="null"
                }
            }
-           binding.checkboxLimb->
-           {
+
+           binding.checkboxLimb-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextLimb.visibility = View.VISIBLE
                    val text= binding.checkboxLimb.text.toString()
                    sn_cataract_limb=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextLimb.visibility = View.GONE
                    sn_cataract_limb="null"
                }
            }
-           binding.checkboxFormedIrrigatingCystotomes->
-           {
+
+           binding.checkboxFormedIrrigatingCystotomes-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    val text= binding.checkboxFormedIrrigatingCystotomes.text.toString()
                    sn_cataract_formed=text
                    binding.editTextFormedIrrigatingCystotomes.visibility = View.VISIBLE
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextFormedIrrigatingCystotomes.visibility = View.GONE
                    sn_cataract_formed="null"
                }
            }
-           binding.checkboxHydrodissectiirs->
-           {
+
+           binding.checkboxHydrodissectiirs-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextHydrodissectiirs.visibility = View.VISIBLE
                    val text= binding.checkboxHydrodissectiirs.text.toString()
                    sn_cataract_hydrodissectiirs=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextHydrodissectiirs.visibility = View.GONE
                    sn_cataract_hydrodissectiirs="null"
                }
            }
-           binding.checkboxMacPhersonForcep->
-           {
+
+           binding.checkboxMacPhersonForcep-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextMacPhersonForcep.visibility = View.VISIBLE
                    val text= binding.checkboxMacPhersonForcep.text.toString()
                    sn_cataract_mac=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextMacPhersonForcep.visibility = View.GONE
                    sn_cataract_mac="null"
                }
            }
-           binding.checkboxViscoelasticCannula->
-           {
+
+           binding.checkboxViscoelasticCannula-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextViscoelasticCannula.visibility = View.VISIBLE
                    val text= binding.checkboxViscoelasticCannula.text.toString()
                    sn_cataract_viscoelastic=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextViscoelasticCannula.visibility = View.GONE
                }
            }
-           binding.checkboxUniversalStSidePort->
-           {
+
+           binding.checkboxUniversalStSidePort-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextUniversalStSidePort.visibility = View.VISIBLE
                    val text= binding.checkboxUniversalStSidePort.text.toString()
                    sn_cataract_universal=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextUniversalStSidePort.visibility = View.GONE
                }
            }
-           binding.checkboxIrrigation->
-           {
+
+           binding.checkboxIrrigation-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextIrrigation.visibility = View.VISIBLE
                    val text= binding.checkboxIrrigation.text.toString()
                    sn_cataract_irrigation=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextIrrigation.visibility = View.GONE
                }
            }
-           binding.checkboxSinsky->
-           {
+
+           binding.checkboxSinsky-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextSinsky.visibility = View.VISIBLE
                    val text= binding.checkboxSinsky.text.toString()
                    sn_cataract_sinsky=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextSinsky.visibility = View.GONE
                }
            }
-           binding.checkboxKeretome3->
-           {
+
+           binding.checkboxKeretome3-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextKeretome3.visibility = View.VISIBLE
                    val text= binding.checkboxKeretome3.text.toString()
                    sn_cataract_keretome=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextKeretome3.visibility = View.GONE
                }
            }
-           binding.checkboxKeretome2->
-           {
+
+           binding.checkboxKeretome2-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextKeretome2.visibility = View.VISIBLE
                    val text= binding.checkboxKeretome2.text.toString()
                    sn_cataract_keretome_phaco=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextKeretome2.visibility = View.GONE
                }
            }
-           binding.checkboxKnife->
-           {
+
+           binding.checkboxKnife-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextKnife.visibility = View.VISIBLE
                    val text= binding.checkboxKnife.text.toString()
                    sn_cataract_knife=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextKnife.visibility = View.GONE
                }
            }
-           binding.checkboxNucleus->
-           {
+
+           binding.checkboxNucleus-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextNucleus.visibility = View.VISIBLE
                    val text= binding.checkboxNucleus.text.toString()
                    sn_cataract_nucleus=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextNucleus.visibility = View.GONE
                }
            }
-           binding.checkboxPosterior->
-           {
+
+           binding.checkboxPosterior-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextPosterior.visibility = View.VISIBLE
                    val text= binding.checkboxPosterior.text.toString()
                    sn_common_posterior_rent=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextPosterior.visibility = View.GONE
                }
            }
-           binding.checkboxLightSensitivity->
-           {
+
+           binding.checkboxLightSensitivity-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editIextLightSensitivity.visibility = View.VISIBLE
                    val text= binding.checkboxLightSensitivity.text.toString()
                    sn_common_light=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editIextLightSensitivity.visibility = View.GONE
                }
            }
-           binding.checkboxFluidCollection->
-           {
+
+           binding.checkboxFluidCollection-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextFluidCollection.visibility = View.VISIBLE
                    val text= binding.checkboxFluidCollection.text.toString()
                    sn_common_fluid=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextFluidCollection.visibility = View.GONE
                }
            }
-           binding.checkboxMacularOdema->
-           {
+
+           binding.checkboxMacularOdema-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextMacularOdema.visibility = View.VISIBLE
                    val text= binding.checkboxMacularOdema.text.toString()
                    sn_common_macular=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextMacularOdema.visibility = View.GONE
                }
            }
-           binding.checkboxPosteriorCapsularOpacification->
-           {
+
+           binding.checkboxPosteriorCapsularOpacification-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextPosteriorCapsularOpacification.visibility = View.VISIBLE
                    val text= binding.checkboxPosteriorCapsularOpacification.text.toString()
                    sn_common_posterior_opacification=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextPosteriorCapsularOpacification.visibility = View.GONE
                }
            }
-           binding.checkboxEndothelialDecompermation->
-           {
+
+           binding.checkboxEndothelialDecompermation-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextEndothelialDecompermation.visibility = View.VISIBLE
                    val text= binding.checkboxEndothelialDecompermation.text.toString()
                    sn_common_endothelial=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextEndothelialDecompermation.visibility = View.GONE
                }
            }
-           binding.checkBoxHyphema->
-           {
+
+           binding.checkBoxHyphema-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextHyphema.visibility = View.VISIBLE
                    val text= binding.checkBoxHyphema.text.toString()
                    sn_common_hyphema=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextHyphema.visibility = View.GONE
                }
            }
-           binding.checkboxRentinalTear->
-           {
+
+           binding.checkboxRentinalTear-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextRentinalTear.visibility = View.VISIBLE
                    val text= binding.checkboxRentinalTear.text.toString()
                    sn_common_retinal=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextRentinalTear.visibility = View.GONE
                }
            }
-           binding.checkboxVitreousDechatments->
-           {
+
+           binding.checkboxVitreousDechatments-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextVitreousDechatments.visibility = View.VISIBLE
                    val text= binding.checkboxVitreousDechatments.text.toString()
                    sn_common_vitreous=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextVitreousDechatments.visibility = View.GONE
                }
            }
-           binding.checkboxDislocation->
-           {
+
+           binding.checkboxDislocation-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextDislocation.visibility = View.VISIBLE
                    val text= binding.checkboxDislocation.text.toString()
                    sn_common_dislocation=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextDislocation.visibility = View.GONE
                }
            }
-           binding.checkboxOcularHypertension->
-           {
+
+           binding.checkboxOcularHypertension-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.edittextOcularHypertension.visibility = View.VISIBLE
                    val text= binding.checkboxOcularHypertension.text.toString()
                    sn_common_ocular=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextOcularHypertension.visibility = View.GONE
                }
            }
-           binding.checkboxEndophthalmitis->
-           {
+
+           binding.checkboxEndophthalmitis-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.edittextEndophthalmitis.visibility = View.VISIBLE
                    val text= binding.checkboxEndophthalmitis.text.toString()
                    sn_common_endophthalmitis=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextEndophthalmitis.visibility = View.GONE
                }
            }
-           binding.checkboxVigamox->
-           {
+
+           binding.checkboxVigamox-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.edittextVigamox.visibility = View.VISIBLE
                    val text= binding.checkboxVigamox.text.toString()
                    sn_intra_vigamox=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextVigamox.visibility = View.GONE
                }
            }
-           binding.checkboxPrednisolone->
-           {
+
+           binding.checkboxPrednisolone-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextPrednisolone.visibility = View.VISIBLE
                    val text= binding.checkboxPrednisolone.text.toString()
                    sn_intra_prednisolone=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextPrednisolone.visibility = View.GONE
                }
            }
-           binding.checkboxCombinationOfInjGentamycin->
-           {
+
+           binding.checkboxCombinationOfInjGentamycin-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextCombinationOfInjGentamycin.visibility = View.VISIBLE
                    val text= binding.checkboxCombinationOfInjGentamycin.text.toString()
                    sn_intra_combination=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextCombinationOfInjGentamycin.visibility = View.GONE
                }
            }
-           binding.checkboxVisco->
-           {
+
+           binding.checkboxVisco-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextVisco.visibility = View.VISIBLE
                    val text= binding.checkboxVisco.text.toString()
                    sn_intra_visco=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextVisco.visibility = View.GONE
                }
            }
-           binding.checkboxIntasol500->
-           {
+
+           binding.checkboxIntasol500-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextIntasol500.visibility = View.VISIBLE
                    val text= binding.checkboxIntasol500.text.toString()
                    sn_intra_intasol=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextIntasol500.visibility = View.GONE
                }
            }
-           binding.checkboxInjMannitol->
-           {
+
+           binding.checkboxInjMannitol-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextInjMannitol.visibility = View.VISIBLE
                    val text= binding.checkboxInjMannitol.text.toString()
                    sn_intra_mannitol=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextInjMannitol.visibility = View.GONE
                }
            }
-           binding.checkboxInjGentamycin->
-           {
+
+           binding.checkboxInjGentamycin-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextInjGentamycin.visibility = View.VISIBLE
                    val text= binding.checkboxInjGentamycin.text.toString()
                    sn_intra_gentamycin=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextInjGentamycin.visibility = View.GONE
                }
            }
-           binding.checkboxInjMoxifloxacin->
-           {
+
+           binding.checkboxInjMoxifloxacin-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextInjMoxifloxacin.visibility = View.VISIBLE
                    val text= binding.checkboxInjMoxifloxacin.text.toString()
                    sn_intra_moxifloxacin=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextInjMoxifloxacin.visibility = View.GONE
                }
            }
-           binding.checkboxInjAdrenaline->
-           {
+
+           binding.checkboxInjAdrenaline-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.edittextInjAdrenaline.visibility = View.VISIBLE
                    val text= binding.checkboxInjAdrenaline.text.toString()
                    sn_intra_adrenaline=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextInjAdrenaline.visibility = View.GONE
                }
            }
-           binding.checkboxTabCifloxacin->
-           {
+
+           binding.checkboxTabCifloxacin-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    sn_post_cifloxacin=binding.checkboxTabCifloxacin.text.toString()
                    binding.edittextTabCifloxacin.visibility = View.VISIBLE
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextTabCifloxacin.visibility = View.GONE
                }
            }
-           binding.checkboxTabDiclofenacSodium->
-           {
+
+           binding.checkboxTabDiclofenacSodium-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.edittextTabDiclofenacSodium.visibility = View.VISIBLE
                    val text= binding.checkboxTabDiclofenacSodium.text.toString()
                    sn_post_diclofenac=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextTabDiclofenacSodium.visibility = View.GONE
                }
            }
-           binding.checkboxTabPantaprezol->
-           {
+
+           binding.checkboxTabPantaprezol-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextTabPantaprezol.visibility = View.VISIBLE
                    val text= binding.checkboxTabPantaprezol.text.toString()
                    sn_post_pantaprezol=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextTabPantaprezol.visibility = View.GONE
                }
            }
-           binding.checkboxTabDimox->
-           {
+
+           binding.checkboxTabDimox-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextTabDimox.visibility = View.VISIBLE
                    val text= binding.checkboxTabDimox.text.toString()
                    sn_post_dimox=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextTabDimox.visibility = View.GONE
                }
            }
-           binding.checkboxEyeDropMoxifloxacin->
-           {
+
+           binding.checkboxEyeDropMoxifloxacin-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.edittextEyeDropMoxifloxacin.visibility = View.VISIBLE
                    val text= binding.checkboxEyeDropMoxifloxacin.text.toString()
                    sn_post_eye_1=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextEyeDropMoxifloxacin.visibility = View.GONE
                }
            }
-           binding.checkboxEyeDropMoxifloxacin6->
-           {
+
+           binding.checkboxEyeDropMoxifloxacin6-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.edittextEyeDropMoxifloxacin6.visibility = View.VISIBLE
                    val text= binding.checkboxEyeDropMoxifloxacin6.text.toString()
                    sn_post_eye_2=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextEyeDropMoxifloxacin6.visibility = View.GONE
                }
            }
-           binding.checkboxEyeDropMoxifloxacin4->
-           {
+
+           binding.checkboxEyeDropMoxifloxacin4-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.edittextEyeDropMoxifloxacin4.visibility = View.VISIBLE
                    val text= binding.checkboxEyeDropMoxifloxacin4.text.toString()
                    sn_post_eye_3=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextEyeDropMoxifloxacin4.visibility = View.GONE
                }
            }
-           binding.checkboxEyeDropMoxifloxacin2times->
-           {
+
+           binding.checkboxEyeDropMoxifloxacin2times-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.edittextEyeDropMoxifloxacin2times.visibility = View.VISIBLE
                    val text= binding.checkboxEyeDropMoxifloxacin2times.text.toString()
                    sn_post_eye_4=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextEyeDropMoxifloxacin2times.visibility = View.GONE
                }
            }
-           binding.checkboxEyeDropMoxifloxacin5w->
-           {
+
+           binding.checkboxEyeDropMoxifloxacin5w-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.edittextEyeDropMoxifloxacin5w.visibility = View.VISIBLE
                    val text= binding.checkboxEyeDropMoxifloxacin5w.text.toString()
                    sn_post_eye_5=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextEyeDropMoxifloxacin5w.visibility = View.GONE
                }
            }
-           binding.checkboxEyeDropMoxifloxacinP->
-           {
+
+           binding.checkboxEyeDropMoxifloxacinP-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.edittextEyeDropMoxifloxacinP.visibility = View.VISIBLE
                    val text= binding.checkboxEyeDropMoxifloxacinP.text.toString()
                    sn_post_eye_moxifloxacin=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextEyeDropMoxifloxacinP.visibility = View.GONE
                }
            }
-           binding.checkboxEyeDropHomide->
-           {
+
+           binding.checkboxEyeDropHomide-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.edittextEyeDropHomide.visibility = View.VISIBLE
                    val text= binding.checkboxEyeDropHomide.text.toString()
                    sn_post_eye_homide=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextEyeDropHomide.visibility = View.GONE
                }
            }
-           binding.checkboxEyeDropTimololSos->
-           {
+
+           binding.checkboxEyeDropTimololSos-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.edittextEyeDropTimololSos.visibility = View.VISIBLE
                    val text= binding.checkboxEyeDropTimololSos.text.toString()
                    sn_post_eye_timolol=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.edittextEyeDropTimololSos.visibility = View.GONE
                }
            }
-           binding.checkboxEyeDropHypersolSos->
-           {
+
+           binding.checkboxEyeDropHypersolSos-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextEyeDropHypersolSos.visibility = View.VISIBLE
                    val text= binding.checkboxEyeDropHypersolSos.text.toString()
                    sn_post_eye_hypersol=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextEyeDropHypersolSos.visibility = View.GONE
                }
            }
-           binding.checkboxLubricantDropRefresh->
-           {
+
+           binding.checkboxLubricantDropRefresh-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextLubricantDropRefresh.visibility = View.VISIBLE
                    val text= binding.checkboxLubricantDropRefresh.text.toString()
                    sn_post_eye_lubricant=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextLubricantDropRefresh.visibility = View.GONE
                }
            }
-           binding.checkboxWheatherEuipmentAddressed->
-           {
+
+           binding.checkboxWheatherEuipmentAddressed-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextWheatherEuipmentAddressed.visibility = View.VISIBLE
                    val text= binding.checkboxWheatherEuipmentAddressed.text.toString()
                    sn_before_or_weather=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextWheatherEuipmentAddressed.visibility = View.GONE
                }
            }
-           binding.checkboxKeyConcerns->
-           {
+
+           binding.checkboxKeyConcerns-> {
                if (isChecked) {
-                   // CheckBox is checked
-                   // Make EditText visible
                    binding.editTextKeyConcerns.visibility = View.VISIBLE
                    val text= binding.checkboxKeyConcerns.text.toString()
                    sn_before_or_key=text
                } else {
-                   // CheckBox is unchecked
-                   // Make EditText gone
                    binding.editTextKeyConcerns.visibility = View.GONE
                }
            }
-           binding.CheckBoxContinued->
-           {
-               if (isChecked)
-               {
+
+           binding.CheckBoxContinued-> {
+               if (isChecked) {
                    updateSelectedOptions()
                }
            }
-           binding.CheckBoxStoppedAsInstructed->
-           {
-               if (isChecked)
-               {
+
+           binding.CheckBoxStoppedAsInstructed-> {
+               if (isChecked) {
                    updateSelectedOptions()
                }
            }
-           binding.checkboxBeforeIncision->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxBeforeIncision-> {
+               if (isChecked) {
                    sn_before_incision_all_team=binding.checkboxBeforeIncision.text.toString()
-               }
-               else
-               {
+               } else {
                    sn_before_incision_all_team=""
                }
            }
-           binding.checkboxSNOrallyConfirmAntibiotic->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxSNOrallyConfirmAntibiotic-> {
+               if (isChecked) {
                    selectedSurgenAndNurseOrallyConfirmList.add(binding.checkboxSNOrallyConfirmAntibiotic.text.toString())
                }
            }
-           binding.checkboxSNOrallyConfirmImplants->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxSNOrallyConfirmImplants-> {
+               if (isChecked) {
                    selectedSurgenAndNurseOrallyConfirmList.add(binding.checkboxSNOrallyConfirmImplants.text.toString())
                }
            }
-           binding.checkboxSNOrallyConfirmDyes->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxSNOrallyConfirmDyes-> {
+               if (isChecked) {
                    selectedSurgenAndNurseOrallyConfirmList.add(binding.checkboxSNOrallyConfirmDyes.text.toString())
                }
            }
-           binding.checkboxSNOrallyConfirmGas->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxSNOrallyConfirmGas-> {
+               if (isChecked) {
                    selectedSurgenAndNurseOrallyConfirmList.add(binding.checkboxSNOrallyConfirmGas.text.toString())
                }
            }
-           binding.checkboxSNOrallyConfirmImplantsStyle->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxSNOrallyConfirmImplantsStyle-> {
+               if (isChecked) {
                    selectedSurgenAndNurseOrallyConfirmList.add(binding.checkboxSNOrallyConfirmImplantsStyle.text.toString())
                }
            }
-           binding.checkboxSNOrallyConfirmMitomycin->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxSNOrallyConfirmMitomycin-> {
+               if (isChecked) {
                    selectedSurgenAndNurseOrallyConfirmList.add(binding.checkboxSNOrallyConfirmMitomycin.text.toString())
                }
            }
-           binding.checkboxAcIol->
-           {
-               if(isChecked)
-               {
+
+           binding.checkboxAcIol-> {
+               if(isChecked) {
                    val text=binding.checkboxAcIol.text.toString()
                    Log.d(ConstantsApp.TAG,"checkboxAcIol=>"+text)
                    sn_intra_occular_lensArrayList.add(text)
                }
            }
-           binding.checkboxPcIol->
-           {
-               if(isChecked)
-               {
+
+           binding.checkboxPcIol-> {
+               if(isChecked) {
                    val text=binding.checkboxPcIol.text.toString()
                    sn_intra_occular_lensArrayList.add(text)
                }
            }
-           binding.checkboxIRIS->
-           {
-               if(isChecked)
-               {
+
+           binding.checkboxIRIS-> {
+               if(isChecked) {
                    val text=binding.checkboxIRIS.text.toString()
                    sn_intra_occular_lensArrayList.add(text)
                }
            }
-           binding.checkboxSmallIncisionCataractSurgeryWithIOL->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxSmallIncisionCataractSurgeryWithIOL-> {
+               if (isChecked) {
                    val text=binding.checkboxSmallIncisionCataractSurgeryWithIOL.text.toString()
                    sn_type_of_surgery_list.add(text)
                }
            }
-           binding.checkboxSmallIncisionCataractSurgeryWithoutIOL->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxSmallIncisionCataractSurgeryWithoutIOL-> {
+               if (isChecked) {
                    val text=binding.checkboxSmallIncisionCataractSurgeryWithoutIOL.text.toString()
                    sn_type_of_surgery_list.add(text)
-               }
-               else{
+               } else{
                    sn_type_of_surgery_list.add("null")
                }
            }
-           binding.checkboxExtracapsularCataractExtraction->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxExtracapsularCataractExtraction-> {
+               if (isChecked) {
                    val text=binding.checkboxExtracapsularCataractExtraction.text.toString()
                    sn_type_of_surgery_list.add(text)
                }
            }
-           binding.checkboxIntracapsularCataractExcisionr->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxIntracapsularCataractExcisionr-> {
+               if (isChecked) {
                    val text=binding.checkboxIntracapsularCataractExcisionr.text.toString()
                    sn_type_of_surgery_list.add(text)
                }
            }
-           binding.checkboxPterygium->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxPterygium-> {
+               if (isChecked) {
                    val text=binding.checkboxPterygium.text.toString()
                    sn_type_of_surgery_list.add(text)
                }
            }
-           binding.checkboxStyExcision->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxStyExcision-> {
+               if (isChecked) {
                    val text=binding.checkboxStyExcision.text.toString()
                    sn_type_of_surgery_list.add(text)
                }
            }
-           binding.checkboxSurgery->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxSurgery-> {
+               if (isChecked) {
                    val text=binding.checkboxSurgery.text.toString()
                    sn_type_of_surgery_list.add(text)
                }
            }
-           binding.checkboxPtosisCorrection->
-           {
-               if (isChecked)
-               {
+
+           binding.checkboxPtosisCorrection-> {
+               if (isChecked) {
                    val text=binding.checkboxPtosisCorrection.text.toString()
                    sn_type_of_surgery_list.add(text)
                }
@@ -2465,7 +2116,6 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
         }
     }
 
-
     override fun onBackPressed() {
         super.onBackPressed()
         gotoScreen(this,PatientForms::class.java)
@@ -2477,13 +2127,10 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
         finish()
     }
 
-
     private fun createTextWatcher(editText: EditText): TextWatcher? {
-        return object : TextWatcher
-        {
+        return object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 val text = s.toString()
-                // Here, you can identify which EditText has changed by checking the ID or some other criteria
                 when (editText) {
                     binding.editTextNRDiastolic -> {
                         setBloodPressure()
@@ -2496,7 +2143,6 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val text = s.toString()
-                // Here, you can identify which EditText has changed by checking the ID or some other criteria
                 when (editText) {
                     binding.editTextNRDiastolic -> {
                         setBloodPressure()
@@ -2510,7 +2156,6 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
 
             override fun afterTextChanged(s: Editable?) {
                 val text = s.toString()
-                // Here, you can identify which EditText has changed by checking the ID or some other criteria
                 when (editText) {
                     binding.editTextNRDiastolic -> {
                         setBloodPressure()
@@ -2524,8 +2169,7 @@ class SurgicalNotesActivity:AppCompatActivity(), View.OnClickListener,
         }
     }
 
-    private fun setBloodPressure()
-    {
+    private fun setBloodPressure() {
         val systolic = binding.editTextNRSystolic.text.toString().toIntOrNull() ?: 0
         val diastolic = binding.editTextNRDiastolic.text.toString().toIntOrNull() ?: 0
         val bloodPressureInfo = getBloodPressureType(systolic, diastolic)

@@ -66,19 +66,16 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
 
     lateinit var binding:ActivityEyePreOpInvestigationsBinding
     lateinit var customDropDownAdapter: CustomDropDownAdapter
-
     var ConclusionArrayList:ArrayList<String>?=null
     var UnitArrayList:ArrayList<String>?=null
     var IOLPowerArrayList:ArrayList<String>?=null
     var SlitLampEyeArrayList:ArrayList<String>?=null
     var SlitLampLocationArrayList:ArrayList<String>?=null
     var AddSliteLampArrayList:ArrayList<AddSymptomsModel>?=null
-
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
-
     var patientAge:String?=null
     var patientGender:String?=null
 
@@ -88,21 +85,16 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
     }
@@ -113,9 +105,7 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
         binding.toolbarEyePreOPInvestigation.toolbar.title="Eye Pre-Op Investigations"
         getViewModel()
         createRoomDatabase()
-
         initView()
-
         init()
     }
 
@@ -123,14 +113,11 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
         val LLE_MedDocketRespository= LLE_MedDocketRespository()
         val LLE_MedDocketProviderFactory= LLE_MedDocketProviderFactory(LLE_MedDocketRespository,application)
         viewModel= ViewModelProvider(this,LLE_MedDocketProviderFactory).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
         }
-
         sessionManager= SessionManager(this)
-
     }
 
     private fun createRoomDatabase() {
@@ -159,12 +146,10 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
         val FinalPrescriptionDrugDAO: FinalPrescriptionDrugDAO =database.FinalPrescriptionDrugDAO()
 
         val repository = LLE_MedDocket_Repository(Vital_DAO, VisualAcuity_DAO, Refractive_Error_DAO, OPD_Investigations_DAO, Eye_Pre_Op_Notes_DAO, Eye_Pre_Op_Investigation_DAO, Eye_Post_Op_AND_Follow_ups_DAO, Eye_OPD_Doctors_Note_DAO, Cataract_Surgery_Notes_DAO, Patient_DAO,Image_Upload_DAO,Registration_DAO,Prescription_DAO,Final_Prescription_DAO,SpectacleDisdributionStatus_DAO,SynTable_DAO,CurrentInventory_DAO,InventoryUnit_DAO,CreatePrescriptionDAO,Image_Prescription_DAO,FinalPrescriptionDrugDAO,database)
-
         viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(LLE_MedDocket_ViewModel::class.java)
     }
 
-    private fun init()
-    {
+    private fun init() {
         ConclusionArrayList= ArrayList()
         ConclusionArrayList!!.add("Select")
         ConclusionArrayList!!.add("Negative")
@@ -273,52 +258,37 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
         binding.RecyclerViewSliteLamp.visibility=View.GONE
         binding.LinearLayoutSlitLampRecycleview.visibility=View.GONE
 
-
         customDropDownAdapter=CustomDropDownAdapter(this,ConclusionArrayList!!)
         binding.SpinnerHIV.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,ConclusionArrayList!!)
         binding.SpinnerHBsAg.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,ConclusionArrayList!!)
         binding.SpinnerHCV.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,UnitArrayList!!)
         binding.SpinnerHorizontalAxisRightEye.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,UnitArrayList!!)
         binding.SpinnerHorizontalAxisLeftEye.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,UnitArrayList!!)
         binding.SpinnerVerticalAxisRightEye.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,UnitArrayList!!)
         binding.SpinnerVerticalAxisLeftEye.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,UnitArrayList!!)
         binding.SpinnerAverageValueRightEye.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,UnitArrayList!!)
         binding.SpinnerAverageValueLeftEye.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,IOLPowerArrayList!!)
         binding.spinnerIOLPower.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,SlitLampEyeArrayList!!)
         binding.SpinnerSliteLampEye.adapter=customDropDownAdapter
-
         customDropDownAdapter=CustomDropDownAdapter(this,SlitLampLocationArrayList!!)
         binding.SpinnerSliteLampLocation.adapter=customDropDownAdapter
-
         binding.cardViewAdd.setOnClickListener(this)
         binding.cardViewEyePreOpInvestigationsSubmit.setOnClickListener(this)
-
 
         binding.EditTextHaemoglobin.addTextChangedListener(createTextWatcher(binding.EditTextHaemoglobin))
         binding.EditTextBPDiastolic.addTextChangedListener(createTextWatcher(binding.EditTextBPDiastolic))
 
-        binding.SpinnerSliteLampLocation.onItemSelectedListener=object:AdapterView.OnItemSelectedListener
-        {
+        binding.SpinnerSliteLampLocation.onItemSelectedListener=object:AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -331,16 +301,12 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
-
     }
 
     override fun onClick(v: View?) {
-        when(v)
-        {
-            binding.cardViewAdd->
-            {
+        when(v) {
+            binding.cardViewAdd-> {
                 var selected_eye=binding.SpinnerSliteLampEye.selectedItem.toString()
                 var selected_eye_location=binding.SpinnerSliteLampLocation.selectedItem.toString()
                 var selected_location_details=binding.EditTextSliteLampLocationDetails.text.toString()
@@ -350,61 +316,47 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
                     "Others" -> other_selected_location_details
                     else -> selected_location_details
                 }
-
                 add_SliteLamp(selected_eye!!,selected_eye_location,resultDetails)
             }
-            binding.cardViewEyePreOpInvestigationsSubmit->
-            {
+
+            binding.cardViewEyePreOpInvestigationsSubmit-> {
                 val (patientId, campId, userId) = ConstantsApp.extractPatientAndLoginData(sessionManager)
                 val current_Date= ConstantsApp.getCurrentDate()
                 val opd_eye_blood_pressure_diastolic=binding.EditTextBPDiastolic.text.toString()
                 val opd_eye_blood_pressure_systolic=binding.EditTextBPSystolic.text.toString()
                 val opd_eye_blood_pressure_interpretation=binding.TextViewBPInterpretation.text.toString()
-
                 val opd_eye_blood_sugar_fasting=binding.EditTextBSF.text.toString()
                 val opd_eye_blood_sugar_interpretation=binding.TextViewSugarInterpretation.text.toString()
                 val opd_eye_blood_sugar_pp=binding.EditTextPP.text.toString()
-
                 val opd_eye_haemoglobin=binding.EditTextHaemoglobin.text.toString()
                 val opd_eye_haemoglobin_interpretation=binding.textViewHBInterpretation.text.toString()
-
                 val opd_eye_cbc=binding.EditTextCBC.text.toString()
                 val opd_eye_pt=binding.EditTextProthrombinTime.text.toString()
                 val opd_eye_bt=binding.EditTextBleedingTime.text.toString()
-
                 val opd_eye_hiv=binding.SpinnerHIV.selectedItem.toString()
                 val opd_eye_hbsag=binding.SpinnerHBsAg.selectedItem.toString()
                 val opd_eye_hcv=binding.SpinnerHCV.selectedItem.toString()
                 val opd_eye_ecg=binding.EditTextECG.text.toString()
                 val opd_eye_iop_left=binding.EditTextIOPLeftEye.text.toString()
                 val opd_eye_iop_right=binding.EditTextIOPRightEye.text.toString()
-
                 val opd_eye_ha_left=binding.EditTextHorizontalAxisRightEye.text.toString()
                 val opd_eye_ha_left_unit=binding.SpinnerHorizontalAxisRightEye.selectedItem.toString()
                 val opd_eye_ha_right=binding.EditTextHorizontalAxisLeftEye.text.toString()
                 val opd_eye_ha_right_unit=binding.SpinnerHorizontalAxisLeftEye.selectedItem.toString()
-
                 val opd_eye_va_left=binding.EditTextVerticalAxisLeftEye.text.toString()
                 val opd_eye_va_left_unit=binding.SpinnerVerticalAxisLeftEye.selectedItem.toString()
                 val opd_eye_va_right=binding.EditTextVerticalAxisRightEye.text.toString()
                 val opd_eye_va_right_unit=binding.SpinnerVerticalAxisRightEye.selectedItem.toString()
-
                 val opd_eye_av_left=binding.EditTextAverageValueLeftEye.text.toString()
                 val opd_eye_av_left_unit=binding.SpinnerAverageValueLeftEye.selectedItem.toString()
                 val opd_eye_av_right=binding.EditTextAverageValueRightEye.text.toString()
                 val opd_eye_av_right_unit=binding.SpinnerAverageValueRightEye.selectedItem.toString()
-
-
-                //
                 val opd_eye_fa_left=binding.EditTextAScan1ValueLeftEye.text.toString()
                 val opd_eye_fa_right=binding.EditTextAScan1ValueRightEye.text.toString()
-
                 val opd_eye_sv_left=binding.EditTextAScan2ValueLeftEye.text.toString()
                 val opd_eye_sv_right=binding.EditTextAScan2ValueRightEye.text.toString()
-
                 val opd_eye_tv_left=binding.EditTextAScan3ValueLeftEye.text.toString()
                 val opd_eye_tv_right=binding.EditTextAScan3ValueRightEye.text.toString()
-
                 val opd_eye_mv_left=binding.EditTextAScanMedianValueLeftEye.text.toString()
                 val opd_eye_mv_right=binding.EditTextAScanMedianValueRightEye.text.toString()
                 val opd_eye_iol_power=binding.spinnerIOLPower.selectedItem.toString()
@@ -413,18 +365,12 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
                 val formattedStringSymptoms = AddSliteLampArrayList!!.joinToString { model ->
                     "${model.selected_symptoms} = ${model.selected_eye}"
                 }
-
                 val opd_eye_slit_location = "{$formattedStringSymptoms}"
 
                 val formattedStringSymptomsDetails = AddSliteLampArrayList!!.joinToString { model ->
                     "${model.selected_symptoms} = ${model.selected_eye_symptoms_details}"
                 }
-
                 val opd_eye_slit_location_description = "{$formattedStringSymptomsDetails}"
-
-
-
-
 
                 SubmitEyePreOPInvestigations(
                     campId!!,
@@ -473,28 +419,23 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
                     patientId!!,
                     userId!!
                 )
-
             }
         }
     }
 
     private fun SubmitEyePreOPInvestigations(
-
         camp_id: Int,
         createdDate: String,
         opd_eye_av_left: String,
         opd_eye_av_left_unit: String,
         opd_eye_av_right: String,
         opd_eye_av_right_unit: String,
-
         opd_eye_blood_pressure_diastolic: String,
         opd_eye_blood_pressure_interpretation: String,
         opd_eye_blood_pressure_systolic: String,
-
         opd_eye_blood_sugar_fasting: String,
         opd_eye_blood_sugar_interpretation: String,
         opd_eye_blood_sugar_pp: String,
-
         opd_eye_bt: String,
         opd_eye_ct: String,
         opd_eye_cbc: String,
@@ -505,10 +446,8 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
         opd_eye_ha_left_unit: String,
         opd_eye_ha_right: String,
         opd_eye_ha_right_unit: String,
-
         opd_eye_haemoglobin: String,
         opd_eye_haemoglobin_interpretation: String,
-
         opd_eye_hbsag: String,
         opd_eye_hcv: String,
         opd_eye_hiv: String,
@@ -579,10 +518,8 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
         )
 
         Log.d("pawan", "insert pre op investigation ${eyePreOpInvestigation}")
-
         viewModel1.insertEyePre_OP_Investigations(eyePreOpInvestigation)
         InsertEyePre_OP_InvestigationsResponse()
-
     }
 
     private fun InsertEyePre_OP_InvestigationsResponse() {
@@ -594,7 +531,6 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
     }
 
     private fun add_SliteLamp(selectedEye: String, selectedEyeLocation: String, selectedLocationDetails: String) {
-
         if (selectedEye == "Select Eye") {
             showToast("Please select eye")
         }
@@ -604,9 +540,7 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
             val isSymptomExists = AddSliteLampArrayList?.any {
                 it.selected_symptoms == selectedEyeLocation
             } ?: false
-
             if (isSymptomExists) {
-                //showToast("Symptom already selected")
                 val existingIndex = AddSliteLampArrayList?.indexOfFirst {
                     it.selected_symptoms == selectedEyeLocation
                 } ?: -1
@@ -617,20 +551,16 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
                     addNewSliteLamp(selectedEye, selectedEyeLocation, selectedLocationDetails,binding.RecyclerViewSliteLamp,AddSliteLampArrayList!!,binding.LinearLayoutSlitLampRecycleview)
                 }
             } else {
-
                 addNewSliteLamp(selectedEye, selectedEyeLocation, selectedLocationDetails,binding.RecyclerViewSliteLamp,AddSliteLampArrayList!!,binding.LinearLayoutSlitLampRecycleview)
-
             }
         }
-
     }
-
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-    private fun addNewSliteLamp(selected_eye: String, selected_symptoms: String, selected_eye_symptoms_details: String, recyclerView: RecyclerView, arrayList:ArrayList<AddSymptomsModel>, layout: LinearLayout) {
 
+    private fun addNewSliteLamp(selected_eye: String, selected_symptoms: String, selected_eye_symptoms_details: String, recyclerView: RecyclerView, arrayList:ArrayList<AddSymptomsModel>, layout: LinearLayout) {
         recyclerView.visibility=View.VISIBLE
         layout.visibility=View.VISIBLE
         arrayList?.add(
@@ -640,8 +570,7 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
                 selected_eye_symptoms_details
             )
         )
-        recyclerView.adapter =
-            Add_AddSymptomsArrayList_Adapter(this, arrayList!!)
+        recyclerView.adapter = Add_AddSymptomsArrayList_Adapter(this, arrayList!!)
 
         val dayWisePosition = ( binding.SpinnerSliteLampEye.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf("Select Eye")
         binding.SpinnerSliteLampEye.setSelection(dayWisePosition!!)
@@ -654,7 +583,6 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
     private fun updateSliteLamp(index: Int, selected_eye: String, selected_symptoms: String, selected_eye_symptoms_details: String,recyclerView: RecyclerView,arrayList:ArrayList<AddSymptomsModel>,layout: LinearLayout) {
         recyclerView.visibility=View.VISIBLE
         layout.visibility=View.VISIBLE
-
         arrayList?.get(index)?.let { existingItem ->
             val updatedItem = existingItem.copy(
                 selected_eye = selected_eye,
@@ -662,12 +590,9 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
                 selected_eye_symptoms_details = selected_eye_symptoms_details
             )
 
-            // Replace the old instance with the updated one
             arrayList?.set(index, updatedItem)
 
-            // Notify the adapter that the data has changed
             recyclerView.adapter?.notifyItemChanged(index)
-
 
             val dayWisePosition = ( binding.SpinnerSliteLampEye.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf("Select Eye")
             binding.SpinnerSliteLampEye.setSelection(dayWisePosition!!)
@@ -675,7 +600,6 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
             val dayWisePosition1 = ( binding.SpinnerSliteLampLocation.adapter as? CustomDropDownAdapter)?.dataSource?.indexOf("Select Location")
             binding.SpinnerSliteLampLocation.setSelection(dayWisePosition1!!)
             binding.EditTextSliteLampLocationDetails.setText(null)
-            //showToast("Symptom data updated")
         }
     }
 
@@ -687,16 +611,11 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
     }
 
     private fun createTextWatcher(editText: EditText): TextWatcher? {
-
-        return object : TextWatcher
-        {
+        return object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 val text = s.toString()
-                // Here, you can identify which EditText has changed by checking the ID or some other criteria
                 when (editText) {
-
                     binding.EditTextHaemoglobin -> {
-
                         val decodedText=sessionManager.getPatientData()
                         val gson = Gson()
                         val patientData = gson.fromJson(decodedText, PatientData::class.java)
@@ -705,57 +624,42 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
 
                         val hb=binding.EditTextHaemoglobin.text.toString()
                         interpretHemoglobin(hb, patientGender!!,patientAge!!)
-
                     }
-                    binding.EditTextBPDiastolic->
-                    {
+
+                    binding.EditTextBPDiastolic-> {
                         setBloodPressure()
                     }
-                    // Add more cases if needed
                 }
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val text = s.toString()
-                // Here, you can identify which EditText has changed by checking the ID or some other criteria
                 when (editText) {
-
                     binding.EditTextHaemoglobin -> {
-
                         val hb=binding.EditTextHaemoglobin.text.toString()
                         interpretHemoglobin(hb, patientGender!!,patientAge!!)
-
                     }
-                    binding.EditTextBPDiastolic->
-                    {
+
+                    binding.EditTextBPDiastolic-> {
                         setBloodPressure()
                     }
-                    // Add more cases if needed
                 }
             }
 
             override fun afterTextChanged(s: Editable?) {
-
-
                 val text = s.toString()
-                // Here, you can identify which EditText has changed by checking the ID or some other criteria
                 when (editText) {
-
                     binding.EditTextHaemoglobin -> {
                         val hb=binding.EditTextHaemoglobin.text.toString()
                         interpretHemoglobin(hb, patientGender!!,patientAge!!)
-
                     }
-                    binding.EditTextBPDiastolic->
-                    {
+
+                    binding.EditTextBPDiastolic-> {
                         setBloodPressure()
                     }
-                    // Add more cases if needed
                 }
             }
-
         }
-
     }
 
     private fun interpretHemoglobin(input: String, gender: String, ageInput: String) {
@@ -769,17 +673,12 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
                     gender == "Female" -> interpretFemaleHemoglobin(it, a)
                     else -> "Not Defined"
                 }
-
-                // Set interpretation text and color in the TextView
                 binding.textViewHBInterpretation.text = interpretation
                 setColorBasedOnHBInterpretation(interpretation)
-
             } ?: run {
-                // If age input is empty, clear the TextView
                 binding.textViewHBInterpretation.text = ""
             }
         } ?: run {
-            // If hemoglobin input is empty, clear the TextView
             binding.textViewHBInterpretation.text = ""
         }
     }
@@ -822,9 +721,7 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
                     || interpretation.contains("Normal", ignoreCase = true) -> Color.BLACK
             else -> Color.BLACK
         }
-
         binding.textViewHBInterpretation.setTextColor(color)
-
     }
 
     private fun handleSpinnerSelection(
@@ -832,10 +729,7 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
         layout: LinearLayout,
         editText:EditText
     ) {
-
         val selectedValue = spinner.selectedItem.toString()
-
-        // Check if the selected value is "Others"
         if (selectedValue == "Others") {
             layout.visibility = View.VISIBLE
             editText.visibility=View.GONE
@@ -845,13 +739,11 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun setBloodPressure()
-    {
+    private fun setBloodPressure() {
         val systolic = binding.EditTextBPSystolic.text.toString().toIntOrNull() ?: 0
         val diastolic = binding.EditTextBPDiastolic.text.toString().toIntOrNull() ?: 0
 
         val bloodPressureInfo = getBloodPressureType(systolic, diastolic)
-        // binding.tvInterpretationBP.text = "Blood Pressure Type: ${bloodPressureInfo.first}"
         binding.TextViewBPInterpretation.text = "${bloodPressureInfo.first}"
         binding.TextViewBPInterpretation.setTextColor(ContextCompat.getColor(this, bloodPressureInfo.second))
     }
@@ -868,11 +760,11 @@ class EyePreOPInvestigationsActivity:AppCompatActivity(), View.OnClickListener {
         }
     }
 
-
     override fun onBackPressed() {
         super.onBackPressed()
         gotoScreen(this,PatientForms::class.java)
     }
+
     fun gotoScreen(context: Context?, cls: Class<*>?) {
         val intent = Intent(context, cls)
         startActivity(intent)

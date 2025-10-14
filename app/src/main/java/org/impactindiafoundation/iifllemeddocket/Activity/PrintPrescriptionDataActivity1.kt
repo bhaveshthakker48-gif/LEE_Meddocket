@@ -69,49 +69,36 @@ import java.util.Locale
 class PrintPrescriptionDataActivity1 : AppCompatActivity(), View.OnClickListener {
 
     lateinit var binding: ActivityRecycleviewOnlyBinding
-
     var prescriptionDataList: ArrayList<CreatePrescriptionModel>? = null
-
     lateinit var adapter: AdapterPrescriptionData1
-
     private lateinit var printManager: PrintManager
-
     lateinit var sessionManager: SessionManager
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     var patient_id = ""
-
     private val GALLERY: Int = 1
     private var CAMERA: Int = 2
-
     var filePath: String? = null
-
     var UpdatedfilePath: String = ""
     private var patientData: PatientData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRecycleviewOnlyBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
 
@@ -121,8 +108,8 @@ class PrintPrescriptionDataActivity1 : AppCompatActivity(), View.OnClickListener
         prescriptionDataList = ArrayList()
         printManager = getSystemService(Context.PRINT_SERVICE) as PrintManager
         sessionManager = SessionManager(this)
-        val decodedText = sessionManager.getPatientData()
 
+        val decodedText = sessionManager.getPatientData()
         val gson = Gson()
         patientData = gson.fromJson(decodedText, PatientData::class.java)
         patient_id = patientData!!.patientId.toString()
@@ -153,7 +140,6 @@ class PrintPrescriptionDataActivity1 : AppCompatActivity(), View.OnClickListener
             this,
             LLE_MedDocketProviderFactory
         ).get(LLE_MedDocketViewModel::class.java)
-
         progressDialog = ProgressDialog(this).apply {
             setCancelable(false)
             setMessage(getString(R.string.please_wait))
@@ -169,21 +155,17 @@ class PrintPrescriptionDataActivity1 : AppCompatActivity(), View.OnClickListener
         val Refractive_Error_DAO: Refractive_Error_DAO = database.Refractive_Error_DAO()
         val OPD_Investigations_DAO: OPD_Investigations_DAO = database.OPD_Investigations_DAO()
         val Eye_Pre_Op_Notes_DAO: Eye_Pre_Op_Notes_DAO = database.Eye_Pre_Op_Notes_DAO()
-        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO =
-            database.Eye_Pre_Op_Investigation_DAO()
-        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO =
-            database.Eye_Post_Op_AND_Follow_ups_DAO()
+        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO = database.Eye_Pre_Op_Investigation_DAO()
+        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO = database.Eye_Post_Op_AND_Follow_ups_DAO()
         val Eye_OPD_Doctors_Note_DAO: Eye_OPD_Doctors_Note_DAO = database.Eye_OPD_Doctors_Note_DAO()
-        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO =
-            database.Cataract_Surgery_Notes_DAO()
+        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO = database.Cataract_Surgery_Notes_DAO()
         val Patient_DAO: PatientDao = database.PatientDao()
         val Image_Upload_DAO: Image_Upload_DAO = database.Image_Upload_DAO()
         val Registration_DAO: Registration_DAO = database.Registration_DAO()
         val Prescription_DAO: Prescription_DAO = database.Prescription_DAO()
         val SynTable_DAO: SynTable_DAO = database.SynTable_DAO()
         val Final_Prescription_DAO: Final_Prescription_DAO = database.Final_Prescription_DAO()
-        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO =
-            database.SpectacleDisdributionStatus_DAO()
+        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO = database.SpectacleDisdributionStatus_DAO()
         val CurrentInventory_DAO: CurrentInventory_DAO = database.CurrentInventory_DAO()
         val InventoryUnit_DAO: InventoryUnit_DAO = database.InventoryUnit_DAO()
         val CreatePrescriptionDAO: CreatePrescriptionDAO = database.CreatePrescriptionDAO()
@@ -222,12 +204,9 @@ class PrintPrescriptionDataActivity1 : AppCompatActivity(), View.OnClickListener
 
     private fun printDocument() {
         val decodedText = sessionManager.getPatientData()
-
         val gson = Gson()
         val patientData = gson.fromJson(decodedText, PatientData::class.java)
         val patientData1 = gson.fromJson(decodedText, PatientDataLocal::class.java)
-
-        // Access the values
         val patientFname = patientData.patientFname
         val patientLname = patientData.patientLname
         val patientAge = patientData.patientAge
@@ -242,13 +221,7 @@ class PrintPrescriptionDataActivity1 : AppCompatActivity(), View.OnClickListener
 
         val jobName = getString(R.string.app_name) + " Document"
 
-        val printAdapter = CustomPrintDocumentAdapter7(
-            this,
-            binding.RecyclerViewPrescription,
-            camp,
-            patientName,
-            genderAge
-        )
+        val printAdapter = CustomPrintDocumentAdapter7(this, binding.RecyclerViewPrescription, camp, patientName, genderAge)
         printManager.print(jobName, printAdapter, null)
 
         val headerData = HeaderData(camp, patientName, genderAge)
@@ -259,10 +232,7 @@ class PrintPrescriptionDataActivity1 : AppCompatActivity(), View.OnClickListener
     override fun onClick(v: View?) {
         when (v) {
             binding.submitPrescription -> {
-                val intent = Intent(
-                    this,
-                    PrescriptionDrugScreenShotActivity::class.java
-                )
+                val intent = Intent(this, PrescriptionDrugScreenShotActivity::class.java)
                 startActivity(intent)
                 finish()
             }
@@ -321,12 +291,7 @@ class PrintPrescriptionDataActivity1 : AppCompatActivity(), View.OnClickListener
 
     override fun onBackPressed() {
         super.onBackPressed()
-
-        val intent = Intent(
-            this,
-            PharmaMainActivity::class.java
-        )
-
+        val intent = Intent(this, PharmaMainActivity::class.java)
         startActivity(intent)
         finish()
     }

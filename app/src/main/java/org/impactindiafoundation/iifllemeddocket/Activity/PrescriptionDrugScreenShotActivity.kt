@@ -75,27 +75,17 @@ import java.util.Locale
 class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var binding: ActivityPrescriptionDrugScreenshotBinding
-
     lateinit var sessionManager: SessionManager
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
-
-
     private var selectedImageView: ImageView? = null
-
     var patient_id = ""
-
     private val GALLERY: Int = 1
     private var CAMERA: Int = 2
-
     var filePath: String? = null
-
-    var UpdatedfilePath: String = ""
-    var UpdatedfilePath1: String = ""
     var UpdatedfilePathFront: String = ""
     var UpdatedfilePathBack: String = ""
-
     private var frontImage: String = ""
     private var backImage: String = ""
     private var clickedId = 0
@@ -106,21 +96,16 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
 
@@ -128,6 +113,7 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
             clickedId = it.id
             clickImage()
         }
+
         binding.ImageViewScreenshotBack.setOnClickListener {
             clickedId = it.id
             clickImage()
@@ -136,7 +122,9 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
 
     override fun onResume() {
         super.onResume()
+
         binding.toolbarPrescriptionScreenshot.toolbar.title = "Prescription Screenshot"
+
         getViewModel()
         createRoomDatabase()
 
@@ -151,10 +139,7 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
                 Log.d(ConstantsApp.TAG, "UpdatedfilePathBack=>" + UpdatedfilePathBack)
                 SaveDataLocal(frontImage, backImage)
                 Utility.successToast(this@PrescriptionDrugScreenShotActivity,"Data Submitted Successfully")
-                val intent = Intent(
-                    this,
-                    PharmaMainActivity::class.java
-                )
+                val intent = Intent(this, PharmaMainActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
@@ -165,8 +150,7 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
 
     private fun getViewModel() {
         val LLE_MedDocketRespository = LLE_MedDocketRespository()
-        val LLE_MedDocketProviderFactory =
-            LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
+        val LLE_MedDocketProviderFactory = LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
         viewModel = ViewModelProvider(
             this,
             LLE_MedDocketProviderFactory
@@ -185,21 +169,17 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
         val Refractive_Error_DAO: Refractive_Error_DAO = database.Refractive_Error_DAO()
         val OPD_Investigations_DAO: OPD_Investigations_DAO = database.OPD_Investigations_DAO()
         val Eye_Pre_Op_Notes_DAO: Eye_Pre_Op_Notes_DAO = database.Eye_Pre_Op_Notes_DAO()
-        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO =
-            database.Eye_Pre_Op_Investigation_DAO()
-        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO =
-            database.Eye_Post_Op_AND_Follow_ups_DAO()
+        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO = database.Eye_Pre_Op_Investigation_DAO()
+        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO = database.Eye_Post_Op_AND_Follow_ups_DAO()
         val Eye_OPD_Doctors_Note_DAO: Eye_OPD_Doctors_Note_DAO = database.Eye_OPD_Doctors_Note_DAO()
-        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO =
-            database.Cataract_Surgery_Notes_DAO()
+        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO = database.Cataract_Surgery_Notes_DAO()
         val Patient_DAO: PatientDao = database.PatientDao()
         val Image_Upload_DAO: Image_Upload_DAO = database.Image_Upload_DAO()
         val Registration_DAO: Registration_DAO = database.Registration_DAO()
         val Prescription_DAO: Prescription_DAO = database.Prescription_DAO()
         val SynTable_DAO: SynTable_DAO = database.SynTable_DAO()
         val Final_Prescription_DAO: Final_Prescription_DAO = database.Final_Prescription_DAO()
-        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO =
-            database.SpectacleDisdributionStatus_DAO()
+        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO = database.SpectacleDisdributionStatus_DAO()
         val CurrentInventory_DAO: CurrentInventory_DAO = database.CurrentInventory_DAO()
         val InventoryUnit_DAO: InventoryUnit_DAO = database.InventoryUnit_DAO()
         val CreatePrescriptionDAO: CreatePrescriptionDAO = database.CreatePrescriptionDAO()
@@ -280,7 +260,6 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
                         processAndSetImage(imageUri, null, it)
                     }
                 }
-
                 CAMERA -> {
                     val imageBitmap = data?.extras?.get("data") as Bitmap
                     selectedImageView?.let {
@@ -292,8 +271,6 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
     }
 
     private fun processAndSetImage(imageUri: Uri?, imageBitmap: Bitmap?, imageView: ImageView) {
-
-
         if (imageUri != null) {
             Glide.with(imageView.context)
                 .load(imageUri)
@@ -308,13 +285,11 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
     }
 
     private fun saveLocalByImageBitmap(imageBitmap: Bitmap, imageView: ImageView) {
-
         when (imageView) {
             binding.ImageViewScreenshotFront -> {
                 filePath = ConstantsApp.saveBitmapToFile(imageBitmap, this)
                 Log.d(ConstantsApp.TAG, "filepath on camera click=>" + filePath)
-                val timestamp =
-                    SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+                val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
                 val fileName = "prescription_front_page_image_$timestamp.jpg"
                 val tempFile = ConstantsApp.saveBitmapToFile1(imageBitmap, fileName, this)
                 val imageUri = FileProvider.getUriForFile(
@@ -330,8 +305,7 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
             binding.ImageViewScreenshotBack -> {
                 filePath = ConstantsApp.saveBitmapToFile(imageBitmap, this)
                 Log.d(ConstantsApp.TAG, "filepath on camera click=>" + filePath)
-                val timestamp =
-                    SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+                val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
                 val fileName = "prescription_back_page_image_$timestamp.jpg"
                 val tempFile = ConstantsApp.saveBitmapToFile1(imageBitmap, fileName, this)
                 val imageUri = FileProvider.getUriForFile(
@@ -352,8 +326,7 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
                 filePath = RealPathUtil1.getRealPath(this, imageUri!!)
                 Log.d(ConstantsApp.TAG, "filePath=>" + filePath)
                 Log.d(ConstantsApp.TAG, "imageUri=>" + imageUri)
-                val timestamp =
-                    SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+                val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
                 val fileName = "prescription_front_page_image_$timestamp.jpg"
                 val updatedPath = ConstantsApp.moveImageToLLEFolder(this, imageUri!!, fileName)
                 UpdatedfilePathFront = updatedPath!!
@@ -365,23 +338,18 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
                 filePath = RealPathUtil1.getRealPath(this, imageUri!!)
                 Log.d(ConstantsApp.TAG, "filePath=>" + filePath)
                 Log.d(ConstantsApp.TAG, "imageUri=>" + imageUri)
-                val timestamp =
-                    SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+                val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
                 val fileName = "prescription_back_page_image_$timestamp.jpg"
                 val updatedPath = ConstantsApp.moveImageToLLEFolder(this, imageUri!!, fileName)
                 UpdatedfilePathBack = updatedPath!!
                 Log.d(ConstantsApp.TAG, "UpdatedfilePathBack=>" + UpdatedfilePathBack)
             }
         }
-
-
     }
 
     private fun SaveDataLocal(updatedfilePath: String, updatedfilePath1: String) {
-
         if (updatedfilePath.isNotEmpty() && updatedfilePath1.isNotEmpty()) {
             val (camp_id, user_id) = sessionManager.getCampUserID()
-
             val imagePrescription = ImagePrescriptionModel(
                 0,
                 updatedfilePath,
@@ -390,7 +358,6 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
                 user_id!!.toInt()
             )
             viewModel1.insertImagePrescriptionModel(imagePrescription)
-
 
             val imagePrescription1 = ImagePrescriptionModel(
                 0,
@@ -401,7 +368,6 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
             )
             viewModel1.insertImagePrescriptionModel(imagePrescription1)
         } else {
-
             val (camp_id, user_id) = sessionManager.getCampUserID()
 
             if (updatedfilePath.isNotEmpty()) {

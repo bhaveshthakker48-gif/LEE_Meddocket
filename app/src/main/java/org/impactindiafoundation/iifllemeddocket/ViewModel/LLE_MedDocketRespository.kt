@@ -21,7 +21,6 @@ class LLE_MedDocketRespository() {
     suspend fun insertEyePreOpNotes(data: AddEyePreOpNotesRequest)=RetrofitInstance.localApi.insertEyePreOpNotes(data)
    suspend fun insertSurgicalNotes(data: SurgicalNotesRequest)=RetrofitInstance.localApi.insertSurgicalNotes(data)
    suspend fun insertEyePostOpAndFollowUps(data: EyePostAndFollowrequest)= RetrofitInstance.localApi.insertEyePostOpAndFollowUps(data)
-    suspend fun insertRefractiveError(data: AddRefractiveErrorRequest)=RetrofitInstance.localApi.insertRefractiveError(data)
 
   suspend  fun imageUpload1(imageUploadParams: ImageUploadParams)=RetrofitInstance.localApi.imageUpload(imageUploadParams.filePart,
       imageUploadParams.imageTypeRequestBody,imageUploadParams.patientIdRequestBody,imageUploadParams.campIdRequestBody,

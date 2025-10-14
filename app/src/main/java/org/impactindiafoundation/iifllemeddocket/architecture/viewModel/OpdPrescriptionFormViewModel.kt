@@ -29,15 +29,10 @@ class OpdPrescriptionFormViewModel @Inject constructor(val mainRepository: NewMa
     private var _patientMedicineListById = MutableLiveData<Resource<List<PatientMedicine>>>()
     val patientMedicineListById: LiveData<Resource<List<PatientMedicine>>> get() = _patientMedicineListById
 
-    private var _opdFormListById =
-        MutableLiveData<Resource<List<OPD_Investigations>>>()
-    val opdFormListById: LiveData<Resource<List<OPD_Investigations>>> get() = _opdFormListById
-
     fun insertOpdFinalPrescription(prescription: PatientMedicine) {
         CoroutineScope(Dispatchers.IO).launch {
             val message = mainRepository.insertFinalPrescriptionDrug(prescription)
             _insertOpdPrescriptionResponse.postValue(Resource.success(message))
-
             if (message.equals(null)) {
                 _insertOpdPrescriptionResponse.postValue(Resource.error("Local Db Error", null))
             } else {
@@ -70,16 +65,11 @@ class OpdPrescriptionFormViewModel @Inject constructor(val mainRepository: NewMa
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _patientMedicineList.postValue(Resource.error(e.message.toString(), null))
         }
     }
-
-    val prescriptionList = MutableLiveData<ArrayList<CreatePrescriptionModel>>(arrayListOf())
-
 
     fun getFinalPrescriptionByFormId(opdFormId:Int) = CoroutineScope(Dispatchers.IO).launch {
         _patientMedicineListById.postValue(Resource.loading(null))
@@ -95,14 +85,11 @@ class OpdPrescriptionFormViewModel @Inject constructor(val mainRepository: NewMa
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _patientMedicineListById.postValue(Resource.error(e.message.toString(), null))
         }
     }
 
     val unsyncedFormsCount: LiveData<Int> = mainRepository.unsyncedFormsCount
-
 }

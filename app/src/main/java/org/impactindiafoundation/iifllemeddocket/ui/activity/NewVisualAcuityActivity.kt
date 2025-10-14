@@ -30,6 +30,7 @@ import java.util.Date
 import java.util.Locale
 
 class NewVisualAcuityActivity : BaseActivity() {
+
     private lateinit var binding: ActivityNewVisualAcuityBinding
     private val visualAcuityViewModel: VisualAcuityViewModel by viewModels()
     private val patientReportVM: PatientReportViewModel by viewModels()
@@ -39,9 +40,7 @@ class NewVisualAcuityActivity : BaseActivity() {
     private var localFormId = 0
     private var canEdit = true
     private var isFormLocal = false
-
     private var intentDecodeText =""
-
     var patientFname = ""
     var patientLname = ""
     var patientAge = 0
@@ -52,7 +51,6 @@ class NewVisualAcuityActivity : BaseActivity() {
     var ageUnit=""
     private var campId = 0
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,21 +58,16 @@ class NewVisualAcuityActivity : BaseActivity() {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             insets
         }
 
@@ -87,7 +80,6 @@ class NewVisualAcuityActivity : BaseActivity() {
         intentFormId = intent.getIntExtra("localFormId",0)
         campId = intent.getIntExtra("campId", 0)
         patientReportFormId = intent.getIntExtra("reportFormId",0)
-
         visualAcuityViewModel.getVisualAcuityFormById(intentFormId)
         sessionManager = SessionManager(this)
         binding.visualAcuityToolBar.toolbar.title = "Visual Acuity"
@@ -97,9 +89,7 @@ class NewVisualAcuityActivity : BaseActivity() {
             }
         }
 
-
-        val rightUnitAdapter =
-            ArrayAdapter(
+        val rightUnitAdapter = ArrayAdapter(
                 this@NewVisualAcuityActivity,
                 android.R.layout.simple_dropdown_item_1line,
                 provideDistantUnit()
@@ -108,15 +98,12 @@ class NewVisualAcuityActivity : BaseActivity() {
         binding.etRDVUnit.setOnClickListener {
             if (canEdit){
                 binding.etRDVUnit.showDropDown()
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
-
             }
         }
 
-        val leftUnitAdapter =
-            ArrayAdapter(
+        val leftUnitAdapter = ArrayAdapter(
                 this@NewVisualAcuityActivity,
                 android.R.layout.simple_dropdown_item_1line,
                 provideDistantUnit()
@@ -125,10 +112,8 @@ class NewVisualAcuityActivity : BaseActivity() {
         binding.etLDVUnit.setOnClickListener {
             if (canEdit){
                 binding.etLDVUnit.showDropDown()
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
-
             }
         }
 
@@ -154,8 +139,7 @@ class NewVisualAcuityActivity : BaseActivity() {
                 } else {
                     Utility.warningToast(this@NewVisualAcuityActivity, "Please Choose Unit")
                 }
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
             }
         }
@@ -183,8 +167,7 @@ class NewVisualAcuityActivity : BaseActivity() {
                 } else {
                     Utility.warningToast(this@NewVisualAcuityActivity, "Please Choose Unit")
                 }
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
             }
         }
@@ -192,29 +175,23 @@ class NewVisualAcuityActivity : BaseActivity() {
         binding.etRNVSphere.setOnClickListener {
             if (canEdit){
                 inflateBottomSheet("Select Sphere", provideSphereData(), binding.etRNVSphere)
-
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
-
             }
         }
 
         binding.etLNVSphere.setOnClickListener {
             if (canEdit){
                 inflateBottomSheet("Select Sphere", provideSphereData(), binding.etLNVSphere)
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
-
             }
         }
 
         binding.etLeftPinHole.setOnClickListener {
             if (canEdit){
                 inflateBottomSheet("Select PinHole", providePinHoleData(), binding.etLeftPinHole)
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
             }
         }
@@ -222,14 +199,12 @@ class NewVisualAcuityActivity : BaseActivity() {
         binding.etRightPinHole.setOnClickListener {
             if (canEdit){
                 inflateBottomSheet("Select PinHole", providePinHoleData(), binding.etRightPinHole)
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
             }
         }
 
-        val rightPHUnitAdapter =
-            ArrayAdapter(
+        val rightPHUnitAdapter = ArrayAdapter(
                 this@NewVisualAcuityActivity,
                 android.R.layout.simple_dropdown_item_1line,
                 providePinHoleDataUnit()
@@ -249,14 +224,12 @@ class NewVisualAcuityActivity : BaseActivity() {
                     Utility.warningToast(this@NewVisualAcuityActivity, "Select Pin Hole")
 
                 }
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
             }
         }
 
-        val leftPHUnitAdapter =
-            ArrayAdapter(
+        val leftPHUnitAdapter = ArrayAdapter(
                 this@NewVisualAcuityActivity,
                 android.R.layout.simple_dropdown_item_1line,
                 providePinHoleDataUnit()
@@ -276,8 +249,7 @@ class NewVisualAcuityActivity : BaseActivity() {
                     Utility.warningToast(this@NewVisualAcuityActivity, "Select Pin Hole")
 
                 }
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
             }
         }
@@ -367,14 +339,12 @@ class NewVisualAcuityActivity : BaseActivity() {
                 onFormEditClick()
             }
         }
-
     }
 
     private fun initObserver() {
         visualAcuityViewModel.insertVisualAcuityResponse.observe(this) {
             when (it.status) {
-                Status.LOADING -> {
-                }
+                Status.LOADING -> {}
                 Status.SUCCESS -> {
                     try {
                         val patientReport = PatientReport(
@@ -404,15 +374,10 @@ class NewVisualAcuityActivity : BaseActivity() {
 
         patientReportVM.insertPatientReportResponse.observe(this) {
             when (it.status) {
-                Status.LOADING -> {
-
-                }
+                Status.LOADING -> {}
                 Status.SUCCESS -> {
                     try {
-                        Utility.successToast(
-                            this@NewVisualAcuityActivity,
-                            "Form Submitted Successfully"
-                        )
+                        Utility.successToast(this@NewVisualAcuityActivity, "Form Submitted Successfully")
                         onBackPressed()
                     } catch (e: Exception) {
                         Log.e("FormSaveError", e.message!!)
@@ -420,15 +385,13 @@ class NewVisualAcuityActivity : BaseActivity() {
                 }
                 Status.ERROR -> {
                     Utility.errorToast(this@NewVisualAcuityActivity, "Unexpected error")
-
                 }
             }
         }
 
         visualAcuityViewModel.visualAcuityFormListById.observe(this) {
             when (it.status) {
-                Status.LOADING -> {
-                }
+                Status.LOADING -> {}
                 Status.SUCCESS -> {
                     try {
                         if (!it.data.isNullOrEmpty()){
@@ -440,8 +403,7 @@ class NewVisualAcuityActivity : BaseActivity() {
                             binding.btnEdit.visibility = View.VISIBLE
                             binding.btnSubmitForm.visibility = View.GONE
                             setUpFormData(visualAcuity)
-                        }
-                        else{
+                        } else{
                             localFormId = 0
                             isFormLocal = false
                             canEdit = true
@@ -499,7 +461,6 @@ class NewVisualAcuityActivity : BaseActivity() {
             va_pinhole_left = vaPinholeLeft,
             va_pinhole_right = vaPinholeRight
         )
-
         Log.d("pawan", "✅ Saving VisualAcuity with date=${visualAcuity.createdDate}")
         visualAcuityViewModel.insertVisualAcuityForm(visualAcuity)
     }
@@ -528,8 +489,7 @@ class NewVisualAcuityActivity : BaseActivity() {
         binding.btnEdit.visibility = View.GONE
         binding.tvSubmit.text = "Update"
 
-        val rightUnitAdapter =
-            ArrayAdapter(
+        val rightUnitAdapter = ArrayAdapter(
                 this@NewVisualAcuityActivity,
                 android.R.layout.simple_dropdown_item_1line,
                 provideDistantUnit()
@@ -538,15 +498,12 @@ class NewVisualAcuityActivity : BaseActivity() {
         binding.etRDVUnit.setOnClickListener {
             if (canEdit){
                 binding.etRDVUnit.showDropDown()
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
-
             }
         }
 
-        val leftUnitAdapter =
-            ArrayAdapter(
+        val leftUnitAdapter = ArrayAdapter(
                 this@NewVisualAcuityActivity,
                 android.R.layout.simple_dropdown_item_1line,
                 provideDistantUnit()
@@ -555,15 +512,12 @@ class NewVisualAcuityActivity : BaseActivity() {
         binding.etLDVUnit.setOnClickListener {
             if (canEdit){
                 binding.etLDVUnit.showDropDown()
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
-
             }
         }
 
-        val rightPHUnitAdapter =
-            ArrayAdapter(
+        val rightPHUnitAdapter = ArrayAdapter(
                 this@NewVisualAcuityActivity,
                 android.R.layout.simple_dropdown_item_1line,
                 provideDistantUnit()
@@ -581,14 +535,12 @@ class NewVisualAcuityActivity : BaseActivity() {
                     Utility.warningToast(this@NewVisualAcuityActivity, "Select Pin Hole")
 
                 }
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
             }
         }
 
-        val leftPHUnitAdapter =
-            ArrayAdapter(
+        val leftPHUnitAdapter = ArrayAdapter(
                 this@NewVisualAcuityActivity,
                 android.R.layout.simple_dropdown_item_1line,
                 provideDistantUnit()
@@ -606,10 +558,8 @@ class NewVisualAcuityActivity : BaseActivity() {
                     Utility.warningToast(this@NewVisualAcuityActivity, "Select Pin Hole")
 
                 }
-            }
-            else{
+            } else{
                 Utility.warningToast(this@NewVisualAcuityActivity, "Cannot Edit")
-
             }
         }
     }
@@ -640,7 +590,6 @@ class NewVisualAcuityActivity : BaseActivity() {
         NearVisionArrayList!!.add("N24")
         NearVisionArrayList!!.add("N36")
         NearVisionArrayList!!.add("N48")
-
         return NearVisionArrayList
     }
 
@@ -665,7 +614,6 @@ class NewVisualAcuityActivity : BaseActivity() {
         RightVisionArrayList!!.add("Hand motion")
         RightVisionArrayList!!.add("Light perception")
         RightVisionArrayList!!.add("No Light perception")
-
         return RightVisionArrayList
     }
 
@@ -674,7 +622,6 @@ class NewVisualAcuityActivity : BaseActivity() {
         RightVisionMetersArrayList!!.add("Distant Unit")
         RightVisionMetersArrayList!!.add("Meters")
         RightVisionMetersArrayList!!.add("logMAR")
-
         return RightVisionMetersArrayList
     }
 
@@ -683,24 +630,19 @@ class NewVisualAcuityActivity : BaseActivity() {
         RightVisionMetersArrayList!!.add("PinHole Unit")
         RightVisionMetersArrayList!!.add("Meters")
         RightVisionMetersArrayList!!.add("logMAR")
-
         return RightVisionMetersArrayList
     }
-
-
 
     private fun providePinHoleData(): List<String> {
         val PinHoleArrayList = ArrayList<String>()
         PinHoleArrayList!!.add("PinHole")
         PinHoleArrayList!!.add("Improved")
         PinHoleArrayList!!.add("Not Improved")
-
         return PinHoleArrayList
     }
 
     private fun provideLogMarData(): List<String> {
         val logMARArrayList = ArrayList<String>()
-
         logMARArrayList!!.add("Value")
         logMARArrayList!!.add("0.00")
         logMARArrayList!!.add("0.02")
@@ -753,7 +695,6 @@ class NewVisualAcuityActivity : BaseActivity() {
         logMARArrayList!!.add("0.96")
         logMARArrayList!!.add("0.98")
         logMARArrayList!!.add("1.00")
-
         return logMARArrayList
     }
 
@@ -763,7 +704,6 @@ class NewVisualAcuityActivity : BaseActivity() {
         etEditText: TextInputEditText
     ) {
         val items = ArrayList<SearchAbleList>()
-        // diagnosisList.add(DiagnosisType(0,"Other"))
         for (i in commonList.indices) {
             items.add(SearchAbleList(i, commonList[i]))
         }
@@ -775,12 +715,8 @@ class NewVisualAcuityActivity : BaseActivity() {
             true
         ) { selectedValue ->
             val selectedValue = commonList[selectedValue.position]
-
             etEditText.setText(selectedValue)
-
-
         }
-
         dialog.show(supportFragmentManager, "SingleSelectBottomSheetDialogFragment")
     }
 
@@ -798,7 +734,6 @@ class NewVisualAcuityActivity : BaseActivity() {
 
 
     private fun allowClickableEditText(isEditable:Boolean){
-
         binding.etRightNotes.setOnTouchListener { _, event ->
             if (!isEditable) {
                 // If the condition is false, show a toast and consume the touch event

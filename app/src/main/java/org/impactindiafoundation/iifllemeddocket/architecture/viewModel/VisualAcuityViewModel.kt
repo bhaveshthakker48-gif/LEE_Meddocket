@@ -21,24 +21,16 @@ class VisualAcuityViewModel @Inject constructor(val mainRepository: NewMainRepos
 
     val allVisualAcuity:LiveData<List<VisualAcuity>> = mainRepository.allVisualAcuity
 
-    val uniqueVisualPatientCount: LiveData<Int> = mainRepository.uniqueVisualPatientCount
-
     private var _insertVisualAcuityResponse = MutableLiveData<Resource<Long>>()
     val insertVisualAcuityResponse: LiveData<Resource<Long>> get() = _insertVisualAcuityResponse
 
-
-    private var _visualAcuityList = MutableLiveData<Resource<List<VisualAcuity>>>()
-    val visualAcuityList: LiveData<Resource<List<VisualAcuity>>> get() = _visualAcuityList
-
-    private var _visualAcuityFormListById =
-        MutableLiveData<Resource<List<VisualAcuity>>>()
+    private var _visualAcuityFormListById = MutableLiveData<Resource<List<VisualAcuity>>>()
     val visualAcuityFormListById: LiveData<Resource<List<VisualAcuity>>> get() = _visualAcuityFormListById
 
     fun insertVisualAcuityForm(visualAcuityForm: VisualAcuity) {
         CoroutineScope(Dispatchers.IO).launch {
             val message = mainRepository.insertVisualAcuityForm(visualAcuityForm)
             _insertVisualAcuityResponse.postValue(Resource.success(message))
-
             if (message.equals(null)) {
                 _insertVisualAcuityResponse.postValue(Resource.error("Local Db Error", null))
             } else {
@@ -61,9 +53,7 @@ class VisualAcuityViewModel @Inject constructor(val mainRepository: NewMainRepos
                         null
                     )
                 )
-
             }
-
         } catch (e: Exception) {
             _visualAcuityFormListById.postValue(Resource.error(e.message.toString(), null))
         }
