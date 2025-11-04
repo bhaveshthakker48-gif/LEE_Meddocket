@@ -68,46 +68,56 @@
                                 android:background="@drawable/spinner_background"/>
 
                         </LinearLayout>
-
                         <LinearLayout
                             android:id="@+id/LinearLayout_symptoms_other"
-                            android:weightSum="2"
-                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="2"
+                            android:padding="@dimen/_5sdp">
+
                             <EditText
                                 android:id="@+id/EditText_symptom_other"
-                                android:padding="@dimen/_3sdp"
-                                android:layout_margin="@dimen/_5sdp"
-                                android:textSize="@dimen/_7ssp"
-                                android:hint="Enter other details"
-                                android:background="@drawable/edittext_background"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="@dimen/_5sdp"
+                                android:padding="@dimen/_8sdp"
+                                android:background="@drawable/edittext_background"
+                                android:hint="Enter other details"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/gray"
+                                android:gravity="center_vertical"
+                                android:textSize="@dimen/_10ssp"  />
+
                             <EditText
                                 android:id="@+id/EditText_symptom_other_details"
-                                android:padding="@dimen/_3sdp"
-                                android:layout_margin="@dimen/_5sdp"
-                                android:textSize="@dimen/_7ssp"
-                                android:hint="Enter symptoms details"
-                                android:background="@drawable/edittext_background"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:padding="@dimen/_8sdp"
+                                android:background="@drawable/edittext_background"
+                                android:hint="Enter symptoms details"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/gray"
+                                android:gravity="center_vertical"
+                                android:textSize="@dimen/_10ssp" />
                         </LinearLayout>
 
                         <EditText
-                            android:textSize="@dimen/_7ssp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/gray"
-                            android:layout_margin="@dimen/_3sdp"
-                            android:padding="@dimen/_4sdp"
-                            android:hint="@string/symptoms_details"
-                            android:background="@drawable/edittext_background"
                             android:id="@+id/edittext_systomes"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:padding="@dimen/_8sdp"
+                            android:background="@drawable/edittext_background"
+                            android:hint="@string/symptoms_details"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:gravity="center_vertical"
+                            android:textSize="@dimen/_10ssp" />
+
 
                         <androidx.cardview.widget.CardView
                             style="@style/submit_cardView"
@@ -222,9 +232,10 @@
                             android:layout_height="wrap_content">
                             <EditText
                                 android:id="@+id/EditText_other_examination"
-                                android:padding="@dimen/_3sdp"
+                                android:padding="@dimen/_8sdp"
                                 android:layout_margin="@dimen/_5sdp"
-                                android:textSize="@dimen/_7ssp"
+                                android:gravity="center_vertical"
+                                android:textSize="@dimen/_10ssp"
                                 android:hint="Enter other details"
                                 android:background="@drawable/edittext_background"
                                 android:layout_weight="1"
@@ -232,9 +243,10 @@
                                 android:layout_height="wrap_content"/>
                             <EditText
                                 android:id="@+id/EditText_other_examination_details"
-                                android:padding="@dimen/_3sdp"
+                                android:padding="@dimen/_8sdp"
                                 android:layout_margin="@dimen/_5sdp"
-                                android:textSize="@dimen/_7ssp"
+                                android:gravity="center_vertical"
+                                android:textSize="@dimen/_10ssp"
                                 android:hint="Enter examination details"
                                 android:background="@drawable/edittext_background"
                                 android:layout_weight="1"
@@ -243,10 +255,10 @@
                         </LinearLayout>
 
                         <EditText
-                            android:textSize="@dimen/_7ssp"
-                            android:textColorHint="@color/gray"
+                            android:gravity="center_vertical"
+                            android:textSize="@dimen/_10ssp"                            android:textColorHint="@color/gray"
                             android:layout_margin="@dimen/_5sdp"
-                            android:padding="@dimen/_5sdp"
+                            android:padding="@dimen/_8sdp"
                             android:hint="@string/examonation_details"
                             android:background="@drawable/edittext_background"
                             android:id="@+id/edittext_examination"
@@ -366,20 +378,20 @@
                             android:layout_height="wrap_content">
                             <EditText
                                 android:id="@+id/EditText_Diagnosis_other"
-                                android:padding="@dimen/_3sdp"
+                                android:padding="@dimen/_8sdp"
                                 android:layout_margin="@dimen/_5sdp"
-                                android:textSize="@dimen/_7ssp"
-                                android:hint="Enter other details"
+                                android:gravity="center_vertical"
+                                android:textSize="@dimen/_10ssp"                                android:hint="Enter other details"
                                 android:background="@drawable/edittext_background"
                                 android:layout_weight="1"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"/>
                             <EditText
                                 android:id="@+id/EditText_Diagnosis_other_details"
-                                android:padding="@dimen/_3sdp"
+                                android:padding="@dimen/_8sdp"
                                 android:layout_margin="@dimen/_5sdp"
-                                android:textSize="@dimen/_7ssp"
-                                android:hint="Enter examination details"
+                                android:gravity="center_vertical"
+                                android:textSize="@dimen/_10ssp"                                android:hint="Enter examination details"
                                 android:background="@drawable/edittext_background"
                                 android:layout_weight="1"
                                 android:layout_width="0dp"
@@ -387,10 +399,10 @@
                         </LinearLayout>
 
                         <EditText
-                            android:textSize="@dimen/_7ssp"
-                            android:textColorHint="@color/gray"
+                            android:gravity="center_vertical"
+                            android:textSize="@dimen/_10ssp"                            android:textColorHint="@color/gray"
                             android:layout_margin="@dimen/_5sdp"
-                            android:padding="@dimen/_5sdp"
+                            android:padding="@dimen/_8sdp"
                             android:hint="@string/diagnosis_details"
                             android:background="@drawable/edittext_background"
                             android:id="@+id/edittext_diagnosis"
@@ -402,7 +414,6 @@
                         <androidx.cardview.widget.CardView
                             style="@style/submit_cardView"
                             android:id="@+id/cardView_submit_diagnosis"
-
                             app:cardCornerRadius="@dimen/_5sdp"
                             android:layout_gravity="center"
                             android:paddingEnd="@dimen/_5sdp"
@@ -462,14 +473,13 @@
                                 android:layout_weight="1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
+
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/RecyclerView_Diagnosis"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
-
-
 
                     </LinearLayout>
 
@@ -484,7 +494,6 @@
                         android:layout_margin="@dimen/_5sdp"
                         android:weightSum="2"
                         android:orientation="horizontal"
-
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -498,16 +507,15 @@
                             android:id="@+id/EditText_Notes"
                             android:textColor="@color/black"
                             android:textColorHint="@color/gray"
-                            android:textSize="@dimen/_5ssp"
-                            android:padding="@dimen/_5sdp"
+                            android:gravity="center_vertical"
+                            android:textSize="@dimen/_10ssp"
+                            android:padding="@dimen/_8sdp"
                             android:background="@drawable/edittext_background"
                             android:hint="Enter"
                             android:layout_weight="1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"/>
-
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -539,15 +547,7 @@
                                 android:text="Medication Only " />
                         </RadioGroup>
 
-
-
-
-
-
                     </LinearLayout>
-
-
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -555,17 +555,22 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView_submit_eye_opd_Doctors_note"
                 style="@style/submit_cardView"
-                android:layout_width="@dimen/_40sdp"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
                     android:textAlignment="center"
-                    style="@style/submit_textView"
-                    android:layout_width="@dimen/_40sdp"
+                    android:textSize="@dimen/_16sdp"
+                    android:paddingHorizontal="@dimen/_20sdp"
+                    android:paddingVertical="@dimen/_8sdp"
+                    android:text="@string/submit"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
-
     </ScrollView>
 </LinearLayout>

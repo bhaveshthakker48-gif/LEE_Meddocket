@@ -2,11 +2,12 @@ package org.impactindiafoundation.iifllemeddocket.Utils.imageUtils
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.util.DisplayMetrics
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,15 +73,16 @@ class ImagePickerDialog(
     }
 
     private fun openCamera() {
-        imagePicker
-            .allowCrop(false)
-            .allowCompress(true, 80)
-            .allowGalleryOnly(false)
-            .allowCameraOnly(true)
-            .start()
-
+        try {
+            // Launch camera manually
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            launcher.result.launch(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         dismiss()
     }
+
 
 
     override fun onClick(p0: View?) {

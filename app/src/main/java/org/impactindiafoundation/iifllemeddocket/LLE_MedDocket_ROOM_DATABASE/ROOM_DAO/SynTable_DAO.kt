@@ -25,4 +25,8 @@ interface SynTable_DAO {
 
     @Delete
     fun deleteSynData(synTable: SynTable)
+
+    @Query("SELECT * FROM SynTable WHERE syn_type = :type ORDER BY _id DESC")
+    fun getSynDataByType(type: String): LiveData<List<SynTable>>
+
 }

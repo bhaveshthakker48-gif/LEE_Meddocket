@@ -389,7 +389,7 @@
                 android:contentDescription="@string/app_name"
                 app:fabSize="mini"
                 android:layout_margin="@dimen/_3sdp"
-                app:srcCompat="@drawable/ic_analytics"
+                app:srcCompat="@drawable/info_circle"
                 app:tint="@color/white"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />

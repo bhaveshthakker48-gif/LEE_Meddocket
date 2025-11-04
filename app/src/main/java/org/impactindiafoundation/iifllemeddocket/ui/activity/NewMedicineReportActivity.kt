@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.compose.animation.core.LinearEasing
 import androidx.core.view.ViewCompat
@@ -38,13 +39,19 @@ class NewMedicineReportActivity : BaseActivity() {
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Choose whichever bottom inset is larger (IME or system bars)
+            val bottom = maxOf(systemBarsInsets.bottom, imeInsets.bottom)
+
             view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                bottom
             )
+
             insets
         }
 
@@ -92,28 +99,46 @@ class NewMedicineReportActivity : BaseActivity() {
     }
 
 
-    private fun setUpMedicineRecyclerView(){
-        patientMedicineAdapter = PatientMedicineAdapter(this@NewMedicineReportActivity,patientMedicineList,object:PatientMedicineAdapter.PatientMedicineAdapterEvent{
-            override fun onItemClick(position: Int,isEdit:Boolean) {
-                if (isEdit){
-                    val intent = Intent(this@NewMedicineReportActivity,PharmaFormActivity::class.java)
-                    intent.putExtra("formId", patientMedicineList[position]._id)
-                    intent.putExtra("editMode", true)
-                    intent.putExtra("position", position)
-                    startActivity(intent)
-                }
-                else{
-                    val medicineList = patientMedicineList[position].prescriptionItems
-                    val intent = Intent(this@NewMedicineReportActivity, MedicineDetailsActivity::class.java)
-                    intent.putExtra("medicineList",ArrayList(medicineList)) // Convert to ArrayList for Serializable
-                    startActivity(intent)
+    private fun setUpMedicineRecyclerView() {
+        patientMedicineAdapter = PatientMedicineAdapter(
+            this@NewMedicineReportActivity,
+            patientMedicineList,
+            object : PatientMedicineAdapter.PatientMedicineAdapterEvent {
+                override fun onItemClick(position: Int, isEdit: Boolean) {
+                    val selectedItem = patientMedicineList[position]
+
+                    if (isEdit) {
+                        // ✅ Check if the item is synced (isSyn == 1)
+                        if (selectedItem.isSyn == 1) {
+                            Toast.makeText(
+                                this@NewMedicineReportActivity,
+                                "Synced items cannot be edited",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return
+                        }
+
+                        // Proceed to edit if not synced
+                        val intent = Intent(this@NewMedicineReportActivity, PharmaFormActivity::class.java)
+                        intent.putExtra("formId", selectedItem._id)
+                        intent.putExtra("editMode", true)
+                        intent.putExtra("position", position)
+                        startActivity(intent)
+                    } else {
+                        // View medicine details
+                        val medicineList = selectedItem.prescriptionItems
+                        val intent = Intent(this@NewMedicineReportActivity, MedicineDetailsActivity::class.java)
+                        intent.putExtra("medicineList", ArrayList(medicineList)) // Convert to ArrayList for Serializable
+                        startActivity(intent)
+                    }
                 }
             }
-        })
+        )
 
         binding.rvPatientMedicine.apply {
             adapter = patientMedicineAdapter
             layoutManager = LinearLayoutManager(this@NewMedicineReportActivity)
         }
     }
+
 }

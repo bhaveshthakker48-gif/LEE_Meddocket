@@ -11,6 +11,7 @@ data class CreatePrescriptionModel(
     @PrimaryKey(autoGenerate = true) var _id: Int,
     var patient_id:String,
     var patient_name:String,
+    var doctor_specialty:String,
     var generic_name:String,
     var brand_name:String,
     var brand_id:String,

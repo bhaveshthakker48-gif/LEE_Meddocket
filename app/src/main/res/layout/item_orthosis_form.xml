@@ -367,20 +367,6 @@
                         tools:hint="@string/txt_amputation_date" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-
-                <!--                <EditText-->
-                <!--                    android:id="@+id/etAmputationSide"-->
-                <!--                    style="@style/edit_text_style"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_gravity="center"-->
-                <!--                    android:layout_margin="@dimen/_5sdp"-->
-                <!--                    android:hint="Amputation Side"-->
-                <!--                    android:background="@drawable/edittext_background"-->
-                <!--                    android:fontFamily="@font/opensans_regular"-->
-                <!--                    android:inputType="text"-->
-                <!--                    android:maxLength="20"/>-->
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/etlAmputationSide"
                     android:layout_width="match_parent"
@@ -391,7 +377,6 @@
                     android:layout_marginEnd="@dimen/_8sdp">
 
 
-                    <!--                    <com.google.android.material.textfield.TextInputEditText-->
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/etAmputationSide"
                         style="@style/edit_text_style_new"
@@ -406,19 +391,6 @@
                         android:textColor="@color/gray"
                         tools:hint="@string/txt_amputation_side" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <!--                <EditText-->
-                <!--                    android:id="@+id/etAmputationLevel"-->
-                <!--                    style="@style/edit_text_style"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_gravity="center"-->
-                <!--                    android:layout_margin="@dimen/_5sdp"-->
-                <!--                    android:hint="Amputation Level"-->
-                <!--                    android:background="@drawable/edittext_background"-->
-                <!--                    android:fontFamily="@font/opensans_regular"-->
-                <!--                    android:inputType="text"-->
-                <!--                    android:maxLength="20" />-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/etlAmputationLevel"
@@ -440,18 +412,6 @@
                         tools:hint="@string/txt_amputation_level" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!--                <EditText-->
-                <!--                    android:id="@+id/etAmputationCause"-->
-                <!--                    style="@style/edit_text_style"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_gravity="center"-->
-                <!--                    android:layout_margin="@dimen/_5sdp"-->
-                <!--                    android:hint="Amputation Cause"-->
-                <!--                    android:background="@drawable/edittext_background"-->
-                <!--                    android:fontFamily="@font/opensans_regular"-->
-                <!--                    android:inputType="text"-->
-                <!--                    android:maxLength="20" />-->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/etlAmputationCause"
@@ -783,29 +743,7 @@
                     android:layout_height="1dp"
                     android:background="@color/gray" />
 
-                <!--                <EditText-->
-                <!--                    android:id="@+id/etM1"-->
-                <!--                    style="@style/edit_text_style"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_gravity="center"-->
-                <!--                    android:layout_margin="@dimen/_5sdp"-->
-                <!--                    android:background="@drawable/edittext_background"-->
-                <!--                    android:fontFamily="@font/opensans_regular"-->
-                <!--                    android:inputType="number"-->
-                <!--                    android:maxLength="3" />-->
-
-                <!--                <EditText-->
-                <!--                    android:id="@+id/etM2"-->
-                <!--                    style="@style/edit_text_style"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_gravity="center"-->
-                <!--                    android:layout_margin="@dimen/_5sdp"-->
-                <!--                    android:background="@drawable/edittext_background"-->
-                <!--                    android:fontFamily="@font/opensans_regular"-->
-                <!--                    android:inputType="number"-->
-                <!--                    android:maxLength="3" />-->
+   \
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvOrthosisMeasurements"

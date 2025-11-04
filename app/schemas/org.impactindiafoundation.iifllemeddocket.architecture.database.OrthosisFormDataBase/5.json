@@ -1,0 +1,252 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 5,
+    "identityHash": "0efc4056252848d518438ef50f09b618",
+    "entities": [
+      {
+        "tableName": "orthosis_patient_form",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `patientName` TEXT NOT NULL, `patientId` INTEGER NOT NULL, `patientGender` TEXT NOT NULL, `patientAge` INTEGER NOT NULL, `campId` INTEGER NOT NULL, `location` TEXT NOT NULL, `ageUnit` TEXT NOT NULL, `regNo` TEXT NOT NULL, `examinationDate` TEXT NOT NULL, `orthosisList` TEXT NOT NULL, `orthosisDate` TEXT NOT NULL, `tempPatientId` TEXT NOT NULL, `patientContactNo` TEXT NOT NULL, `campName` TEXT NOT NULL, `patientAgeYears` TEXT NOT NULL, `patientHeightCm` TEXT NOT NULL, `patientWeightKg` TEXT NOT NULL, `diagnosis` TEXT NOT NULL, `diagnosisId` INTEGER NOT NULL, `equipmentSupport` TEXT NOT NULL, `equipmentCategory` TEXT NOT NULL, `equipmentId` INTEGER NOT NULL, `equipmentStatus` TEXT NOT NULL, `equipmentStatusNotes` TEXT NOT NULL, `isSynced` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `isLocal` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientName",
+            "columnName": "patientName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientGender",
+            "columnName": "patientGender",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientAge",
+            "columnName": "patientAge",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campId",
+            "columnName": "campId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ageUnit",
+            "columnName": "ageUnit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "regNo",
+            "columnName": "regNo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "examinationDate",
+            "columnName": "examinationDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orthosisList",
+            "columnName": "orthosisList",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orthosisDate",
+            "columnName": "orthosisDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tempPatientId",
+            "columnName": "tempPatientId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientContactNo",
+            "columnName": "patientContactNo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campName",
+            "columnName": "campName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientAgeYears",
+            "columnName": "patientAgeYears",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientHeightCm",
+            "columnName": "patientHeightCm",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientWeightKg",
+            "columnName": "patientWeightKg",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "diagnosis",
+            "columnName": "diagnosis",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "diagnosisId",
+            "columnName": "diagnosisId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipmentSupport",
+            "columnName": "equipmentSupport",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipmentCategory",
+            "columnName": "equipmentCategory",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipmentId",
+            "columnName": "equipmentId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipmentStatus",
+            "columnName": "equipmentStatus",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "equipmentStatusNotes",
+            "columnName": "equipmentStatusNotes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSynced",
+            "columnName": "isSynced",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isEdited",
+            "columnName": "isEdited",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isLocal",
+            "columnName": "isLocal",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "orthosis_sync_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `syn_type` TEXT NOT NULL, `date` TEXT NOT NULL, `time` TEXT NOT NULL, `isSyn` INTEGER NOT NULL, `syncItemCount` INTEGER NOT NULL, `notSyncItemCount` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "_id",
+            "columnName": "_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syn_type",
+            "columnName": "syn_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncItemCount",
+            "columnName": "syncItemCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notSyncItemCount",
+            "columnName": "notSyncItemCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "_id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0efc4056252848d518438ef50f09b618')"
+    ]
+  }
+}

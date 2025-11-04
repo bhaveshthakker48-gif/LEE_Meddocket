@@ -6,37 +6,22 @@ import androidx.lifecycle.LifecycleService
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.asCoroutineDispatcher
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import org.impactindiafoundation.iifllemeddocket.Model.PatientData
-import org.impactindiafoundation.iifllemeddocket.Utils.Utility
-import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisPatientForm
+import kotlinx.coroutines.*
 import org.impactindiafoundation.iifllemeddocket.architecture.model.PatientFormMap
 import org.impactindiafoundation.iifllemeddocket.architecture.repository.NewMainRepository
-import org.impactindiafoundation.iifllemeddocket.architecture.viewModel.OrthosisMainViewModel
-import java.util.Objects
 import java.util.concurrent.Executors
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class OrthosisPatientFormService : LifecycleService() {
 
-    private val ERR_TAG = "OrthosisPatientFormService"
+    private val TAG = "OrthosisPatientFormService"
     private val serviceJob = Job()
-    private val sharedDispatcher = Executors.newFixedThreadPool(2).asCoroutineDispatcher() // Limit to 2 concurrent tasks
+    private val sharedDispatcher = Executors.newFixedThreadPool(2).asCoroutineDispatcher()
     private val serviceScope = CoroutineScope(sharedDispatcher + serviceJob)
 
     @Inject
     lateinit var repository: NewMainRepository
-
-    override fun onCreate() {
-        super.onCreate()
-    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
@@ -51,67 +36,105 @@ class OrthosisPatientFormService : LifecycleService() {
     private fun getDataFromLocal(data: HashMap<String, Any>) {
         serviceScope.launch {
             try {
-                var orthosisFormJson = ""
                 val localOrthosisForm = repository.getOrthosisPatientForm()
                 val unsyncedOrthosisForm = localOrthosisForm.filter { it.isSynced == 0 }
+                val unsyncedCount = unsyncedOrthosisForm.size
                 val patientFormMap = PatientFormMap(unsyncedOrthosisForm)
 
-                if (!unsyncedOrthosisForm.isNullOrEmpty()) {
+                if (unsyncedCount > 0) {
                     val gson = Gson()
-                    orthosisFormJson = gson.toJson(patientFormMap)
-                    syncDataToServer(patientFormMap)
-                }
-                else{
+                    val orthosisFormJson = gson.toJson(patientFormMap)
+                    Log.d(TAG, "Sync payload: $orthosisFormJson")
+                    Log.d(TAG, "Total unsynced forms to sync: $unsyncedCount")
+
+                    syncDataToServer(patientFormMap, unsyncedCount)
+                } else {
+                    Log.d(TAG, "No unsynced forms found, stopping service.")
                     stopSelf()
                 }
             } catch (e: Exception) {
-                Log.e(ERR_TAG, "Error fetching phone book matches", e)
+                Log.e(TAG, "Error fetching local forms", e)
+                stopSelf()
             }
         }
     }
 
-    private fun syncDataToServer(unsyncedData: PatientFormMap) {
+    private fun syncDataToServer(unsyncedData: PatientFormMap, totalCount: Int) {
         serviceScope.launch {
             try {
-                delay(500)
+                delay(500) // small delay for thread sync
                 val response = repository.syncOrthosisPatientForNew(unsyncedData)
-                Log.d("SyncForms", "Server Response: ${response.message()}")
+                Log.d(TAG, "Server Response: ${response.message()}")
+
                 if (response.isSuccessful) {
-                    Log.d("SyncForms", "Sync success, updating local DB with IDs: ${response.body()!!.successSyncId}")
-                    updateLocalDb(response.body()!!.successSyncId)
+                    val successIds = response.body()?.successSyncId ?: emptyList()
+                    Log.d(TAG, "Sync success: ${successIds.size} items out of $totalCount")
+
+                    updateLocalDb(successIds, totalCount)
                 } else {
-                    val error = response.body()?.message ?: "Unexpected Network Error"
-                    Log.e("SyncForms", "Sync failed: $error")
+                    val error = response.errorBody()?.string() ?: "Unexpected Network Error"
+                    Log.e(TAG, "Sync failed: $error")
+
+                    // All failed
+                    repository.insertSyncData(
+                        synType = "Forms",
+                        syncItemCount = 0,
+                        notSyncItemCount = totalCount
+                    )
+                    stopSelf()
                 }
             } catch (e: Exception) {
-                Log.e("SyncForms", "Sync Exception: ${e.message}", e)
+                Log.e(TAG, "Sync Exception: ${e.message}", e)
+                repository.insertSyncData(
+                    synType = "Forms",
+                    syncItemCount = 0,
+                    notSyncItemCount = totalCount
+                )
+                stopSelf()
             }
         }
     }
 
-    private fun updateLocalDb(successIdList: List<Int>) {
+    private fun updateLocalDb(successIdList: List<Int>, totalCount: Int) {
         serviceScope.launch {
-            Log.d("SyncForms", "Updating local DB with synced IDs: $successIdList")
-            repository.updateSyncedForms(successIdList)
+            try {
+                Log.d(TAG, "Updating local DB with synced IDs: $successIdList")
+                repository.updateSyncedForms(successIdList)
 
-            Log.d("SyncForms", "Local DB updated. Sending broadcast to refresh UI.")
-            val intent = Intent(ACTION_TASK_COMPLETED)
-            LocalBroadcastManager.getInstance(this@OrthosisPatientFormService).sendBroadcast(intent)
+                val successCount = successIdList.size
+                val failedCount = (totalCount - successCount).coerceAtLeast(0)
 
-            Log.d("SyncForms", "Broadcast sent successfully.")
-            stopSelf()
+                Log.d(TAG, "Sync Summary → Total: $totalCount, Success: $successCount, Failed: $failedCount")
+
+                // ✅ Record sync summary in local DB
+                repository.insertSyncData(
+                    synType = "Forms",
+                    syncItemCount = successCount,
+                    notSyncItemCount = failedCount
+                )
+
+                Log.d(TAG, "Local DB updated & sync summary inserted.")
+
+                // ✅ Notify UI
+                val intent = Intent(ACTION_TASK_COMPLETED)
+                LocalBroadcastManager.getInstance(this@OrthosisPatientFormService).sendBroadcast(intent)
+
+                Log.d(TAG, "Broadcast sent successfully.")
+            } catch (e: Exception) {
+                Log.e(TAG, "Error updating local DB: ${e.message}", e)
+            } finally {
+                stopSelf()
+            }
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
-
         serviceJob.cancel()
         sharedDispatcher.close()
+        Log.d(TAG, "Service destroyed.")
         stopSelf()
     }
-
 
     companion object {
         const val ACTION_PROGRESS_UPDATE = "PROGRESS_UPDATE"

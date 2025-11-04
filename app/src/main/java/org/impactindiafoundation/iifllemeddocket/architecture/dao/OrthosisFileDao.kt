@@ -24,6 +24,9 @@ interface OrthosisFileDao {
     @Query("SELECT * FROM orthosis_image")
     suspend fun getOrthosisImage(): List<OrthosisImages>
 
+    @Query("SELECT * FROM orthosis_image WHERE isSynced = 0")
+    suspend fun getUnsyncedOrthosisImages(): List<OrthosisImages>
+
     @Query("SELECT * FROM orthosis_image WHERE patient_id = :formId")
     suspend fun getOrthosisImageByFormId(formId:String): List<OrthosisImages>
 
@@ -33,8 +36,8 @@ interface OrthosisFileDao {
     @Query("UPDATE orthosis_image SET isSynced = 1 WHERE id = :id")
     suspend fun updateSyncedOrthoImage(id: Int)
 
-    @Query("DELETE FROM orthosis_image WHERE images = :image")
-    suspend fun deleteOrthosisImage(image: String)
+    @Query("DELETE FROM orthosis_image WHERE images = :imagePath")
+    suspend fun deleteOrthosisImageByPath(imagePath: String)
 
     @Delete
     suspend fun deleteOrthosisImages(orthosisImage: List<OrthosisImages>)
@@ -55,7 +58,7 @@ interface OrthosisFileDao {
     suspend fun deleteFormImagesById(formImagesId: List<Int>)
 
     @Query("SELECT * FROM form_images")
-    suspend fun getFormImage(): List<FormImages>        
+    suspend fun getFormImage(): List<FormImages>
 
     @Query("SELECT * FROM form_images WHERE formId =:formId ")
     suspend fun getFormImageList(formId:Int): List<FormImages>
@@ -66,7 +69,8 @@ interface OrthosisFileDao {
     @Query("UPDATE form_images SET isSynced = 1 WHERE id = :id")
     suspend fun updateSyncedImage(id: Int)
 
-
+    @Query("SELECT * FROM form_images WHERE isSynced = 0")
+    suspend fun getUnsyncedFormImages(): List<FormImages>
 
 
     //form videos operations
@@ -78,6 +82,10 @@ interface OrthosisFileDao {
 
     @Query("SELECT * FROM form_videos")
     suspend fun getFormVideo(): List<FormVideos>
+
+    @Query("SELECT * FROM form_videos WHERE isSynced = 0")
+    suspend fun getUnsyncedFormVideos(): List<FormVideos>
+
 
     @Query("SELECT * FROM form_videos WHERE formId =:formId")
     suspend fun getFormVideoById(formId:Int): List<FormVideos>
@@ -112,5 +120,8 @@ interface OrthosisFileDao {
 
     @Query("DELETE FROM equipment_image WHERE images = :image")
     suspend fun deleteEquipmentImage(image: String)
+
+    @Query("SELECT * FROM equipment_image WHERE isSynced = 0")
+    suspend fun getUnsyncedEquipmentImages(): List<EquipmentImage>
 
 }

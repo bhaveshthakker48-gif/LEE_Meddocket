@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar_data_analytics"
+        layout="@layout/toolbar" />
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                style="@style/refreactive_head_title1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Patients" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_2sdp"
+                android:weightSum="3">
+
+                <!-- Label -->
+                <TextView
+                    android:id="@+id/totalPatientLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_2sdp"
+                    android:layout_weight="1.5"
+                    android:text="Total Patient"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <!-- Colon -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:text=":"
+                    android:textSize="14sp" />
+
+                <!-- Value -->
+                <TextView
+                    android:id="@+id/totalPatientCount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_2sdp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_2sdp"
+                android:weightSum="3">
+
+                <!-- Label -->
+                <TextView
+                    android:id="@+id/malePatientLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_2sdp"
+                    android:layout_weight="1.5"
+                    android:text="Male"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <!-- Colon -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:text=":"
+                    android:textSize="14sp" />
+
+                <!-- Value -->
+                <TextView
+                    android:id="@+id/malePatientCount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_2sdp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_2sdp"
+                android:weightSum="3">
+
+                <!-- Label -->
+                <TextView
+                    android:id="@+id/femalePatientLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_2sdp"
+                    android:layout_weight="1.5"
+                    android:text="Female"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <!-- Colon -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:text=":"
+                    android:textSize="14sp" />
+
+                <!-- Value -->
+                <TextView
+                    android:id="@+id/femalePatientCount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_2sdp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_2sdp"
+                android:weightSum="3">
+
+                <!-- Label -->
+                <TextView
+                    android:id="@+id/otherPatientLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_2sdp"
+                    android:layout_weight="1.5"
+                    android:text="Other"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <!-- Colon -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:text=":"
+                    android:textSize="14sp" />
+
+                <!-- Value -->
+                <TextView
+                    android:id="@+id/otherPatientCount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_2sdp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+            <TextView
+                style="@style/refreactive_head_title1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Forms" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_2sdp"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/totalFormLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_2sdp"
+                    android:layout_weight="1.5"
+                    android:text="Total Forms"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <!-- Colon -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_2sdp"
+                    android:text=":"
+                    android:textSize="14sp" />
+
+                <!-- Value -->
+                <TextView
+                    android:id="@+id/totalFormCount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_2sdp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/refreactive_head_title1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Age Wise Distribution" />
+
+            <LinearLayout
+                android:id="@+id/ageSelectionSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_8sdp"
+                android:gravity="center">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/ageSelectionPieChart"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/_8sdp"/>
+
+                <!-- Legend container (right side) -->
+                <LinearLayout
+                    android:id="@+id/ageSelectionLegendContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"/>
+            </LinearLayout>
+
+            <TextView
+                style="@style/refreactive_head_title1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Speciality" />
+
+            <LinearLayout
+                android:id="@+id/specialitySection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/_8sdp"
+                android:gravity="center">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/specialityPieChart"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/_8sdp"/>
+
+                <!-- Legend container (right side) -->
+                <LinearLayout
+                    android:id="@+id/specialityLegendContainer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"/>
+            </LinearLayout>
+
+            <TextView
+                style="@style/refreactive_head_title1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Generic Medicine Usage" />
+
+            <LinearLayout
+                android:id="@+id/genericUsageSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/_8sdp">
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/genericUsageBarChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#444444"
+                    android:layout_marginTop="2dp" />
+
+                <!-- Table Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="4dp">
+
+                    <!-- Header Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="#FFFFFF"
+                        android:padding="1dp"
+                        android:paddingVertical="@dimen/_4sdp">
+
+
+                        <!-- Color Column Placeholder -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.1" />
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#444444" />
+
+                        <!-- Generic Name -->
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="Generic Name"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:padding="4dp" />
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#444444" />
+
+                        <!-- Patients -->
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Patients"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:padding="4dp" />
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#444444" />
+
+                        <!-- Quantity -->
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Quantity"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:padding="4dp" />
+                    </LinearLayout>
+
+                    <!-- Horizontal line below header -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#444444"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="4dp" />
+                </LinearLayout>
+
+
+                <!-- Table Content Container -->
+                <LinearLayout
+                    android:id="@+id/genericUsageTableContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/paginationButtonsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
+
+                <Button
+                    android:id="@+id/backButton"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="wrap_content"
+                    android:text="Back"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_gravity="start"
+                    android:backgroundTint="@color/blue"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/nextButton"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="wrap_content"
+                    android:text="Next"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_gravity="end"
+                    android:backgroundTint="@color/blue"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+
+            <TextView
+                style="@style/refreactive_head_title1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Brand Usage" />
+
+            <LinearLayout
+                android:id="@+id/brandUsageSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/_8sdp">
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/brandUsageBarChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp" />
+
+                <!-- Divider line above the table -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#444444"
+                    android:layout_marginTop="2dp" />
+
+                <!-- Brand Usage Table Header -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="4dp">
+
+                    <!-- Header Row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="#FFFFFF"
+                        android:padding="1dp"
+                        android:paddingVertical="@dimen/_4sdp">
+
+                        <!-- Color Column Placeholder -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.1" />
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#444444" />
+
+                        <!-- Brand Name -->
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="Brand Name"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:padding="4dp" />
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#444444" />
+
+                        <!-- Generic Name -->
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:text="Generic Name"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:padding="4dp" />
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#444444" />
+
+                        <!-- Patients -->
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Patients"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:padding="4dp" />
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#444444" />
+
+                        <!-- Quantity -->
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Quantity"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/black"
+                            android:textSize="14sp"
+                            android:padding="4dp" />
+                    </LinearLayout>
+
+                    <!-- Horizontal line below header -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#444444"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="4dp" />
+                </LinearLayout>
+
+                <!-- Table Content Container -->
+                <LinearLayout
+                    android:id="@+id/BrandUsageTableContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/paginationBrandButtonsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
+
+                <Button
+                    android:id="@+id/backBrandButton"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="wrap_content"
+                    android:text="Back"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_gravity="start"
+                    android:backgroundTint="@color/blue"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/nextBrandButton"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="wrap_content"
+                    android:text="Next"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_gravity="end"
+                    android:backgroundTint="@color/blue"
+                    android:textColor="@android:color/white"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

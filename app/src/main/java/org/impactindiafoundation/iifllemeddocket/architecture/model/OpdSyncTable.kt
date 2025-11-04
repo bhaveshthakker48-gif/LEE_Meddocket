@@ -9,5 +9,6 @@ data class OpdSyncTable(
     @PrimaryKey(autoGenerate = true)
     var id:Int = 0,
     var dateTime:String,
-    var syncedCount:Int
+    var syncedCount:Int,
+    var unsyncFormCount: Int,
 )

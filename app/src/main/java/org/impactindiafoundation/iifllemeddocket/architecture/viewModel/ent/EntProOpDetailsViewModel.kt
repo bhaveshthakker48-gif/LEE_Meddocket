@@ -17,6 +17,8 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.impactindiafoundation.iifllemeddocket.Utils.ConstantsApp
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Resource
+import org.impactindiafoundation.iifllemeddocket.architecture.model.SyncPrescriptionRecordEntity
+import org.impactindiafoundation.iifllemeddocket.architecture.model.SyncSummaryEntity
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entapimodel.EntAudiometryImageResponse
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entapimodel.EntPreOpImageResponse
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entapimodel.EntSymptomEarItem
@@ -34,6 +36,9 @@ import org.impactindiafoundation.iifllemeddocket.architecture.repository.EntRepo
 import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -85,44 +90,56 @@ class EntProOpDetailsViewModel @Inject constructor(private val entRepository: En
     }
 
 
-    fun sendDoctorPreOpDetailsToServer(symptoms: List<EntPreOpDetailsEntity>, onResult: (Boolean, String) -> Unit) {
+    fun sendDoctorPreOpDetailsToServer(
+        items: List<EntPreOpDetailsEntity>,
+        onSyncCompleted: (syncedCount: Int, unsyncedCount: Int) -> Unit
+    ) {
         viewModelScope.launch {
-            try {
-                Log.d("SyncCheck PreOpDetails", "Sending to server: ${symptoms.map { it.uniqueId }}")
+            var syncedCount = 0
+            var unsyncedCount = 0
 
-                val response = entRepository.sendDoctorPreOpDetailsToServer(symptoms)
+            try {
+                Log.d("SyncCheck PreOpDetails", "Sending to server: ${items.map { it.uniqueId }}")
+
+                val response = entRepository.sendDoctorPreOpDetailsToServer(items)
 
                 if (response.success && response.data != null) {
                     Log.d("SyncCheck PreOpDetails", "Received response: ${response.data.results.size} results")
-                    Log.d("SyncCheck PreOpDetails", "Received response: ${response.success} success")
-                    Log.d("SyncCheck PreOpDetails", "Received response: ${response.message} message")
+                    Log.d("SyncCheck PreOpDetails", "Response success: ${response.success} | message: ${response.message}")
 
-
-                    val matchedItems = symptoms.filter { it.app_id.isNullOrBlank() }
+                    val matchedItems = items.filter { it.app_id.isNullOrBlank() }
 
                     response.data.results.forEachIndexed { index, result ->
                         if (index < matchedItems.size) {
                             val item = matchedItems[index]
-                            Log.d("SyncCheck PreOpDetails", "Updating app_id for local id: ${item.uniqueId} → server app_id: ${result.app_id}")
+                            Log.d(
+                                "SyncCheck PreOpDetails",
+                                "Updating app_id for local id: ${item.uniqueId} → server app_id: ${result.app_id}"
+                            )
                             entRepository.updatePreOpDetailsAppId(item.uniqueId, result.app_id)
-
                             entRepository.updatePatientReportAppId(item.patientId, item.uniqueId, result.app_id)
-
+                            syncedCount++
                         } else {
+                            unsyncedCount++
                             Log.w("SyncCheck PreOpDetails", "Result index exceeds matched item list size")
                         }
                     }
                 } else {
                     Log.w("SyncCheck PreOpDetails", "Server returned failure: ${response.message}")
+                    unsyncedCount = items.size
                 }
 
-                onResult(response.success, response.message)
+                Log.d("SyncCheck PreOpDetails", "✅ Synced: $syncedCount | ❌ Unsynced: $unsyncedCount")
+                onSyncCompleted(syncedCount, unsyncedCount)
+
             } catch (e: Exception) {
+                unsyncedCount = items.size
                 Log.e("SyncCheck PreOpDetails", "Error while sending to server: ${e.localizedMessage}")
-                onResult(false, e.localizedMessage ?: "Unknown error")
+                onSyncCompleted(syncedCount, unsyncedCount)
             }
         }
     }
+
 
     fun clearSyncedPreOpDetails() {
         viewModelScope.launch {
@@ -417,6 +434,43 @@ class EntProOpDetailsViewModel @Inject constructor(private val entRepository: En
         return file.absolutePath
     }
 
+    //SyncSummary
+    fun insertSyncData(summary: SyncSummaryEntity) {
+        viewModelScope.launch {
+            entRepository.insertSyncData(summary)
+        }
+    }
+
+    fun getAllSyncSummaries(): LiveData<List<SyncSummaryEntity>> {
+        return entRepository.getAllSyncSummaries()
+    }
+
+    val allSyncRecords = entRepository.allSyncRecords
+
+    fun insertSyncRecord(formType: String, syncCount: Int, unsyncCount: Int) {
+        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+
+        val record = SyncPrescriptionRecordEntity(
+            date = currentDate,
+            time = currentTime,
+            syncCount = syncCount,
+            unsyncCount = unsyncCount,
+            formType = formType
+        )
+
+
+        Log.d("pawan_sync", "🟢 Preparing to insert Sync Record:")
+        Log.d("pawan_sync", "📅 Date: $currentDate")
+        Log.d("pawan_sync", "⏰ Time: $currentTime")
+        Log.d("pawan_sync", "🧾 FormType: $formType")
+        Log.d("pawan_sync", "✅ Synced Count: $syncCount")
+        Log.d("pawan_sync", "❌ Unsynced Count: $unsyncCount")
+
+        viewModelScope.launch {
+            entRepository.insertSyncRecord(record)
+        }
+    }
 
 
 

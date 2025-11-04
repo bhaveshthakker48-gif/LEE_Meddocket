@@ -24,7 +24,6 @@ import java.util.Locale
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class PharmaFormSyncService : LifecycleService() {
 
@@ -37,13 +36,7 @@ class PharmaFormSyncService : LifecycleService() {
     @Inject
     lateinit var repository: NewMainRepository
 
-    override fun onCreate() {
-        super.onCreate()
-    }
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-
         intent?.let {
             val dataMap = it.getSerializableExtra("QUERY_PARAMS") as? HashMap<String, Any>
             dataMap?.let { queryParams ->
@@ -56,19 +49,14 @@ class PharmaFormSyncService : LifecycleService() {
     private fun getDataFromLocal(data: HashMap<String, Any>) {
         serviceScope.launch {
             try {
-
-
                 val finalPrescriptionDrugList = mutableListOf<FinalPrescriptionDrugServer>()
-
                 val finalPrescriptionList = repository.getPatientMedicineReport()
 
-                if (finalPrescriptionList.size > 0) {
-
-                    Log.d(ConstantsApp.TAG, "finalPrescriptionList=>" + finalPrescriptionList)
+                if (finalPrescriptionList.isNotEmpty()) {
+                    Log.d(ConstantsApp.TAG, "finalPrescriptionList=>$finalPrescriptionList")
 
                     try {
                         finalPrescriptionList.forEach { prescription ->
-                            // Check if isSyn is 0
                             if (prescription.isSyn == 0) {
                                 val prescriptionItems = prescription.prescriptionItems.map { item ->
                                     FinalPrescriptionDrugServer.PrescriptionItem(
@@ -104,28 +92,25 @@ class PharmaFormSyncService : LifecycleService() {
                             }
                         }
 
-
                         if (finalPrescriptionDrugList.isNotEmpty()) {
-
-                            Log.d(
-                                ConstantsApp.TAG,
-                                "finalPrescriptionDrugList=>" + finalPrescriptionDrugList
-                            )
-
+                            Log.d(ConstantsApp.TAG, "finalPrescriptionDrugList=>$finalPrescriptionDrugList")
 
                             val finalData = SendFinalPrescriptionDrug(finalPrescriptionDrugList)
+                            Log.d(ConstantsApp.TAG, "newPrescriptionList=>$data")
 
-                            Log.d(ConstantsApp.TAG, "newPrescriptionList=>" + data)
-
-
-                            syncDataToServer(finalData)
-
+                            // Pass both total and unsynced counts
+                            syncDataToServer(finalData, finalPrescriptionDrugList.size)
                         } else {
-                            Log.d(
-                                ConstantsApp.TAG,
-                                "finalPrescriptionDrugList=>" + finalPrescriptionDrugList
+                            Log.d(ConstantsApp.TAG, "No unsynced data found")
+                            // Insert record showing zero unsynced forms
+                            val opdSyncItem = OpdSyncTable(
+                                id = 0,
+                                dateTime = getCurrentDate(),
+                                syncedCount = 0,
+                                unsyncFormCount = 0
                             )
-
+                            repository.insertOpdSyncTable(opdSyncItem)
+                            stopSelf()
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -135,31 +120,37 @@ class PharmaFormSyncService : LifecycleService() {
                     stopSelf()
                 }
             } catch (e: Exception) {
-                Log.e(ERR_TAG, "Error fetching phone book matches", e)
+                Log.e(ERR_TAG, "Error fetching medicine data", e)
             }
         }
     }
 
-
-    private fun syncDataToServer(pharmaFormData: SendFinalPrescriptionDrug) {
+    private fun syncDataToServer(pharmaFormData: SendFinalPrescriptionDrug, totalUnsyncedBeforeSync: Int) {
         serviceScope.launch {
             try {
                 delay(500)
                 val response = repository.InsertFinalPrescriptionDrug(pharmaFormData)
                 Log.d("RESPONSE", response.message())
+
                 if (response.isSuccessful) {
                     val data = response.body()
-                    for (i in 0 until data!!.givenMedicine.size) {
-                        val responseData = data.givenMedicine[i]
+                    val syncedCount = data?.givenMedicine?.size ?: 0
+                    val unsyncedRemaining = totalUnsyncedBeforeSync - syncedCount
+
+                    Log.d(ConstantsApp.TAG, "SyncedCount => $syncedCount | UnsyncedRemaining => $unsyncedRemaining")
+
+                    // Update synced entries in local DB
+                    data?.givenMedicine?.forEach { responseData ->
                         val id = responseData._id
-                        Log.d(ConstantsApp.TAG, "id=>" + id)
-                        val isSyn = 1
-                        repository.updateFinalPrescriptionDrug1(id.toInt(), isSyn)
+                        repository.updateFinalPrescriptionDrug1(id.toInt(), 1)
                     }
+
+                    // Insert both counts into OpdSyncTable
                     val opdSyncItem = OpdSyncTable(
                         id = 0,
                         dateTime = getCurrentDate(),
-                        syncedCount = data.givenMedicine.size
+                        syncedCount = syncedCount,
+                        unsyncFormCount = unsyncedRemaining
                     )
                     repository.insertOpdSyncTable(opdSyncItem)
                 } else {
@@ -174,15 +165,13 @@ class PharmaFormSyncService : LifecycleService() {
 
     override fun onDestroy() {
         super.onDestroy()
-
         serviceJob.cancel()
         sharedDispatcher.close()
         stopSelf()
     }
 
-    fun getCurrentDate(): String {
+    private fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         return dateFormat.format(Date())
     }
-
 }

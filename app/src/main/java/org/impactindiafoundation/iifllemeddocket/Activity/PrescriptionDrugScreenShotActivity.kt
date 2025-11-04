@@ -99,25 +99,32 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Choose whichever bottom inset is larger (IME or system bars)
+            val bottom = maxOf(systemBarsInsets.bottom, imeInsets.bottom)
+
             view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                bottom
             )
+
             insets
         }
 
         binding.ImageViewScreenshotFront.setOnClickListener {
-            clickedId = it.id
-            clickImage()
+            selectedImageView = binding.ImageViewScreenshotFront
+            showPictureDialog()
         }
 
         binding.ImageViewScreenshotBack.setOnClickListener {
-            clickedId = it.id
-            clickImage()
+            selectedImageView = binding.ImageViewScreenshotBack
+            showPictureDialog()
         }
+
     }
 
     override fun onResume() {
@@ -134,11 +141,13 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
         patient_id = patientData.patientId.toString()
 
         binding.ButtonSubmit.setOnClickListener {
-            if (!frontImage.isNullOrEmpty() || !backImage.isNullOrEmpty()) {
-                Log.d(ConstantsApp.TAG, "UpdatedfilePathFront=>" + UpdatedfilePathFront)
-                Log.d(ConstantsApp.TAG, "UpdatedfilePathBack=>" + UpdatedfilePathBack)
-                SaveDataLocal(frontImage, backImage)
-                Utility.successToast(this@PrescriptionDrugScreenShotActivity,"Data Submitted Successfully")
+            if (!UpdatedfilePathFront.isNullOrEmpty() || !UpdatedfilePathBack.isNullOrEmpty()) {
+                Log.d(ConstantsApp.TAG, "UpdatedfilePathFront => $UpdatedfilePathFront")
+                Log.d(ConstantsApp.TAG, "UpdatedfilePathBack => $UpdatedfilePathBack")
+
+                SaveDataLocal(UpdatedfilePathFront, UpdatedfilePathBack)
+                Utility.successToast(this@PrescriptionDrugScreenShotActivity, "Data Submitted Successfully")
+
                 val intent = Intent(this, PharmaMainActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -146,6 +155,7 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
                 Toast.makeText(this, "Please set at least one image", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
     private fun getViewModel() {
@@ -215,37 +225,38 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
         )
     }
 
-    override fun onClick(v: View?) {
-        selectedImageView = when (v) {
-            else -> null
-        }
-        selectedImageView?.let {
-            showPictureDialog(it)
-        }
-    }
+//    override fun onClick(v: View?) {
+//        selectedImageView = when (v) {
+//            else -> null
+//        }
+//        selectedImageView?.let {
+//            showPictureDialog(it)
+//        }
+//    }
 
-    private fun showPictureDialog(imageView: ImageView) {
-        val pictureDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+
+    private fun showPictureDialog() {
+        val pictureDialog: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this)
         pictureDialog.setTitle("Select Action")
         val pictureDialogItems = arrayOf(
             "Select photo from gallery",
             "Capture photo from camera"
         )
-        pictureDialog.setItems(pictureDialogItems) { dialog, which ->
+        pictureDialog.setItems(pictureDialogItems) { _, which ->
             when (which) {
-                0 -> choosePhotoFromGallery(imageView)
-                1 -> takePhotoFromCamera(imageView)
+                0 -> choosePhotoFromGallery()
+                1 -> takePhotoFromCamera()
             }
         }
         pictureDialog.show()
     }
 
-    private fun choosePhotoFromGallery(imageView: ImageView) {
+    private fun choosePhotoFromGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, GALLERY)
     }
 
-    private fun takePhotoFromCamera(imageView: ImageView) {
+    private fun takePhotoFromCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, CAMERA)
     }
@@ -294,9 +305,10 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
                 val tempFile = ConstantsApp.saveBitmapToFile1(imageBitmap, fileName, this)
                 val imageUri = FileProvider.getUriForFile(
                     this,
-                    "org.impactindiafoundation.iifllemeddocket.fileprovider",  // Replace with your app's package name
+                    "org.impactindiafoundation.iifllemeddocket.provider", // ✅ Match manifest
                     tempFile
                 )
+
                 val updatedPath = ConstantsApp.moveImageToLLEFolder(this, imageUri!!, fileName)
                 UpdatedfilePathFront = updatedPath!!
                 Log.d(ConstantsApp.TAG, "UpdatedfilePathFront=>" + UpdatedfilePathFront)
@@ -310,9 +322,10 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
                 val tempFile = ConstantsApp.saveBitmapToFile1(imageBitmap, fileName, this)
                 val imageUri = FileProvider.getUriForFile(
                     this,
-                    "org.impactindiafoundation.iifllemeddocket.fileprovider",  // Replace with your app's package name
+                    "org.impactindiafoundation.iifllemeddocket.provider", // ✅ Match manifest
                     tempFile
                 )
+
                 val updatedPath = ConstantsApp.moveImageToLLEFolder(this, imageUri!!, fileName)
                 UpdatedfilePathBack = updatedPath!!
                 Log.d(ConstantsApp.TAG, "UpdatedfilePathBack=>" + UpdatedfilePathBack)
@@ -348,8 +361,17 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
     }
 
     private fun SaveDataLocal(updatedfilePath: String, updatedfilePath1: String) {
+        Log.d("pawan_save", "📸 SaveDataLocal called")
+        Log.d("pawan_save", "updatedfilePath => $updatedfilePath")
+        Log.d("pawan_save", "updatedfilePath1 => $updatedfilePath1")
+
+        val (camp_id, user_id) = sessionManager.getCampUserID()
+        Log.d("pawan_save", "Session camp_id => $camp_id, user_id => $user_id")
+        Log.d("pawan_save", "patient_id => $patient_id")
+
         if (updatedfilePath.isNotEmpty() && updatedfilePath1.isNotEmpty()) {
-            val (camp_id, user_id) = sessionManager.getCampUserID()
+            Log.d("pawan_save", "🟢 Both image paths available — inserting both images")
+
             val imagePrescription = ImagePrescriptionModel(
                 0,
                 updatedfilePath,
@@ -358,17 +380,20 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
                 user_id!!.toInt()
             )
             viewModel1.insertImagePrescriptionModel(imagePrescription)
+            Log.d("pawan_save", "✅ Inserted first image: $updatedfilePath")
 
             val imagePrescription1 = ImagePrescriptionModel(
                 0,
                 updatedfilePath1,
                 patient_id.toInt(),
-                camp_id!!.toInt(),
-                user_id!!.toInt()
+                camp_id.toInt(),
+                user_id.toInt()
             )
             viewModel1.insertImagePrescriptionModel(imagePrescription1)
+            Log.d("pawan_save", "✅ Inserted second image: $updatedfilePath1")
+
         } else {
-            val (camp_id, user_id) = sessionManager.getCampUserID()
+            Log.d("pawan_save", "🟡 Only one image path available")
 
             if (updatedfilePath.isNotEmpty()) {
                 val imagePrescription = ImagePrescriptionModel(
@@ -379,7 +404,8 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
                     user_id!!.toInt()
                 )
                 viewModel1.insertImagePrescriptionModel(imagePrescription)
-            } else {
+                Log.d("pawan_save", "✅ Inserted single image (updatedfilePath): $updatedfilePath")
+            } else if (updatedfilePath1.isNotEmpty()) {
                 val imagePrescription1 = ImagePrescriptionModel(
                     0,
                     updatedfilePath1,
@@ -388,9 +414,15 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
                     user_id!!.toInt()
                 )
                 viewModel1.insertImagePrescriptionModel(imagePrescription1)
+                Log.d("pawan_save", "✅ Inserted single image (updatedfilePath1): $updatedfilePath1")
+            } else {
+                Log.w("pawan_save", "❌ No valid image paths found, skipping insert")
             }
         }
+
+        Log.d("pawan_save", "🏁 SaveDataLocal completed")
     }
+
 
     val imageLauncher = object : ResultImage {
         override val result: ActivityResultLauncher<Intent> = registerForActivityResult(
@@ -427,13 +459,7 @@ class PrescriptionDrugScreenShotActivity : AppCompatActivity(), View.OnClickList
         }
     }
 
-    private fun clickImage() {
-        val dialog = ImagePickerDialog(
-            this@PrescriptionDrugScreenShotActivity,
-            imageLauncher,
-            "Upload Image",
-            true
-        )
-        dialog.show(supportFragmentManager, "ImagePickerDialog")
+    override fun onClick(v: View?) {
+        TODO("Not yet implemented")
     }
 }

@@ -348,19 +348,6 @@
 
     </LinearLayout>
 
-<!--    <ProgressBar-->
-<!--        android:id="@+id/progressBar"-->
-<!--        style="?android:attr/progressBarStyleHorizontal"-->
-<!--        android:layout_width="200dp"-->
-<!--        android:layout_height="@dimen/_20sdp"-->
-<!--        android:indeterminate="true"-->
-<!--        android:max="100"-->
-<!--        android:progressDrawable="@drawable/ic_arrow_down"-->
-<!--        android:visibility="gone"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/content_frame" />-->
 
 
         <ImageView
@@ -526,7 +513,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/syncFabOrthisys"
                 app:layout_constraintEnd_toEndOf="@+id/syncFabOrthisys"
                 app:layout_constraintStart_toStartOf="@+id/syncFabOrthisys"
-                app:srcCompat="@drawable/ic_analytics"
+                app:srcCompat="@drawable/info_circle"
                 app:tint="@color/white" />
             <!--Action name text for the add person button-->
             <TextView
@@ -540,6 +527,32 @@
                 app:layout_constraintBottom_toBottomOf="@+id/aboutUs_fab"
                 app:layout_constraintEnd_toStartOf="@+id/aboutUs_fab"
                 app:layout_constraintTop_toTopOf="@+id/aboutUs_fab" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/analytic_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/light_blue"
+                android:contentDescription="@string/app_name"
+                app:fabSize="mini"
+                android:layout_margin="@dimen/_3sdp"
+                app:layout_constraintBottom_toTopOf="@+id/aboutUs_fab"
+                app:layout_constraintEnd_toEndOf="@+id/aboutUs_fab"
+                app:layout_constraintStart_toStartOf="@+id/aboutUs_fab"
+                app:srcCompat="@drawable/ic_analytics"
+                app:tint="@color/white" />
+            <!--Action name text for the add person button-->
+            <TextView
+                android:id="@+id/analytics_fab_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/opensans_regular"
+                android:text="Analytics"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/analytic_fab"
+                app:layout_constraintEnd_toStartOf="@+id/analytic_fab"
+                app:layout_constraintTop_toTopOf="@+id/analytic_fab" />
             <!--Action name text for the add alarm button-->
             <TextView
                 android:id="@+id/add_sync_text"

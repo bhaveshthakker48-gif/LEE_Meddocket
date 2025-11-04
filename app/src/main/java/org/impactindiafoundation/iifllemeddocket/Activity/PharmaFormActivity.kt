@@ -23,7 +23,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -83,7 +82,8 @@ import java.util.Date
 import java.util.Locale
 
 
-class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickListener, View.OnTouchListener, OnEditClickListener {
+class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickListener,
+    View.OnTouchListener, OnEditClickListener {
 
     lateinit var binding: ActivityPharmaFormBinding
     lateinit var adapter: AdapterPrescriptionData
@@ -114,6 +114,8 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
     var brand_id = ""
     var patient_id = ""
     var patient_name = ""
+    var patientGender = ""
+    var patientAge = 0
     var unit_id1: Long = 0
     private var campID = 0
     private var existingPrescriptionId: Long = 0
@@ -130,16 +132,24 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Choose whichever bottom inset is larger (IME or system bars)
+            val bottom = maxOf(systemBarsInsets.bottom, imeInsets.bottom)
+
             view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                bottom
             )
+
             insets
         }
+
 
         getViewModel()
         createRoomDatabase()
@@ -154,9 +164,9 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
 
         val patientFname = patientData.patientFname
         val patientLname = patientData.patientLname
-        val patientAge = patientData.patientAge
+        patientAge = patientData.patientAge
         val patientID = patientData.patientId
-        val patientGender = patientData.patientGen
+        patientGender = patientData.patientGen
         val camp = patientData.location
         val ageUnit = patientData.AgeUnit
         patient_id = patientData.patientId.toString()
@@ -169,10 +179,10 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
         binding.edtGend.setText("Gender :- " + patientGender)
         binding.edtCampLoc.setText("Camp :- " + camp)
 
-        opdFormId = intent.getIntExtra("formId",0)
+        opdFormId = intent.getIntExtra("formId", 0)
         isEditMode = intent.getBooleanExtra("editMode", false)
         editPosition = intent.getIntExtra("position", -1)
-        if (opdFormId != 0){
+        if (opdFormId != 0) {
             opdPrescriptionViewModel.getFinalPrescriptionByFormId(opdFormId)
         }
         quantityWithPrompt.clear()
@@ -242,6 +252,7 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
 
         binding.TextViewDate.setOnClickListener(this)
         binding.btnAdd.setOnClickListener(this)
+        binding.btnAddNewSpeciality.setOnClickListener(this)
         binding.btnSubmit.setOnClickListener(this)
         binding.autoCompleteTextView.setOnTouchListener(this)
 
@@ -391,7 +402,7 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
             }
         })
 
-       initObserver()
+        initObserver()
     }
 
     override fun onResume() {
@@ -403,7 +414,8 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
         viewModel1.currentInventoryLocal.observe(this, Observer { response ->
             Log.d(ConstantsApp.TAG, "GetDoseUnitData=>" + response)
 
-            val selectedItemName = selectedItem.toString() // Assuming autoCompleteTextView is your AutoCompleteTextView
+            val selectedItemName =
+                selectedItem.toString() // Assuming autoCompleteTextView is your AutoCompleteTextView
             val unitNamesList = response
                 .filter { it.item_name == selectedItem }
                 .map { it.unit_name }
@@ -526,7 +538,8 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
 
     private fun getViewModel() {
         val LLE_MedDocketRespository = LLE_MedDocketRespository()
-        val LLE_MedDocketProviderFactory = LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
+        val LLE_MedDocketProviderFactory =
+            LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
         viewModel = ViewModelProvider(
             this,
             LLE_MedDocketProviderFactory
@@ -546,17 +559,21 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
         val Refractive_Error_DAO: Refractive_Error_DAO = database.Refractive_Error_DAO()
         val OPD_Investigations_DAO: OPD_Investigations_DAO = database.OPD_Investigations_DAO()
         val Eye_Pre_Op_Notes_DAO: Eye_Pre_Op_Notes_DAO = database.Eye_Pre_Op_Notes_DAO()
-        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO = database.Eye_Pre_Op_Investigation_DAO()
-        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO = database.Eye_Post_Op_AND_Follow_ups_DAO()
+        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO =
+            database.Eye_Pre_Op_Investigation_DAO()
+        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO =
+            database.Eye_Post_Op_AND_Follow_ups_DAO()
         val Eye_OPD_Doctors_Note_DAO: Eye_OPD_Doctors_Note_DAO = database.Eye_OPD_Doctors_Note_DAO()
-        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO = database.Cataract_Surgery_Notes_DAO()
+        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO =
+            database.Cataract_Surgery_Notes_DAO()
         val Patient_DAO: PatientDao = database.PatientDao()
         val Image_Upload_DAO: Image_Upload_DAO = database.Image_Upload_DAO()
         val Registration_DAO: Registration_DAO = database.Registration_DAO()
         val Prescription_DAO: Prescription_DAO = database.Prescription_DAO()
         val SynTable_DAO: SynTable_DAO = database.SynTable_DAO()
         val Final_Prescription_DAO: Final_Prescription_DAO = database.Final_Prescription_DAO()
-        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO = database.SpectacleDisdributionStatus_DAO()
+        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO =
+            database.SpectacleDisdributionStatus_DAO()
         val CurrentInventory_DAO: CurrentInventory_DAO = database.CurrentInventory_DAO()
         val InventoryUnit_DAO: InventoryUnit_DAO = database.InventoryUnit_DAO()
         val CreatePrescriptionDAO: CreatePrescriptionDAO = database.CreatePrescriptionDAO()
@@ -588,7 +605,9 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
             database
         )
 
-        viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(LLE_MedDocket_ViewModel::class.java)
+        viewModel1 = ViewModelProvider(this, LLE_MedDocket_ViewModelFactory(repository)).get(
+            LLE_MedDocket_ViewModel::class.java
+        )
     }
 
     private fun GetGenericItem() {
@@ -598,7 +617,8 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
                 itemNameList.add(currentItem.item_name)
             }
 
-            val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, itemNameList)
+            val adapter =
+                ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, itemNameList)
             binding.autoCompleteTextView.setAdapter(adapter)
             binding.autoCompleteTextView.threshold = 1
         })
@@ -634,6 +654,8 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
         PrescriptionDataArrayList?.let { list ->
             if (updated_position in list.indices) {
                 val item = list[updated_position]
+
+                item.doctor_specialty = binding.SpinnerSpeciality.selectedItem?.toString() ?: ""
                 item.generic_name = binding.autoCompleteTextView.text.toString()
                 item.brand_name = selectedBrand
                 item.batch_no = selectedBatch
@@ -643,7 +665,7 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
                 item.dose_frequency = selectedFrequency
                 item.frequency = selectedFrequency1
                 item.duration = binding.EditTextDuration.text.toString()
-                item.selected_duration = binding.SpinnerDuration.selectedItem.toString()
+                item.selected_duration = binding.SpinnerDuration.selectedItem?.toString() ?: ""
             }
         }
         adapter.notifyItemChanged(updated_position)
@@ -722,6 +744,41 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
             .show()
     }
 
+    fun showConfirmationDialogNewSpeciality() {
+        AlertDialog.Builder(this)
+            .setTitle("Confirmation")
+            .setMessage("Are you sure you want to add this data?")
+            .setPositiveButton(android.R.string.yes) { dialog, _ ->
+                binding.linearLayoutPrescriptionList.visibility = View.VISIBLE
+                InsertPrescriptionDataLocal()
+                ClearAllNewSpecialityData()
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.no) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun ClearAllNewSpecialityData() {
+        binding.SpinnerSpeciality.setSelection(0)
+        binding.EditTextDuration.setText(null)
+        binding.EditTextFrequency.setText(null)
+        binding.EditTextQuantity.setText(null)
+        binding.SpinnerBrand.setSelection(0)
+        binding.SpinnerBatch.setSelection(0)
+        binding.SpinnerQuantity.setSelection(0)
+        binding.SpinnerFrequency.setSelection(0)
+        binding.SpinnerFrequency1.setSelection(0)
+        binding.SpinnerDuration.setSelection(0)
+        binding.autoCompleteTextView.setText("")
+        binding.TextViewPrescriptionAdd.setText("Add")
+        binding.autoCompleteTextView.isFocusable = true
+        binding.autoCompleteTextView.isFocusableInTouchMode = true
+        action_flag = 0
+    }
+
+
     private fun ClearAllData() {
         binding.EditTextDuration.setText(null)
         binding.EditTextFrequency.setText(null)
@@ -770,7 +827,12 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
         if (!MyValidator.isValidSpinner17(binding.SpinnerFrequency, "Select Dose Unit", this)) {
             flag = false
         }
-        if (!MyValidator.isValidSpinner17(binding.SpinnerFrequency1, "Select Frequency Unit", this)) {
+        if (!MyValidator.isValidSpinner17(
+                binding.SpinnerFrequency1,
+                "Select Frequency Unit",
+                this
+            )
+        ) {
             flag = false
         }
         if (!MyValidator.isValidSpinner17(binding.SpinnerDuration, "Select Duration", this)) {
@@ -856,6 +918,18 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
 
     private fun SetDataTOUpdateData(position: Int, data: CreatePrescriptionModel) {
         updated_position = position
+
+        val specialityAdapter = binding.SpinnerSpeciality.adapter
+        if (specialityAdapter != null) {
+            val specialityPosition = (0 until specialityAdapter.count).firstOrNull {
+                specialityAdapter.getItem(it)?.toString()?.equals(data.doctor_specialty, ignoreCase = true) == true
+            } ?: -1
+
+            if (specialityPosition >= 0) {
+                binding.SpinnerSpeciality.setSelection(specialityPosition)
+            }
+        }
+
         binding.TextViewPrescriptionAdd.setText("Update")
         binding.autoCompleteTextView.setText(data.generic_name)
         GetSelectedItemData(data.generic_name)
@@ -898,6 +972,22 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
 
     }
 
+    fun SubmitDialogNewSpeciality() {
+        AlertDialog.Builder(this)
+            .setTitle("Confirmation")
+            .setMessage("Are you sure you want to submit this data?")
+            .setPositiveButton(android.R.string.yes) { dialog, _ ->
+                binding.linearLayoutPrescriptionList.visibility = View.VISIBLE
+                UpdateData()
+                ClearAllNewSpecialityData()
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.no) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
     fun SubmitDialog() {
         AlertDialog.Builder(this)
             .setTitle("Confirmation")
@@ -932,7 +1022,7 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
         }
     }
 
-    private fun initObserver(){
+    private fun initObserver() {
         opdPrescriptionViewModel.insertOpdPrescriptionResponse.observe(this) {
             when (it.status) {
                 Status.LOADING -> {}
@@ -948,6 +1038,7 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
                         Log.e("FormSaveError", e.message!!)
                     }
                 }
+
                 Status.ERROR -> {
                     Utility.errorToast(this@PharmaFormActivity, "Unexpected error")
                 }
@@ -962,11 +1053,12 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
                         val opdPatient = it.data?.get(0)!!
                         existingPrescriptionId = opdPatient._id.toLong()
                         val medicineList = ArrayList<CreatePrescriptionModel>()
-                        for (medicineData in opdPatient.prescriptionItems){
+                        for (medicineData in opdPatient.prescriptionItems) {
                             val CreatePrescriptionModel = CreatePrescriptionModel(
                                 0,
                                 opdPatient.patient_temp_id,
                                 opdPatient.patient_name,
+                                medicineData.doctor_specialty,
                                 medicineData.item_name,
                                 medicineData.brand_name,
                                 "0",
@@ -1001,21 +1093,22 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
                         binding.RecyclerViewPrescription.layoutManager = LinearLayoutManager(this)
 
                         binding.linearLayoutPrescriptionList.visibility = View.VISIBLE
-                        val speciality = opdPatient.doctor_specialty
-                        val adapter = binding.SpinnerSpeciality.adapter
-
-                        if (adapter != null) {
-                            val position = (0 until adapter.count).firstOrNull {
-                                adapter.getItem(it).toString().equals(speciality, ignoreCase = true)
-                            } ?: -1
-                            if (position >= 0) {
-                                binding.SpinnerSpeciality.setSelection(position)
-                            }
-                        }
+//                        val speciality = opdPatient.doctor_specialty
+//                        val adapter = binding.SpinnerSpeciality.adapter
+//
+//                        if (adapter != null) {
+//                            val position = (0 until adapter.count).firstOrNull {
+//                                adapter.getItem(it).toString().equals(speciality, ignoreCase = true)
+//                            } ?: -1
+//                            if (position >= 0) {
+//                                binding.SpinnerSpeciality.setSelection(position)
+//                            }
+//                        }
                     } catch (e: Exception) {
                         Log.e("FormSaveError", e.message!!)
                     }
                 }
+
                 Status.ERROR -> {
                     Utility.errorToast(this@PharmaFormActivity, "Unexpected error")
                 }
@@ -1039,9 +1132,20 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
                 }
             }
 
+            binding.btnAddNewSpeciality -> {
+                binding.SpinnerSpeciality.setSelection(0)
+                if (validation()) {
+                    if (action_flag == 0) {
+                        showConfirmationDialogNewSpeciality()
+                    } else {
+                        SubmitDialogNewSpeciality()
+                    }
+                }
+            }
+
+
             binding.btnSubmit -> {
-                val size = PrescriptionDataArrayList?.size
-                    ?: 0
+                val size = PrescriptionDataArrayList?.size ?: 0
 
                 if (size > 0) {
                     PrescriptionDataArrayList?.let { prescriptionList ->
@@ -1050,8 +1154,27 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
                         }
 
                         for (createPrescriptionModel in prescriptionList) {
+
+                            // 🧾 Log all key details before conversion
+                            Log.d(
+                                "pawan", """
+                    --- Prescription Input Data ---
+                    Generic Name: ${createPrescriptionModel.generic_name}
+                    Brand Name: ${createPrescriptionModel.brand_name}
+                    Dose: ${createPrescriptionModel.dose}
+                    Frequency: ${createPrescriptionModel.frequency}
+                    Duration: ${createPrescriptionModel.duration} ${createPrescriptionModel.selected_duration}
+                    Quantity: ${createPrescriptionModel.quantity}
+                    Quantity Unit: ${createPrescriptionModel.quantity_unit}
+                    Quantity Unit ID: ${createPrescriptionModel.quantity_id}
+                    Procurement Item ID: ${createPrescriptionModel.procurementItem_id}
+                    Batch No: ${createPrescriptionModel.batch_no}
+                """.trimIndent()
+                            )
+
                             val prescriptionItem = FinalPrescriptionDrug.PrescriptionItem(
                                 batch_no = createPrescriptionModel.batch_no,
+                                doctor_specialty = createPrescriptionModel.doctor_specialty,
                                 brand_name = createPrescriptionModel.brand_name,
                                 dose = createPrescriptionModel.dose,
                                 duration = createPrescriptionModel.duration,
@@ -1059,11 +1182,11 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
                                 frequency = createPrescriptionModel.frequency,
                                 given = false,
                                 item_name = createPrescriptionModel.generic_name,
-                                procurementItem_id = createPrescriptionModel.procurementItem_id.toInt(), // Assuming it's Int
-                                qty = createPrescriptionModel.quantity.toDouble(), // Assuming it's Double
-                                qty_name = createPrescriptionModel.quantity_unit, // Assuming quantity_unit is qty_name
-                                qty_unit_id = createPrescriptionModel.quantity_id.toInt(), // Assuming it's Int
-                                route = "" // You need to provide route from somewhere
+                                procurementItem_id = createPrescriptionModel.procurementItem_id.toInt(),
+                                qty = createPrescriptionModel.quantity.toDouble(),
+                                qty_name = createPrescriptionModel.quantity_unit,
+                                qty_unit_id = createPrescriptionModel.quantity_id.toInt(),
+                                route = ""
                             )
 
                             FinalPrescriptionDataArrayList?.add(prescriptionItem)
@@ -1071,25 +1194,29 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
                     }
 
                     val (camp_id, user_id) = sessionManager.getCampUserID()
+//                    val userId = ConstantsApp.extractPatientAndLoginData(sessionManager).third
+
 
                     if (FinalPrescriptionDataArrayList?.isNotEmpty() == true) {
-                        val prescriptionItems =
-                            mutableListOf<PatientMedicine.PrescriptionItem>()
+                        val prescriptionItems = mutableListOf<PatientMedicine.PrescriptionItem>()
+
                         for (createPrescriptionModel in FinalPrescriptionDataArrayList!!) {
                             val prescriptionItem = PatientMedicine.PrescriptionItem(
+                                formid = existingPrescriptionId.toInt(),
                                 batch_no = createPrescriptionModel.batch_no,
                                 brand_name = createPrescriptionModel.brand_name,
+                                doctor_specialty = createPrescriptionModel.doctor_specialty,
                                 dose = createPrescriptionModel.dose,
                                 duration = createPrescriptionModel.duration,
-                                duration_unit = createPrescriptionModel.duration_unit, // You need to provide duration_unit from somewhere
+                                duration_unit = createPrescriptionModel.duration_unit,
                                 frequency = createPrescriptionModel.frequency,
-                                given = false, // You need to decide the value for this field
-                                item_name = createPrescriptionModel.item_name, // Assuming generic_name is the item name
-                                procurementItem_id = createPrescriptionModel.procurementItem_id.toInt(), // Assuming it's Int
-                                qty = createPrescriptionModel.qty, // Assuming it's Double
-                                qty_name = createPrescriptionModel.qty_name, // Assuming quantity_unit is qty_name
-                                qty_unit_id = createPrescriptionModel.qty_unit_id.toInt(), // Assuming it's Int
-                                route = "" // You need to provide route from somewhere
+                                given = false,
+                                item_name = createPrescriptionModel.item_name,
+                                procurementItem_id = createPrescriptionModel.procurementItem_id.toInt(),
+                                qty = createPrescriptionModel.qty,
+                                qty_name = createPrescriptionModel.qty_name,
+                                qty_unit_id = createPrescriptionModel.qty_unit_id.toInt(),
+                                route = ""
                             )
                             prescriptionItems.add(prescriptionItem)
                         }
@@ -1102,10 +1229,13 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
                             doctor_name = " ",
                             doctor_specialty = selectedSpeciality,
                             patient_name = patient_name,
+                            patient_geneder = patientGender,
+                            patient_age = patientAge,
                             patient_temp_id = patient_id,
                             createdDate = getCurrentDate(),
                             prescriptionItems = prescriptionItems
                         )
+
                         opdPrescriptionViewModel.savePrescription(prescription)
                     } else {
                         Toast.makeText(this, "Data not available", Toast.LENGTH_SHORT).show()
@@ -1126,6 +1256,7 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
 
     private fun InsertPrescriptionDataLocal() {
         val generic_name = binding.autoCompleteTextView.text.toString()
+        val selectedSpeciality =  binding.SpinnerSpeciality.selectedItem?.toString()
         val app_createdDate = ConstantsApp.getCurrentDate()
         val (patientId, campId, userId) = ConstantsApp.extractPatientAndLoginData(sessionManager)
         val androidId = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
@@ -1133,11 +1264,12 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
             0,
             patient_id,
             patient_name,
+            selectedSpeciality!!,
             generic_name,
             selectedBrand,
             brand_id,
             selectedBatch,
-            procurementItem_id?:"",//is getting null ofr ear drops
+            procurementItem_id ?: "",//is getting null ofr ear drops
             binding.EditTextQuantity.text.toString().toString(),
             unit_id1, selectedQuantity,
             binding.EditTextFrequency.text.toString(),
@@ -1151,7 +1283,10 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
         )
 
         PrescriptionDataArrayList!!.add(CreatePrescriptionModel)
-        SharedPrefUtil.savePrescriptions(this, PrescriptionDataArrayList!!)
+
+        Log.d("InsertPrescriptionDataLocal", "Prescription model created: $CreatePrescriptionModel")
+
+//        SharedPrefUtil.savePrescriptions(this, PrescriptionDataArrayList!!)
         adapter = AdapterPrescriptionData(this, PrescriptionDataArrayList!!, this, this)
         binding.RecyclerViewPrescription.adapter = adapter
         binding.RecyclerViewPrescription.layoutManager = LinearLayoutManager(this)
@@ -1165,5 +1300,6 @@ class PharmaFormActivity : BaseActivity(), View.OnClickListener, OnDeleteClickLi
     override fun onBackPressed() {
         SharedPrefUtil.clearPrescriptions(this)
         super.onBackPressed()
+        PrescriptionDataArrayList?.clear()
     }
 }

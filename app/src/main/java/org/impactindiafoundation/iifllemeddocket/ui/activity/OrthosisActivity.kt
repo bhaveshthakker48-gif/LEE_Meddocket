@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.ThumbnailUtils
@@ -27,6 +28,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.BoolRes
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -40,6 +42,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.gson.Gson
 import org.impactindiafoundation.iifllemeddocket.Model.PatientData
 import org.impactindiafoundation.iifllemeddocket.R
+import org.impactindiafoundation.iifllemeddocket.Utils.ConstantsApp
 import org.impactindiafoundation.iifllemeddocket.Utils.SearchAbleList
 import org.impactindiafoundation.iifllemeddocket.Utils.SessionManager
 import org.impactindiafoundation.iifllemeddocket.Utils.SingleSelectBottomSheetDialogFragment
@@ -74,7 +77,6 @@ class OrthosisActivity : BaseActivity() {
 
     private lateinit var binding: ActivityOrthosisBinding
     private lateinit var orthosisFormAdapter: OrthosisFormAdapter
-    private var orthosisFormList = ArrayList<Int>()
     private var orthosisTypeList = ArrayList<OrthosisType>()
     private var patientOrthosisList = ArrayList<OrthosisPatientData>()
     private val orthosisViewModel: OrthosisViewModel by viewModels()
@@ -83,7 +85,6 @@ class OrthosisActivity : BaseActivity() {
     private var imagePosition = 0
     private var imageList = ArrayList<FormImages>()
     private var removeImageList = ArrayList<FormImages>()
-    private var localFormImages = ArrayList<FormImages>()
     private var videoList = ArrayList<FormVideos>()
     private lateinit var imageAdapter: ImageAdapter
     private var equipmentImages = ArrayList<EquipmentImage>()
@@ -100,21 +101,14 @@ class OrthosisActivity : BaseActivity() {
     private var canEdit = true
     private var isFormImageLocal = false
     private var isFormVideoLocal = false
-    private var isOrthoImageLocal = false
-    private var isImageEdited = false
-    private var isFormEdited = true
     private var isSelectedOtherDiagnosis = false
     private var isEquipmentImageLocal = false
 
-    private val orthosisImageList = ArrayList<OrthosisImages>()
     private val removeOrthosisImageList = ArrayList<OrthosisImages>()
     private val orthosisLocalImageList = ArrayList<OrthosisImages>()
 
     //patient data
     private lateinit var localUser: UserModel
-
-    private lateinit var popupWindow: PopupWindow
-
     private var diagnosisList = ArrayList<DiagnosisType>()
     private var equipmentList = ArrayList<Equipment>()
     private var deleteEquipmentList = ArrayList<EquipmentImage>()
@@ -125,54 +119,44 @@ class OrthosisActivity : BaseActivity() {
     private var isPrescribedStatusNeeded = false
     private var isFormEditable = true
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityOrthosisBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
+        WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars =
+            true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
-            // Apply padding to the activity content (this handles all root layouts properly)
+            // Choose whichever bottom inset is larger (IME or system bars)
+            val bottom = maxOf(systemBarsInsets.bottom, imeInsets.bottom)
+
             view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                bottom
             )
 
             insets
         }
-
         sessionManager = SessionManager(this)
-        //getPatientData()
         initUi()
         orthosisViewModel.getOrthosisMasterLocal()
         orthosisViewModel.getDiagnosisMasterLocal()
         orthosisViewModel.getOrthosisEquipmentMasterLocal()
-        //getIntentData()
         getLocalUserData()
-        //setUpOrthosisFormRecyclerView()
         setUpImagesRecyclerView()
         setUpEquipmentImagesRecyclerView()
         initObserver()
-
     }
 
     private fun initUi() {
-        val tempPath =
-            "/data/data/org.impactindiafoundation.iifllemeddocket/files/recorded_video.mp4"
-
         screen = intent.getStringExtra("screen") ?: "QrCode"
         canEdit = intent.getBooleanExtra("edit", true)
-
         if (canEdit) {
             binding.llBottomOptions.visibility = View.VISIBLE
         } else {
@@ -181,25 +165,21 @@ class OrthosisActivity : BaseActivity() {
         testOrthosisData()
         binding.orthosisToolBar.toolbar.title = "Patient Form"
 
-
         var isArrowDown = true
 
         binding.llPatientDetailTab.setOnClickListener {
             val fromDegree = if (isArrowDown) 0f else 180f
             val toDegree = if (isArrowDown) 180f else 360f
-
             val rotateAnimator =
                 ObjectAnimator.ofFloat(binding.ivPatientArrowDown, "rotation", fromDegree, toDegree)
-            rotateAnimator.duration = 300 // duration of the animation in milliseconds
+            rotateAnimator.duration = 300
             rotateAnimator.start()
-
             if (isArrowDown) {
                 binding.llPatientSection.visibility = View.GONE
             } else {
                 binding.llPatientSection.visibility = View.VISIBLE
             }
             isArrowDown = !isArrowDown
-
         }
 
         binding.etExaminationDate.setOnClickListener {
@@ -211,7 +191,6 @@ class OrthosisActivity : BaseActivity() {
                     override fun onDateSelected(date: String) {
                         binding.etExaminationDate.setText(date)
                     }
-
                 })
         }
 
@@ -224,7 +203,6 @@ class OrthosisActivity : BaseActivity() {
                 if (canEdit) {
                     if (imageList.size >= 4) {
                         if (screen != "QrCode") {
-
                             val dialog = ImagePickerDialog(
                                 this@OrthosisActivity,
                                 formImageLauncher,
@@ -233,10 +211,8 @@ class OrthosisActivity : BaseActivity() {
                             dialog.show(supportFragmentManager, "ImagePickerDialog")
                         } else {
                             Utility.warningToast(this, "Only 4 images are allowed!")
-
                         }
                     } else {
-
                         if (screen != "QrCode") {
                             val dialog = ImagePickerDialog(
                                 this@OrthosisActivity,
@@ -252,7 +228,6 @@ class OrthosisActivity : BaseActivity() {
                             )
                             dialog.show(supportFragmentManager, "ImagePickerDialog")
                         }
-
                     }
                 } else {
                     Utility.warningToast(this@OrthosisActivity, "Cannot Edit Data")
@@ -260,40 +235,35 @@ class OrthosisActivity : BaseActivity() {
             } else {
                 Utility.warningToast(this@OrthosisActivity, "Not Editable")
             }
-
-
         }
 
         binding.tvVideos.setOnClickListener {
-            //  dispatchTakeVideoIntent()
             if (isFormEditable) {
                 val intent = Intent(this@OrthosisActivity, VideoRecordActivity::class.java)
                 startActivityForResult(intent, REQUEST_CODE)
             } else {
                 Utility.warningToast(this@OrthosisActivity, "Not Editable")
-
             }
         }
 
         binding.etPatientHeight.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                // Move focus to the next EditText
                 binding.etPatientWeight.requestFocus()
-
-                true  // Indicate that we've handled the action
+                true
             } else {
-                false  // Otherwise, do nothing
+                false
             }
         }
+
         binding.etPatientWeight.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                binding.etPatientWeight.clearFocus()  // Clear the focus from this EditText
+                binding.etPatientWeight.clearFocus()
                 val imm =
                     binding.etPatientWeight.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding.etPatientWeight.windowToken, 0)
-                true  // Return true to indicate that we've handled the action
+                true
             } else {
-                false  // Otherwise, do nothing
+                false
             }
         }
 
@@ -324,7 +294,6 @@ class OrthosisActivity : BaseActivity() {
         binding.etPrescribedStatus.setOnClickListener {
             if (isFormEditable) {
                 binding.etPrescribedStatus.showDropDown()
-
             } else {
                 Utility.warningToast(this@OrthosisActivity, "Not Editable")
             }
@@ -338,19 +307,18 @@ class OrthosisActivity : BaseActivity() {
                 binding.cvEquipmentPics.visibility = View.GONE
             }
         }
+
         val diagnosisTypeHint = this@OrthosisActivity.getString(R.string.txt_diagnosis_type)
         setAsteriskColor(binding.etlDiagnosisType, diagnosisTypeHint)
 
-        val enterDiagnosisHint =
-            this@OrthosisActivity.getString(R.string.txt_enter_diagnosis_type)
+        val enterDiagnosisHint = this@OrthosisActivity.getString(R.string.txt_enter_diagnosis_type)
         setAsteriskColor(binding.etlOtherDiagnosis, enterDiagnosisHint)
 
-        val prescribedStatusHint =
-            this@OrthosisActivity.getString(R.string.txt_prescribed_status)
+        val prescribedStatusHint = this@OrthosisActivity.getString(R.string.txt_prescribed_status)
         setAsteriskColor(binding.etlPrescribedStatus, prescribedStatusHint)
 
         binding.llEquipmentPicsTab.setOnClickListener {
-            if (isFormEditable){
+            if (isFormEditable) {
                 if (equipmentImages.size < 4) {
                     val dialog = ImagePickerDialog(
                         this@OrthosisActivity,
@@ -361,9 +329,8 @@ class OrthosisActivity : BaseActivity() {
                 } else {
                     Utility.warningToast(this@OrthosisActivity, "Only 4 images are allowed")
                 }
-            }
-            else{
-                Utility.warningToast(this@OrthosisActivity,"Not Editable")
+            } else {
+                Utility.warningToast(this@OrthosisActivity, "Not Editable")
             }
         }
 
@@ -379,93 +346,97 @@ class OrthosisActivity : BaseActivity() {
 
         orthosisViewModel.insertOrthosisFormResponse.observe(this) {
             when (it.status) {
-                Status.LOADING -> {
-                    //    progress.show()
-                }
-
                 Status.SUCCESS -> {
-                    //  progress.dismiss()
                     try {
-                        //  Utility.successToast(this@OrthosisActivity,"")
-                        saveFormImages(imageList, it.data?.toInt() ?: 0)
+                        val formId = it.data?.toInt() ?: 0
+                        Log.d("pawan", "Form ID received: $formId")
+
+                        saveFormImages(imageList, formId)
+                        saveFormVideos(videoList, formId)
+                        saveOrthosisImage(patientOrthosisList, it.data.toString())
+                        saveEquipmentImages(it.data.toString())
+
+                        val savedFormImages = imageList.size
+                        val savedFormVideos = videoList.size
+                        val savedOrthosisImages = patientOrthosisList.getOrNull(imagePosition)?.orthosisImageList?.size ?: 0
+                        val savedEquipmentImages = equipmentImages.size
+
+                        val deletedFormImages = removeImageList.size
+                        val deletedOrthosisImages = removeOrthosisImageList.size
+                        val deletedEquipmentImages = deleteEquipmentList.size
+
+                        Log.d("pawan", """✅ Form saved successfully:
+───────────────────────────────
+Saved:
+• Form Images: $savedFormImages
+• Form Videos: $savedFormVideos
+• Orthosis Images: $savedOrthosisImages
+• Equipment Images: $savedEquipmentImages
+
+Deleted:
+• Form Images: $deletedFormImages
+• Orthosis Images: $deletedOrthosisImages
+• Equipment Images: $deletedEquipmentImages
+───────────────────────────────
+""".trimIndent())
+
                         imageList.clear()
-                        saveFormVideos(videoList, it.data?.toInt() ?: 0)
                         videoList.clear()
-                        saveOrthosisImage(patientOrthosisList, it.data.toString() ?: "")
-                        saveEquipmentImages(it.data.toString() ?: "")
+                        removeImageList.clear()
+                        removeOrthosisImageList.clear()
+                        deleteEquipmentList.clear()
 
-
-                        //for duplicate image
                         Utility.successToast(
                             this@OrthosisActivity,
                             "Successfully Added Patient Data"
                         )
-                        val intent =
-                            Intent(this@OrthosisActivity, OrthosisMainActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        // intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        startActivity(intent)
-                        finish()
-                        Log.d("FormSuccess", "Form Id:${it.data}")
-                    } catch (e: Exception) {
-                        Log.e("FormSaveError", e.message!!)
 
+                        startActivity(
+                            Intent(this@OrthosisActivity, OrthosisMainActivity::class.java).apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) }
+                        )
+                        finish()
+                    } catch (e: Exception) {
+                        Log.e("pawan", "Error while saving form data: ${e.message}")
                     }
                 }
-
                 Status.ERROR -> {
                     Utility.errorToast(this@OrthosisActivity, "Unexpected error")
-
+                    Log.e("pawan", "Form save failed: ${it.message}")
                 }
+                else -> {}
             }
         }
 
         orthosisViewModel.insertedFormImageIds.observe(this) {
             when (it.status) {
-                Status.LOADING -> {
-                    //    progress.show()
-                }
+                Status.LOADING -> {}
 
                 Status.SUCCESS -> {
-                    //  progress.dismiss()
                     try {
                     } catch (e: Exception) {
                         Utility.errorToast(this@OrthosisActivity, e.message.toString())
-
                     }
                 }
 
                 Status.ERROR -> {
                     Utility.errorToast(this@OrthosisActivity, "Unexpected error")
-
                 }
             }
         }
 
         orthosisViewModel.orthosisMasterList.observe(this) { it ->
             when (it.status) {
-                Status.LOADING -> {
-                    Log.d("Pawan", "orthosisMasterList -> LOADING")
-                    // progress.show()
-                }
-
+                Status.LOADING -> {}
                 Status.SUCCESS -> {
-                    Log.d("Pawan", "orthosisMasterList -> SUCCESS, data count: ${it.data?.size}")
-                    // progress.dismiss()
+                    Log.d("pawan", "orthosisMasterList -> SUCCESS, data count: ${it.data?.size}")
                     try {
                         if (!it.data.isNullOrEmpty()) {
-                            Log.d("Pawan", "orthosisMasterList -> Data available, clearing and adding ${it.data.size} items")
-
+                            Log.d("pawan", "orthosisMasterList -> Data available, clearing and adding ${it.data.size} items")
                             orthosisTypeList.clear()
                             orthosisTypeList.addAll(it.data)
 
-                            // Click listener for "Add More Orthosis Type"
                             binding.tvAddMoreOrthosisType.setOnClickListener {
                                 Log.d("Pawan", "tvAddMoreOrthosisType clicked")
-
-                                val measurementList1 = listOf(
-                                    Measurement(false, "", "", 1)
-                                )
 
                                 val data = OrthosisPatientData(
                                     0, // requested by server to add 0 - first time 0
@@ -489,108 +460,38 @@ class OrthosisActivity : BaseActivity() {
                                 patientOrthosisList.add(data)
                                 orthosisFormAdapter.notifyDataSetChanged()
 
-                                Log.d(
-                                    "Pawan",
-                                    "Added new OrthosisPatientData item, total size: ${patientOrthosisList.size}"
-                                )
+                                Log.d("pawan", "Added new OrthosisPatientData item, total size: ${patientOrthosisList.size}")
 
                                 binding.rvOrthosisForm.smoothScrollToPosition(
                                     patientOrthosisList.size - 1
                                 )
                             }
                         } else {
-                            Log.w("Pawan", "orthosisMasterList -> Empty or null data received")
+                            Log.w("pawan", "orthosisMasterList -> Empty or null data received")
                         }
                     } catch (e: Exception) {
-                        Log.e("Pawan", "orthosisMasterList -> Exception: ${e.message}", e)
+                        Log.e("pawan", "orthosisMasterList -> Exception: ${e.message}", e)
                         Utility.errorToast(this@OrthosisActivity, e.message.toString())
                     }
                 }
-
                 Status.ERROR -> {
-                    Log.e("Pawan", "orthosisMasterList -> ERROR: ${it.message}")
-                    Utility.errorToast(this@OrthosisActivity, "Unexpected error (orthosisMasterList)")
+                    Log.e("pawan", "orthosisMasterList -> ERROR: ${it.message}")
+                    Utility.errorToast(
+                        this@OrthosisActivity,
+                        "Unexpected error (orthosisMasterList)"
+                    )
                 }
             }
         }
 
-//        orthosisViewModel.orthosisMasterList.observe(this) {
-//            when (it.status) {
-//                Status.LOADING -> {
-//                    //    progress.show()
-//                }
-//
-//                Status.SUCCESS -> {
-//                    //  progress.dismiss()
-//                    try {
-//                        if (!it.data.isNullOrEmpty()) {
-//                            orthosisTypeList.clear()
-//                            orthosisTypeList.addAll(it.data)
-//                            binding.tvAddMoreOrthosisType.setOnClickListener {
-//                                val measurementList1 =
-//                                    listOf(
-//                                        Measurement(false, "", "", 1),
-//                                    )
-//                                val orthosisTypeForm1 = OrthosisType(
-//                                    1,
-//                                    measurementList1,
-//                                    "ANKEL FOOT ORTHOSIS(PP) WITH FIXED 90 DEGREE ANKEL"
-//                                )
-//                                //orthosisTypeList.add(orthosisTypeForm1)
-//                                val data =
-//                                    OrthosisPatientData(
-//                                        0,//requested by server to add 0 - first time 0
-//                                        "",
-//                                        "",
-//                                        "",
-//                                        "",
-//                                        OrthosisType(1, listOf(), ""),
-//                                        "",
-//                                        "",
-//                                        "",
-//                                        examinationDate = getCurrentDate(),//added manually as per requirement
-//                                        "",
-//                                        "",
-//                                        orthoFormId = 0,
-//                                        listOf(),
-//                                        image = "",
-//                                        orthosisImageList = mutableListOf()
-//                                    )
-//                                patientOrthosisList.add(data)
-//                                orthosisFormAdapter.notifyDataSetChanged()
-//                                binding.rvOrthosisForm.smoothScrollToPosition(
-//                                    patientOrthosisList.size - 1
-//                                )
-//
-//                            }
-//                        }
-//
-//                    } catch (e: Exception) {
-//                        Utility.errorToast(this@OrthosisActivity, e.message.toString())
-//
-//                    }
-//                }
-//
-//                Status.ERROR -> {
-//                    Utility.errorToast(this@OrthosisActivity, "Unexpected error")
-//
-//                }
-//            }
-//        }
-
         orthosisViewModel.diagnosisMasterList.observe(this) { it ->
             when (it.status) {
-                Status.LOADING -> {
-                    Log.d("Pawan", "diagnosisMasterList -> LOADING")
-                    // progress.show()
-                }
-
+                Status.LOADING -> {}
                 Status.SUCCESS -> {
-                    Log.d("Pawan", "diagnosisMasterList -> SUCCESS, data count: ${it.data?.size}")
-                    // progress.dismiss()
+                    Log.d("pawan", "diagnosisMasterList -> SUCCESS, data count: ${it.data?.size}")
                     try {
                         if (!it.data.isNullOrEmpty()) {
-                            Log.d("Pawan", "diagnosisMasterList -> Data available, clearing and adding ${it.data.size} items")
+                            Log.d("pawan", "diagnosisMasterList -> Data available, clearing and adding ${it.data.size} items")
 
                             diagnosisList.clear()
                             diagnosisList.addAll(it.data)
@@ -598,16 +499,6 @@ class OrthosisActivity : BaseActivity() {
                             binding.tvAddMoreOrthosisType.setOnClickListener {
                                 Log.d("Pawan", "tvAddMoreOrthosisType clicked (diagnosisMasterList)")
 
-                                val measurementList1 = listOf(
-                                    Measurement(false, "", "", 1)
-                                )
-
-                                val orthosisTypeForm1 = OrthosisType(
-                                    1,
-                                    measurementList1,
-                                    "ANKEL FOOT ORTHOSIS(PP) WITH FIXED 90 DEGREE ANKEL"
-                                )
-
                                 val data = OrthosisPatientData(
                                     0, // requested by server to add 0 - first time 0
                                     "",
@@ -630,124 +521,31 @@ class OrthosisActivity : BaseActivity() {
                                 patientOrthosisList.add(data)
                                 orthosisFormAdapter.notifyDataSetChanged()
 
-                                Log.d(
-                                    "Pawan",
-                                    "Added new OrthosisPatientData item (diagnosisMasterList), total size: ${patientOrthosisList.size}"
-                                )
+                                Log.d("pawan", "Added new OrthosisPatientData item (diagnosisMasterList), total size: ${patientOrthosisList.size}")
 
                                 binding.rvOrthosisForm.scrollToPosition(patientOrthosisList.size - 1)
                             }
                         } else {
-                            Log.w("Pawan", "diagnosisMasterList -> Empty or null data received")
+                            Log.w("pawan", "diagnosisMasterList -> Empty or null data received")
                         }
                     } catch (e: Exception) {
-                        Log.e("Pawan", "diagnosisMasterList -> Exception: ${e.message}", e)
+                        Log.e("pawan", "diagnosisMasterList -> Exception: ${e.message}", e)
                         Utility.errorToast(this@OrthosisActivity, e.message.toString())
                     }
                 }
-
                 Status.ERROR -> {
-                    Log.e("Pawan", "diagnosisMasterList -> ERROR: ${it.message}")
-                    Utility.errorToast(this@OrthosisActivity, "Unexpected error (diagnosisMasterList)")
+                    Log.e("pawan", "diagnosisMasterList -> ERROR: ${it.message}")
+                    Utility.errorToast(
+                        this@OrthosisActivity,
+                        "Unexpected error (diagnosisMasterList)"
+                    )
                 }
             }
         }
 
-
-//        orthosisViewModel.diagnosisMasterList.observe(this) {
-//            when (it.status) {
-//                Status.LOADING -> {
-//                    //    progress.show()
-//                }
-//
-//                Status.SUCCESS -> {
-//                    //  progress.dismiss()
-//                    try {
-//                        if (!it.data.isNullOrEmpty()) {
-//                            diagnosisList.clear()
-//                            diagnosisList.addAll(it.data)
-//                            binding.tvAddMoreOrthosisType.setOnClickListener {
-//                                val measurementList1 =
-//                                    listOf(
-//                                        Measurement(false, "", "", 1),
-//                                    )
-//                                val orthosisTypeForm1 = OrthosisType(
-//                                    1,
-//                                    measurementList1,
-//                                    "ANKEL FOOT ORTHOSIS(PP) WITH FIXED 90 DEGREE ANKEL"
-//                                )
-//                                val data =
-//                                    OrthosisPatientData(
-//                                        0,//requested by server to add 0 - first time 0
-//                                        "",
-//                                        "",
-//                                        "",
-//                                        "",
-//                                        OrthosisType(1, listOf(), ""),
-//                                        "",
-//                                        "",
-//                                        "",
-//                                        examinationDate = getCurrentDate(),//added manually as per requirement
-//                                        "",
-//                                        "",
-//                                        orthoFormId = 0,
-//                                        listOf(),
-//                                        image = "",
-//                                        orthosisImageList = mutableListOf()
-//                                    )
-//                                patientOrthosisList.add(data)
-//                                orthosisFormAdapter.notifyDataSetChanged()
-//                                binding.rvOrthosisForm.scrollToPosition(patientOrthosisList.size - 1)
-//
-//                            }
-//                        }
-//
-//                    } catch (e: Exception) {
-//                        Utility.errorToast(this@OrthosisActivity, e.message.toString())
-//
-//                    }
-//                }
-//
-//                Status.ERROR -> {
-//                    Utility.errorToast(this@OrthosisActivity, "Unexpected error")
-//
-//                }
-//            }
-//        }
-//
-//        orthosisViewModel.orthosisEquipmentMasterList.observe(this) {
-//            when (it.status) {
-//                Status.LOADING -> {
-//                    //    progress.show()
-//                }
-//
-//                Status.SUCCESS -> {
-//                    //  progress.dismiss()
-//                    try {
-//                        if (!it.data.isNullOrEmpty()) {
-//                            equipmentList.clear()
-//                            equipmentList.addAll(it.data)
-//                        }
-//
-//                    } catch (e: Exception) {
-//                        Utility.errorToast(this@OrthosisActivity, e.message.toString())
-//
-//                    }
-//                }
-//
-//                Status.ERROR -> {
-//                    Utility.errorToast(this@OrthosisActivity, "Unexpected error")
-//
-//                }
-//            }
-//        }
-
         orthosisViewModel.orthosisPatientFormListById.observe(this) {
             when (it.status) {
-                Status.LOADING -> {
-                    Log.d("Pawan", "orthosisPatientFormListById -> LOADING")
-                    progress.show()
-                }
+                Status.LOADING -> { Log.d("Pawan", "orthosisPatientFormListById -> LOADING") }
                 Status.SUCCESS -> {
                     Log.d("Pawan", "orthosisPatientFormListById -> SUCCESS, data count: ${it.data?.size}")
                     progress.dismiss()
@@ -767,23 +565,16 @@ class OrthosisActivity : BaseActivity() {
                             }
 
                             patientId = localPatientData.id.toString()
-                            binding.tvPatientDetails.text = "Patient Details - ${localPatientData.tempPatientId}"
+                            binding.tvPatientDetails.text =
+                                "Patient Details - ${localPatientData.tempPatientId}"
                             binding.tvCampDetails.text = "Camp : ${localPatientData.campName}"
                             binding.tvPatientName.text = "Name : ${localPatientData.patientName}"
-                            binding.tvPatientGender.text = "Gender : ${localPatientData.patientGender}"
+                            binding.tvPatientGender.text =
+                                "Gender : ${localPatientData.patientGender}"
                             binding.tvPatientAge.text = "Age : ${localPatientData.patientAgeYears}"
 
                             binding.etPatientHeight.setText(localPatientData.patientHeightCm)
                             binding.etPatientWeight.setText(localPatientData.patientWeightKg)
-                            binding.etPatientWeight.isFocusable = isFormEditable
-                            binding.etPatientHeight.isFocusable = isFormEditable
-
-                            binding.etPatientWeight.setOnClickListener {
-                                if (!isFormEditable) Utility.warningToast(this@OrthosisActivity, "Not Editable")
-                            }
-                            binding.etPatientHeight.setOnClickListener {
-                                if (!isFormEditable) Utility.warningToast(this@OrthosisActivity, "Not Editable")
-                            }
 
                             if (localPatientData.diagnosisId == 1) {
                                 binding.etlOtherDiagnosis.visibility = View.VISIBLE
@@ -807,7 +598,11 @@ class OrthosisActivity : BaseActivity() {
                                 binding.etlPrescribedStatus.visibility = View.VISIBLE
                                 binding.etPrescribedStatus.setText(localPatientData.equipmentStatus)
                                 val statusOptions = listOf("Pending", "Given")
-                                val statusAdapter = ArrayAdapter(this@OrthosisActivity, android.R.layout.simple_dropdown_item_1line, statusOptions)
+                                val statusAdapter = ArrayAdapter(
+                                    this@OrthosisActivity,
+                                    android.R.layout.simple_dropdown_item_1line,
+                                    statusOptions
+                                )
                                 binding.etPrescribedStatus.setAdapter(statusAdapter)
                                 binding.etPrescribedStatus.setOnClickListener {
                                     if (isFormEditable) binding.etPrescribedStatus.showDropDown()
@@ -817,7 +612,11 @@ class OrthosisActivity : BaseActivity() {
                                 binding.etlPrescribedStatus.visibility = View.GONE
                                 binding.etPrescribedStatus.setText("")
                                 val statusOptions = listOf("Pending", "Given")
-                                val statusAdapter = ArrayAdapter(this@OrthosisActivity, android.R.layout.simple_dropdown_item_1line, statusOptions)
+                                val statusAdapter = ArrayAdapter(
+                                    this@OrthosisActivity,
+                                    android.R.layout.simple_dropdown_item_1line,
+                                    statusOptions
+                                )
                                 binding.etPrescribedStatus.setAdapter(statusAdapter)
                                 binding.etPrescribedStatus.setOnClickListener {
                                     if (isFormEditable) binding.etPrescribedStatus.showDropDown()
@@ -858,189 +657,44 @@ class OrthosisActivity : BaseActivity() {
             }
         }
 
-//        orthosisViewModel.orthosisPatientFormListById.observe(this) {
-//            when (it.status) {
-//                Status.LOADING -> {
-//                    progress.show()
-//                }
-//
-//                Status.SUCCESS -> {
-//                    progress.dismiss()
-//                    try {
-//                        if (!it.data.isNullOrEmpty()) {
-//                            isFormEditable = false
-//                            binding.btnSavePatientOrthosis.visibility = View.GONE
-//                            binding.tvAddMoreOrthosisType.visibility = View.GONE
-//                            binding.btnEditPatientOrthosis.visibility = View.VISIBLE
-//
-//
-//                            localPatientData = it.data[0]
-//                            if (localPatientData.isSynced == 0) {
-//                                binding.llBottomOptions.visibility = View.VISIBLE
-//                            } else {
-//                                binding.llBottomOptions.visibility = View.GONE
-//                            }
-//                            patientId = localPatientData.id.toString()
-////                            getOrthosisImagesByFormId(patientId)
-//                            binding.tvPatientDetails.text =
-//                                "Patient Details - ${localPatientData.tempPatientId}"
-//                            binding.tvCampDetails.text = "Camp : ${localPatientData.campName}"
-//                            binding.tvPatientName.text =
-//                                "Name : ${localPatientData.patientName}"
-//                            binding.tvPatientGender.text =
-//                                "Gender : ${localPatientData.patientGender}"
-//                            binding.tvPatientAge.text =
-//                                "Age : ${localPatientData.patientAgeYears}"
-//
-//                            binding.etPatientHeight.setText(localPatientData.patientHeightCm)
-//                            binding.etPatientWeight.setText(localPatientData.patientWeightKg)
-//                            binding.etPatientWeight.isFocusable = isFormEditable
-//                            binding.etPatientHeight.isFocusable = isFormEditable
-//
-//                            binding.etPatientWeight.setOnClickListener {
-//
-//                                if (!isFormEditable) {
-//                                    Utility.warningToast(this@OrthosisActivity, "Not Editable")
-//                                }
-//
-//
-//                            }
-//                            binding.etPatientHeight.setOnClickListener {
-//                                if (!isFormEditable) {
-//                                    Utility.warningToast(this@OrthosisActivity, "Not Editable")
-//                                }
-//                            }
-//
-//
-//                            //logic for checking if selected diagnosis is OTHER
-//                            if (localPatientData.diagnosisId == 1){
-//                                binding.etlOtherDiagnosis.visibility = View.VISIBLE
-//                                binding.etOtherDiagnosis.setText(localPatientData.diagnosis)
-//                                binding.etDiagnosisType.setText("Other")
-//                            }
-//                            else{
-//                                binding.etlOtherDiagnosis.visibility = View.GONE
-//                                binding.etDiagnosisType.setText(localPatientData.diagnosis)
-//                                binding.etOtherDiagnosis.setText("")
-//
-//                            }
-//
-//                            if (!localPatientData.equipmentCategory.isNullOrEmpty()) {
-//                                binding.etlPrescribed.visibility = View.VISIBLE
-//                                binding.etPrescribed.setText(localPatientData.equipmentCategory)
-//                            } else {
-//                                binding.etlPrescribed.visibility = View.GONE
-//                                binding.etPrescribed.setText("")
-//
-//
-//                            }
-//
-//                            if (!localPatientData.equipmentStatus.isNullOrEmpty()) {
-//                                binding.etlPrescribedStatus.visibility = View.VISIBLE
-//                                binding.etPrescribedStatus.setText(localPatientData.equipmentStatus)
-//                                val statusOptions = listOf("Pending", "Given")
-//                                val statusadapter =
-//                                    ArrayAdapter(
-//                                        this@OrthosisActivity,
-//                                        android.R.layout.simple_dropdown_item_1line,
-//                                        statusOptions
-//                                    )
-//                                binding.etPrescribedStatus.setAdapter(statusadapter)
-//                                binding.etPrescribedStatus.setOnClickListener {
-//                                    if (isFormEditable) {
-//                                        binding.etPrescribedStatus.showDropDown()
-//
-//                                    } else {
-//                                        Utility.warningToast(
-//                                            this@OrthosisActivity,
-//                                            "Not Editable"
-//                                        )
-//                                    }
-//                                }
-//                            } else {
-//                                binding.etlPrescribedStatus.visibility = View.GONE
-//                                binding.etPrescribedStatus.setText("")
-//                                val statusOptions = listOf("Pending", "Given")
-//                                val statusadapter =
-//                                    ArrayAdapter(
-//                                        this@OrthosisActivity,
-//                                        android.R.layout.simple_dropdown_item_1line,
-//                                        statusOptions
-//                                    )
-//                                binding.etPrescribedStatus.setAdapter(statusadapter)
-//                                binding.etPrescribedStatus.setOnClickListener {
-//                                    if (isFormEditable) {
-//                                        binding.etPrescribedStatus.showDropDown()
-//
-//                                    } else {
-//                                        Utility.warningToast(
-//                                            this@OrthosisActivity,
-//                                            "Not Editable"
-//                                        )
-//                                    }
-//                                }
-//
-//
-//                            }
-//
-//                            if (localPatientData.orthosisList.any { it.status == "Given" }) {
-//                                binding.llImages.visibility = View.VISIBLE
-//                                binding.llVideos.visibility = View.VISIBLE
-//                            } else {
-//                                binding.llImages.visibility = View.GONE
-//                                binding.llVideos.visibility = View.GONE
-//                            }
-//
-//
-//                            patientOrthosisList.clear()
-//                            patientOrthosisList.addAll(localPatientData.orthosisList)
-//                            setUpOrthosisFormRecyclerView(isFormEditable)
-//                        } else {
-//                            getPatientData()
-//                            setUpOrthosisFormRecyclerView(true)
-//                            binding.btnEditPatientOrthosis.visibility = View.GONE
-//                            binding.btnSavePatientOrthosis.visibility = View.VISIBLE
-//                            binding.tvAddMoreOrthosisType.visibility = View.VISIBLE
-//                            binding.tvSaveOrthosis.text = "Submit"
-//                        }
-//                    } catch (e: Exception) {
-//                        Utility.errorToast(this@OrthosisActivity, e.message.toString())
-//                    }
-//                }
-//
-//                Status.ERROR -> {
-//                    progress.dismiss()
-//                    Utility.errorToast(this@OrthosisActivity, "Unexpected error")
-//                }
-//            }
-//        }
-
         // 1. orthosisEquipmentMasterList
         orthosisViewModel.orthosisEquipmentMasterList.observe(this) { it ->
             when (it.status) {
                 Status.LOADING -> {
-                    Log.d("Pawan", "orthosisEquipmentMasterList -> LOADING")
+                    Log.d("sahil", "orthosisEquipmentMasterList -> LOADING")
                 }
 
                 Status.SUCCESS -> {
-                    Log.d("Pawan", "orthosisEquipmentMasterList -> SUCCESS, data count: ${it.data?.size}")
+                    Log.d(
+                        "sahil",
+                        "orthosisEquipmentMasterList -> SUCCESS, data count: ${it.data?.size}"
+                    )
                     try {
                         if (!it.data.isNullOrEmpty()) {
                             equipmentList.clear()
                             equipmentList.addAll(it.data)
-                            Log.d("Pawan", "orthosisEquipmentMasterList -> Data added, total equipmentList size: ${equipmentList.size}")
+                            Log.d(
+                                "sahil",
+                                "orthosisEquipmentMasterList -> Data added, total equipmentList size: ${equipmentList.size}"
+                            )
                         } else {
-                            Log.w("Pawan", "orthosisEquipmentMasterList -> Empty or null data received")
+                            Log.w(
+                                "sahil",
+                                "orthosisEquipmentMasterList -> Empty or null data received"
+                            )
                         }
                     } catch (e: Exception) {
-                        Log.e("Pawan", "orthosisEquipmentMasterList -> Exception: ${e.message}", e)
+                        Log.e("sahil", "orthosisEquipmentMasterList -> Exception: ${e.message}", e)
                         Utility.errorToast(this@OrthosisActivity, e.message.toString())
                     }
                 }
 
                 Status.ERROR -> {
-                    Log.e("Pawan", "orthosisEquipmentMasterList -> ERROR: ${it.message}")
-                    Utility.errorToast(this@OrthosisActivity, "Unexpected error (orthosisEquipmentMasterList)")
+                    Log.e("sahil", "orthosisEquipmentMasterList -> ERROR: ${it.message}")
+                    Utility.errorToast(
+                        this@OrthosisActivity,
+                        "Unexpected error (orthosisEquipmentMasterList)"
+                    )
                 }
             }
         }
@@ -1053,7 +707,10 @@ class OrthosisActivity : BaseActivity() {
                 }
 
                 Status.SUCCESS -> {
-                    Log.d("Pawan", "formImageListFormId -> SUCCESS, data count: ${formImages.data?.size}")
+                    Log.d(
+                        "Pawan",
+                        "formImageListFormId -> SUCCESS, data count: ${formImages.data?.size}"
+                    )
                     try {
                         if (!formImages.data.isNullOrEmpty()) {
                             imageList.clear()
@@ -1075,7 +732,10 @@ class OrthosisActivity : BaseActivity() {
 
                 Status.ERROR -> {
                     Log.e("Pawan", "formImageListFormId -> ERROR: ${formImages.message}")
-                    Utility.errorToast(this@OrthosisActivity, "Unexpected error (formImageListFormId)")
+                    Utility.errorToast(
+                        this@OrthosisActivity,
+                        "Unexpected error (formImageListFormId)"
+                    )
                 }
             }
         }
@@ -1088,7 +748,10 @@ class OrthosisActivity : BaseActivity() {
                 }
 
                 Status.SUCCESS -> {
-                    Log.d("Pawan", "equipmentImagesList -> SUCCESS, data count: ${equipmentLocalImages.data?.size}")
+                    Log.d(
+                        "Pawan",
+                        "equipmentImagesList -> SUCCESS, data count: ${equipmentLocalImages.data?.size}"
+                    )
                     try {
                         if (!equipmentLocalImages.data.isNullOrEmpty()) {
                             isEquipmentImageLocal = true
@@ -1100,7 +763,10 @@ class OrthosisActivity : BaseActivity() {
 
                             binding.cvEquipmentPics.visibility = View.VISIBLE
                             imageAdapter.notifyDataSetChanged()
-                            Log.d("Pawan", "equipmentImagesList -> Added ${equipmentImages.size} images")
+                            Log.d(
+                                "Pawan",
+                                "equipmentImagesList -> Added ${equipmentImages.size} images"
+                            )
                         } else {
                             isEquipmentImageLocal = false
                             binding.cvEquipmentPics.visibility = View.GONE
@@ -1114,11 +780,88 @@ class OrthosisActivity : BaseActivity() {
 
                 Status.ERROR -> {
                     Log.e("Pawan", "equipmentImagesList -> ERROR: ${equipmentLocalImages.message}")
-                    Utility.errorToast(this@OrthosisActivity, "Unexpected error (equipmentImagesList)")
+                    Utility.errorToast(
+                        this@OrthosisActivity,
+                        "Unexpected error (equipmentImagesList)"
+                    )
                 }
             }
         }
 
+        orthosisViewModel.formVideosListById.observe(this) {
+            when (it.status) {
+                Status.LOADING -> {
+                    Log.d("pawan", "formVideosListById -> LOADING")
+                }
+
+                Status.SUCCESS -> {
+                    Log.d("pawan", "formVideosListById -> SUCCESS, data count: ${it.data?.size}")
+                    try {
+                        if (!it.data.isNullOrEmpty()) {
+                            isFormVideoLocal = true
+                            videoList.clear()
+                            videoList.addAll(it.data)
+                            Log.d("pawan", "formVideosListById -> Added ${it.data.size} videos")
+
+                            val thumbnail = ThumbnailUtils.createVideoThumbnail(
+                                it.data[0].video,
+                                MediaStore.Video.Thumbnails.MINI_KIND
+                            )
+                            binding.cvFile.visibility = View.VISIBLE
+                            binding.ivFile.setImageBitmap(thumbnail)
+                            Log.d(
+                                "pawan",
+                                "formVideosListById -> Thumbnail created for first video: ${it.data[0].video}"
+                            )
+                        } else {
+                            Log.w(
+                                "pawan",
+                                "formVideosListById -> Empty or null video data received"
+                            )
+                        }
+                    } catch (e: Exception) {
+                        Log.e("pawan", "formVideosListById -> Exception: ${e.message}", e)
+                    }
+                }
+
+                Status.ERROR -> {
+                    Log.e("pawan", "formVideosListById -> ERROR: ${it.message}")
+                }
+            }
+        }
+
+        orthosisViewModel.orthosisImagesList.observe(this) {
+            when (it.status) {
+                Status.LOADING -> {
+                    Log.d("pawan", "orthosisImagesList -> LOADING")
+                    progress.show()
+                }
+
+                Status.SUCCESS -> {
+                    Log.d("pawan", "orthosisImagesList -> SUCCESS, data count: ${it.data?.size}")
+                    progress.dismiss()
+                    try {
+                        if (!it.data.isNullOrEmpty()) {
+                            orthosisLocalImageList.clear()
+                            orthosisLocalImageList.addAll(it.data)
+                            Log.d(
+                                "pawan",
+                                "orthosisImagesList -> Added ${it.data.size} orthosis images"
+                            )
+                        } else {
+                            Log.w("pawan", "orthosisImagesList -> Empty or null data received")
+                        }
+                    } catch (e: Exception) {
+                        Log.e("pawan", "orthosisImagesList -> Exception: ${e.message}", e)
+                    }
+                }
+
+                Status.ERROR -> {
+                    progress.dismiss()
+                    Log.e("pawan", "orthosisImagesList -> ERROR: ${it.message}")
+                }
+            }
+        }
 
         orthosisViewModel.userList.observe(this) {
             when (it.status) {
@@ -1134,7 +877,6 @@ class OrthosisActivity : BaseActivity() {
                             canEdit = intent.getBooleanExtra("edit", true)
                             tempPatientId = intent.getStringExtra("temp_id") ?: ""
                             localPatientId = intent.getStringExtra("local_patient_id") ?: "0"
-//                            if (screen == "Camp_List") {
                             orthosisViewModel.getOrthosisPatientFormById(
                                 localPatientId?.toInt() ?: 0
                             )
@@ -1143,7 +885,7 @@ class OrthosisActivity : BaseActivity() {
                             )
                             orthosisViewModel.getEquipmentImageByFormId(localPatientId ?: "0")
                             orthosisViewModel.getFormVideos(localPatientId?.toInt() ?: 0)
-                             orthosisViewModel.getOrthosisImageByFormId(localPatientId)
+                            orthosisViewModel.getOrthosisImageByFormId(localPatientId)
                         }
 
                     } catch (e: Exception) {
@@ -1156,246 +898,272 @@ class OrthosisActivity : BaseActivity() {
             }
         }
 
-//        orthosisViewModel.formImageListFormId.observe(this) { formImages ->
-//            when (formImages.status) {
-//                Status.LOADING -> {
-//                    //    progress.show()
-//                }
-//
-//                Status.SUCCESS -> {
-//                    //  progress.dismiss()
-//                    try {
-//                        if (!formImages.data.isNullOrEmpty()) {
-//                            imageList.clear()
-//                            for ((index, data) in formImages.data.withIndex()) {
-//                                if (index == 4) {
-//                                    break
-//                                } else {
-//                                    imageList.add(data)
-//                                }
-//                            }
-//                            isFormImageLocal = true
-//                            imageAdapter.notifyDataSetChanged()
-//                        }
-//
-//                    } catch (e: Exception) {
-//                        Utility.errorToast(this@OrthosisActivity, e.message.toString())
-//                    }
-//                }
-//
-//                Status.ERROR -> {
-//                    Utility.errorToast(this@OrthosisActivity, "Unexpected error")
-//                }
-//            }
-//        }
-
-//        orthosisViewModel.equipmentImagesList.observe(this) { equipmentLocalImages ->
-//            when (equipmentLocalImages.status) {
-//                Status.LOADING -> {
-//                    //    progress.show()
-//                }
-//
-//                Status.SUCCESS -> {
-//                    //  progress.dismiss()
-//                    try {
-//                        if (!equipmentLocalImages.data.isNullOrEmpty()) {
-//                            isEquipmentImageLocal = true
-//                            equipmentImages.clear()
-//                            for ((index, data) in equipmentLocalImages.data.withIndex()) {
-//                                if (index == 4) {
-//                                    break
-//                                } else {
-//                                    equipmentImages.add(data)
-//                                }
-//                            }
-//
-//                            binding.cvEquipmentPics.visibility = View.VISIBLE
-//                            imageAdapter.notifyDataSetChanged()
-//                        } else {
-//                            isEquipmentImageLocal = false
-//                            binding.cvEquipmentPics.visibility = View.GONE
-//                        }
-//
-//                    } catch (e: Exception) {
-//                        Utility.errorToast(this@OrthosisActivity, e.message.toString())
-//
-//                    }
-//                }
-//
-//                Status.ERROR -> {
-//                    Utility.errorToast(this@OrthosisActivity, "Unexpected error")
-//
-//                }
-//            }
-//        }
-
-        orthosisViewModel.formVideosListById.observe(this) {
-            when (it.status) {
-                Status.LOADING -> {
-                    //    progress.show()
-                }
-
-                Status.SUCCESS -> {
-                    //  progress.dismiss()
-                    try {
-                        if (!it.data.isNullOrEmpty()) {
-                            isFormVideoLocal = true
-                            videoList.clear()
-                            videoList.addAll(it.data)
-                            val thumbnail = ThumbnailUtils.createVideoThumbnail(
-                                it.data[0].video,
-                                MediaStore.Video.Thumbnails.MINI_KIND
-                            )
-                            binding.cvFile.visibility = View.VISIBLE
-                            binding.ivFile.setImageBitmap(thumbnail)
-                        }
-
-                    } catch (e: Exception) {
-                    }
-                }
-
-                Status.ERROR -> {
-                }
-            }
-        }
-
-        orthosisViewModel.orthosisImagesList.observe(this) {
-            when (it.status) {
-                Status.LOADING -> {
-                    progress.show()
-                }
-
-                Status.SUCCESS -> {
-                    progress.dismiss()
-                    try {
-                        if (!it.data.isNullOrEmpty()) {
-//                            orthosisImageList.clear()
-//                            orthosisImageList.addAll(it.data)
-                            orthosisLocalImageList.clear()
-                            orthosisLocalImageList.addAll(it.data)
-                        }
-                    } catch (e: Exception) {
-
-                    }
-                }
-
-                Status.ERROR -> {
-                    progress.dismiss()
-
-                }
-            }
-        }
 
     }
 
     val orthosisImageLauncher = object : ResultImage {
+        override val result: ActivityResultLauncher<Intent> =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val data = result.data
 
-        override val result: ActivityResultLauncher<Intent> = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val imagePath = result.data?.getStringExtra(RESULT_IMAGE_PATH)
-                var imageFile: File? =
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        result.data?.getSerializableExtra(
-                            RESULT_IMAGE_FILE, File::class.java
+                    var finalImagePath: String? = null
+                    var imageFile: File? = null
+
+                    Log.d("pawan", "🟢 Image selection result received")
+
+                    // Case 1: From CMImagePicker (Gallery)
+                    if (data?.hasExtra(RESULT_IMAGE_PATH) == true) {
+                        finalImagePath = data.getStringExtra(RESULT_IMAGE_PATH)
+                        imageFile = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            data.getSerializableExtra(RESULT_IMAGE_FILE, File::class.java)
+                        } else {
+                            data.getSerializableExtra(RESULT_IMAGE_FILE) as? File
+                        }
+
+                        Log.d(
+                            "pawan",
+                            """
+                        📂 Image selected from Gallery
+                        RESULT_IMAGE_PATH: $finalImagePath
+                        RESULT_IMAGE_FILE: ${imageFile?.absolutePath}
+                        """.trimIndent()
+                        )
+                    }
+                    // Case 2: From Camera (Bitmap)
+                    else if (data?.extras?.get("data") is Bitmap) {
+                        val imageBitmap = data.extras?.get("data") as Bitmap
+                        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+                        val fileName = "surgical_notes_image_$timestamp.jpg"
+
+//                        Log.d("pawan", "📸 Image captured from Camera → Saving as: $fileName")
+
+                        // Save and move file
+                        val tempFile = ConstantsApp.saveBitmapToFile1(
+                            imageBitmap,
+                            fileName,
+                            this@OrthosisActivity
+                        )
+//                        Log.d("pawan", "💾 Temporary image saved: ${tempFile.absolutePath}")
+
+                        val imageUri = FileProvider.getUriForFile(
+                            this@OrthosisActivity,
+                            "org.impactindiafoundation.iifllemeddocket.provider",
+                            tempFile
+                        )
+//                        Log.d("pawan", "🔗 Image URI created: $imageUri")
+
+                        finalImagePath = ConstantsApp.moveImageToLLEFolder(
+                            this@OrthosisActivity,
+                            imageUri,
+                            fileName
+                        )
+                        imageFile = File(finalImagePath ?: "")
+
+                        Log.d(
+                            "pawan",
+                            """
+                        ✅ Image moved to LLE Folder
+                        Final Path: $finalImagePath
+                        File Exists: ${imageFile.exists()}
+                        """.trimIndent()
                         )
                     } else {
-                        result.data?.getSerializableExtra(RESULT_IMAGE_FILE) as File
+                        Log.w("pawan", "⚠️ No valid image data found in result intent.")
                     }
 
-                val formOrthosis = patientOrthosisList[imagePosition]
+                    if (finalImagePath != null) {
+                        val formOrthosis = patientOrthosisList[imagePosition]
+                        val orthosisImage = OrthosisImages(
+                            images = finalImagePath,
+                            temp_patient_id = tempPatientId,
+                            camp_id = campId,
+                            patient_id = "",
+                            orthosis_id = formOrthosis.orthosis.id.toString(),
+                            orthosisFormId = formOrthosis.orthoFormId,
+                            amputation_side = formOrthosis.amputationSide
+                        )
 
-                val orthosisImage = OrthosisImages(
-                    images = imagePath!!,
-                    temp_patient_id = tempPatientId,
-                    camp_id = campId,
-                    patient_id = "",
-                    orthosis_id = formOrthosis.orthosis.id.toString(),
-                    orthosisFormId = formOrthosis.orthoFormId,
-                    amputation_side = formOrthosis.amputationSide
-                )
-                patientOrthosisList[imagePosition].orthosisImageList.add(orthosisImage)
-                orthosisFormAdapter.notifyDataSetChanged()
+                        formOrthosis.orthosisImageList.add(orthosisImage)
+                        orthosisFormAdapter.notifyDataSetChanged()
 
+                        Log.d(
+                            "pawan",
+                            """
+                        🧩 Image added to Orthosis list
+                        Orthosis ID: ${formOrthosis.orthosis.id}
+                        Amputation Side: ${formOrthosis.amputationSide}
+                        Image Path: $finalImagePath
+                        Total Images Now: ${formOrthosis.orthosisImageList.size}
+                        """.trimIndent()
+                        )
+                    } else {
+                        Log.e("pawan", "❌ finalImagePath is null, cannot attach image.")
+                    }
+                } else {
+                    Log.d("pawan", "🚫 Image selection cancelled or failed.")
+                }
             }
-        }
     }
 
     val formImageLauncher = object : ResultImage {
+        override val result: ActivityResultLauncher<Intent> =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val data = result.data
+                    var finalImagePath: String? = null
 
-        override val result: ActivityResultLauncher<Intent> = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val imagePath = result.data?.getStringExtra(RESULT_IMAGE_PATH)
-                var imageFile: File? =
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        result.data?.getSerializableExtra(
-                            RESULT_IMAGE_FILE, File::class.java
-                        )
-                    } else {
-                        result.data?.getSerializableExtra(RESULT_IMAGE_FILE) as File
+                    // Case 1: Gallery (from CMImagePicker)
+                    if (data?.hasExtra(RESULT_IMAGE_PATH) == true) {
+                        finalImagePath = data.getStringExtra(RESULT_IMAGE_PATH)
                     }
 
-                if (screen != "QrCode") {
-                    if (imageList.size == 4) {
-                        // orthosisViewModel.deleteFormImages(imageList)
-                        val formImageIds = ArrayList<Int>()
-                        for (i in imageList) {
-                            formImageIds.add(i.id)
-                        }
-                        imageList.clear()
-                        orthosisViewModel.deleteFormImagesById(formImageIds)
+                    // Case 2: Camera (Bitmap)
+                    else if (data?.extras?.get("data") is Bitmap) {
+                        val imageBitmap = data.extras?.get("data") as Bitmap
+                        val timestamp =
+                            SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+                        val fileName = "orthosis_form_image_$timestamp.jpg"
 
+                        // Save image temporarily and move to your LLE folder
+                        val tempFile = ConstantsApp.saveBitmapToFile1(
+                            imageBitmap,
+                            fileName,
+                            this@OrthosisActivity
+                        )
+                        val imageUri = FileProvider.getUriForFile(
+                            this@OrthosisActivity,
+                            "org.impactindiafoundation.iifllemeddocket.provider",
+                            tempFile
+                        )
+                        finalImagePath = ConstantsApp.moveImageToLLEFolder(
+                            this@OrthosisActivity,
+                            imageUri,
+                            fileName
+                        )
+                    }
+
+                    if (finalImagePath != null) {
+                        // Clear old images if limit is reached
+                        if (screen != "QrCode" && imageList.size == 4) {
+                            val formImageIds = ArrayList<Int>()
+                            for (i in imageList) {
+                                formImageIds.add(i.id)
+                            }
+                            imageList.clear()
+                            orthosisViewModel.deleteFormImagesById(formImageIds)
+                        }
+
+                        // Add the new form image
+                        val formImage = FormImages(
+                            formId = 0,
+                            images = finalImagePath,
+                            temp_patient_id = tempPatientId,
+                            camp_id = campId
+                        )
+
+                        isFormImageLocal = false
+                        imageList.add(formImage)
+                        imageAdapter.notifyDataSetChanged()
                     }
                 }
-                val formImage = FormImages(
-                    formId = 0,
-                    images = imagePath!!,
-                    temp_patient_id = tempPatientId,
-                    camp_id = campId
-                )
-                isFormImageLocal = false
-                imageList.add(formImage)
-                imageAdapter.notifyDataSetChanged()
-
             }
-        }
     }
 
     val equipmentImageLauncher = object : ResultImage {
+        override val result: ActivityResultLauncher<Intent> =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val data = result.data
+                    var finalImagePath: String? = null
 
-        override val result: ActivityResultLauncher<Intent> = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val imagePath = result.data?.getStringExtra(RESULT_IMAGE_PATH)
-                var imageFile: File? =
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        result.data?.getSerializableExtra(
-                            RESULT_IMAGE_FILE, File::class.java
-                        )
-                    } else {
-                        result.data?.getSerializableExtra(RESULT_IMAGE_FILE) as File
+                    try {
+                        // ✅ Case 1: From CMImagePicker (camera/gallery returning file path)
+                        if (data?.hasExtra(RESULT_IMAGE_PATH) == true) {
+                            finalImagePath = data.getStringExtra(RESULT_IMAGE_PATH)
+                            Log.d(
+                                "EquipmentImageLauncher",
+                                "✅ Image path from CMImagePicker: $finalImagePath"
+                            )
+                        }
+
+                        // ✅ Case 2: From manual camera intent returning a Bitmap
+                        else if (data?.extras?.get("data") is Bitmap) {
+                            val imageBitmap = data.extras?.get("data") as Bitmap
+                            val timestamp = SimpleDateFormat(
+                                "yyyyMMdd_HHmmss",
+                                Locale.getDefault()
+                            ).format(Date())
+                            val fileName = "equipment_image_$timestamp.jpg"
+
+                            // Save the bitmap to a temporary file
+                            val tempFile = ConstantsApp.saveBitmapToFile1(
+                                imageBitmap,
+                                fileName,
+                                this@OrthosisActivity
+                            )
+
+                            val imageUri = FileProvider.getUriForFile(
+                                this@OrthosisActivity,
+                                "org.impactindiafoundation.iifllemeddocket.provider",
+                                tempFile
+                            )
+
+                            finalImagePath = ConstantsApp.moveImageToLLEFolder(
+                                this@OrthosisActivity,
+                                imageUri,
+                                fileName
+                            )
+
+                            Log.d(
+                                "EquipmentImageLauncher",
+                                "📸 Image saved from Bitmap: $finalImagePath"
+                            )
+                        }
+
+                        // ✅ Proceed if image is valid
+                        if (!finalImagePath.isNullOrEmpty()) {
+                            if (equipmentImages.size >= 4) {
+                                Utility.warningToast(
+                                    this@OrthosisActivity,
+                                    "Only 4 images are allowed"
+                                )
+                                return@registerForActivityResult
+                            }
+
+                            val equipmentImage = EquipmentImage(
+                                images = finalImagePath,
+                                temp_patient_id = tempPatientId,
+                                camp_id = campId,
+                                patient_image_type = "prescribed",
+                                patient_id = ""
+                            )
+
+                            isEquipmentImageLocal = false
+                            equipmentImages.add(equipmentImage)
+                            equipmentImageAdapter.notifyDataSetChanged()
+
+                            Log.d("EquipmentImageLauncher", "✅ Equipment image added successfully")
+                        } else {
+                            Log.w(
+                                "EquipmentImageLauncher",
+                                "⚠️ No valid image found in result data"
+                            )
+                        }
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Log.e("EquipmentImageLauncher", "❌ Error processing image: ${e.message}")
+                        Utility.errorToast(this@OrthosisActivity, "Error while loading image.")
                     }
-                val equiomentImage = EquipmentImage(
-                    images = imagePath!!,
-                    temp_patient_id = tempPatientId,
-                    camp_id = campId,
-                    patient_image_type = "prescribed",
-                    patient_id = ""
-                )
-                isEquipmentImageLocal = false
-                equipmentImages.add(equiomentImage)
-                equipmentImageAdapter.notifyDataSetChanged()
+                } else {
+                    Log.w("EquipmentImageLauncher", "⚠️ Image capture cancelled or failed")
+                }
             }
-        }
     }
 
 
     private fun setUpOrthosisFormRecyclerView(isEditable: Boolean) {
-        //for patient data
         if (patientOrthosisList.isNullOrEmpty()) {
             patientOrthosisList.addAll(provideOrthosisTypeData())
         }
@@ -1411,7 +1179,6 @@ class OrthosisActivity : BaseActivity() {
                     measurementList: List<MeasurementPatientData>,
                     orthosisType: OrthosisType
                 ) {
-
                     patientOrthosisList[parentPosition].orthosis = orthosisType
                     patientOrthosisList[parentPosition].orthoFormId =
                         generateOrthosisFormId(patientOrthosisList, orthosisType.id).toInt()
@@ -1428,7 +1195,6 @@ class OrthosisActivity : BaseActivity() {
                     measurementUnit: String,
                     isOtherMeasurement: Boolean
                 ) {
-                    // orthosisTypeList[parentPosition].measurements[childPosition]
                     this@OrthosisActivity.isMeasurementOther = isOtherMeasurement
                     val orthosisMeasurementObject =
                         patientOrthosisList[parentPosition].patientOrthosisMeasurements[childPosition]
@@ -1528,6 +1294,7 @@ class OrthosisActivity : BaseActivity() {
                 override fun onImageClick(position: Int) {
                     imagePosition = position
 
+
                     val dialog = ImagePickerDialog(
                         this@OrthosisActivity,
                         orthosisImageLauncher,
@@ -1541,11 +1308,10 @@ class OrthosisActivity : BaseActivity() {
                     childPosition: Int,
                     image: String
                 ) {
-                    if (isFormEditable){
+                    if (isFormEditable) {
                         removeOrthosisImageDialog(parentPosition, childPosition, image)
-                    }
-                    else{
-                        Utility.warningToast(this@OrthosisActivity,"Not Editable")
+                    } else {
+                        Utility.warningToast(this@OrthosisActivity, "Not Editable")
                     }
                 }
 
@@ -1638,34 +1404,61 @@ class OrthosisActivity : BaseActivity() {
             if (patientOrthosisList.size == 0) {
                 Utility.errorToast(this@OrthosisActivity, "At least One Orthosis is needed!")
             } else {
-                // Utility.successToast(this@OrthosisActivity, "Dummy success")
 
+                // 🧩 Logic to delete equipment images based on Prescribed Status
+                val prescribedStatus = binding.etPrescribedStatus.text?.toString()?.trim() ?: ""
 
-                //Logic to delete equipment images on prescribed status Pending or Given
-                if (binding.etPrescribedStatus.text.isNullOrEmpty()) {
-                    if (binding.etPrescribedStatus.text.toString() == "Pending") {
-                        for (i in equipmentImages) {
-                            orthosisViewModel.deleteEquipmentImage(i.images)
-                        }
-                    } else {
-                        for (i in deleteEquipmentList) {
-                            orthosisViewModel.deleteEquipmentImage(i.images)
-                        }
+                if (prescribedStatus.equals("Pending", ignoreCase = true)) {
+                    Log.d("pawan", "🟡 PrescribedStatus = Pending → deleting all ${equipmentImages.size} equipment images")
+                    for (i in equipmentImages) {
+                        Log.d("pawan", "Deleting Equipment Image: ${i.images}")
+                        orthosisViewModel.deleteEquipmentImage(i.images)
                     }
+                    equipmentImages.clear()
+                    deleteEquipmentList.clear()
+
+                } else if (prescribedStatus.equals("Given", ignoreCase = true)) {
+                    Log.d("pawan", "🟣 PrescribedStatus = Given → deleting ${deleteEquipmentList.size} equipment images from deleteEquipmentList")
+                    for (i in deleteEquipmentList) {
+                        Log.d("pawan", "Deleting Equipment Image: ${i.images}")
+                        orthosisViewModel.deleteEquipmentImage(i.images)
+                    }
+                    equipmentImages.removeAll(deleteEquipmentList.toSet())
+                    deleteEquipmentList.clear()
+
+                } else {
+                    Log.d("pawan", "✅ PrescribedStatus = '$prescribedStatus' → skipping equipment image deletion")
                 }
 
                 //Logic to remove form images
-                if (!removeImageList.isNullOrEmpty()){
+                if (!removeImageList.isNullOrEmpty()) {
+                    Log.d("pawan", "🧾 Deleting ${removeImageList.size} form images from database")
+                    removeImageList.forEach {
+                        Log.d("pawan", "Deleting Form Image: ${it.images}")
+                    }
                     orthosisViewModel.deleteFormImages(removeImageList)
+                } else {
+                    Log.d("pawan", "📭 No form images to delete")
                 }
 
                 //Logic to remove Orthosis Image
-                if (!removeOrthosisImageList.isNullOrEmpty()){
-                    orthosisViewModel.deleteOrthosisImages(removeOrthosisImageList)
+                if (!removeOrthosisImageList.isNullOrEmpty()) {
+                    Log.d("pawan", "🦿 Deleting ${removeOrthosisImageList.size} orthosis images from database")
+                    removeOrthosisImageList.forEach {
+                        Log.d("pawan", "Deleting Orthosis Image: ${it.images}")
+                        orthosisViewModel.deleteOrthosisImageByPath(it.images)
+                    }
+                } else {
+                    Log.d("pawan", "📭 No orthosis images to delete")
                 }
 
+
+                //Creating OrthosisPatientForm
+                Log.d("pawan", "📋 Creating OrthosisPatientForm for screen: $screen")
                 var patientOrthosisForm: OrthosisPatientForm? = null
+
                 if (screen == "Camp_List") {
+                    Log.d("pawan", "🔹 Screen: Camp_List → Using localPatientData")
                     patientOrthosisForm = OrthosisPatientForm(
                         id = localPatientId.toInt(),
                         patientName = localPatientData.patientName,
@@ -1676,7 +1469,7 @@ class OrthosisActivity : BaseActivity() {
                         location = localPatientData.location,
                         ageUnit = "",
                         regNo = localPatientData.regNo,
-                        examinationDate = getCurrentDate(),//orthosis date for form only not orthosis type date(examination date)
+                        examinationDate = getCurrentDate(),
                         orthosisList = patientOrthosisList,
                         orthosisDate = getCurrentDate(),
                         tempPatientId = localPatientData.tempPatientId,
@@ -1693,7 +1486,8 @@ class OrthosisActivity : BaseActivity() {
                         equipmentStatus = binding.etPrescribedStatus.text?.toString() ?: "",
                         equipmentStatusNotes = ""
                     )
-                } else if (screen == "QrCode"){
+                } else if (screen == "QrCode") {
+                    Log.d("pawan", "🔹 Screen: QrCode → Using patientData (QR-based)")
                     patientOrthosisForm = OrthosisPatientForm(
                         id = localPatientId.toInt(),
                         patientName = "${patientData.patientFname} ${patientData.patientLname}",
@@ -1704,7 +1498,36 @@ class OrthosisActivity : BaseActivity() {
                         location = patientData.location,
                         ageUnit = "",
                         regNo = patientData.RegNo,
-                        examinationDate = getCurrentDate(),//orthosis date for form only not orthosis type date(examination date)
+                        examinationDate = getCurrentDate(),
+                        orthosisList = patientOrthosisList,
+                        orthosisDate = getCurrentDate(),
+                        tempPatientId = patientData.patientId.toString(),
+                        patientContactNo = "123456789",
+                        campName = patientData.location,
+                        patientAgeYears = patientData.patientAge.toString(),
+                        patientHeightCm = binding.etPatientHeight.text?.toString() ?: "",
+                        patientWeightKg = binding.etPatientWeight.text?.toString() ?: "",
+                        diagnosis = if (binding.etDiagnosisType.text.toString() == "Other") binding.etOtherDiagnosis.text.toString() else binding.etDiagnosisType.text.toString(),
+                        diagnosisId = selectedDiagnosis?.id ?: 0,
+                        equipmentSupport = selectedEquipment?.equipment_support ?: "",
+                        equipmentCategory = selectedEquipment?.equipment_category ?: "",
+                        equipmentId = selectedEquipment?.id ?: 0,
+                        equipmentStatus = binding.etPrescribedStatus.text?.toString() ?: "",
+                        equipmentStatusNotes = ""
+                    )
+                } else {
+                    Log.d("pawan", "🔹 Default Screen → Using patientData (Non-Camp)")
+                    patientOrthosisForm = OrthosisPatientForm(
+                        id = localPatientId.toInt(),
+                        patientName = "${patientData.patientFname} ${patientData.patientLname}",
+                        patientId = patientData.patientId,
+                        patientGender = patientData.patientGen,
+                        patientAge = patientData.patientAge,
+                        campId = patientData.camp_id,
+                        location = patientData.location,
+                        ageUnit = "",
+                        regNo = patientData.RegNo,
+                        examinationDate = getCurrentDate(),
                         orthosisList = patientOrthosisList,
                         orthosisDate = getCurrentDate(),
                         tempPatientId = patientData.patientId.toString(),
@@ -1722,35 +1545,11 @@ class OrthosisActivity : BaseActivity() {
                         equipmentStatusNotes = ""
                     )
                 }
-                else{
-                    patientOrthosisForm = OrthosisPatientForm(
-                        id = localPatientId.toInt(),
-                        patientName = "${patientData.patientFname} ${patientData.patientLname}",
-                        patientId = patientData.patientId,
-                        patientGender = patientData.patientGen,
-                        patientAge = patientData.patientAge,
-                        campId = patientData.camp_id,
-                        location = patientData.location,
-                        ageUnit = "",
-                        regNo = patientData.RegNo,
-                        examinationDate = getCurrentDate(),//orthosis date for form only not orthosis type date(examination date)
-                        orthosisList = patientOrthosisList,
-                        orthosisDate = getCurrentDate(),
-                        tempPatientId = patientData.patientId.toString(),
-                        patientContactNo = "123456789",
-                        campName = patientData.location,
-                        patientAgeYears = patientData.patientAge.toString(),
-                        patientHeightCm = binding.etPatientHeight.text?.toString() ?: "",
-                        patientWeightKg = binding.etPatientWeight.text?.toString() ?: "",
-                        diagnosis = if (binding.etDiagnosisType.text.toString() == "Other") binding.etOtherDiagnosis.text.toString() else binding.etDiagnosisType.text.toString(),
-                        diagnosisId = selectedDiagnosis?.id ?: 0,
-                        equipmentSupport = selectedEquipment?.equipment_support ?: "",
-                        equipmentCategory = selectedEquipment?.equipment_category ?: "",
-                        equipmentId = selectedEquipment?.id ?: 0,
-                        equipmentStatus = binding.etPrescribedStatus.text?.toString() ?: "",
-                        equipmentStatusNotes = ""
-                    )
-                }
+
+                Log.d(
+                    "pawan",
+                    "✅ Inserting OrthosisPatientForm with ID=${patientOrthosisForm?.id} and ${patientOrthosisForm?.orthosisList?.size} and ${patientOrthosisForm?.diagnosisId} orthosis items"
+                )
                 orthosisViewModel.insertOrthosisPatientForm(patientOrthosisForm)
             }
         }
@@ -1887,7 +1686,7 @@ class OrthosisActivity : BaseActivity() {
 
             //Validates Orthosis Image
             if (data.orthosisImageList.isNullOrEmpty()) {
-                Utility.errorToast(this, "(${index + 1}) Click an Image!")
+                Utility.errorToast(this, "(${index + 1}) Click an Orthosis Image!")
                 isValid = false
                 break@orthosisLoop
             }
@@ -1990,11 +1789,12 @@ class OrthosisActivity : BaseActivity() {
     }
 
     private fun deleteFormDialog(position: Int) {
+        Log.d("pawan", "Opening deleteFormDialog for position: $position")
+
         val layoutResId = R.layout.orthosis_delete_dialog
         val alertCustomDialog = layoutInflater.inflate(layoutResId, null)
         val messageDialog = AlertDialog.Builder(this)
         messageDialog.setView(alertCustomDialog)
-
 
         val tvCancel: TextView = alertCustomDialog.findViewById(R.id.tvCancel)
         val tvLogout: TextView = alertCustomDialog.findViewById(R.id.tvDelete)
@@ -2002,71 +1802,25 @@ class OrthosisActivity : BaseActivity() {
         val finalDialog = messageDialog.create()
 
         tvCancel.setOnClickListener {
+            Log.d("pawan", "deleteFormDialog canceled by user (position: $position)")
             finalDialog.dismiss()
         }
+
         tvLogout.setOnClickListener {
+            Log.d("pawan", "deleteFormDialog confirmed — removing form at position: $position")
             finalDialog.dismiss()
-            //perform operation
+            // perform operation
             patientOrthosisList.removeAt(position)
             orthosisFormAdapter.notifyDataSetChanged()
+            Log.d(
+                "pawan",
+                "Form removed successfully. Remaining forms: ${patientOrthosisList.size}"
+            )
         }
 
         finalDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         finalDialog.show()
-    }
-
-    private fun removeImageDialog(position: Int) {
-        val layoutResId = R.layout.image_remove_dialog
-        val alertCustomDialog = layoutInflater.inflate(layoutResId, null)
-        val messageDialog = AlertDialog.Builder(this)
-        messageDialog.setView(alertCustomDialog)
-
-
-        val tvCancel: TextView = alertCustomDialog.findViewById(R.id.tvCancel)
-        val tvYes: TextView = alertCustomDialog.findViewById(R.id.tvDelete)
-
-        val finalDialog = messageDialog.create()
-
-        tvCancel.setOnClickListener {
-            finalDialog.dismiss()
-        }
-        tvYes.setOnClickListener {
-            finalDialog.dismiss()
-            //perform operation
-            val imageToRemove = imageList[position]
-            removeImageList.add(imageToRemove)
-            imageList.removeAt(position)
-            imageAdapter.notifyDataSetChanged()
-        }
-
-        finalDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        finalDialog.show()
-    }
-
-    private fun saveOrthosisImage(
-        patientOrthosisList: ArrayList<OrthosisPatientData>,
-        formId: String
-    ) {
-        val imageList = ArrayList<OrthosisImages>()
-
-        //new
-        patientOrthosisList[imagePosition].orthosisImageList.forEach { orthosis ->
-            if (!orthosisLocalImageList.any { it.images == orthosis.images }) {
-                imageList.add(
-                    OrthosisImages(
-                        images = orthosis.images,
-                        temp_patient_id = tempPatientId,
-                        camp_id = campId,
-                        patient_id = formId,//for getting unique orthosis images for preventing from duplicate entries in local db
-                        orthosis_id = orthosis.orthosis_id,
-                        orthosisFormId = 1,
-                        amputation_side = orthosis.amputation_side
-                    )
-                )
-            }
-
-        }
-        orthosisViewModel.insertOrthosisImageList(imageList)
+        Log.d("pawan", "deleteFormDialog displayed")
     }
 
 
@@ -2081,11 +1835,10 @@ class OrthosisActivity : BaseActivity() {
                     }
 
                     override fun onImageRemove(position: Int) {
-                        if (isFormEditable){
+                        if (isFormEditable) {
                             removeImageDialog(position)
-                        }
-                        else{
-                            Utility.warningToast(this@OrthosisActivity,"Cannot Edit")
+                        } else {
+                            Utility.warningToast(this@OrthosisActivity, "Cannot Edit")
                         }
                     }
 
@@ -2107,11 +1860,10 @@ class OrthosisActivity : BaseActivity() {
                 }
 
                 override fun onImageRemove(position: Int) {
-                    if (isFormEditable){
+                    if (isFormEditable) {
                         removeEquipmentImageDialog(position)
-                    }
-                   else{
-                       Utility.warningToast(this@OrthosisActivity,"Not Editable")
+                    } else {
+                        Utility.warningToast(this@OrthosisActivity, "Not Editable")
                     }
                 }
 
@@ -2123,12 +1875,153 @@ class OrthosisActivity : BaseActivity() {
         }
     }
 
+    private fun removeOrthosisImageDialog(parentPosition: Int, position: Int, image: String) {
+        Log.d(
+            "pawan",
+            "Opening removeOrthosisImageDialog → parentPosition=$parentPosition, position=$position, image=$image"
+        )
+
+        val layoutResId = R.layout.image_remove_dialog
+        val alertCustomDialog = layoutInflater.inflate(layoutResId, null)
+        val messageDialog = AlertDialog.Builder(this)
+        messageDialog.setView(alertCustomDialog)
+
+        val tvCancel: TextView = alertCustomDialog.findViewById(R.id.tvCancel)
+        val tvYes: TextView = alertCustomDialog.findViewById(R.id.tvDelete)
+
+        val finalDialog = messageDialog.create()
+
+        tvCancel.setOnClickListener {
+            Log.d(
+                "pawan",
+                "removeOrthosisImageDialog canceled by user (parentPosition=$parentPosition, position=$position)"
+            )
+            finalDialog.dismiss()
+        }
+
+        tvYes.setOnClickListener {
+            Log.d(
+                "pawan",
+                "removeOrthosisImageDialog confirmed → removing image=$image at parentPosition=$parentPosition, position=$position"
+            )
+            finalDialog.dismiss()
+
+            // perform operation
+            val itemToRemove =
+                patientOrthosisList[parentPosition].orthosisImageList.find { it.images == image }
+            if (itemToRemove != null) {
+                removeOrthosisImageList.add(itemToRemove)
+                Log.d("pawan", "Image added to removeOrthosisImageList: $image")
+            } else {
+                Log.w("pawan", "Image not found in orthosisImageList for removal: $image")
+            }
+
+            patientOrthosisList[parentPosition].orthosisImageList.removeIf { it.images == image }
+            orthosisFormAdapter.notifyDataSetChanged()
+            Log.d(
+                "pawan",
+                "Image removed successfully. Remaining orthosis images in parent $parentPosition: ${patientOrthosisList[parentPosition].orthosisImageList.size}"
+            )
+        }
+
+        finalDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        finalDialog.show()
+        Log.d("pawan", "removeOrthosisImageDialog displayed")
+    }
+
+    private fun removeImageDialog(position: Int) {
+        Log.d("pawan", "Opening removeImageDialog for position: $position")
+
+        val layoutResId = R.layout.image_remove_dialog
+        val alertCustomDialog = layoutInflater.inflate(layoutResId, null)
+        val messageDialog = AlertDialog.Builder(this)
+        messageDialog.setView(alertCustomDialog)
+
+        val tvCancel: TextView = alertCustomDialog.findViewById(R.id.tvCancel)
+        val tvYes: TextView = alertCustomDialog.findViewById(R.id.tvDelete)
+
+        val finalDialog = messageDialog.create()
+
+        tvCancel.setOnClickListener {
+            Log.d("pawan", "removeImageDialog canceled by user (position: $position)")
+            finalDialog.dismiss()
+        }
+
+        tvYes.setOnClickListener {
+            Log.d("pawan", "removeImageDialog confirmed — removing image at position: $position")
+            finalDialog.dismiss()
+            // perform operation
+            val imageToRemove = imageList[position]
+            removeImageList.add(imageToRemove)
+            imageList.removeAt(position)
+            imageAdapter.notifyDataSetChanged()
+            Log.d("pawan", "Image removed successfully. Remaining images: ${imageList.size}")
+        }
+
+        finalDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        finalDialog.show()
+        Log.d("pawan", "removeImageDialog displayed")
+    }
+
+
+    private fun removeEquipmentImageDialog(position: Int) {
+        Log.d("pawan", "Opening removeEquipmentImageDialog → position=$position")
+
+        val layoutResId = R.layout.image_remove_dialog
+        val alertCustomDialog = layoutInflater.inflate(layoutResId, null)
+        val messageDialog = AlertDialog.Builder(this)
+        messageDialog.setView(alertCustomDialog)
+
+        val tvCancel: TextView = alertCustomDialog.findViewById(R.id.tvCancel)
+        val tvYes: TextView = alertCustomDialog.findViewById(R.id.tvDelete)
+
+        val finalDialog = messageDialog.create()
+
+        tvCancel.setOnClickListener {
+            Log.d("pawan", "removeEquipmentImageDialog canceled by user (position=$position)")
+            finalDialog.dismiss()
+        }
+
+        tvYes.setOnClickListener {
+            Log.d(
+                "pawan",
+                "removeEquipmentImageDialog confirmed → removing image at position=$position"
+            )
+            finalDialog.dismiss()
+
+            // perform operation
+            if (!equipmentImages[position].patient_id.isNullOrEmpty()) {
+                deleteEquipmentList.add(equipmentImages[position])
+                Log.d(
+                    "pawan",
+                    "Equipment image added to deleteEquipmentList (patient_id=${equipmentImages[position].patient_id})"
+                )
+            } else {
+                Log.d(
+                    "pawan",
+                    "Equipment image has no patient_id, skipping add to deleteEquipmentList"
+                )
+            }
+
+            equipmentImages.removeAt(position)
+            equipmentImageAdapter.notifyDataSetChanged()
+            Log.d(
+                "pawan",
+                "Equipment image removed successfully. Remaining images: ${equipmentImages.size}"
+            )
+        }
+
+        finalDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        finalDialog.show()
+        Log.d("pawan", "removeEquipmentImageDialog displayed")
+    }
 
     private fun saveFormImages(imageList: ArrayList<FormImages>, formId: Int) {
         val formImageList = ArrayList<FormImages>()
         if (!imageList.isNullOrEmpty()) {
             if (isFormImageLocal) {
                 orthosisViewModel.insertFormImageList(imageList)
+                Log.d("pawan", "Saved ${imageList.size} local form images for Form ID: $formId")
             } else {
                 val filteredImages = imageList.filter { it.id == 0 }
                 for (i in filteredImages) {
@@ -2142,9 +2035,14 @@ class OrthosisActivity : BaseActivity() {
                     )
                 }
                 orthosisViewModel.insertFormImageList(formImageList)
+                Log.d(
+                    "pawan",
+                    "Saved ${formImageList.size} new form images (filtered from ${imageList.size}) for Form ID: $formId"
+                )
             }
+        } else {
+            Log.d("pawan", "No form images to save for Form ID: $formId")
         }
-
     }
 
     private fun saveFormVideos(videos: List<FormVideos>, formId: Int) {
@@ -2161,13 +2059,77 @@ class OrthosisActivity : BaseActivity() {
                     )
                 )
             }
-            //add a viewmodel and save in local db all the images
             orthosisViewModel.insertFormVideoList(formVideoList)
+            Log.d("pawan", "Saved ${formVideoList.size} new form videos for Form ID: $formId")
         } else {
             orthosisViewModel.insertFormVideoList(videoList)
+            Log.d("pawan", "Saved ${videoList.size} local form videos for Form ID: $formId")
+        }
+    }
+
+    private fun saveEquipmentImages(formId: String) {
+        for (i in equipmentImages) {
+            i.patient_id = formId
+        }
+        orthosisViewModel.insertEquipmentImageList(equipmentImages)
+        Log.d("pawan", "Saved ${equipmentImages.size} equipment images for Form ID: $formId")
+    }
+
+    private fun saveOrthosisImage(
+        patientOrthosisList: ArrayList<OrthosisPatientData>,
+        formId: String
+    ) {
+        val imageList = ArrayList<OrthosisImages>()
+
+        // Loop through all orthosis items
+        patientOrthosisList.forEach { orthosisData ->
+            orthosisData.orthosisImageList.forEach { orthosis ->
+                if (!orthosisLocalImageList.any { it.images == orthosis.images }) {
+                    imageList.add(
+                        OrthosisImages(
+                            images = orthosis.images,
+                            temp_patient_id = tempPatientId,
+                            camp_id = campId,
+                            patient_id = formId,
+                            orthosis_id = orthosis.orthosis_id,
+                            orthosisFormId = 1,
+                            amputation_side = orthosis.amputation_side
+                        )
+                    )
+                }
+            }
         }
 
+        orthosisViewModel.insertOrthosisImageList(imageList)
+        Log.d("pawan", "Saved ${imageList.size} new orthosis images for Form ID: $formId")
     }
+
+//    private fun saveOrthosisImage(
+//        patientOrthosisList: ArrayList<OrthosisPatientData>,
+//        formId: String
+//    ) {
+//        val imageList = ArrayList<OrthosisImages>()
+//
+//        patientOrthosisList[imagePosition].orthosisImageList.forEach { orthosis ->
+//            if (!orthosisLocalImageList.any { it.images == orthosis.images }) {
+//                imageList.add(
+//                    OrthosisImages(
+//                        images = orthosis.images,
+//                        temp_patient_id = tempPatientId,
+//                        camp_id = campId,
+//                        patient_id = formId,
+//                        orthosis_id = orthosis.orthosis_id,
+//                        orthosisFormId = 1,
+//                        amputation_side = orthosis.amputation_side
+//                    )
+//                )
+//            }
+//        }
+//
+//        orthosisViewModel.insertOrthosisImageList(imageList)
+//        Log.d("pawan", "Saved ${imageList.size} new orthosis images for Form ID: $formId")
+//    }
+
 
     private fun getLocalUserData() {
         orthosisViewModel.getLocalUserList()
@@ -2212,14 +2174,9 @@ class OrthosisActivity : BaseActivity() {
         const val REQUEST_CODE = 1001
     }
 
-
     fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dateFormat.format(Date())
-    }
-
-    private fun getOrthosisImagesByFormId(formId: String) {
-        orthosisViewModel.getOrthosisImageByFormId(formId)
     }
 
     private fun inflateDiagnosisBottomSheet() {
@@ -2296,13 +2253,10 @@ class OrthosisActivity : BaseActivity() {
             binding.etPrescribed.setText(equipmentType.name)
             if (!binding.etPrescribed.text.isNullOrEmpty()) {
                 isPrescribedStatusNeeded = true
-                binding.cvEquipmentPics.visibility = View.VISIBLE
+//                binding.cvEquipmentPics.visibility = View.VISIBLE
                 binding.etlPrescribedStatus.visibility = View.VISIBLE
             }
-
-
         }
-
         dialog.show(supportFragmentManager, "SingleSelectBottomSheetDialogFragment")
     }
 
@@ -2322,73 +2276,6 @@ class OrthosisActivity : BaseActivity() {
 
     }
 
-    private fun removeOrthosisImageDialog(parentPosition: Int, position: Int, image: String) {
-        val layoutResId = R.layout.image_remove_dialog
-        val alertCustomDialog = layoutInflater.inflate(layoutResId, null)
-        val messageDialog = AlertDialog.Builder(this)
-        messageDialog.setView(alertCustomDialog)
-
-
-        val tvCancel: TextView = alertCustomDialog.findViewById(R.id.tvCancel)
-        val tvYes: TextView = alertCustomDialog.findViewById(R.id.tvDelete)
-
-        val finalDialog = messageDialog.create()
-
-        tvCancel.setOnClickListener {
-            finalDialog.dismiss()
-        }
-        tvYes.setOnClickListener {
-            finalDialog.dismiss()
-            //perform operation
-            val itemToRemove = patientOrthosisList[parentPosition].orthosisImageList.find { it.images == image }
-            if (itemToRemove != null){
-                removeOrthosisImageList.add(itemToRemove)
-            }
-            patientOrthosisList[parentPosition].orthosisImageList.removeIf { it.images == image }
-            orthosisFormAdapter.notifyDataSetChanged()
-        }
-
-        finalDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        finalDialog.show()
-    }
-
-    private fun removeEquipmentImageDialog(position: Int) {
-        val layoutResId = R.layout.image_remove_dialog
-        val alertCustomDialog = layoutInflater.inflate(layoutResId, null)
-        val messageDialog = AlertDialog.Builder(this)
-        messageDialog.setView(alertCustomDialog)
-
-
-        val tvCancel: TextView = alertCustomDialog.findViewById(R.id.tvCancel)
-        val tvYes: TextView = alertCustomDialog.findViewById(R.id.tvDelete)
-
-        val finalDialog = messageDialog.create()
-
-        tvCancel.setOnClickListener {
-            finalDialog.dismiss()
-        }
-        tvYes.setOnClickListener {
-            finalDialog.dismiss()
-            //perform operation
-
-            if (!equipmentImages[position].patient_id.isNullOrEmpty()) {
-                deleteEquipmentList.add(equipmentImages[position])
-            }
-            equipmentImages.removeAt(position)
-            equipmentImageAdapter.notifyDataSetChanged()
-        }
-
-        finalDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        finalDialog.show()
-    }
-
-    private fun saveEquipmentImages(formId: String) {
-        val imageList = ArrayList<EquipmentImage>()
-        for (i in equipmentImages) {
-            i.patient_id = formId
-        }
-        orthosisViewModel.insertEquipmentImageList(equipmentImages)
-    }
 
     private fun generateOrthosisFormId(
         patientOrthosisList: ArrayList<OrthosisPatientData>,
@@ -2410,30 +2297,12 @@ class OrthosisActivity : BaseActivity() {
     }
 
 
-
     private fun onFormEditClick() {
         isFormEditable = true
-        binding.etPatientWeight.isFocusable = true
-        binding.etPatientHeight.isFocusable = true
-
-        binding.etPatientWeight.setOnClickListener {
-
-            if (!isFormEditable) {
-                Utility.warningToast(this@OrthosisActivity, "Not Editable")
-            }
-
-
-        }
-        binding.etPatientHeight.setOnClickListener {
-            if (!isFormEditable) {
-                Utility.warningToast(this@OrthosisActivity, "Not Editable")
-            }
-        }
         binding.btnEditPatientOrthosis.visibility = View.GONE
         binding.btnSavePatientOrthosis.visibility = View.VISIBLE
         binding.tvAddMoreOrthosisType.visibility = View.VISIBLE
         binding.tvSaveOrthosis.text = "Update"
         setUpOrthosisFormRecyclerView(true)
-
     }
 }

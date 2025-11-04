@@ -5,7 +5,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +22,7 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import org.impactindiafoundation.iifllemeddocket.Adapter.FormCountAdapter
+import org.impactindiafoundation.iifllemeddocket.Adapter.SynTableAdapter
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.LLE_MedDocket_Repository
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.LLE_MedDocket_Room_Database
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.LLE_MedDocket_ViewModel
@@ -53,28 +59,52 @@ import org.impactindiafoundation.iifllemeddocket.Utils.SessionManager
 import org.impactindiafoundation.iifllemeddocket.ViewModel.LLE_MedDocketProviderFactory
 import org.impactindiafoundation.iifllemeddocket.ViewModel.LLE_MedDocketRespository
 import org.impactindiafoundation.iifllemeddocket.ViewModel.LLE_MedDocketViewModel
+import org.impactindiafoundation.iifllemeddocket.architecture.viewModel.ent.EntProOpDetailsViewModel
 import org.impactindiafoundation.iifllemeddocket.databinding.ActivityPrescriptionReportBinding
+import org.impactindiafoundation.iifllemeddocket.ui.activity.BaseActivity
 
-class PrescriptionReportActivity:AppCompatActivity() {
+class PrescriptionReportActivity:BaseActivity() {
 
     lateinit var binding:ActivityPrescriptionReportBinding
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
     lateinit var progressDialog: ProgressDialog
     lateinit var sessionManager: SessionManager
+    private lateinit var adapter: SynTableAdapter
+    private val entPreOpDetailsViewModel: EntProOpDetailsViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityPrescriptionReportBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
 
-    override fun onResume() {
-        super.onResume()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
+        window.statusBarColor = Color.WHITE
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Choose whichever bottom inset is larger (IME or system bars)
+            val bottom = maxOf(systemBarsInsets.bottom, imeInsets.bottom)
+
+            view.setPadding(
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                bottom
+            )
+
+            insets
+        }
+
         binding.toolbarEyePreOpNotes.toolbar.title="Reports"
         getViewModel()
         createRoomDatabase()
         combineAndLogData1("", "All", "","","")
+        setupRecyclerView()
+        observeSynTableData()
     }
 
     private fun getViewModel() {
@@ -343,4 +373,22 @@ class PrescriptionReportActivity:AppCompatActivity() {
         binding.barChart.animateY(3000);
         binding.barChart.invalidate()  // Refresh the char
     }
+
+    private fun setupRecyclerView() {
+        adapter = SynTableAdapter(emptyList())
+        binding.RecyclerViewSyncedData.layoutManager = LinearLayoutManager(this)
+        binding.RecyclerViewSyncedData.adapter = adapter
+    }
+
+    private fun observeSynTableData() {
+        entPreOpDetailsViewModel.allSyncRecords.observe(this) { list ->
+            if (list.isNotEmpty()) {
+                adapter.updateList(list)
+            } else {
+//                Toast.makeText(this, "No PSD synced data found", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
 }

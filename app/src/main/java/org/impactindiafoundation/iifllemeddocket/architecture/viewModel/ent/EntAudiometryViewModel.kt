@@ -107,25 +107,23 @@ class EntAudiometryViewModel @Inject constructor(
     }
 
     fun sendDoctorAudiometryDetailsToServer(
-        symptoms: List<AudiometryEntity>,
-        onResult: (Boolean, String) -> Unit
+        list: List<AudiometryEntity>,
+        onSyncCompleted: (syncedCount: Int, unsyncedCount: Int) -> Unit
     ) {
         viewModelScope.launch {
-            try {
-                Log.d("SyncCheck Audiometry", "Sending to server: ${symptoms.map { it.uniqueId }}")
+            var syncedCount = 0
+            var unsyncedCount = 0
 
-                val response = entRepository.sendDoctorAudiometryDetailsToServer(symptoms)
+            try {
+                Log.d("SyncCheck Audiometry", "Sending to server: ${list.map { it.uniqueId }}")
+
+                val response = entRepository.sendDoctorAudiometryDetailsToServer(list)
 
                 if (response.success && response.data != null) {
-                    Log.d(
-                        "SyncCheck Audiometry",
-                        "Received response: ${response.data.results.size} results"
-                    )
-                    Log.d("SyncCheck Audiometry", "Received response: ${response.success} success")
-                    Log.d("SyncCheck Audiometry", "Received response: ${response.message} message")
+                    Log.d("SyncCheck Audiometry", "Received response: ${response.data.results.size} results")
+                    Log.d("SyncCheck Audiometry", "Response success: ${response.success} | message: ${response.message}")
 
-
-                    val matchedItems = symptoms.filter { it.app_id.isNullOrBlank() }
+                    val matchedItems = list.filter { it.app_id.isNullOrBlank() }
 
                     response.data.results.forEachIndexed { index, result ->
                         if (index < matchedItems.size) {
@@ -134,39 +132,32 @@ class EntAudiometryViewModel @Inject constructor(
                                 "SyncCheck Audiometry",
                                 "Updating app_id for local id: ${item.uniqueId} → server app_id: ${result.app_id}"
                             )
+
                             entRepository.updateAudiometryDetailsAppId(item.uniqueId, result.app_id)
+                            entRepository.updatePatientReportAppId(item.patientId, item.uniqueId, result.app_id)
 
-                            Log.d(
-                                "SyncCheck PatientReport",
-                                "Updating app_id in ent_patient_report for patientId=${item.patientId} → app_id=${result.app_id}"
-                            )
-                            entRepository.updatePatientReportAppId(
-                                item.patientId,
-                                item.uniqueId,
-                                result.app_id
-                            )
-
+                            syncedCount++
                         } else {
-                            Log.w(
-                                "SyncCheck Audiometry",
-                                "Result index exceeds matched item list size"
-                            )
+                            unsyncedCount++
+                            Log.w("SyncCheck Audiometry", "Result index exceeds matched item list size")
                         }
                     }
                 } else {
                     Log.w("SyncCheck Audiometry", "Server returned failure: ${response.message}")
+                    unsyncedCount = list.size
                 }
 
-                onResult(response.success, response.message)
+                Log.d("SyncCheck Audiometry", "✅ Synced: $syncedCount | ❌ Unsynced: $unsyncedCount")
+                onSyncCompleted(syncedCount, unsyncedCount)
+
             } catch (e: Exception) {
-                Log.e(
-                    "SyncCheck Audiometry",
-                    "Error while sending to server: ${e.localizedMessage}"
-                )
-                onResult(false, e.localizedMessage ?: "Unknown error")
+                unsyncedCount = list.size
+                Log.e("SyncCheck Audiometry", "Error while sending to server: ${e.localizedMessage}")
+                onSyncCompleted(syncedCount, unsyncedCount)
             }
         }
     }
+
 
     fun clearSyncedAudiometryDetails() {
         viewModelScope.launch {

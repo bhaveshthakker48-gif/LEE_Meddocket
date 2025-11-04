@@ -91,45 +91,53 @@ class PathologyViewModel @Inject constructor(private val entRepository: EntRepos
         return entRepository.getUnSyncedPathologyDetailsNow()
     }
 
-    fun sendDoctorPathologyDetailsToServer(symptoms: List<PathologyEntity>, onResult: (Boolean, String) -> Unit) {
+    fun sendDoctorPathologyDetailsToServer(
+        list: List<PathologyEntity>,
+        onSyncCompleted: (syncedCount: Int, unsyncedCount: Int) -> Unit
+    ) {
         viewModelScope.launch {
-            try {
-                Log.d("SyncCheck Pathology", "Sending to server: ${symptoms.map { it.uniqueId }}")
+            var syncedCount = 0
+            var unsyncedCount = 0
 
-                val response = entRepository.sendDoctorPathologyDetailsToServer(symptoms)
+            try {
+                Log.d("SyncCheck Pathology", "Sending to server: ${list.map { it.uniqueId }}")
+
+                val response = entRepository.sendDoctorPathologyDetailsToServer(list)
 
                 if (response.success && response.data != null) {
                     Log.d("SyncCheck Pathology", "Received response: ${response.data.results.size} results")
-                    Log.d("SyncCheck Pathology", "Received response: ${response.success} success")
-                    Log.d("SyncCheck Pathology", "Received response: ${response.message} message")
+                    Log.d("SyncCheck Pathology", "Response success: ${response.success} | message: ${response.message}")
 
-
-                    val matchedItems = symptoms.filter { it.app_id.isNullOrBlank() }
+                    val matchedItems = list.filter { it.app_id.isNullOrBlank() }
 
                     response.data.results.forEachIndexed { index, result ->
                         if (index < matchedItems.size) {
                             val item = matchedItems[index]
-                            Log.d("SyncCheck PatientReport", "Updating app_id for local id: ${item.uniqueId} → server app_id: ${result.app_id}")
-                            entRepository.updatePathologyDetailsAppId(item.uniqueId, result.app_id)
-
                             Log.d(
-                                "SyncCheck PatientReport",
-                                "Calling updatePatientReportAppId with patientId=${item.patientId}, localId=${item.uniqueId}, app_id=${result.app_id}"
+                                "SyncCheck Pathology",
+                                "Updating app_id for local id: ${item.uniqueId} → server app_id: ${result.app_id}"
                             )
+
+                            entRepository.updatePathologyDetailsAppId(item.uniqueId, result.app_id)
                             entRepository.updatePatientReportAppId(item.patientId, item.uniqueId, result.app_id)
-                            Log.d("SyncCheck PatientReport", "Finished updatePatientReportAppId for localId=${item.uniqueId}")
+                            syncedCount++
                         } else {
+                            unsyncedCount++
                             Log.w("SyncCheck Pathology", "Result index exceeds matched item list size")
                         }
                     }
                 } else {
                     Log.w("SyncCheck Pathology", "Server returned failure: ${response.message}")
+                    unsyncedCount = list.size
                 }
 
-                onResult(response.success, response.message)
+                Log.d("SyncCheck Pathology", "✅ Synced: $syncedCount | ❌ Unsynced: $unsyncedCount")
+                onSyncCompleted(syncedCount, unsyncedCount)
+
             } catch (e: Exception) {
+                unsyncedCount = list.size
                 Log.e("SyncCheck Pathology", "Error while sending to server: ${e.localizedMessage}")
-                onResult(false, e.localizedMessage ?: "Unknown error")
+                onSyncCompleted(syncedCount, unsyncedCount)
             }
         }
     }

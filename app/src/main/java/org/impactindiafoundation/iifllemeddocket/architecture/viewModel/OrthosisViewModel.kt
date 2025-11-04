@@ -9,8 +9,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.SynTable
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Resource
+import org.impactindiafoundation.iifllemeddocket.architecture.model.AgeGroupCount
 import org.impactindiafoundation.iifllemeddocket.architecture.model.CampPatientDataItem
+import org.impactindiafoundation.iifllemeddocket.architecture.model.DiagnosisCount
 import org.impactindiafoundation.iifllemeddocket.architecture.model.DiagnosisType
 import org.impactindiafoundation.iifllemeddocket.architecture.model.Equipment
 import org.impactindiafoundation.iifllemeddocket.architecture.model.EquipmentImage
@@ -18,7 +21,10 @@ import org.impactindiafoundation.iifllemeddocket.architecture.model.FormImages
 import org.impactindiafoundation.iifllemeddocket.architecture.model.FormVideos
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisImages
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisPatientForm
+import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisStatusCount
+import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisSynTable
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisType
+import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisTypeCount
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisTypeModel
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisTypeModelItem
 import org.impactindiafoundation.iifllemeddocket.architecture.model.UserModel
@@ -70,6 +76,55 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
     //equipment file datas
     private var _equipmentImagesList = MutableLiveData<Resource<List<EquipmentImage>>>()
     val equipmentImagesList: LiveData<Resource<List<EquipmentImage>>> get() = _equipmentImagesList
+
+    val patientCount: LiveData<Int> = newMainRepository.getPatientCount()
+    val formCount: LiveData<Int> = newMainRepository.getFormCount()
+    val malePatientCount: LiveData<Int> = newMainRepository.getMalePatientCount()
+    val femalePatientCount: LiveData<Int> = newMainRepository.getFemalePatientCount()
+    val otherPatientCount: LiveData<Int> = newMainRepository.getOtherPatientCount()
+
+
+    private val _diagnosisCounts = MutableLiveData<List<DiagnosisCount>>()
+    val diagnosisCounts: LiveData<List<DiagnosisCount>> = _diagnosisCounts
+
+    fun fetchDiagnosisCounts() {
+        viewModelScope.launch {
+            val list = newMainRepository.getDiagnosisCounts()
+            _diagnosisCounts.postValue(list)
+        }
+    }
+
+    private val _orthosisStatusCounts = MutableLiveData<List<OrthosisStatusCount>>()
+    val orthosisStatusCounts: LiveData<List<OrthosisStatusCount>> = _orthosisStatusCounts
+
+    // Function to fetch status counts
+    fun fetchOrthosisStatusCounts() {
+        viewModelScope.launch {
+            val counts = newMainRepository.getOrthosisStatusCounts()
+            _orthosisStatusCounts.postValue(counts)
+        }
+    }
+
+
+    private val _orthosisTypeCounts = MutableLiveData<List<OrthosisTypeCount>>()
+    val orthosisTypeCounts: LiveData<List<OrthosisTypeCount>> get() = _orthosisTypeCounts
+
+    fun fetchOrthosisTypeCounts() {
+        viewModelScope.launch {
+            val counts = newMainRepository.getOrthosisTypeCounts()
+            _orthosisTypeCounts.postValue(counts)
+        }
+    }
+
+    private val _ageGroupCounts = MutableLiveData<List<AgeGroupCount>>()
+    val ageGroupCounts: LiveData<List<AgeGroupCount>> get() = _ageGroupCounts
+
+    fun fetchAgeGroupCounts() {
+        viewModelScope.launch {
+            val list = newMainRepository.getAgeGroupCounts()
+            _ageGroupCounts.postValue(list)
+        }
+    }
 
     fun getFormVideos(formId: Int) = CoroutineScope(Dispatchers.IO).launch {
         _formVideosListById.postValue(Resource.loading(null))
@@ -145,15 +200,19 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
 
     fun insertOrthosisPatientForm(orthosisPatientForm: OrthosisPatientForm) {
         CoroutineScope(Dispatchers.IO).launch {
-            val message = newMainRepository.insertOrthosisForm(orthosisPatientForm)
-            _insertOrthosisFormResponse.postValue(Resource.success(message))
-            if (message.equals(null)) {
-                _insertOrthosisFormResponse.postValue(Resource.error("Local Db Error", null))
-            } else {
-                _insertOrthosisFormResponse.postValue(Resource.success(message))
+            try {
+                val message = newMainRepository.insertOrthosisForm(orthosisPatientForm)
+                if (message == null) {
+                    _insertOrthosisFormResponse.postValue(Resource.error("Local Db Error", null))
+                } else {
+                    _insertOrthosisFormResponse.postValue(Resource.success(message))
+                }
+            } catch (e: Exception) {
+                _insertOrthosisFormResponse.postValue(Resource.error("Exception: ${e.localizedMessage}", null))
             }
         }
     }
+
 
     fun getOrthosisPatientFormById(localPatientId: Int) = CoroutineScope(Dispatchers.IO).launch {
         _orthosisPatientFormListById.postValue(Resource.loading(null))
@@ -181,12 +240,18 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
         }
     }
 
-    fun deleteOrthosisImages(orthosisList: List<OrthosisImages>) {
-        viewModelScope.launch {
-            newMainRepository.deleteOrthosisImages(orthosisList)
-
+    fun deleteOrthosisImageByPath(imagePath: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            newMainRepository.deleteOrthosisImageByPath(imagePath)
         }
     }
+
+    fun deleteOrthosisImages(images: List<OrthosisImages>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            newMainRepository.deleteOrthosisImages(images)
+        }
+    }
+
 
     fun getOrthosisImageByFormId(formId: String) = CoroutineScope(Dispatchers.IO).launch {
         _orthosisImagesList.postValue(Resource.loading(null))
@@ -356,4 +421,7 @@ class OrthosisViewModel @Inject constructor(private val newMainRepository: NewMa
             _orthosisEquipmentMasterList.postValue(Resource.error(e.message.toString(), null))
         }
     }
+
+    val allSynData:LiveData<List<OrthosisSynTable>> = newMainRepository.allSynData
+
 }

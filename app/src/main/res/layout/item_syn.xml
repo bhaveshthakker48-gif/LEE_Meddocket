@@ -17,7 +17,6 @@
             android:padding="@dimen/_2sdp"
             android:textAlignment="center"
             android:textColor="@color/black"
-
             style="@style/textView_bold"
             android:background="@drawable/textview_background_white"
             android:layout_weight="1"
@@ -29,7 +28,7 @@
             android:padding="@dimen/_2sdp"
             android:textAlignment="center"
             android:textColor="@color/black"
-
+            android:visibility="gone"
             style="@style/textView_bold"
             android:background="@drawable/textview_background_white"
             android:layout_weight="1"
@@ -41,12 +40,40 @@
             android:padding="@dimen/_2sdp"
             android:textAlignment="center"
             android:textColor="@color/black"
+            android:visibility="gone"
+            style="@style/textView_bold"
+            android:background="@drawable/textview_background_white"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/TextViewTotalSynced"
+            android:layout_margin="@dimen/_1sdp"
+            android:padding="@dimen/_2sdp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
 
             style="@style/textView_bold"
             android:background="@drawable/textview_background_white"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
+
+        <TextView
+        android:id="@+id/TextViewTotalUnsynced"
+        android:layout_margin="@dimen/_1sdp"
+        android:padding="@dimen/_2sdp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+
+        style="@style/textView_bold"
+        android:background="@drawable/textview_background_white"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+
 
     </LinearLayout>
 

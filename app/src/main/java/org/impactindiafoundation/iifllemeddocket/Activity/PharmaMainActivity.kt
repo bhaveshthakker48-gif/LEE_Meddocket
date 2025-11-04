@@ -24,6 +24,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.VideoView
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -142,14 +143,34 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Choose whichever bottom inset is larger (IME or system bars)
+            val bottom = maxOf(systemBarsInsets.bottom, imeInsets.bottom)
+
             view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                bottom
             )
+
             insets
+        }
+
+        onBackPressedDispatcher.addCallback(this) {
+            AlertDialog.Builder(this@PharmaMainActivity)
+                .setTitle("Exit App")
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes") { dialog, _ ->
+                    dialog.dismiss()
+                    finishAffinity() // Exit the whole app
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
         }
 
         getViewModel()
@@ -177,7 +198,15 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
             openAboutUsDailogueBox()
         }
 
+        binding.analyticsFab.setOnClickListener {
+            val intent = Intent(this, PharmaAnalyticsActivity::class.java)
+            startActivity(intent)
+        }
+
         checkWhatsNew(this)
+
+        Log.d("pawan", "✅ onCreate called")
+
     }
 
     private fun getAppVersion(context: Context): String {
@@ -499,19 +528,20 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
         val popupView: View = inflater.inflate(R.layout.custom_popup_layout, null)
         val closeButton: Button = popupView.findViewById(R.id.popupButton)
         val popupCancel: Button = popupView.findViewById(R.id.popupCancel)
+
         closeButton.setOnClickListener {
-            Utility.successToast(this@PharmaMainActivity,"Logged out successfully!")
+            Utility.successToast(this@PharmaMainActivity, "Logged out successfully!")
             sessionManager.clearCache(this@PharmaMainActivity)
             popupWindow.dismiss()
-            val intent = Intent(this@PharmaMainActivity,LoginActivity::class.java)
+            val intent = Intent(this@PharmaMainActivity, LoginActivity::class.java)
             startActivity(intent)
             finish()
-            this.finish()
         }
+
         popupCancel.setOnClickListener {
-            sessionManager.clearCache(this@PharmaMainActivity)
-            popupWindow.dismiss()
+            popupWindow.dismiss() // removed clearCache()
         }
+
         popupWindow = PopupWindow(
             popupView,
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -520,7 +550,6 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
         )
 
         popupWindow.setBackgroundDrawable(resources.getDrawable(android.R.color.transparent))
-
         popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
     }
 
@@ -847,6 +876,23 @@ class PharmaMainActivity : BaseActivity(), View.OnClickListener {
             Utility.infoToast(this@PharmaMainActivity, "Internet Not Available")
         }
     }
+
+//    override fun onBackPressed() {
+////        super.onBackPressed()
+//        // DO NOT call super.onBackPressed() here
+//        AlertDialog.Builder(this)
+//            .setTitle("Exit App")
+//            .setMessage("Are you sure you want to exit?")
+//            .setPositiveButton("Yes") { dialog, _ ->
+//                dialog.dismiss()
+//                finish() // exit the app
+//            }
+//            .setNegativeButton("No") { dialog, _ ->
+//                dialog.dismiss()
+//            }
+//            .show()
+//    }
+
 
 }
 

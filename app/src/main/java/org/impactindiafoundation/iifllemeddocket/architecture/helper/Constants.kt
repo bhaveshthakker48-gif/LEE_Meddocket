@@ -31,4 +31,8 @@ object Constants {
     const val ENT_SURGICAL_NOTES = "EntSurgicalNotes"
     const val ENT_POST_OP_NOTES = "EntPostOpNotes"
     const val PATHOLOGY_REPORTS = "Pathology Reports"
+
+    const val ACTION_FORM_SYNC_COMPLETED =
+        "org.impactindiafoundation.iifllemeddocket.ACTION_FORM_SYNC_COMPLETED"
+
 }

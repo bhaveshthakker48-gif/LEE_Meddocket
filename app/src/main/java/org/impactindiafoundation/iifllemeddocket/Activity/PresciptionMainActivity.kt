@@ -25,6 +25,8 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.VideoView
+import androidx.activity.addCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -33,6 +35,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
@@ -40,6 +43,7 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.gson.Gson
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.coroutines.launch
 import org.impactindiafoundation.iifllemeddocket.Dialog.MyProgressDialog
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.LLE_MedDocket_Repository
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.LLE_MedDocket_Room_Database
@@ -88,7 +92,10 @@ import org.impactindiafoundation.iifllemeddocket.ViewModel.LLE_MedDocketViewMode
 import org.impactindiafoundation.iifllemeddocket.ViewModel.ResourceApp
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants.PSD_LOGIN
+import org.impactindiafoundation.iifllemeddocket.architecture.viewModel.OpdPrescriptionFormViewModel
+import org.impactindiafoundation.iifllemeddocket.architecture.viewModel.ent.EntProOpDetailsViewModel
 import org.impactindiafoundation.iifllemeddocket.databinding.ActivityPrescriptionMainBinding
+import org.impactindiafoundation.iifllemeddocket.ui.activity.BaseActivity
 import org.impactindiafoundation.iifllemeddocket.ui.activity.QrCodeActivity
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -97,7 +104,7 @@ import java.util.Date
 import java.util.Locale
 
 
-class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
+class PresciptionMainActivity : BaseActivity(), View.OnClickListener {
 
     lateinit var viewModel: LLE_MedDocketViewModel
     lateinit var viewModel1: LLE_MedDocket_ViewModel
@@ -115,6 +122,8 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
     private var intentDecodeText = ""
     lateinit var binding: ActivityPrescriptionMainBinding
     lateinit var appUpdateManager: AppUpdateManager
+    private val entPreOpDetailsViewModel: EntProOpDetailsViewModel by viewModels()
+
 
     companion object {
         private const val REQUEST_CODE_UPDATE = 100
@@ -129,15 +138,36 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Choose whichever bottom inset is larger (IME or system bars)
+            val bottom = maxOf(systemBarsInsets.bottom, imeInsets.bottom)
+
             view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                bottom
             )
+
             insets
         }
+
+        onBackPressedDispatcher.addCallback(this) {
+            AlertDialog.Builder(this@PresciptionMainActivity)
+                .setTitle("Exit App")
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes") { dialog, _ ->
+                    dialog.dismiss()
+                    finishAffinity() // Exit the whole app
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+
         getViewModel()
         createRoomDatabase()
 
@@ -441,7 +471,7 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun GetRegistrationDataResponse() {
         viewModel.getRegistrationDetailsResponse.observe(this, Observer { response ->
-            Log.d("pawan", "getRegistrationDetailsResponse" + response.data.toString())
+            Log.d("xyz", "getRegistrationDetailsResponse" + response.data.toString())
             response.data?.let { data ->
                 data.RegistrationDetails?.let { registration ->
                     for (data in registration) {
@@ -559,7 +589,7 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                         val Prescription_Model = Prescription_Model(
                             0,
                             camp_id,
-                            fundus_notes.toString(),
+                            fundus_notes ?: "",
                             is_given.toString(),
                             is_ordered.toString(),
                             patient_id,
@@ -592,9 +622,9 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
                             re_reading_addition_left_details ?: "",
                             re_reading_addition_right ?: "",
                             re_reading_addition_right_details ?: "",
-                            re_remark_left.toString(),
-                            re_remark_right.toString(),
-                            re_remarks.toString(),
+                            re_remark_left?: "",
+                            re_remark_right?: "",
+                            re_remarks?: "",
                             reading_glass ?: "",
                             user_id
                         )
@@ -662,75 +692,105 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         progressDialog.setMessage("Uploading Data...")
         progressDialog.setCancelable(false)
         progressDialog.show()
+
         viewModel1.allFinalPrescriptionData.observe(this, Observer { response ->
-            Log.d(ConstantsApp.TAG, "allFinalPrescriptionData=>" + response.toString())
+            Log.d(ConstantsApp.TAG, "allFinalPrescriptionData => $response")
+
             if (!isCallInProgress && response.isNotEmpty()) {
-                isCallInProgress = true  // Set the flag to true to indicate call in progress
+                isCallInProgress = true
+
                 val prescriptionGlassesFinalList = mutableListOf<PrescriptionGlasse>()
+
+                // count unsynced records before upload
+                val totalUnsyncedBeforeUpload = response.count { it.isSyn == 0 }
+
                 for (data in response) {
                     if (data.isSyn == 0) {
-                        val _id = data._id
-                        val alternate_mobile = data.alternate_mobile
-                        val app_createdDate = data.app_createdDate
-                        val call_again_date = data.call_again_date
-                        val camp_id = data.camp_id
-                        val patient_call_again = data.patient_call_again
-                        val patient_id = data.patient_id
-                        val patient_not_come = data.patient_not_come
-                        val postal_addressline1 = data.postal_addressline1
-                        val postal_addressline2 = data.postal_addressline2
-                        val postal_city = data.postal_city
-                        val postal_country = data.postal_country
-                        val postal_pincode = data.postal_pincode
-                        val postal_state = data.postal_state
-                        val sameAddress = data.sameAddress
-                        val spectacle_given = data.spectacle_given
-                        val spectacle_not_matching = data.spectacle_not_matching
-                        val ordered_not_received = data.ordered_not_received
-                        val user_id = data.user_id
-                        val id = data.server_id
-                        val spectacle_not_matching_details = data.spectacle_not_matching_details
-                        val given_presc_type = data.given_presc_type
-
                         val prescriptionGlasse = PrescriptionGlasse(
-                            _id,
-                            alternate_mobile,
-                            app_createdDate,
-                            call_again_date,
-                            camp_id,
-                            id,
-                            ordered_not_received,
-                            patient_call_again,
-                            patient_id,
-                            patient_not_come,
-                            postal_addressline1,
-                            postal_addressline2,
-                            postal_city,
-                            postal_country,
-                            postal_pincode,
-                            postal_state,
-                            sameAddress,
-                            spectacle_given,
-                            spectacle_not_matching,
-                            spectacle_not_matching_details,
-                            given_presc_type,
-                            user_id
+                            data._id,
+                            data.alternate_mobile,
+                            data.app_createdDate,
+                            data.call_again_date,
+                            data.camp_id,
+                            data.server_id,
+                            data.ordered_not_received,
+                            data.patient_call_again,
+                            data.patient_id,
+                            data.patient_not_come,
+                            data.postal_addressline1,
+                            data.postal_addressline2,
+                            data.postal_city,
+                            data.postal_country,
+                            data.postal_pincode,
+                            data.postal_state,
+                            data.sameAddress,
+                            data.spectacle_given,
+                            data.spectacle_not_matching,
+                            data.spectacle_not_matching_details,
+                            data.given_presc_type,
+                            data.user_id
                         )
                         prescriptionGlassesFinalList.add(prescriptionGlasse)
                     }
                 }
+
                 if (prescriptionGlassesFinalList.isNotEmpty()) {
-                    Log.d(ConstantsApp.TAG, "PrescriptionGlassesFinalList=>" + prescriptionGlassesFinalList)
+                    Log.d(ConstantsApp.TAG, "PrescriptionGlassesFinalList => $prescriptionGlassesFinalList")
+
                     val addPrescriptionFinal = AddPrecriptionFinal(prescriptionGlassesFinalList)
                     viewModel.addPrecriptionGlassesResponse(progressDialog, addPrescriptionFinal)
-                    AddPrecriptionGlassesResponse(progressDialog)
-                    isCallInProgress = false
+
+                    // Pass total unsynced count for tracking
+                    AddPrecriptionGlassesResponse(progressDialog, totalUnsyncedBeforeUpload)
                 } else {
                     progressDialog.dismiss()
                     isCallInProgress = false
                 }
             }
         })
+    }
+
+    private fun AddPrecriptionGlassesResponse(progressDialog: ProgressDialog, totalUnsyncedBeforeUpload: Int) {
+        viewModel.addPrecriptionGlassesResponse.observe(this, Observer { response ->
+            when (response) {
+                is ResourceApp.Success -> {
+                    progressDialog.dismiss()
+                    lifecycleScope.launch {
+                        response.data?.prescriptionGlasses?.let { data ->
+                            for (prescriptionGlasses in data) {
+                                UpdatePrescriptionGlassesResponse(prescriptionGlasses._id, 1)
+                            }
+
+                            val syncedCount = response.data?.prescriptionGlasses?.size ?: 0
+                            val unsyncedCount = totalUnsyncedBeforeUpload - syncedCount
+
+                            Log.d(ConstantsApp.TAG, "✅ Synced Count => $syncedCount")
+                            Log.d(ConstantsApp.TAG, "❌ Unsynced Count => $unsyncedCount")
+                            // Save record in sync summary table
+                            entPreOpDetailsViewModel.insertSyncRecord(
+                                "Prescription Data",
+                                syncedCount,
+                                unsyncedCount
+                            )
+                        }
+                    }
+                    isCallInProgress = false
+                }
+
+                is ResourceApp.Error -> {
+                    progressDialog.dismiss()
+                    isCallInProgress = false
+                }
+
+                is ResourceApp.Loading -> {
+                    progressDialog.show()
+                }
+            }
+        })
+    }
+
+    private fun UpdatePrescriptionGlassesResponse(_id: String, syn: Int) {
+        viewModel1.UpdatePrescriptionGlassesResponse(_id, syn)
     }
 
     private fun checkSyncedData() {
@@ -771,36 +831,7 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         })
     }
 
-    private fun AddPrecriptionGlassesResponse(progressDialog: ProgressDialog) {
-        viewModel.addPrecriptionGlassesResponse.observe(this, Observer { response ->
-            progressDialog.dismiss()
-            when (response) {
-                is ResourceApp.Success -> {
-                    Log.d(ConstantsApp.TAG, "ErrorMessage=>" + response.data!!.ErrorMessage)
-                    Log.d(ConstantsApp.TAG, "ErrorCode=>" + response.data!!.ErrorCode)
-                    Log.d(ConstantsApp.TAG, "prescriptionGlasses=>" + response.data!!.prescriptionGlasses)
-                    response.data.prescriptionGlasses?.let { data ->
-                        for (prescriptionGlasses in data) {
-                            val isSyn = 1
-                            UpdatePrescriptionGlassesResponse(prescriptionGlasses._id, isSyn)
-                        }
-                    }
-                    this.progressDialog.dismiss()
-                }
-                is ResourceApp.Error -> {
-                    this.progressDialog.dismiss()
-                }
-                is ResourceApp.Loading -> {
-                    this.progressDialog.show()
-                }
-                else -> {}
-            }
-        })
-    }
 
-    private fun UpdatePrescriptionGlassesResponse(_id: String, syn: Int) {
-        viewModel1.UpdatePrescriptionGlassesResponse(_id, syn)
-    }
 
     @SuppressLint("MissingInflatedId")
     private fun showPopupAadhar() {
@@ -1049,35 +1080,46 @@ class PresciptionMainActivity : AppCompatActivity(), View.OnClickListener {
         popupWindow2.showAtLocation(popupView, Gravity.CENTER, 0, 0)
     }
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("InflateParams")
     private fun showPopup() {
-        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popupView: View = inflater.inflate(R.layout.custom_popup_layout, null)
-        val closeButton: Button = popupView.findViewById(R.id.popupButton)
-        val popupCancel: Button = popupView.findViewById(R.id.popupCancel)
-        closeButton.setOnClickListener {
-            Utility.successToast(this@PresciptionMainActivity, "Logged out successfully!")
-            sessionManager.logoutClear(this@PresciptionMainActivity)
-            popupWindow.dismiss()
-            val intent = Intent(this@PresciptionMainActivity, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-            this.finish()
-        }
-        popupCancel.setOnClickListener {
-            sessionManager.clearCache(this@PresciptionMainActivity)
-            popupWindow.dismiss()
-        }
-        popupWindow = PopupWindow(
+        val inflater = LayoutInflater.from(this)
+        val popupView = inflater.inflate(R.layout.custom_popup_layout, null)
+
+        val btnLogout: Button = popupView.findViewById(R.id.popupButton)
+        val btnCancel: Button = popupView.findViewById(R.id.popupCancel)
+
+        // ✅ Create popup window safely
+        val popupWindow = PopupWindow(
             popupView,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
             true
-        )
+        ).apply {
+            isOutsideTouchable = true
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            elevation = 10f
+        }
 
-        popupWindow.setBackgroundDrawable(resources.getDrawable(android.R.color.transparent))
-        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
+        btnLogout.setOnClickListener {
+            Utility.successToast(this, "Logged out successfully!")
+            sessionManager.logoutClear(this)
+            popupWindow.dismiss()
+            Intent(this, LoginActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(this)
+            }
+            finish()
+        }
+
+        btnCancel.setOnClickListener {
+            popupWindow.dismiss()
+        }
+
+        // ✅ Attach popup to root view safely
+        val rootView = window.decorView.rootView
+        popupWindow.showAtLocation(rootView, Gravity.CENTER, 0, 0)
     }
+
 
     fun gotoScreen(context: Context?, cls: Class<*>?) {
         val intent = Intent(context, cls)

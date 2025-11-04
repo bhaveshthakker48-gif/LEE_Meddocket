@@ -53,6 +53,7 @@ import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROO
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.Vitals
 import org.impactindiafoundation.iifllemeddocket.Model.EyePreOpInvestigationsModel.AddEyePreOpInvestigationsRequest
 import org.impactindiafoundation.iifllemeddocket.Model.EyePreOpInvestigationsModel.EyePreOpInvestigation
+import org.impactindiafoundation.iifllemeddocket.architecture.model.PrescriptionSynTable
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entapimodel.EntPreOpDetailsItem
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entapimodel.EntPreOpDetailsRequest
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entapimodel.EntPreOpDetailsResponse
@@ -80,7 +81,8 @@ class LLE_MedDocket_Repository(private val Vital_DAO: Vital_DAO,
                                private val CreatePrescriptionDAO: CreatePrescriptionDAO,
                                private val Image_Prescription_DAO: Image_Prescription_DAO,
                                private val FinalPrescriptionDrugDAO: FinalPrescriptionDrugDAO,
-                               private val database: LLE_MedDocket_Room_Database) {
+                               private val database: LLE_MedDocket_Room_Database
+) {
 
     val allVitals: LiveData<List<Vitals>> = Vital_DAO.getAllVitailsData()
 
@@ -132,14 +134,17 @@ class LLE_MedDocket_Repository(private val Vital_DAO: Vital_DAO,
     val allRegistartion: LiveData<List<Patient_RegistrationModel>> =
         Registration_DAO.getAllRegistrationData()
 
-    val allPrescriptionData: LiveData<List<Prescription_Model>> =
-        Prescription_DAO.getAllPrescriptionData()
+    val allPrescriptionData: LiveData<List<Prescription_Model>> = Prescription_DAO.getAllPrescriptionData()
 
     val allFinalPrescriptionData:LiveData<List<PrescriptionGlassesFinal>> = Final_Prescription_DAO.getAll_PrescriptionGlassesFinal()
 
     val allSpectacleDisdributionStatus:LiveData<List<SpectacleDisdributionStatusModel>> = SpectacleDisdributionStatus_DAO.getAllSpectacleDisdributionStatusModel()
 
     val allSynData:LiveData<List<SynTable>> = SynTable_DAO.getAllSynData()
+
+    fun getSynDataByType(type: String): LiveData<List<SynTable>> {
+        return SynTable_DAO.getSynDataByType(type)
+    }
 
     val allCurrentInventory:LiveData<List<CurrentInventoryLocal>> = CurrentInventory_DAO.getAllCurrentInventory()
 
@@ -517,6 +522,7 @@ class LLE_MedDocket_Repository(private val Vital_DAO: Vital_DAO,
 
     }
     suspend fun getAllCurrentInventory() = CurrentInventory_DAO.getAllCurrentInventory()
+
 
 
 }

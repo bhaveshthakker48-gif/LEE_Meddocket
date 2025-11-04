@@ -357,30 +357,64 @@
                             android:background="@drawable/spinner_background" />
                     </LinearLayout>
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/btnAdd"
-                        android:layout_width="130dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:elevation="0dp"
-                        app:cardBackgroundColor="@color/main_color"
-                        app:cardCornerRadius="15dp"
-                        app:cardElevation="9dp">
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:weightSum="2">
 
-                        <TextView
-                            android:id="@+id/TextView_prescription_add"
-                            android:layout_width="wrap_content"
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/btnAdd"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            app:cardBackgroundColor="@color/main_color"
+                            app:cardCornerRadius="15dp"
+                            app:cardElevation="6dp">
 
-                            android:layout_gravity="center_horizontal|bottom"
-                            android:fontFamily="@font/opensans_semibold"
-                            android:padding="10dp"
-                            android:text="@string/Add"
-                            android:textAllCaps="false"
-                            android:textColor="@color/white" />
-                    </androidx.cardview.widget.CardView>
+                            <TextView
+                                android:id="@+id/TextView_prescription_add"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:fontFamily="@font/opensans_semibold"
+                                android:paddingVertical="10dp"
+                                android:text="@string/Add"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="16sp" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/btnAddNewSpeciality"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            app:cardBackgroundColor="@color/main_color"
+                            app:cardCornerRadius="15dp"
+                            app:cardElevation="6dp">
+
+                            <TextView
+                                android:id="@+id/TextView_prescription_add_new"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:fontFamily="@font/opensans_semibold"
+                                android:paddingVertical="10dp"
+                                android:text="Add new speciality"
+                                android:textAllCaps="false"
+                                android:textColor="@color/white"
+                                android:textSize="16sp" />
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
 
 
                 </LinearLayout>

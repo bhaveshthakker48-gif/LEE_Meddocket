@@ -32,8 +32,7 @@ class OrthosisFittingFormAdapter(
     val context: Context,
     val data: List<OrthosisPatientData>,
     private val event: OrthosisFormClickListener
-) :
-    RecyclerView.Adapter<OrthosisFittingFormAdapter.OrthosisFittingFormViewHolder>() {
+) : RecyclerView.Adapter<OrthosisFittingFormAdapter.OrthosisFittingFormViewHolder>() {
 
     inner class OrthosisFittingFormViewHolder(
         private var binding: ItemOrthosisFittingBinding,
@@ -44,28 +43,23 @@ class OrthosisFittingFormAdapter(
             val content = data[position]
             setUpMeasurementRecyclerview(binding, content.patientOrthosisMeasurements, position)
             binding.apply {
-
                 if (isEditable){
                     binding.etOrthosisStatus.isEnabled = true
                     binding.etStatusNotes.isEnabled = true
                     binding.etFittingStatus.isEnabled = true
                     binding.etFittingFeedback.isEnabled = true
-                }
-                else{
+                } else{
                     binding.etOrthosisStatus.isEnabled = false
                     binding.etStatusNotes.isEnabled = false
                     binding.etFittingStatus.isEnabled = false
                     binding.etFittingFeedback.isEnabled = false
                 }
 
-
                 if (!content.orthosis.name.isNullOrEmpty()){
                     binding.tvOrthosisType.text = "(${position + 1}) ${content.orthosis.name}"
-                }
-                else{
+                } else{
                     binding.tvOrthosisType.text = "(${position + 1}) Select Orthosis Type"
                 }
-
 
                 setColorForAllEditText(binding)
                 var isArrowDown = true
@@ -93,31 +87,56 @@ class OrthosisFittingFormAdapter(
                 }
 
 
-//                val customDropDownAdapter =
-//                    CustomDropDownAdapter(context, listOf("Select","Pending","Ready","Given"))
-//                binding.etOrthosisStatus!!.adapter = customDropDownAdapter
-
-
-                //setting data
                 if (!content.status.isNullOrEmpty()) {
                     binding.etOrthosisStatus.setText(content.status)
+
                     if (content.status == "Given") {
+                        // Show the fitting fields, but lock them
                         binding.etlFittingStatus.visibility = View.VISIBLE
                         binding.etlFittingFeedback.visibility = View.VISIBLE
+
                         binding.etFittingStatus.setText(content.fit_properly)
                         binding.etFittingFeedback.setText(content.fit_properly_reason)
+                        binding.etStatusNotes.setText(content.statusNotes ?: "")
+
+                        // ❌ Disable editing when status = Given
+                        binding.etStatusNotes.isEnabled = false
+                        binding.etFittingStatus.isEnabled = false
+                        binding.etFittingFeedback.isEnabled = false
+
+                        // Optional visual cue (light grey)
+                        binding.etStatusNotes.alpha = 0.6f
+                        binding.etFittingStatus.alpha = 0.6f
+                        binding.etFittingFeedback.alpha = 0.6f
+
+                        // Debug log
+                        Utility.infoToast(context, "🔒 Fields are not editable for given status")
+
                     } else {
-                        binding.etlFittingStatus.visibility = View.GONE
-                        binding.etlFittingFeedback.visibility = View.GONE
+                        // Other statuses: restore editability
+                        binding.etStatusNotes.isEnabled = isEditable
+                        binding.etFittingStatus.isEnabled = isEditable
+                        binding.etFittingFeedback.isEnabled = isEditable
+
+                        binding.etStatusNotes.alpha = 1f
+                        binding.etFittingStatus.alpha = 1f
+                        binding.etFittingFeedback.alpha = 1f
+
+                        // Hide/show relevant fields
+                        if (content.status == "Refitting") {
+                            binding.llNewMeasurements.visibility = View.VISIBLE
+                        } else {
+                            binding.llNewMeasurements.visibility = View.GONE
+                        }
+
+                        binding.etlFittingStatus.visibility = if (content.status == "Given") View.VISIBLE else View.GONE
+                        binding.etlFittingFeedback.visibility = if (content.status == "Given") View.VISIBLE else View.GONE
                     }
                 }
 
 
-
-
                 val statusOptions = listOf("Given","Sent Courier","Given to Volunteer","Refitting")
-                val statusadapter =
-                    ArrayAdapter(
+                val statusadapter = ArrayAdapter(
                         context,
                         android.R.layout.simple_dropdown_item_1line,
                         statusOptions
@@ -126,16 +145,15 @@ class OrthosisFittingFormAdapter(
                 binding.etOrthosisStatus.setOnClickListener {
                     if (content.status == "Given"){
                         Utility.infoToast(context,"Cannot Change Given Status!")
+
                     }
                     else{
                         binding.etOrthosisStatus.showDropDown()
                     }
-
                 }
 
                 val fitStatusOptions = listOf("Yes", "No")
-                val fitStatusAdapter =
-                    ArrayAdapter(
+                val fitStatusAdapter = ArrayAdapter(
                         context,
                         android.R.layout.simple_dropdown_item_1line,
                         fitStatusOptions
@@ -148,7 +166,6 @@ class OrthosisFittingFormAdapter(
 
                 binding.etFittingStatus.setText(content.fit_properly)
                 binding.etFittingFeedback.setText(content.fit_properly_reason)
-
 
                 binding.etOrthosisStatus.doOnTextChanged { text, start, before, count ->
                     if (!text.isNullOrEmpty()) {
@@ -163,9 +180,7 @@ class OrthosisFittingFormAdapter(
                             }
                             else if (text.toString() == "Refitting"){
                                 binding.llNewMeasurements.visibility = View.VISIBLE
-                                //setup measurements recycler view here
-                            }
-                            else{
+                            } else{
                                 binding.etlStatusNotes.visibility = View.VISIBLE
                             }
                             binding.etFittingStatus.setText("")
@@ -175,14 +190,12 @@ class OrthosisFittingFormAdapter(
                         }
                         event.setOrthosisEditTextData(position, "status", text.toString())
                     }
-
                 }
 
                 binding.etFittingStatus.doOnTextChanged { text, start, before, count ->
                     if (!text.isNullOrEmpty()) {
                         event.setOrthosisEditTextData(position, "fittingStatus", text.toString())
                     }
-
                 }
 
                 binding.etFittingFeedback.doOnTextChanged { text, start, before, count ->
@@ -190,7 +203,6 @@ class OrthosisFittingFormAdapter(
                         event.setOrthosisEditTextData(position, "fittingReason", text.toString())
                     } else {
                         event.setOrthosisEditTextData(position, "fittingReason", "")
-
                     }
                 }
 
@@ -199,25 +211,8 @@ class OrthosisFittingFormAdapter(
                         event.setOrthosisEditTextData(position, "statusNotes", text.toString())
                     } else {
                         event.setOrthosisEditTextData(position, "statusNotes", "")
-
                     }
                 }
-//                var selected_eye=binding.spinnerExaminationEye.selectedItem.toString()
-
-//                binding.etAmputationDate.setOnClickListener {
-//                    Utility.openDatePicker(
-//                        context,
-//                        Utility.HIDE_PREVIOUS_DATES,
-//                        binding.etAmputationDate,
-//                        object : Utility.DateListener {
-//                            override fun onDateSelected(date: String) {
-//                                binding.etAmputationDate.setText(date)
-//                            }
-//
-//                        })
-//                }
-
-
             }
         }
     }
@@ -283,7 +278,6 @@ class OrthosisFittingFormAdapter(
         val orthosisStatusHint = context.getString(R.string.txt_orthosis_status)
         setAsteriskColor(binding.etlOrthosisStatus, orthosisStatusHint)
 
-
         val fittingStatusHint = context.getString(R.string.txt_fitting_status)
         setAsteriskColor(binding.etlFittingStatus, fittingStatusHint)
 
@@ -304,8 +298,6 @@ class OrthosisFittingFormAdapter(
             hintText.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-
         etlField.hint = spannableString
-
     }
 }

@@ -1,25 +1,19 @@
 package org.impactindiafoundation.iifllemeddocket.ui.activity
 
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.compose.animation.core.LinearEasing
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.impactindiafoundation.iifllemeddocket.R
 import org.impactindiafoundation.iifllemeddocket.Utils.Utility
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Status
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OpdSyncTable
-import org.impactindiafoundation.iifllemeddocket.architecture.model.PatientMedicine
-import org.impactindiafoundation.iifllemeddocket.architecture.viewModel.OpdPrescriptionFormViewModel
 import org.impactindiafoundation.iifllemeddocket.architecture.viewModel.PharmaMainViewModel
 import org.impactindiafoundation.iifllemeddocket.databinding.ActivityOpdSyncTableBinding
 import org.impactindiafoundation.iifllemeddocket.ui.adapter.recycler.OpdSyncTableAdapter
-import org.impactindiafoundation.iifllemeddocket.ui.adapter.recycler.PatientMedicineAdapter
 
 class OpdSyncTableActivity : BaseActivity() {
 
@@ -41,14 +35,17 @@ class OpdSyncTableActivity : BaseActivity() {
         window.statusBarColor = Color.WHITE
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
-            // Apply padding to the activity content (this handles all root layouts properly)
+            // Choose whichever bottom inset is larger (IME or system bars)
+            val bottom = maxOf(systemBarsInsets.bottom, imeInsets.bottom)
+
             view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                bottom
             )
 
             insets
@@ -76,18 +73,21 @@ class OpdSyncTableActivity : BaseActivity() {
                     try {
                         if (!it.data.isNullOrEmpty()) {
                             var totalsyncedCount = 0
+                            var totalUnsyncedCount = 0
                             for (i in it.data){
                                 totalsyncedCount += i.syncedCount
+                                totalUnsyncedCount += i.unsyncFormCount
                             }
                             opdSynctTable.clear()
                             opdSynctTable.addAll(it.data)
                             val opdSyncItem = OpdSyncTable(
                                 id = 0,
                                 dateTime = "",
-                                syncedCount = 0
+                                syncedCount = 0,
+                                unsyncFormCount = 0
                             )
                             opdSynctTable.add(opdSyncItem)
-                            setUpSyncTableRecyclerView(totalsyncedCount)
+                            setUpSyncTableRecyclerView(totalsyncedCount, totalUnsyncedCount)
                             binding.llPatientColumn.visibility = View.VISIBLE
                             binding.rvOpdSyncTable.visibility = View.VISIBLE
                             binding.tvNoDataFound.visibility = View.GONE
@@ -110,8 +110,8 @@ class OpdSyncTableActivity : BaseActivity() {
         }
     }
 
-    private fun setUpSyncTableRecyclerView(totalSyncedCount:Int){
-        opdSyncTableAdapter = OpdSyncTableAdapter(this@OpdSyncTableActivity,opdSynctTable,totalSyncedCount)
+    private fun setUpSyncTableRecyclerView(totalSyncedCount:Int, totalUnSyncedCount: Int){
+        opdSyncTableAdapter = OpdSyncTableAdapter(this@OpdSyncTableActivity,opdSynctTable,totalSyncedCount,totalUnSyncedCount)
         binding.rvOpdSyncTable.apply {
             adapter = opdSyncTableAdapter
             layoutManager = LinearLayoutManager(this@OpdSyncTableActivity)

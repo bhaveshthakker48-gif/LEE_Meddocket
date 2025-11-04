@@ -424,6 +424,7 @@ class PrescriptionDisbributionActivity : BaseActivity(), CompoundButton.OnChecke
         }
         viewModel1.getPostOpDetailsById(intentFormId, patientId)
         GetPatientRegistrationDetails(patientId)
+        getPrescriptionDetails(patientId)
     }
 
     override fun onResume() {
@@ -581,11 +582,88 @@ class PrescriptionDisbributionActivity : BaseActivity(), CompoundButton.OnChecke
         getRegistrationResponse()
     }
 
+    private fun getPrescriptionDetails(patientID: Int){
+        viewModel1.getPrescriptionDataPatientID(patientID)
+        getPrescriptionResponse()
+    }
+
+    private fun getPrescriptionResponse() {
+        viewModel1.prescriptionData.observe(this, Observer { response ->
+            Log.d("pawan", "getPrescriptionResponse => $response")
+            progressDialog1.dismiss()
+
+            if (response.isNotEmpty()) {
+                val data = response[0]
+                Log.d("pawan", "Prescription Data Found => PatientID=${data.patient_id}, CampID=${data.camp_id}")
+
+                // DISTANCE (Right Eye)
+                binding.TextViewDistanceRightSph.text = data.re_distant_vision_sphere_right
+                binding.TextViewDistanceRightCyl.text = data.re_distant_vision_cylinder_right
+                binding.TextViewDistanceRightAxis.text = data.re_distant_vision_axis_right
+
+                // DISTANCE (Left Eye)
+                binding.TextViewDistanceLeftSph.text = data.re_distant_vision_sphere_left
+                binding.TextViewDistanceLeftCyl.text = data.re_distant_vision_cylinder_left
+                binding.TextViewDistanceLeftAxis.text = data.re_distant_vision_axis_left
+
+                // ADD AMOUNT (Right Eye)
+                binding.TextViewAddAmountRightSph.text = data.re_reading_addition_right
+                binding.TextViewAddAmountRightCyl.text = data.re_reading_addition_right_details
+                binding.TextViewAddAmountRightAxis.text = data.re_remarks // or replace with correct field if available
+
+                // ADD AMOUNT (Left Eye)
+                binding.TextViewAddAmountLeftSph.text = data.re_reading_addition_left
+                binding.TextViewAddAmountLeftCyl.text = data.re_reading_addition_left_details
+                binding.TextViewAddAmountLeftAxis.text = data.re_remark_left // or correct field
+
+                // TOTAL ADD (Right Eye)
+                binding.TextViewTotalAmountRightSph.text = data.re_distant_vision_sphere_right
+                binding.TextViewTotalAmountRightCyl.text = data.re_distant_vision_cylinder_right
+                binding.TextViewTotalAmountRightAxis.text = data.re_distant_vision_axis_right
+
+                // TOTAL ADD (Left Eye)
+                binding.TextViewTotalAmountLeftSph.text = data.re_distant_vision_sphere_left
+                binding.TextViewTotalAmountLeftCyl.text = data.re_distant_vision_cylinder_left
+                binding.TextViewTotalAmountLeftAxis.text = data.re_distant_vision_axis_left
+
+                // PD and BVD
+                binding.TextViewPD.text = data.re_pupipllary_distance
+                binding.TextViewBVD.text = data.re_bvd
+
+                // Prism and Base (Right Eye)
+                binding.TextViewPrismRight.text = data.re_prism_right
+                binding.TextViewBaseRight.text = data.re_prism_unit_right
+
+                // Prism and Base (Left Eye)
+                binding.TextViewPrismLeft.text = data.re_prism_left
+                binding.TextViewBaseLeft.text = data.re_prism_unit_left
+
+                Log.d("pawan", """
+                Prescription Values:
+                - Distance Right: SPH=${data.re_distant_vision_sphere_right}, CYL=${data.re_distant_vision_cylinder_right}, AXIS=${data.re_distant_vision_axis_right}
+                - Distance Left:  SPH=${data.re_distant_vision_sphere_left}, CYL=${data.re_distant_vision_cylinder_left}, AXIS=${data.re_distant_vision_axis_left}
+                - Add Right: SPH=${data.re_reading_addition_right}, CYL=${data.re_reading_addition_right_details}
+                - Add Left:  SPH=${data.re_reading_addition_left}, CYL=${data.re_reading_addition_left_details}
+                - PD=${data.re_pupipllary_distance}, BVD=${data.re_bvd}
+                - Prism Right=${data.re_prism_right} (${data.re_prism_unit_right})
+                - Prism Left=${data.re_prism_left} (${data.re_prism_unit_left})
+            """.trimIndent())
+
+            } else {
+                Log.e("pawan", "getPrescriptionResponse => No prescription data found!")
+                finish()
+                Toast.makeText(this,"No prescription data found for this patient",Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+
     private fun getRegistrationResponse() {
         viewModel1.registration.observe(this, Observer { response ->
             progressDialog1.dismiss()
             Log.d("xyz", "getRegistrationResponse => $response")
-            if (response.isNotEmpty()) {
+
+            if (response != null && response.isNotEmpty()) {
                 val data = response[0]
                 binding.EditTextResidenceCity.setText(data.citytownvillage)
                 binding.EditTextResidenceCountry.setText("India")
@@ -601,19 +679,26 @@ class PrescriptionDisbributionActivity : BaseActivity(), CompoundButton.OnChecke
                 binding.edtAge.setText("Age :- ${data.age} ${data.ageunit}")
                 binding.edtId.text = "Patient ID :- ${data.patient_id}"
                 binding.edtGend.setText("Gender :- ${data.gender}")
-                campId = data.campid   // ✅ update your class-level campId, not a shadow variable
-                patientId = data.patient_id  // ✅ sync patientId too
+
+                // Assigning to variables
+                campId = data.campid
+                patientId = data.patient_id
                 patientFname = data.fname
                 patientLname = data.lname
                 patientGender = data.gender
-                patientAge = data.age.toInt()
+                patientAge = data.age.toIntOrNull() ?: 0
                 ageUnit = data.ageunit
-                campId = data.campid
                 camp = data.citytownvillage
-                patientId = data.patient_id
+
+            } else {
+                // ❌ No registration data found
+                Log.e("xyz", "getRegistrationResponse => This patient is not registered")
+                finish()
+                Toast.makeText(this,"This patient is not registered",Toast.LENGTH_LONG).show()
             }
         })
     }
+
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         when (buttonView) {

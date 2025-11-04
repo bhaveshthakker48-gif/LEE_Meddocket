@@ -21,6 +21,7 @@ data class FinalPrescriptionDrug(
 ) {
     data class PrescriptionItem(
         val batch_no: String,
+        val doctor_specialty: String,
         val brand_name: String,
         val dose: String,
         val duration: String,

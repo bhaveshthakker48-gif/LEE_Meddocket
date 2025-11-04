@@ -3,16 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.impactindiafoundation.iifllemeddocket">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" tools:node="remove" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" tools:node="remove" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" tools:node="remove" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-feature android:name="android.hardware.camera" />
-
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- to get device name READ_PHONE_STATE -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
@@ -29,6 +29,13 @@
         android:theme="@style/Theme.LLE_MedDocket"
         android:usesCleartextTraffic="true"
         tools:targetApi="34">
+
+        <activity
+            android:name=".ui.activity.OrthosisAnalyticsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.PharmaAnalyticsActivity"
+            android:exported="false" />
         <activity
             android:name=".Activity.PrescriptionPatientDataActivity"
             android:exported="false" />
@@ -62,21 +69,9 @@
         <activity
             android:name=".ui.activity.NewMedicineReportActivity"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".ui.activity.GoogleQrCodeActivity"-->
-<!--            android:exported="false" />-->
         <activity
             android:name=".ui.activity.PatientReportActivity"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".ui.activity.VisualAcuityReportActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".ui.activity.OpdReportActivity"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".ui.activity.VitalsReportActivity"-->
-<!--            android:exported="false" />-->
         <activity
             android:name=".ui.activity.NewOpdInvestigationsActivity"
             android:exported="false" />
@@ -98,9 +93,6 @@
             android:name=".ui.activity.QrCodeActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-<!--        <activity-->
-<!--            android:name=".ui.activity.VideoCaptureActivity"-->
-<!--            android:exported="false" />-->
         <activity
             android:name=".ui.activity.OrthosisMainActivity"
             android:exported="false"
@@ -119,18 +111,7 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <!--
-          <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            tools:replace="android:authorities">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-        -->
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="org.impactindiafoundation.iifllemeddocket.provider"
@@ -169,15 +150,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <activity-->
-<!--            android:name=".Activity.VitalsFormActivity"-->
-<!--            android:exported="true" />-->
-<!--        <activity android:name=".Activity.OPDInvestigationsFormActivity" />-->
-<!--        <activity android:name=".Activity.VisualAcuityFormActivity" />-->
-<!--        <activity-->
-<!--            android:name=".Activity.RefractiveErrorActivity"-->
-<!--            android:exported="true"-->
-<!--            android:screenOrientation="portrait" />-->
         <activity
             android:name=".Activity.EyeOPDDoctorsNoteActivity"
             android:exported="true"
@@ -199,20 +171,6 @@
             android:name=".Activity.EyePostOpAndFollowUpsActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
-<!--        <activity-->
-<!--            android:name=".Activity.PrintOutActivity"-->
-<!--            android:exported="true"-->
-<!--            android:screenOrientation="portrait" />-->
-<!--        <activity-->
-<!--            android:name=".Activity.PrintActivity"-->
-<!--            android:exported="true"-->
-<!--            android:screenOrientation="portrait" />-->
-<!--        <activity-->
-<!--            android:name=".Activity.ImageAssignment"-->
-<!--            android:exported="true" />-->
-<!--        <activity-->
-<!--            android:name=".Activity.WebViewActivity"-->
-<!--            android:exported="true" />-->
         <activity
             android:name=".Activity.PrintActivity1"
             android:exported="true" />
@@ -228,12 +186,15 @@
         <activity
             android:name=".Activity.PresciptionMainActivity"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
+
         <activity android:name=".Activity.ViewStatusActivity" />
         <activity android:name=".Activity.PrescriptionReportActivity" />
         <activity
             android:name=".Activity.PharmaMainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.PharmaFormActivity"
@@ -242,11 +203,8 @@
         <activity
             android:name=".Activity.PrescriptionPreviewActivity"
             android:exported="true" />
-<!--        <activity android:name=".Activity.PrintPrescriptionDataActivity" />-->
         <activity android:name=".Activity.PrintPrescriptionDataActivity1" />
         <activity android:name=".Activity.PrescriptionDrugScreenShotActivity" />
-<!--        <activity android:name=".Activity.PrescriptionDrugScreenShotActivity1" />-->
-<!--        <activity android:name=".Activity.MedicineReportActivity" />-->
         <activity android:name=".Activity.MedicineInsertedActivity" />
         <activity android:name=".Activity.ViewGivenMedicineActivity" />
 

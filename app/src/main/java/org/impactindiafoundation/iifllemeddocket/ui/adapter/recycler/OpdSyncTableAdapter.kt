@@ -13,7 +13,8 @@ import org.impactindiafoundation.iifllemeddocket.databinding.ItemPatientMedicine
 class OpdSyncTableAdapter(
     val context: Context,
     val data: ArrayList<OpdSyncTable>,
-    val totalSyncedCount:Int
+    val totalSyncedCount:Int,
+    val totalUnSyncedCount:Int
 ) : RecyclerView.Adapter<OpdSyncTableAdapter.OpdSyncTableViewHolder>() {
 
     inner class OpdSyncTableViewHolder(
@@ -28,17 +29,15 @@ class OpdSyncTableAdapter(
                     tvSrNo.text = ""
                     tvDateTime.text = "Total Synced Count"
                     tvSyncedCount.text = totalSyncedCount.toString()
-
+                    tvUnSyncedCount.text = ""
                 }
                 else{
                     tvSrNo.text = "${position+1}"
                     tvDateTime.text = content.dateTime
                     tvSyncedCount.text = content.syncedCount.toString()
+                    tvUnSyncedCount.text = content.unsyncFormCount.toString()
                 }
-
-
             }
-
         }
     }
 
@@ -61,5 +60,4 @@ class OpdSyncTableAdapter(
     override fun getItemCount(): Int {
         return data.size
     }
-
 }

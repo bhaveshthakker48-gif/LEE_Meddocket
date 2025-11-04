@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -62,13 +63,19 @@ class CampPatientListActivity : BaseActivity() {
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Choose whichever bottom inset is larger (IME or system bars)
+            val bottom = maxOf(systemBarsInsets.bottom, imeInsets.bottom)
+
             view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                bottom
             )
+
             insets
         }
 
@@ -119,27 +126,41 @@ class CampPatientListActivity : BaseActivity() {
             when (it.status) {
                 Status.LOADING -> {
                     showImpactLoader()
+                    Log.d("Raju", "Fetching camp patient list from API...")
                 }
                 Status.SUCCESS -> {
                     progress.dismiss()
                     try {
                         if (!it.data.isNullOrEmpty()) {
                             campPatientPresent = true
-                            tempCampPatientList.addAll(it.data)
+
+                            // ✅ Remove duplicates from server records
+                            val distinctServerList = it.data.distinctBy { item -> item.temp_patient_id ?: item.patient_id }
+
+                            tempCampPatientList.clear()
+                            tempCampPatientList.addAll(distinctServerList)
+
+                            Log.d("Raju", "API patients received: ${it.data.size}")
+                            Log.d("Raju", "Distinct server patients: ${distinctServerList.size}")
+                            Log.d("Raju", "Total tempCampPatientList count: ${tempCampPatientList.size}")
+
                             binding.rvCampPatientList.visibility = View.VISIBLE
                             binding.tvNoDataFound.visibility = View.GONE
                         } else {
                             campPatientPresent = false
+                            Log.d("Raju", "No camp patient data found from API.")
                             binding.rvCampPatientList.visibility = View.GONE
                             binding.tvNoDataFound.visibility = View.VISIBLE
                             stopImpactLoader()
                         }
                     } catch (e: Exception) {
+                        Log.e("Raju", "Error processing API data: ${e.message}")
                         Utility.errorToast(this@CampPatientListActivity, e.message.toString())
                     }
                 }
                 Status.ERROR -> {
                     progress.dismiss()
+                    Log.e("Raju", "API call failed: ${it.message}")
                     Utility.errorToast(this@CampPatientListActivity, "Unexpected error")
                 }
             }
@@ -149,11 +170,14 @@ class CampPatientListActivity : BaseActivity() {
             when (patient.status) {
                 Status.LOADING -> {
                     showImpactLoader()
+                    Log.d("Raju", "Fetching local orthosis patient list...")
                 }
                 Status.SUCCESS -> {
                     progress.dismiss()
                     try {
                         if (!patient.data.isNullOrEmpty()) {
+                            Log.d("Raju", "Local patients found: ${patient.data.size}")
+
                             val tempPatientList = ArrayList<CampPatientDataItem>()
                             for (i in patient.data) {
                                 val orthosisDta = ArrayList<OrthosisPatientData>()
@@ -187,22 +211,55 @@ class CampPatientListActivity : BaseActivity() {
                                     tempPatientList.add(campPatientMap)
                                 }
                             }
+
+                            Log.d("Raju", "Filtered unsynced local patients: ${tempPatientList.size}")
+
                             tempCampPatientList.withIndex().forEach { (index, form) ->
                                 val matchingTempPatient =
                                     tempPatientList.find { it.temp_patient_id == form.temp_patient_id }
                                 if (matchingTempPatient != null) {
                                     form.fromDevice = true
-                                    println("Duplicate found: $form")
+                                    Log.d("Raju", "Duplicate found for temp_patient_id: ${form.temp_patient_id}")
                                     if (matchingTempPatient.isEdited) {
                                         tempCampPatientList[index].isEdited = true
                                     }
                                 }
                             }
+
                             val filteredList = tempPatientList.filter { it.isSynced == 0 }
                             val filteredListForEdited = tempCampPatientList.filter { !it.isEdited }
-                            campPatientList.addAll(filteredList)
-                            campPatientList.addAll(filteredListForEdited)
-                            filteredCampPatientList.addAll(campPatientList)
+
+                            Log.d("Raju", "filteredList (local unsynced): ${filteredList.size}")
+                            Log.d("Raju", "filteredListForEdited (remote not edited): ${filteredListForEdited.size}")
+
+                            val combinedList = ArrayList<CampPatientDataItem>()
+                            combinedList.addAll(filteredList)
+                            combinedList.addAll(filteredListForEdited)
+
+                            Log.d("Raju", "Before distinct: ${combinedList.size}")
+
+                            val uniqueList = ArrayList<CampPatientDataItem>()
+
+                            combinedList.groupBy { it.temp_patient_id ?: it.patient_id }.forEach { (_, items) ->
+                                val hasUnsynced = items.any { it.isSynced == 0 }
+                                if (hasUnsynced) {
+                                    uniqueList.addAll(items) // show duplicates for unsynced ❌
+                                } else {
+                                    uniqueList.add(items.first()) // keep only one for synced
+                                }
+                            }
+
+
+                            Log.d("Raju", "After distinct (unique patients): ${uniqueList.size}")
+
+                            campPatientList.clear()
+                            campPatientList.addAll(uniqueList)
+
+                            filteredCampPatientList.clear()
+                            filteredCampPatientList.addAll(uniqueList)
+
+                            Log.d("Raju", "Recycler list final count: ${filteredCampPatientList.size}")
+
                             campPatientAdapter.notifyDataSetChanged()
 
                             if (!campPatientPresent) {
@@ -211,10 +268,12 @@ class CampPatientListActivity : BaseActivity() {
                             }
                         } else {
                             if (!campPatientPresent) {
+                                Log.d("Raju", "No local patients found.")
                                 binding.rvCampPatientList.visibility = View.GONE
                                 binding.tvNoDataFound.visibility = View.VISIBLE
                                 stopImpactLoader()
                             } else {
+                                Log.d("Raju", "Local empty, showing API data: ${tempCampPatientList.size}")
                                 campPatientList.addAll(tempCampPatientList)
                                 filteredCampPatientList.addAll(campPatientList)
                                 campPatientAdapter.notifyDataSetChanged()
@@ -223,12 +282,14 @@ class CampPatientListActivity : BaseActivity() {
                             }
                         }
                     } catch (e: Exception) {
+                        Log.e("Raju", "Error in merging lists: ${e.message}")
                         Utility.errorToast(this@CampPatientListActivity, e.message.toString())
                     }
                     stopImpactLoader()
                 }
                 Status.ERROR -> {
                     progress.dismiss()
+                    Log.e("Raju", "Error fetching local data: ${patient.message}")
                     Utility.errorToast(this@CampPatientListActivity, "Unexpected error")
                 }
             }
@@ -242,83 +303,78 @@ class CampPatientListActivity : BaseActivity() {
             object : CampPatientAdapter.CampPatientAdapterEvent {
                 override fun onItemClick(position: Int) {
                     val patientData = filteredCampPatientList[position]
+
+                    Log.d(
+                        "sahil",
+                        "Clicked Patient -> name=${patientData.id}, isLocal=${patientData.isLocal}, camp_id=${patientData.camp_id}, leastCampId=$leastCampId, isCampComplete=$isCampComplete, isSynced=${patientData.isSynced}"
+                    )
+
                     if (patientData.isLocal) {
                         if (leastCampId == 0) {
+                            Log.d("sahil", "Opening OrthosisActivity for local patient (leastCampId=0)")
                             val intent = Intent(this@CampPatientListActivity, OrthosisActivity::class.java)
                             intent.putExtra("screen", "Camp_List")
                             intent.putExtra("temp_id", patientData.temp_patient_id)
                             intent.putExtra("local_patient_id", patientData.id.toString())
-                            if (patientData.isSynced == 0) {
-                                intent.putExtra("edit", true)
-                            } else {
-                                intent.putExtra("edit", false)
-                            }
+                            intent.putExtra("edit", patientData.isSynced == 0)
                             startActivity(intent)
                         } else {
                             if (patientData.camp_id.toInt() == leastCampId && isCampComplete) {
+                                Log.d("sahil", "Camp already completed for local patient")
                                 Utility.infoToast(this@CampPatientListActivity, "Camp Completed")
+                            } else if (patientData.camp_id.toInt() > leastCampId || patientData.camp_id.toInt() != leastCampId) {
+                                Log.d("sahil", "Local patient from future/other camp → Complete previous camp first")
+                                Utility.infoToast(this@CampPatientListActivity, "Complete Previous Camp")
                             } else {
-                                if (patientData.camp_id.toInt() > leastCampId || patientData.camp_id.toInt() != leastCampId) {
-                                    Utility.infoToast(this@CampPatientListActivity, "Complete Previous Camp")
-                                } else {
-                                    val intent = Intent(this@CampPatientListActivity, OrthosisActivity::class.java)
-                                    intent.putExtra("screen", "Camp_List")
-                                    intent.putExtra("temp_id", patientData.temp_patient_id)
-                                    intent.putExtra("local_patient_id", patientData.id.toString())
-                                    if (patientData.isSynced == 0) {
-                                        intent.putExtra("edit", true)
-                                    } else {
-                                        intent.putExtra("edit", false)
-                                    }
-                                    startActivity(intent)
-                                }
+                                Log.d("sahil", "Opening OrthosisActivity for local patient (valid camp)")
+                                val intent = Intent(this@CampPatientListActivity, OrthosisActivity::class.java)
+                                intent.putExtra("screen", "Camp_List")
+                                intent.putExtra("temp_id", patientData.temp_patient_id)
+                                intent.putExtra("local_patient_id", patientData.id.toString())
+                                intent.putExtra("edit", patientData.isSynced == 0)
+                                startActivity(intent)
                             }
                         }
                     } else {
                         if (patientData.camp_id.toInt() == leastCampId && isCampComplete) {
+                            Log.d("sahil", "Camp already completed for synced patient")
                             Utility.infoToast(this@CampPatientListActivity, "Camp Completed")
-                        } else {
-                            if (patientData.camp_id.toInt() > leastCampId || patientData.camp_id.toInt() != leastCampId) {
-                                if (leastCampId == 0) {
-                                    val intent = Intent(this@CampPatientListActivity, OrthosisFittingActivity::class.java)
-                                    intent.putExtra("screen", "Camp_List")
-                                    intent.putExtra("temp_id", patientData.temp_patient_id)
-                                    intent.putExtra("local_patient_id", patientData.id)
-                                    //for edited patients who's data are present in orthosis form table
-                                    intent.putExtra("is_edited", patientData.isEdited)
-                                    intent.putExtra("form_id", patientData.id)
-                                    if (patientData.isSynced == 0) {
-                                        intent.putExtra("edit", true)
-                                    } else {
-                                        intent.putExtra("edit", false)
-                                    }
-                                    startActivity(intent)
-                                } else {
-                                    Utility.infoToast(this@CampPatientListActivity, "Complete Previous Camp")
-                                }
-                            } else {
+                        } else if (patientData.camp_id.toInt() > leastCampId || patientData.camp_id.toInt() != leastCampId) {
+                            if (leastCampId == 0) {
+                                Log.d("sahil", "Opening OrthosisFittingActivity for synced patient (leastCampId=0)")
                                 val intent = Intent(this@CampPatientListActivity, OrthosisFittingActivity::class.java)
                                 intent.putExtra("screen", "Camp_List")
                                 intent.putExtra("temp_id", patientData.temp_patient_id)
                                 intent.putExtra("local_patient_id", patientData.id)
                                 intent.putExtra("is_edited", patientData.isEdited)
                                 intent.putExtra("form_id", patientData.id)
-                                if (patientData.isSynced == 0) {
-                                    intent.putExtra("edit", true)
-                                } else {
-                                    intent.putExtra("edit", false)
-                                }
+                                intent.putExtra("edit", patientData.isSynced == 0)
                                 startActivity(intent)
+                            } else {
+                                Log.d("sahil", "Synced patient from future/other camp → Complete previous camp first")
+                                Utility.infoToast(this@CampPatientListActivity, "Complete Previous Camp")
                             }
+                        } else {
+                            Log.d("sahil", "Opening OrthosisFittingActivity for synced patient (valid camp)")
+                            val intent = Intent(this@CampPatientListActivity, OrthosisFittingActivity::class.java)
+                            intent.putExtra("screen", "Camp_List")
+                            intent.putExtra("temp_id", patientData.temp_patient_id)
+                            intent.putExtra("local_patient_id", patientData.id)
+                            intent.putExtra("is_edited", patientData.isEdited)
+                            intent.putExtra("form_id", patientData.id)
+                            intent.putExtra("edit", patientData.isSynced == 0)
+                            startActivity(intent)
                         }
                     }
                 }
             })
+
         binding.rvCampPatientList.apply {
             adapter = campPatientAdapter
             layoutManager = LinearLayoutManager(this@CampPatientListActivity)
         }
     }
+
 
     private fun getCampPatientList() {
         campPatientViewModel.getCampPatientList()
@@ -342,3 +398,8 @@ class CampPatientListActivity : BaseActivity() {
         Glide.with(this).clear(binding.ivImpactLoader)
     }
 }
+
+//                            campPatientList.addAll(filteredList)
+//                            campPatientList.addAll(filteredListForEdited)
+//                            filteredCampPatientList.addAll(campPatientList)
+//                            campPatientAdapter.notifyDataSetChanged()

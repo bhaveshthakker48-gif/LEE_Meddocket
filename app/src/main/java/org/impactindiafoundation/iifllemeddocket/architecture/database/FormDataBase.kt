@@ -4,24 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import androidx.room.migration.Migration
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.OPD_Investigations
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.RefractiveError
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.VisualAcuity
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.Vitals
-import org.impactindiafoundation.iifllemeddocket.Utils.typeConvertors.MeasurementConverter
-import org.impactindiafoundation.iifllemeddocket.Utils.typeConvertors.MeasurementDataListConvertor
-import org.impactindiafoundation.iifllemeddocket.Utils.typeConvertors.OrthosisTypeConvertor
-import org.impactindiafoundation.iifllemeddocket.Utils.typeConvertors.OrthosisTypeListConvertor
 import org.impactindiafoundation.iifllemeddocket.architecture.dao.OPDFormDao
-import org.impactindiafoundation.iifllemeddocket.architecture.dao.OrthosisFormDao
 import org.impactindiafoundation.iifllemeddocket.architecture.dao.PatientReportDao
 import org.impactindiafoundation.iifllemeddocket.architecture.dao.RefractiveErrorFormDao
 import org.impactindiafoundation.iifllemeddocket.architecture.dao.VisualAcuityFormDao
 import org.impactindiafoundation.iifllemeddocket.architecture.dao.VitalsFormDao
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants
-import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisPatientForm
 import org.impactindiafoundation.iifllemeddocket.architecture.model.PatientReport
 
 /**
@@ -29,7 +21,7 @@ import org.impactindiafoundation.iifllemeddocket.architecture.model.PatientRepor
  * VERY IMPORTANT NOTE - If updating the db by adding or removing any field or table, please update DB version and add update notes
  */
 //Latest DB Version 4 - added isSynced field in patient report.
-@Database(entities = [RefractiveError::class, Vitals::class,OPD_Investigations::class,VisualAcuity::class, PatientReport::class], version = 4)
+@Database(entities = [RefractiveError::class, Vitals::class, OPD_Investigations::class, VisualAcuity::class, PatientReport::class], version = 5)
 abstract class FormDataBase : RoomDatabase() {
 
     abstract fun refractiveFormDao(): RefractiveErrorFormDao
@@ -37,8 +29,6 @@ abstract class FormDataBase : RoomDatabase() {
     abstract fun opdFormDao(): OPDFormDao
     abstract fun visualAcuityFormDao(): VisualAcuityFormDao
     abstract fun patientReportDao(): PatientReportDao
-
-
 
     companion object {
         @Volatile
@@ -57,8 +47,5 @@ abstract class FormDataBase : RoomDatabase() {
                 instance
             }
         }
-
-        val migrations = arrayOf<Migration>()
-
     }
 }

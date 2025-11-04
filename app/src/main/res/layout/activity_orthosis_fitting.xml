@@ -113,26 +113,6 @@
                         app:layout_constraintStart_toEndOf="@+id/tvPatientGender"
                         app:layout_constraintTop_toTopOf="@+id/tvPatientGender" />
 
-                    <!--                <com.google.android.material.textfield.TextInputLayout-->
-                    <!--                    android:id="@+id/etlExaminationDate"-->
-                    <!--                    android:layout_width="match_parent"-->
-                    <!--                    android:layout_height="wrap_content"-->
-                    <!--                    android:layout_margin="@dimen/_8sdp"-->
-                    <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                    <!--                    app:layout_constraintStart_toStartOf="parent"-->
-                    <!--                    app:layout_constraintTop_toBottomOf="@+id/tvPatientGender">-->
-
-                    <!--                    <com.google.android.material.textfield.TextInputEditText-->
-                    <!--                        android:id="@+id/etExaminationDate"-->
-                    <!--                        style="@style/edit_text_style_new"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:backgroundTint="#F4FAFF"-->
-                    <!--                        android:textColorHint="@color/gray"-->
-                    <!--                        tools:hint="@string/txt_examination_date"-->
-                    <!--                        android:textColor="@color/gray" />-->
-                    <!--                </com.google.android.material.textfield.TextInputLayout>-->
-
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/etlPatientHeight"
                         android:layout_width="0dp"

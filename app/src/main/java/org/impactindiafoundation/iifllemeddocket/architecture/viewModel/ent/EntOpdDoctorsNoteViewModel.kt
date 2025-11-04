@@ -330,8 +330,14 @@ class EntOpdDoctorsNoteViewModel @Inject constructor(private val entRepository: 
         return entRepository.getUnsyncedInvestigationNow()
     }
 
-    fun sendDoctorInvestigationNotesToServer(symptoms: List<DoctorNoteInvestigationEntity>, onResult: (Boolean, String) -> Unit) {
+    fun sendDoctorInvestigationNotesToServer(
+        symptoms: List<DoctorNoteInvestigationEntity>,
+        onSyncCompleted: (syncedCount: Int, unsyncedCount: Int) -> Unit
+    ) {
         viewModelScope.launch {
+            var syncedCount = 0
+            var unsyncedCount = 0
+
             try {
                 Log.d("SyncCheck Investigation", "Sending to server: ${symptoms.map { it.uniqueId }}")
 
@@ -345,26 +351,29 @@ class EntOpdDoctorsNoteViewModel @Inject constructor(private val entRepository: 
                     response.data.results.forEachIndexed { index, result ->
                         if (index < matchedItems.size) {
                             val item = matchedItems[index]
-                            Log.d("SyncCheck Investigation", "Updating app_id for local id: ${item.uniqueId} → server app_id: ${result.app_id}")
                             entRepository.updateInvestigationAppId(item.uniqueId, result.app_id)
-
-                            Log.d("SyncCheck PatientReport", "Updating app_id in ent_patient_report for patientId=${item.patientId} → app_id=${result.app_id}")
                             entRepository.updatePatientReportAppId(item.patientId, item.uniqueId, result.app_id)
+                            syncedCount++
                         } else {
-                            Log.w("SyncCheck Investigation", "Result index exceeds matched item list size")
+                            unsyncedCount++
                         }
                     }
                 } else {
                     Log.w("SyncCheck Investigation", "Server returned failure: ${response.message}")
+                    unsyncedCount = symptoms.size // mark all unsynced if failed
                 }
 
-                onResult(response.success, response.message)
+                Log.d("SyncCheck Investigation", "✅ Synced: $syncedCount | ❌ Unsynced: $unsyncedCount")
+
+                onSyncCompleted(syncedCount, unsyncedCount)
             } catch (e: Exception) {
+                unsyncedCount = symptoms.size
                 Log.e("SyncCheck Investigation", "Error while sending to server: ${e.localizedMessage}")
-                onResult(false, e.localizedMessage ?: "Unknown error")
+                onSyncCompleted(syncedCount, unsyncedCount)
             }
         }
     }
+
 
     fun clearSyncedDoctorInvestigationNotes() {
         viewModelScope.launch {

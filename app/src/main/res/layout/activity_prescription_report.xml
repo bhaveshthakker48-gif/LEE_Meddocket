@@ -1,72 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:orientation="vertical">
+
     <include
         android:id="@+id/toolbarEyePreOpNotes"
         layout="@layout/toolbar" />
 
-    <LinearLayout
-        android:orientation="vertical"
+    <!-- Added NestedScrollView for smooth scrolling -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="Prescription Report"
-                style="@style/refreactive_head_title1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            android:paddingBottom="@dimen/_10sdp">
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/barChart"
+            <!-- Prescription Report Section -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_150sdp"
-                tools:ignore="MissingConstraints" />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/RecyclerView_form_barChart"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/refreactive_head_title1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Prescription Report" />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    tools:ignore="MissingConstraints" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerView_form_barChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+
+            <!-- Spectacle Distribution Section -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/refreactive_head_title1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Spectacle Distribution" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/PieChart"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_100sdp"
+                        android:layout_weight="1" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/RecyclerView_Blood_pressure"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:nestedScrollingEnabled="false" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Sync Data Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/refreactive_head_title1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sync Data" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        style="@style/textView_bold"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_background"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:text="Date"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        style="@style/textView_bold"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_background"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:text="Time"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        style="@style/textView_bold"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_background"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:text="Sync Count"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10ssp" />
+
+                    <TextView
+                        style="@style/textView_bold"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_1sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_background"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:text="Unsync Count"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10ssp" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerView_syncedData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
         </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="@dimen/_5sdp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="Spectacle Distribution"
-            style="@style/refreactive_head_title1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <LinearLayout
-            android:weightSum="2"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/PieChart"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_100sdp"
-                android:layout_weight="1"
-                />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/RecyclerView_Blood_pressure"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="@dimen/_100sdp"/>
-
-        </LinearLayout>
-    </LinearLayout>
-
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>
+
+
+    <!--<TextView-->
+    <!--style="@style/textView_bold"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_margin="@dimen/_1sdp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:background="@drawable/textview_background"-->
+    <!--android:padding="@dimen/_2sdp"-->
+    <!--android:text="Date"-->
+    <!--android:textAlignment="center"-->
+    <!--android:textColor="@color/white" />-->
+
+    <!--<TextView-->
+    <!--style="@style/textView_bold"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_margin="@dimen/_1sdp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:background="@drawable/textview_background"-->
+    <!--android:padding="@dimen/_2sdp"-->
+    <!--android:text="Time"-->
+    <!--android:textAlignment="center"-->
+    <!--android:textColor="@color/white" />-->
+
+    <!--<TextView-->
+    <!--style="@style/textView_bold"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_margin="@dimen/_1sdp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:textSize="@dimen/_10ssp"-->
+    <!--android:background="@drawable/textview_background"-->
+    <!--android:padding="@dimen/_2sdp"-->
+    <!--android:text="Sync Count"-->
+    <!--android:textAlignment="center"-->
+    <!--android:textColor="@color/white" />-->
+
+    <!--<TextView-->
+    <!--style="@style/textView_bold"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_margin="@dimen/_1sdp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:textSize="@dimen/_10ssp"-->
+    <!--android:gravity="center"-->
+    <!--android:background="@drawable/textview_background"-->
+    <!--android:padding="@dimen/_2sdp"-->
+    <!--android:text="Unsync Count"-->
+    <!--android:textAlignment="center"-->
+    <!--android:textColor="@color/white" />-->

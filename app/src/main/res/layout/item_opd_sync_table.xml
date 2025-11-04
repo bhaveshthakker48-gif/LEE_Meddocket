@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="3"
+        android:weightSum="4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,7 +58,18 @@
             android:textColor="@color/black" />
 
 
-
+        <TextView
+            android:id="@+id/tvUnSyncedCount"
+            style="@style/textView_bold_5ssp"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_margin="@dimen/_1sdp"
+            android:text=""
+            android:layout_weight="1"
+            android:background="@drawable/textview_background_blue"
+            android:padding="@dimen/_2sdp"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
 
 
     </LinearLayout>

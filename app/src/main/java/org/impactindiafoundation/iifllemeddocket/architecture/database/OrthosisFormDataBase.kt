@@ -8,21 +8,18 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import org.impactindiafoundation.iifllemeddocket.Utils.typeConvertors.MeasurementConverter
 import org.impactindiafoundation.iifllemeddocket.Utils.typeConvertors.MeasurementDataListConvertor
-import org.impactindiafoundation.iifllemeddocket.Utils.typeConvertors.MeasurementListConvertor
 import org.impactindiafoundation.iifllemeddocket.Utils.typeConvertors.OrthosisTypeConvertor
 import org.impactindiafoundation.iifllemeddocket.Utils.typeConvertors.OrthosisTypeListConvertor
 import org.impactindiafoundation.iifllemeddocket.architecture.dao.OrthosisFormDao
-import org.impactindiafoundation.iifllemeddocket.architecture.dao.OrthosisMasterDao
-import org.impactindiafoundation.iifllemeddocket.architecture.dao.UserDao
+import org.impactindiafoundation.iifllemeddocket.architecture.dao.OrthosisSyncDao
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisPatientForm
-import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisType
-import org.impactindiafoundation.iifllemeddocket.architecture.model.UserModel
+import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisSynTable
 
 /**
  * Created by JOSUS PRAISER on 14-10-2024.
  */
-@Database(entities = [OrthosisPatientForm::class], version = 3)
+@Database(entities = [OrthosisPatientForm::class, OrthosisSynTable::class], version = 6)
 @TypeConverters(
     OrthosisTypeListConvertor::class, OrthosisTypeConvertor::class,
     MeasurementDataListConvertor::class, MeasurementConverter::class,
@@ -30,6 +27,8 @@ import org.impactindiafoundation.iifllemeddocket.architecture.model.UserModel
 abstract class OrthosisFormDataBase : RoomDatabase() {
 
     abstract fun orthosisFormDao(): OrthosisFormDao
+
+    abstract fun orthosisSyncDao() : OrthosisSyncDao
 
     companion object {
         @Volatile
@@ -48,8 +47,5 @@ abstract class OrthosisFormDataBase : RoomDatabase() {
                 instance
             }
         }
-
-        val migrations = arrayOf<Migration>()
-
     }
 }

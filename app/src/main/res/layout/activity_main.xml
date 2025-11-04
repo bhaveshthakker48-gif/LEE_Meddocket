@@ -456,7 +456,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/analytics_fab"
                 app:layout_constraintEnd_toEndOf="@+id/analytics_fab"
                 app:layout_constraintStart_toStartOf="@+id/analytics_fab"
-                app:srcCompat="@drawable/ic_analytics"
+                app:srcCompat="@drawable/info_circle"
                 app:tint="@color/white" />
             <!--Action name text for the add person button-->
             <TextView

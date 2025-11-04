@@ -16,14 +16,18 @@ data class PatientMedicine(
     val doctor_name: String,
     val doctor_specialty: String,
     val patient_name: String,
+    val patient_geneder: String,
+    val patient_age: Int,
     val patient_temp_id: String,
     val createdDate:String,
     val prescriptionItems: List<PrescriptionItem>,
 
     ) {
     data class PrescriptionItem(
+        val formid : Int,
         val batch_no: String,
         val brand_name: String,
+        val doctor_specialty: String,
         val dose: String,
         val duration: String,
         val duration_unit: String,

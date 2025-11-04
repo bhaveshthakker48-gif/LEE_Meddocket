@@ -4,14 +4,17 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
@@ -29,6 +32,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.VideoView
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -38,6 +42,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.tasks.Task
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
@@ -46,6 +51,8 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.gson.Gson
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
@@ -116,6 +123,7 @@ import org.impactindiafoundation.iifllemeddocket.ViewModel.LLE_MedDocketProvider
 import org.impactindiafoundation.iifllemeddocket.ViewModel.LLE_MedDocketRespository
 import org.impactindiafoundation.iifllemeddocket.ViewModel.LLE_MedDocketViewModel
 import org.impactindiafoundation.iifllemeddocket.ViewModel.ResourceApp
+import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants.ACTION_FORM_SYNC_COMPLETED
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants.ENT_AUDIOMETRY
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants.ENT_OPD_DOCTOR_NOTES
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants.ENT_POST_OP_NOTES
@@ -130,6 +138,8 @@ import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants.V
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Status
 import org.impactindiafoundation.iifllemeddocket.architecture.model.Measurement
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisTypeModelItem
+import org.impactindiafoundation.iifllemeddocket.architecture.model.SyncResult
+import org.impactindiafoundation.iifllemeddocket.architecture.model.SyncSummaryEntity
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasemodel.AudiometryImageEntity
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasemodel.EntEarType
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasemodel.EntNoseType
@@ -198,13 +208,14 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     private val entOpdDoctorsNoteViewModel: EntOpdDoctorsNoteViewModel by viewModels()
     private val entPreOpDetailsViewModel: EntProOpDetailsViewModel by viewModels()
     private val entSurgicalNotesViewModel: EntSurgicalNotesViewModel by viewModels()
-    private val entPostOpNotesViewModel : EntPostOpNotesViewModel by viewModels()
-    private val entAudiometryViewModel : EntAudiometryViewModel by viewModels()
-    private val entPatientReportViewModel : EntPatientReportViewModel by viewModels()
+    private val entPostOpNotesViewModel: EntPostOpNotesViewModel by viewModels()
+    private val entAudiometryViewModel: EntAudiometryViewModel by viewModels()
+    private val entPatientReportViewModel: EntPatientReportViewModel by viewModels()
 
     //Pathology
     private val pathologyViewModel: PathologyViewModel by viewModels()
     private var showWarningAfterSync: Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -212,18 +223,38 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
+        WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars =
+            true
         window.statusBarColor = Color.WHITE
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Choose whichever bottom inset is larger (IME or system bars)
+            val bottom = maxOf(systemBarsInsets.bottom, imeInsets.bottom)
 
             view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                bottom
             )
+
             insets
+        }
+
+        onBackPressedDispatcher.addCallback(this) {
+            AlertDialog.Builder(this@MainActivity)
+                .setTitle("Exit App")
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes") { dialog, _ ->
+                    dialog.dismiss()
+                    finishAffinity() // Exit the whole app
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
         }
 
         binding.fab.visibility = View.GONE
@@ -272,7 +303,10 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             val versionName = packageManager
                 .getPackageInfo(packageName, 0).versionName
 
-            val bottomSheetDialog = com.google.android.material.bottomsheet.BottomSheetDialog(this, R.style.CustomBottomSheetDialog)
+            val bottomSheetDialog = com.google.android.material.bottomsheet.BottomSheetDialog(
+                this,
+                R.style.CustomBottomSheetDialog
+            )
             val view = layoutInflater.inflate(R.layout.layout_whats_new_bottomsheet, null)
             bottomSheetDialog.setContentView(view)
 
@@ -367,12 +401,13 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         val entEarType = EntEarType(it.symptom, it.id)
                         mainViewModel.insertEntSymptomEar(entEarType)
                     }
-                    Log.d("details" ,"ear : ${response.data}")
+                    Log.d("details", "ear : ${response.data}")
                 }
+
                 Status.ERROR -> {
                     progress.dismiss()
                     Toast.makeText(this, "Error: ${response.message}", Toast.LENGTH_SHORT).show()
-                    Log.d("details" ,"ear : ${response.message}" )
+                    Log.d("details", "ear : ${response.message}")
                 }
             }
         }
@@ -387,12 +422,13 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         val entEarType = EntNoseType(it.symptom, it.id)
                         mainViewModel.insertEntSymptomNose(entEarType)
                     }
-                    Log.d("details" ,"nose : ${response.data}")
+                    Log.d("details", "nose : ${response.data}")
                 }
+
                 Status.ERROR -> {
                     progress.dismiss()
                     Toast.makeText(this, "Error: ${response.message}", Toast.LENGTH_SHORT).show()
-                    Log.d("details" ,"nose : ${response.message}" )
+                    Log.d("details", "nose : ${response.message}")
                 }
             }
         }
@@ -407,12 +443,13 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         val entEarType = EntThroatType(it.symptom, it.id)
                         mainViewModel.insertEntSymptomThroat(entEarType)
                     }
-                    Log.d("details" ,"Throat : ${response.data}")
+                    Log.d("details", "Throat : ${response.data}")
                 }
+
                 Status.ERROR -> {
                     progress.dismiss()
                     Toast.makeText(this, "Error: ${response.message}", Toast.LENGTH_SHORT).show()
-                    Log.d("details" ,"Throat : ${response.message}" )
+                    Log.d("details", "Throat : ${response.message}")
                 }
             }
         }
@@ -427,18 +464,20 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         val entImpression = ImpressionType(it.impression, it.id)
                         mainViewModel.insertEntImpression(entImpression)
                     }
-                    Log.d("details" ,"Impression : ${response.data}")
+                    Log.d("details", "Impression : ${response.data}")
                 }
+
                 Status.ERROR -> {
                     progress.dismiss()
                     Toast.makeText(this, "Error: ${response.message}", Toast.LENGTH_SHORT).show()
-                    Log.d("details" ,"Impression : ${response.message}" )
+                    Log.d("details", "Impression : ${response.message}")
                 }
             }
         }
     }
 
     private fun GetUnSyneddata() {
+        Log.d("pawan_sync", "GetUnSyneddata call")
         getTotalCountOfAllForm(viewModel1) { unsyncedAllformData ->
             val totalForms = unsyncedAllformData.Total_Cataract_Surgery_Notes +
                     unsyncedAllformData.Total_Eye_OPD_Doctors_Note +
@@ -474,7 +513,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     private fun getViewModel() {
         val LLE_MedDocketRespository = LLE_MedDocketRespository()
-        val LLE_MedDocketProviderFactory = LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
+        val LLE_MedDocketProviderFactory =
+            LLE_MedDocketProviderFactory(LLE_MedDocketRespository, application)
         viewModel = ViewModelProvider(
             this, LLE_MedDocketProviderFactory
         ).get(LLE_MedDocketViewModel::class.java)
@@ -492,17 +532,21 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         val Refractive_Error_DAO: Refractive_Error_DAO = database.Refractive_Error_DAO()
         val OPD_Investigations_DAO: OPD_Investigations_DAO = database.OPD_Investigations_DAO()
         val Eye_Pre_Op_Notes_DAO: Eye_Pre_Op_Notes_DAO = database.Eye_Pre_Op_Notes_DAO()
-        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO = database.Eye_Pre_Op_Investigation_DAO()
-        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO = database.Eye_Post_Op_AND_Follow_ups_DAO()
+        val Eye_Pre_Op_Investigation_DAO: Eye_Pre_Op_Investigation_DAO =
+            database.Eye_Pre_Op_Investigation_DAO()
+        val Eye_Post_Op_AND_Follow_ups_DAO: Eye_Post_Op_AND_Follow_ups_DAO =
+            database.Eye_Post_Op_AND_Follow_ups_DAO()
         val Eye_OPD_Doctors_Note_DAO: Eye_OPD_Doctors_Note_DAO = database.Eye_OPD_Doctors_Note_DAO()
-        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO = database.Cataract_Surgery_Notes_DAO()
+        val Cataract_Surgery_Notes_DAO: Cataract_Surgery_Notes_DAO =
+            database.Cataract_Surgery_Notes_DAO()
         val Patient_DAO: PatientDao = database.PatientDao()
         val Image_Upload_DAO: Image_Upload_DAO = database.Image_Upload_DAO()
         val Registration_DAO: Registration_DAO = database.Registration_DAO()
         val Prescription_DAO: Prescription_DAO = database.Prescription_DAO()
         val SynTable_DAO: SynTable_DAO = database.SynTable_DAO()
         val Final_Prescription_DAO: Final_Prescription_DAO = database.Final_Prescription_DAO()
-        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO = database.SpectacleDisdributionStatus_DAO()
+        val SpectacleDisdributionStatus_DAO: SpectacleDisdributionStatus_DAO =
+            database.SpectacleDisdributionStatus_DAO()
         val CurrentInventory_DAO: CurrentInventory_DAO = database.CurrentInventory_DAO()
         val InventoryUnit_DAO: InventoryUnit_DAO = database.InventoryUnit_DAO()
         val CreatePrescriptionDAO: CreatePrescriptionDAO = database.CreatePrescriptionDAO()
@@ -685,9 +729,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
         popupViewSync.isFocusableInTouchMode = true
         popupViewSync.requestFocus()
-        popupViewSync.setOnKeyListener { _, keyCode, event ->
+        popupViewSync.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_BACK && progressOverlay.visibility == View.VISIBLE) {
-                true // Consume back press
+                true // Block back press during sync
             } else {
                 false
             }
@@ -701,16 +745,19 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
             lifecycleScope.launch {
                 var networkFailed = false
+
                 try {
                     if (!isInternetAvailable(this@MainActivity)) {
                         throw IOException("Internet not available")
                     }
+
+                    // ✅ Now it will suspend until sync finishes
                     Send_Local_Data_To_Server()
-                    entSendDataToServer()
+
                     getUpdateEntDataFromServer()
-                    GetUnSyneddata()
+
                 } catch (e: Exception) {
-                    Log.e("SyncPopup", "Error: ${e.message}", e)
+                    Log.e("ImageSyncPopup", "Error: ${e.message}", e)
                     networkFailed = true
                     showNetworkErrorDialog()
                 } finally {
@@ -719,37 +766,46 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     popupWindow7.dismiss()
                     if (!networkFailed) {
                         getTotalCountOfAllForm(viewModel1) { unsyncedAllformData ->
-                            val totalForms = unsyncedAllformData.Total_Cataract_Surgery_Notes +
-                                    unsyncedAllformData.Total_Eye_OPD_Doctors_Note +
-                                    unsyncedAllformData.Total_Eye_Post_Op_AND_Follow_ups +
-                                    unsyncedAllformData.Total_Eye_Pre_Op_Investigation +
-                                    unsyncedAllformData.Total_Eye_Pre_Op_Notes +
-                                    unsyncedAllformData.Total_OPD_Investigations +
-                                    unsyncedAllformData.Total_OPD_Investigations2 +
-                                    unsyncedAllformData.Total_Refractive +
-                                    unsyncedAllformData.Total_Refractive2 +
-                                    unsyncedAllformData.Total_Visual +
-                                    unsyncedAllformData.Total_Visual2 +
-                                    unsyncedAllformData.Total_Vital +
-                                    unsyncedAllformData.Total_Vital2 +
-                                    unsyncedAllformData.Total_Ent_Pro_Op_Follow_ups +
-                                    unsyncedAllformData.Total_Ent_Post_Op_Follow_ups +
-                                    unsyncedAllformData.Total_Ent_Audiometry_Follow_ups +
-                                    unsyncedAllformData.Total_Ent_Surgical_Follow_ups +
-                                    unsyncedAllformData.Total_Ent_Doctor_Notes_Follow_ups +
-                                    unsyncedAllformData.Pathology_Report
+                            val totalForms =
+                                unsyncedAllformData.Total_Cataract_Surgery_Notes +
+                                        unsyncedAllformData.Total_Eye_OPD_Doctors_Note +
+                                        unsyncedAllformData.Total_Eye_Post_Op_AND_Follow_ups +
+                                        unsyncedAllformData.Total_Eye_Pre_Op_Investigation +
+                                        unsyncedAllformData.Total_Eye_Pre_Op_Notes +
+                                        unsyncedAllformData.Total_OPD_Investigations +
+                                        unsyncedAllformData.Total_OPD_Investigations2 +
+                                        unsyncedAllformData.Total_Refractive +
+                                        unsyncedAllformData.Total_Refractive2 +
+                                        unsyncedAllformData.Total_Visual +
+                                        unsyncedAllformData.Total_Visual2 +
+                                        unsyncedAllformData.Total_Vital +
+                                        unsyncedAllformData.Total_Vital2 +
+                                        unsyncedAllformData.Total_Ent_Pro_Op_Follow_ups +
+                                        unsyncedAllformData.Total_Ent_Post_Op_Follow_ups +
+                                        unsyncedAllformData.Total_Ent_Audiometry_Follow_ups +
+                                        unsyncedAllformData.Total_Ent_Surgical_Follow_ups +
+                                        unsyncedAllformData.Total_Ent_Doctor_Notes_Follow_ups +
+                                        unsyncedAllformData.Pathology_Report
 
-                            val totalImages = unsyncedAllformData.Total_Image +
-                                    unsyncedAllformData.Total_Audiometry_Image +
-                                    unsyncedAllformData.Total_Pathology_Image +
-                                    unsyncedAllformData.Total_Preop_Image
+                            val totalImages =
+                                unsyncedAllformData.Total_Image +
+                                        unsyncedAllformData.Total_Audiometry_Image +
+                                        unsyncedAllformData.Total_Pathology_Image +
+                                        unsyncedAllformData.Total_Preop_Image
 
-                            val totalEntImages = unsyncedAllformData.Total_Audiometry_Image +
-                                    unsyncedAllformData.Total_Pathology_Image +
-                                    unsyncedAllformData.Total_Preop_Image
+                            val totalEntImages =
+                                unsyncedAllformData.Total_Audiometry_Image +
+                                        unsyncedAllformData.Total_Pathology_Image +
+                                        unsyncedAllformData.Total_Preop_Image
+
+                            Log.d(
+                                "pawan_sync",
+                                "UnSynced Forms: $totalForms | UnSynced Images: $totalImages | EntImages: $totalEntImages"
+                            )
 
                             binding.tvUnsyncedForms.text = "UnSynced Forms :- $totalForms"
                             binding.tvUnsyncedImages.text = "UnSynced Images :- $totalImages"
+
                             showRemainingDataWarningDialog(totalForms, totalEntImages, "DATA")
                         }
                     }
@@ -848,54 +904,68 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun showRemainingDataWarningDialog(formsCount: Int, imagesCount: Int, source: String) {
-        val message = when {
-            formsCount == 0 && imagesCount == 0 && source == "DATA" ->
-                "✅ All form data has been synced successfully.\n\nNo images found to sync."
-            formsCount == 0 && imagesCount == 0 && source == "BOTH" ->
-                "🎉 All data and images have been synced successfully."
-            formsCount == 0 && imagesCount > 0 ->
-                "All forms synced successfully.\n\n$imagesCount image(s) are still pending. Please sync them."
-            formsCount > 0 && imagesCount > 0 ->
-                "There are still $formsCount unsynced form(s) and $imagesCount unsynced image(s).\n\nPlease sync again."
-            else -> "There are still some unsynced data."
-        }
+        // Show progress dialog first
+        progressDialog.show()
 
-        val dialogView = layoutInflater.inflate(R.layout.dialog_remaining_data, null)
+        val delayMillis = 10_000L // 10 seconds delay
 
-        val tvTitle = dialogView.findViewById<TextView>(R.id.tvTitle)
-        val tvMessage = dialogView.findViewById<TextView>(R.id.tvMessage)
-        val btnPositive = dialogView.findViewById<Button>(R.id.btnPositive)
-        val btnNegative = dialogView.findViewById<Button>(R.id.btnNegative)
+        Handler(Looper.getMainLooper()).postDelayed({
+            // Dismiss the progress dialog after delay
+            progressDialog.dismiss()
 
-        tvTitle.text = if (formsCount == 0 && imagesCount == 0) "Sync Complete" else "Unsynced Data Remaining"
-        tvMessage.text = message
+            // Now show the alert dialog
+            val message = when {
+                formsCount == 0 && imagesCount == 0 && source == "DATA" ->
+                    "✅ All form data has been synced successfully.\n\nNo images found to sync."
 
-        val dialog = AlertDialog.Builder(this)
-            .setView(dialogView)
-            .setCancelable(false)
-            .create()
+                formsCount == 0 && imagesCount == 0 && source == "BOTH" ->
+                    "🎉 All data and images have been synced successfully."
 
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                formsCount == 0 && imagesCount > 0 ->
+                    "All forms synced successfully.\n\n$imagesCount image(s) are still pending. Please sync them."
 
-        btnPositive.text = if (formsCount == 0 && imagesCount == 0) "OK" else "Sync Again"
-        btnPositive.setOnClickListener {
-            dialog.dismiss()
-            if (formsCount > 0 || imagesCount > 0) {
-                showPopupSync()
+                formsCount > 0 && imagesCount > 0 ->
+                    "There are still $formsCount unsynced form(s) and $imagesCount unsynced image(s).\n\nPlease sync again."
+
+                else -> "There are still some unsynced data."
             }
-        }
 
-        if (formsCount == 0 && imagesCount == 0) {
-            btnNegative.visibility = View.GONE
-        } else {
-            btnNegative.text = "Cancel"
-            btnNegative.setOnClickListener {
+            val dialogView = layoutInflater.inflate(R.layout.dialog_remaining_data, null)
+            val tvTitle = dialogView.findViewById<TextView>(R.id.tvTitle)
+            val tvMessage = dialogView.findViewById<TextView>(R.id.tvMessage)
+            val btnPositive = dialogView.findViewById<Button>(R.id.btnPositive)
+            val btnNegative = dialogView.findViewById<Button>(R.id.btnNegative)
+
+            tvTitle.text =
+                if (formsCount == 0 && imagesCount == 0) "Sync Complete" else "Unsynced Data Remaining"
+            tvMessage.text = message
+
+            val dialog = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create()
+
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+            btnPositive.text = if (formsCount == 0 && imagesCount == 0) "OK" else "Sync Again"
+            btnPositive.setOnClickListener {
                 dialog.dismiss()
+                if (formsCount > 0 || imagesCount > 0) {
+                    showPopupSync()
+                }
             }
-        }
 
-        dialog.show()
+            if (formsCount == 0 && imagesCount == 0) {
+                btnNegative.visibility = View.GONE
+            } else {
+                btnNegative.text = "Cancel"
+                btnNegative.setOnClickListener { dialog.dismiss() }
+            }
+
+            dialog.show()
+        }, delayMillis)
     }
+
 
     private fun ImageUpload1() {
         viewModel1.allImages.observe(this, Observer { imageList ->
@@ -950,11 +1020,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         synButton.setOnClickListener {
             progress.show()
             lifecycleScope.launch {
-                val unsyncedAllformData = suspendCancellableCoroutine<TotalCountDataModel> { continuation ->
-                    getTotalCountOfAllForm(viewModel1) { result ->
-                        continuation.resume(result, onCancellation = null)
+                val unsyncedAllformData =
+                    suspendCancellableCoroutine<TotalCountDataModel> { continuation ->
+                        getTotalCountOfAllForm(viewModel1) { result ->
+                            continuation.resume(result, onCancellation = null)
+                        }
                     }
-                }
                 withContext(Dispatchers.IO) {
                     val unsyncedtotalformData =
                         unsyncedAllformData.Total_Cataract_Surgery_Notes +
@@ -978,16 +1049,18 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                                 unsyncedAllformData.Pathology_Report
 
                     val unsyncedtotalImageData = unsyncedAllformData.Total_Image +
-                                unsyncedAllformData.Total_Audiometry_Image +
-                                unsyncedAllformData.Total_Pathology_Image +
-                                unsyncedAllformData.Total_Preop_Image
+                            unsyncedAllformData.Total_Audiometry_Image +
+                            unsyncedAllformData.Total_Pathology_Image +
+                            unsyncedAllformData.Total_Preop_Image
 
-                    Log.d("UnsyncedForms", "Forms: $unsyncedtotalformData, Images: $unsyncedtotalImageData")
+                    Log.d(
+                        "UnsyncedForms",
+                        "Forms: $unsyncedtotalformData, Images: $unsyncedtotalImageData"
+                    )
 
                     withContext(Dispatchers.Main) {
                         if (unsyncedtotalformData > 0 || unsyncedtotalImageData > 0) {
                             Send_Local_Data_To_Server()
-                            entSendDataToServer()
                         } else {
                             ClearAllData()
                         }
@@ -1065,19 +1138,19 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         entPreOpDetailsViewModel.clearSyncedPreOpImage()
     }
 
-    private fun clearSymptoms(){
+    private fun clearSymptoms() {
         entOpdDoctorsNoteViewModel.clearSyncedSymptoms()
     }
 
-    private fun clearImpression(){
+    private fun clearImpression() {
         entOpdDoctorsNoteViewModel.clearSyncedImpression()
     }
 
-    private fun clearDoctorInvestigationNotes(){
+    private fun clearDoctorInvestigationNotes() {
         entOpdDoctorsNoteViewModel.clearSyncedDoctorInvestigationNotes()
     }
 
-    private fun clearEntPatientReportList(){
+    private fun clearEntPatientReportList() {
         entPatientReportViewModel.clearSyncedEntPatientReportList()
     }
 
@@ -1166,8 +1239,10 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     val eye_post_op_discharge_check = data.eye_post_op_discharge_check
                     val eye_post_op_distant_vision_left = data.eye_post_op_distant_vision_left
                     val eye_post_op_distant_vision_right = data.eye_post_op_distant_vision_right
-                    val eye_post_op_distant_vision_unit_left = data.eye_post_op_distant_vision_unit_left
-                    val eye_post_op_distant_vision_unit_right = data.eye_post_op_distant_vision_unit_right
+                    val eye_post_op_distant_vision_unit_left =
+                        data.eye_post_op_distant_vision_unit_left
+                    val eye_post_op_distant_vision_unit_right =
+                        data.eye_post_op_distant_vision_unit_right
                     val eye_post_op_early_post_op = data.eye_post_op_early_post_op
                     val eye_post_op_ed_homide = data.eye_post_op_ed_homide
                     val eye_post_op_ed_homide_detail = data.eye_post_op_ed_homide_detail
@@ -1212,14 +1287,19 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     val eye_post_op_w_addi_detail_right = data.eye_post_op_w_addi_detail_right
                     val eye_post_op_w_distant_vision_left = data.eye_post_op_w_distant_vision_left
                     val eye_post_op_w_distant_vision_right = data.eye_post_op_w_distant_vision_right
-                    val eye_post_op_w_distant_vision_unit_left = data.eye_post_op_w_distant_vision_unit_left
-                    val eye_post_op_w_distant_vision_unit_right = data.eye_post_op_w_distant_vision_unit_right
+                    val eye_post_op_w_distant_vision_unit_left =
+                        data.eye_post_op_w_distant_vision_unit_left
+                    val eye_post_op_w_distant_vision_unit_right =
+                        data.eye_post_op_w_distant_vision_unit_right
                     val eye_post_op_w_near_vision_left = data.eye_post_op_w_near_vision_left
                     val eye_post_op_w_near_vision_right = data.eye_post_op_w_near_vision_right
                     val eye_post_op_w_pinhole_improve_left = data.eye_post_op_w_pinhole_improve_left
-                    val eye_post_op_w_pinhole_improve_right = data.eye_post_op_w_pinhole_improve_right
-                    val eye_post_op_w_pinhole_improve_unit_left = data.eye_post_op_w_pinhole_improve_unit_left
-                    val eye_post_op_w_pinhole_improve_unit_right = data.eye_post_op_w_pinhole_improve_unit_right
+                    val eye_post_op_w_pinhole_improve_right =
+                        data.eye_post_op_w_pinhole_improve_right
+                    val eye_post_op_w_pinhole_improve_unit_left =
+                        data.eye_post_op_w_pinhole_improve_unit_left
+                    val eye_post_op_w_pinhole_improve_unit_right =
+                        data.eye_post_op_w_pinhole_improve_unit_right
                     val eye_post_op_w_pinhole_left = data.eye_post_op_w_pinhole_left
                     val eye_post_op_w_pinhole_right = data.eye_post_op_w_pinhole_right
                     val patient_id = data.patient_id
@@ -1348,7 +1428,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     val sn_cataract_formed = data.sn_cataract_formed
                     val sn_cataract_formed_detail = data.sn_cataract_formed_detail
                     val sn_cataract_hydrodissectiirs = data.sn_cataract_hydrodissectiirs
-                    val sn_cataract_hydrodissectiirs_detail = data.sn_cataract_hydrodissectiirs_detail
+                    val sn_cataract_hydrodissectiirs_detail =
+                        data.sn_cataract_hydrodissectiirs_detail
                     val sn_cataract_irrigation = data.sn_cataract_irrigation
                     val sn_cataract_irrigation_detail = data.sn_cataract_irrigation_detail
                     val sn_cataract_keretome = data.sn_cataract_keretome
@@ -1388,7 +1469,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     val sn_common_ocular = data.sn_common_ocular
                     val sn_common_ocular_detail = data.sn_common_ocular_detail
                     val sn_common_posterior_opacification = data.sn_common_posterior_opacification
-                    val sn_common_posterior_opacification_detail = data.sn_common_posterior_opacification_detail
+                    val sn_common_posterior_opacification_detail =
+                        data.sn_common_posterior_opacification_detail
                     val sn_common_posterior_rent = data.sn_common_posterior_rent
                     val sn_common_posterior_rent_detail = data.sn_common_posterior_rent_detail
                     val sn_common_retinal = data.sn_common_retinal
@@ -1715,7 +1797,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     val eye_pre_op_nil_mouth = data.eye_pre_op_nil_mouth
                     val eye_pre_op_notes = data.eye_pre_op_notes
                     val eye_pre_op_o2_saturation = data.eye_pre_op_o2_saturation
-                    val eye_pre_op_o2_saturation_interpretation = data.eye_pre_op_o2_saturation_interpretation
+                    val eye_pre_op_o2_saturation_interpretation =
+                        data.eye_pre_op_o2_saturation_interpretation
                     val eye_pre_op_other = data.eye_pre_op_other
                     val eye_pre_op_other_detail = data.eye_pre_op_other_detail
                     val eye_pre_op_plain_tropical = data.eye_pre_op_plain_tropical
@@ -1827,7 +1910,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     val opd_eye_av_right = data.opd_eye_av_right
                     val opd_eye_av_right_unit = data.opd_eye_av_right_unit
                     val opd_eye_blood_pressure_diastolic = data.opd_eye_blood_pressure_diastolic
-                    val opd_eye_blood_pressure_interpretation = data.opd_eye_blood_pressure_interpretation
+                    val opd_eye_blood_pressure_interpretation =
+                        data.opd_eye_blood_pressure_interpretation
                     val opd_eye_blood_pressure_systolic = data.opd_eye_blood_pressure_systolic
                     val opd_eye_blood_sugar_fasting = data.opd_eye_blood_sugar_fasting
                     val opd_eye_blood_sugar_interpretation = data.opd_eye_blood_sugar_interpretation
@@ -2071,7 +2155,10 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         })
     }
 
-    private fun getTotalCountOfAllForm(viewModel1: LLE_MedDocket_ViewModel, onComplete: (TotalCountDataModel) -> Unit) {
+    private fun getTotalCountOfAllForm(
+        viewModel1: LLE_MedDocket_ViewModel,
+        onComplete: (TotalCountDataModel) -> Unit
+    ) {
         val totalCountDataModel = TotalCountDataModel()
         var completedObservers = 0
         val totalObservers = 23
@@ -2138,19 +2225,23 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             checkAndReturn()
         }
         entPostOpNotesViewModel.All_Ent_Post_Follow_ups.observe(this) {
-            totalCountDataModel.Total_Ent_Post_Op_Follow_ups = it.count { it.app_id.isNullOrBlank() }
+            totalCountDataModel.Total_Ent_Post_Op_Follow_ups =
+                it.count { it.app_id.isNullOrBlank() }
             checkAndReturn()
         }
         entSurgicalNotesViewModel.All_Ent_Surgical_Follow_ups.observe(this) {
-            totalCountDataModel.Total_Ent_Audiometry_Follow_ups = it.count { it.app_id.isNullOrBlank() }
+            totalCountDataModel.Total_Ent_Audiometry_Follow_ups =
+                it.count { it.app_id.isNullOrBlank() }
             checkAndReturn()
         }
         entOpdDoctorsNoteViewModel.All_Ent_Opd_Doctor_Follow_ups.observe(this) {
-            totalCountDataModel.Total_Ent_Surgical_Follow_ups = it.count { it.app_id.isNullOrBlank() }
+            totalCountDataModel.Total_Ent_Surgical_Follow_ups =
+                it.count { it.app_id.isNullOrBlank() }
             checkAndReturn()
         }
         entAudiometryViewModel.All_Ent_Audiometry_Follow_ups.observe(this) {
-            totalCountDataModel.Total_Ent_Doctor_Notes_Follow_ups = it.count { it.app_id.isNullOrBlank() }
+            totalCountDataModel.Total_Ent_Doctor_Notes_Follow_ups =
+                it.count { it.app_id.isNullOrBlank() }
             checkAndReturn()
         }
         pathologyViewModel.All_PATHOLOGY_Follow_ups.observe(this) {
@@ -2189,7 +2280,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         getUpdatedPathologyImageDetailsFromServer()
     }
 
-    private fun getUpdateEntDataFromServer(){
+    private fun getUpdateEntDataFromServer() {
         getUpdatePreOpDetailsFromServer()
         getUpdateSurgicalNotesFromServer()
         getUpdatePostOpNotesFromServer()
@@ -2200,33 +2291,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         getUpdatePathologyDetailsServer()
     }
 
-    private suspend fun entSendDataToServer() {
-        insertEntOpdDoctorSymptomsNote()
-        insertEntOpdDoctorImpressionNote()
-        insertEntOpdDoctorInvestigationNote()
-        insertPreOpDetails()
-        insertSurgicalNotes()
-        insertPostOpNotes()
-        insertAudiometryDetails()
-        insertPythologyDetails()
-        syncAllReportData()
-    }
-
-    private fun Send_Local_Data_To_Server() {
-        lifecycleScope.launch {
-            syncNewVitals()
-            syncNewOpdForm()
-            syncNewVisualAcuity()
-            newRefractiveUpdateData()
-            Insert_Eye_OPD_Doctors_Note()
-            Insert_Eye_Pre_Op_Investigation()
-            Insert_Eye_Pre_Op_Notes()
-            SurgicalNotes()
-            Eye_Post_OP_And_Follow_Ups()
-            ImageUpload1()
-            syncAllReportData()
-        }
-    }
 
     private fun syncAllReportData() {
         try {
@@ -2244,7 +2308,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     private fun SynedData() {
         Log.d("ABCDEF", "SynedData() -> Called")
         Log.d("ABCDEF", "vitalsUploaded => $vitalsUploaded")
-        val (patientId, campIdLocal, userId) = ConstantsApp.extractPatientAndLoginData(sessionManager)
+        val (patientId, campIdLocal, userId) = ConstantsApp.extractPatientAndLoginData(
+            sessionManager
+        )
         Log.d("ABCDEF", "campIdLocal => $campIdLocal , userId => $userId")
         if (campIdLocal == null || userId.isNullOrBlank()) {
             Log.d("ABCDEF", "SynedData() -> campId or userId is null/blank. Skipping sync.")
@@ -2265,6 +2331,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     Log.d("ABCDEF", "insertSynedData() -> Success")
                     getAllSynTableHistory()
                 }
+
                 0 -> {
                     Log.d("ABCDEF", "insertSynedData() -> Failed")
                 }
@@ -2281,7 +2348,14 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 Log.d("ABCDEF", "Loop item -> $data")
                 if (data.isSyn == 0) {
                     SynedDataList.add(
-                        SynedDataLive(data._id, data.syn_type, data.camp_id, data.user_id, data.date, data.time)
+                        SynedDataLive(
+                            data._id,
+                            data.syn_type,
+                            data.camp_id,
+                            data.user_id,
+                            data.date,
+                            data.time
+                        )
                     )
                 }
             }
@@ -2308,7 +2382,10 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                             Log.d("ABCDEF", "Insert_SynedData_Response() -> Server Success")
                             val data = response.data
                             for (item in data.lleSyncReport) {
-                                Log.d("ABCDEF", "Insert_SynedData_Response() -> Updating id=${item._id}")
+                                Log.d(
+                                    "ABCDEF",
+                                    "Insert_SynedData_Response() -> Updating id=${item._id}"
+                                )
                                 updateSynedData(item._id.toInt(), 1)
                             }
                         }
@@ -2316,10 +2393,12 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         Log.d("ABCDEF", "Insert_SynedData_Response() -> Exception: ${e.message}")
                     }
                 }
+
                 is ResourceApp.Error -> {
                     Log.d("ABCDEF", "Insert_SynedData_Response() -> Error: ${response.data}")
                     progressDialog.dismiss()
                 }
+
                 is ResourceApp.Loading -> {
                     Log.d("ABCDEF", "Insert_SynedData_Response() -> Loading...")
                     progressDialog.show()
@@ -2442,7 +2521,148 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         startActivity(intent)
     }
 
+
+    private var totalSyncedCount = 0
+    private var totalUnsyncedCount = 0
+    private var completedForms = 0
+
+    private val syncQueue = mutableListOf<suspend () -> Unit>()
+    private var currentTaskIndex = 0
+    private suspend fun Send_Local_Data_To_Server() = suspendCoroutine<Unit> { continuation ->
+        Log.d("pawan_sync", "Send_Local_Data_To_Server call")
+
+        totalSyncedCount = 0
+        totalUnsyncedCount = 0
+        completedForms = 0
+        currentTaskIndex = 0
+        syncQueue.clear()
+
+        // Add all sync tasks
+        syncQueue.add { syncNewVitals() }
+        syncQueue.add { syncNewOpdForm() }
+        syncQueue.add { syncNewVisualAcuity() }
+        syncQueue.add { newRefractiveUpdateData() }
+        syncQueue.add { Insert_Eye_OPD_Doctors_Note() }
+        syncQueue.add { Insert_Eye_Pre_Op_Investigation() }
+        syncQueue.add { Insert_Eye_Pre_Op_Notes() }
+        syncQueue.add { SurgicalNotes() }
+        syncQueue.add { Eye_Post_OP_And_Follow_Ups() }
+        syncQueue.add { insertEntOpdDoctorInvestigationNote() }
+        syncQueue.add { insertPreOpDetails() }
+        syncQueue.add { insertSurgicalNotes() }
+        syncQueue.add { insertPostOpNotes() }
+        syncQueue.add { insertAudiometryDetails() }
+        syncQueue.add { insertPythologyDetails() }
+        syncQueue.add { addSyncUnsyncData() }
+
+
+        // Last one: run GetUnSyneddata and trigger callback
+        syncQueue.add {
+            Log.d("pawan_sync", "🎉 All sync tasks completed successfully!")
+            continuation.resume(Unit)
+            startNextSync()
+        }
+        syncQueue.add { GetUnSyneddata() }
+
+        syncAllReportData()
+        ImageUpload1()
+        lifecycleScope.launch {
+            insertEntOpdDoctorSymptomsNote()
+            insertEntOpdDoctorImpressionNote()
+        }
+
+        startNextSync()
+    }
+
+    private fun startNextSync() {
+        if (currentTaskIndex < syncQueue.size) {
+            val task = syncQueue[currentTaskIndex]
+            currentTaskIndex++
+
+            Log.d("pawan_sync", "🚀 Starting sync task ${currentTaskIndex}/${syncQueue.size}")
+
+            lifecycleScope.launch {
+                try {
+                    task.invoke()
+                } catch (e: Exception) {
+                    Log.e("pawan_sync", "❌ Error in sync task ${currentTaskIndex}: ${e.message}", e)
+                }
+            }
+
+        } else {
+            Log.d("pawan_sync", "🎉 All sync tasks completed successfully!")
+            Log.d(
+                "pawan_sync",
+                "✅ Total Synced: $totalSyncedCount | ❌ Total Unsynced: $totalUnsyncedCount"
+            )
+        }
+    }
+
+    private fun addSyncUnsyncData() {
+        lifecycleScope.launch {
+            val dateTime =
+                java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
+                    .format(java.util.Date())
+
+            val summary = SyncSummaryEntity(
+                totalSynced = totalSyncedCount,
+                totalUnsynced = totalUnsyncedCount,
+                dateTime = dateTime,
+                formType = ""
+            )
+
+            entPreOpDetailsViewModel.insertSyncData(summary)
+
+            Log.d("pawan_sync", "🧾 Sync summary saved: $summary")
+            startNextSync()
+        }
+    }
+
+
+    private fun syncNewVitals() {
+        Log.d("pawan_sync", "syncNewVitals call")
+        if (isInternetAvailable(this)) {
+            val data = HashMap<String, Any>()
+            data["patient"] = ""
+            val intent = Intent(this, VitalsFormService::class.java).apply {
+                putExtra("QUERY_PARAMS", data)
+            }
+            startService(intent)
+        } else {
+            Utility.infoToast(this@MainActivity, "Internet Not Available")
+        }
+    }
+
+    private fun syncNewOpdForm() {
+        Log.d("pawan_sync", "syncNewOpdForm call")
+        if (isInternetAvailable(this)) {
+            val data = HashMap<String, Any>()
+            data["patient"] = ""
+            val intent = Intent(this, OpdFormService::class.java).apply {
+                putExtra("QUERY_PARAMS", data)
+            }
+            startService(intent)
+        } else {
+            Utility.infoToast(this@MainActivity, "Internet Not Available")
+        }
+    }
+
+    private fun syncNewVisualAcuity() {
+        Log.d("pawan_sync", "syncNewVisualAcuity call")
+        if (isInternetAvailable(this)) {
+            val data = HashMap<String, Any>()
+            data["patient"] = ""
+            val intent = Intent(this, VisualAcuityFormService::class.java).apply {
+                putExtra("QUERY_PARAMS", data)
+            }
+            startService(intent)
+        } else {
+            Utility.infoToast(this@MainActivity, "Internet Not Available")
+        }
+    }
+
     private fun newRefractiveUpdateData() {
+        Log.d("pawan_sync", "newRefractiveUpdateData call")
         if (isInternetAvailable(this)) {
             val data = HashMap<String, Any>()
             data["patient"] = ""
@@ -2455,9 +2675,110 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
+
+    private val syncReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            intent?.let {
+                val formType = it.getStringExtra("formType")
+                val syncedCount = it.getIntExtra("syncedCount", 0)
+                val unsyncedCount = it.getIntExtra("unsyncedCount", 0)
+
+                totalSyncedCount += syncedCount
+                totalUnsyncedCount += unsyncedCount
+
+                Log.d("pawan_sync", "Received sync update from $formType form")
+                Log.d("pawan_sync", "Synced: $syncedCount | Unsynced: $unsyncedCount")
+                Log.d("pawan_sync", "Current Total ✅ $totalSyncedCount | ❌ $totalUnsyncedCount")
+
+                startNextSync()
+            }
+        }
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        val filter = IntentFilter(ACTION_FORM_SYNC_COMPLETED)
+        LocalBroadcastManager.getInstance(this).registerReceiver(syncReceiver, filter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(syncReceiver)
+    }
+
+
+    private fun Insert_Eye_OPD_Doctors_Note() {
+        Log.d("pawan_sync", "Insert_Eye_OPD_Doctors_Note call")
+        viewModel1.fetchUnsyncedOpDoctorNotes { unsyncedList ->
+            val totalUnsyncedBefore = unsyncedList.size
+
+            if (unsyncedList.isNotEmpty()) {
+                val requestList = unsyncedList.map { data ->
+                    Eyeopddocnote(
+                        _id = data._id,
+                        camp_id = data.camp_id,
+                        createdDate = data.createdDate,
+                        opd_eye_diagnosis = data.opd_eye_diagnosis,
+                        opd_eye_diagnosis_description = data.opd_eye_diagnosis_description,
+                        opd_eye_examination = data.opd_eye_examination,
+                        opd_eye_examination_description = data.opd_eye_examination_description,
+                        opd_eye_notes = data.opd_eye_notes,
+                        opd_eye_recommended = data.opd_eye_recommended,
+                        opd_eye_symptoms = data.opd_eye_symptoms,
+                        opd_eye_symptoms_description = data.opd_eye_symptoms_description,
+                        patient_id = data.patient_id,
+                        user_id = data.user_id
+                    )
+                }
+                val request = sendEyeOPDDoctorsNoteData(requestList)
+
+                viewModel.insertEyeOPDDoctorNote(progressDialog, request)
+                viewModel.getEyeOPDDoctorsNoteData.observe(this) { response ->
+                    if (response is ResourceApp.Success && response.data?.ErrorMessage == "Success") {
+                        lifecycleScope.launch {
+                            val updateJobs = unsyncedList.map {
+                                launch {
+                                    viewModel1.updateEyeopddocnotes(it._id.toString(), 1)
+                                }
+                            }
+
+                            updateJobs.joinAll()
+
+                            viewModel1.fetchUnsyncedOpDoctorNotes { remainingList ->
+                                val syncedCount = totalUnsyncedBefore - remainingList.size
+                                val unsyncedCount = remainingList.size
+
+                                totalSyncedCount += syncedCount
+                                totalUnsyncedCount += unsyncedCount
+
+                                Log.d(
+                                    "pawan_sync",
+                                    "EyeOPDDoctor ✅ Synced: $syncedCount | ❌ Unsynced: $unsyncedCount"
+                                )
+                                Log.d(
+                                    "pawan_sync",
+                                    "Current Total ✅ $totalSyncedCount | ❌ $totalUnsyncedCount"
+                                )
+
+                                startNextSync()
+                            }
+                        }
+
+                    }
+                }
+            } else {
+                Log.d("pawan_sync", "No unsynced records found.")
+                startNextSync()
+            }
+        }
+    }
+
+
     private fun Eye_Post_OP_And_Follow_Ups() {
+        Log.d("pawan_sync", "Eye_Post_OP_And_Follow_Ups call")
         viewModel1.fetchUnsyncedPostOPNotes { unsyncedList ->
-            Log.d("pawan_sync", "Unsynced records count: ${unsyncedList.size}")
+            val totalUnsyncedBefore = unsyncedList.size
             if (unsyncedList.isNotEmpty()) {
                 val requestList = unsyncedList.map { data ->
                     EyePostOp(
@@ -2548,18 +2869,51 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 viewModel.insertEyePostOpAndFollowUps(progressDialog, request)
                 viewModel.getEyePostAndFollowUpResponse.observe(this) { response ->
                     if (response is ResourceApp.Success && response.data?.ErrorMessage == "Success") {
-                        unsyncedList.forEach {
-                            viewModel1.UpdatePostOpAndFollowUpsResponse(it._id.toString(), 1)
+                        lifecycleScope.launch {
+                            val updateJobs = unsyncedList.map {
+                                launch {
+                                    viewModel1.UpdatePostOpAndFollowUpsResponse(
+                                        it._id.toString(),
+                                        1
+                                    )
+                                }
+                            }
+
+                            updateJobs.joinAll()
+
+                            viewModel1.fetchUnsyncedPostOPNotes { remainingList ->
+                                val syncedCount = totalUnsyncedBefore - remainingList.size
+                                val unsyncedCount = remainingList.size
+
+                                totalSyncedCount += syncedCount
+                                totalUnsyncedCount += unsyncedCount
+
+                                Log.d(
+                                    "pawan_sync",
+                                    "EyePostAndFollow ✅ Synced: $syncedCount | ❌ Unsynced: $unsyncedCount"
+                                )
+                                Log.d(
+                                    "pawan_sync",
+                                    "Current Total ✅ $totalSyncedCount | ❌ $totalUnsyncedCount"
+                                )
+
+                                // ✅ Move to next form ONLY after completion
+                                startNextSync()
+                            }
                         }
+
                     }
                 }
+            } else {
+                startNextSync()
             }
         }
     }
 
     private fun SurgicalNotes() {
+        Log.d("pawan_sync", "SurgicalNotes call")
         viewModel1.fetchUnsyncedSurgicalNotes { unsyncedList ->
-            Log.d("pawan_sync", "Unsynced records count: ${unsyncedList.size}")
+            val totalUnsyncedBefore = unsyncedList.size
             if (unsyncedList.isNotEmpty()) {
                 val requestList = unsyncedList.map { data ->
                     CataractSurgery(
@@ -2733,18 +3087,47 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 viewModel.insertSurgicalData(progressDialog, request)
                 viewModel.getSurgicalNotesResponse.observe(this) { response ->
                     if (response is ResourceApp.Success && response.data?.ErrorMessage == "Success") {
-                        unsyncedList.forEach {
-                            viewModel1.updateCataract_Surgeries(it._id, 1)
+                        lifecycleScope.launch {
+                            val updateJobs = unsyncedList.map {
+                                launch {
+                                    viewModel1.updateCataract_Surgeries(it._id, 1)
+                                }
+                            }
+
+                            updateJobs.joinAll()
+
+                            viewModel1.fetchUnsyncedSurgicalNotes { remainingList ->
+                                val syncedCount = totalUnsyncedBefore - remainingList.size
+                                val unsyncedCount = remainingList.size
+
+                                totalSyncedCount += syncedCount
+                                totalUnsyncedCount += unsyncedCount
+
+                                Log.d(
+                                    "pawan_sync",
+                                    "SurgicalNotes ✅ Synced: $syncedCount | ❌ Unsynced: $unsyncedCount"
+                                )
+                                Log.d(
+                                    "pawan_sync",
+                                    "Current Total ✅ $totalSyncedCount | ❌ $totalUnsyncedCount"
+                                )
+
+                                startNextSync()
+                            }
                         }
+
                     }
                 }
+            } else {
+                startNextSync()
             }
         }
     }
 
     private fun Insert_Eye_Pre_Op_Notes() {
+        Log.d("pawan_sync", "Insert_Eye_Pre_Op_Notes call")
         viewModel1.fetchUnsyncedPreOpNotes { unsyncedList ->
-            Log.d("pawan_sync", "Unsynced records count: ${unsyncedList.size}")
+            val totalUnsyncedBefore = unsyncedList.size
             if (unsyncedList.isNotEmpty()) {
                 val requestList = unsyncedList.map { data ->
                     EyePreOpNote(
@@ -2817,18 +3200,46 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 viewModel.insertEyePreOpNotes(request, progressDialog)
                 viewModel.getEyePreOpNotesResponse.observe(this) { response ->
                     if (response is ResourceApp.Success && response.data?.ErrorMessage == "Success") {
-                        unsyncedList.forEach {
-                            viewModel1.updateEye_Pre_Op_Notes(it._id.toString(), 1)
+                        lifecycleScope.launch {
+                            val updateJobs = unsyncedList.map {
+                                launch {
+                                    viewModel1.updateEye_Pre_Op_Notes(it._id.toString(), 1)
+                                }
+                            }
+
+                            updateJobs.joinAll()
+
+                            viewModel1.fetchUnsyncedPreOpNotes { remainingList ->
+                                val syncedCount = totalUnsyncedBefore - remainingList.size
+                                val unsyncedCount = remainingList.size
+
+                                totalSyncedCount += syncedCount
+                                totalUnsyncedCount += unsyncedCount
+
+                                Log.d(
+                                    "pawan_sync",
+                                    "EyePreOpNotes ✅ Synced: $syncedCount | ❌ Unsynced: $unsyncedCount"
+                                )
+                                Log.d(
+                                    "pawan_sync",
+                                    "Current Total ✅ $totalSyncedCount | ❌ $totalUnsyncedCount"
+                                )
+
+                                startNextSync()
+                            }
                         }
                     }
                 }
+            } else {
+                startNextSync()
             }
         }
     }
 
     private fun Insert_Eye_Pre_Op_Investigation() {
-        viewModel1.fetchUnsyncedInvestigations  { unsyncedList ->
-            Log.d("pawan_sync", "Unsynced records count: ${unsyncedList.size}")
+        Log.d("pawan_sync", "Insert_Eye_Pre_Op_Investigation call")
+        viewModel1.fetchUnsyncedInvestigations { unsyncedList ->
+            val totalUnsyncedBefore = unsyncedList.size
             if (unsyncedList.isNotEmpty()) {
                 val requestList = unsyncedList.map { data ->
                     EyePreOpInvestigation(
@@ -2884,14 +3295,199 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                 viewModel.insertEyePreOPInvestigation(progressDialog, request)
                 viewModel.getEyePreOpInvestigationData.observe(this) { response ->
                     if (response is ResourceApp.Success && response.data?.ErrorMessage == "Success") {
-                        unsyncedList.forEach {
-                            viewModel1.updateEye_Pre_Op_Investigations(it._id.toString(), 1)
+                        lifecycleScope.launch {
+                            val updateJobs = unsyncedList.map {
+                                launch {
+                                    viewModel1.updateEye_Pre_Op_Investigations(it._id.toString(), 1)
+                                }
+                            }
+
+                            updateJobs.joinAll()
+
+                            viewModel1.fetchUnsyncedInvestigations { remainingList ->
+                                val syncedCount = totalUnsyncedBefore - remainingList.size
+                                val unsyncedCount = remainingList.size
+
+                                totalSyncedCount += syncedCount
+                                totalUnsyncedCount += unsyncedCount
+
+                                Log.d(
+                                    "pawan_sync",
+                                    "EyePreOpInvestigations ✅ Synced: $syncedCount | ❌ Unsynced: $unsyncedCount"
+                                )
+                                Log.d(
+                                    "pawan_sync",
+                                    "Current Total ✅ $totalSyncedCount | ❌ $totalUnsyncedCount"
+                                )
+
+                                startNextSync()
+                            }
                         }
+
                     }
                 }
+            } else {
+                startNextSync()
             }
         }
     }
+
+    private suspend fun insertEntOpdDoctorInvestigationNote() {
+        val unsyncedList = entOpdDoctorsNoteViewModel.getUnsyncedInvestigationOnce()
+        Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced investigation notes")
+
+        if (unsyncedList.isNotEmpty()) {
+            suspendCoroutine<Unit> { cont ->
+                entOpdDoctorsNoteViewModel.sendDoctorInvestigationNotesToServer(unsyncedList) { synced, unsynced ->
+                    totalSyncedCount += synced
+                    totalUnsyncedCount += unsynced
+
+                    Log.d("pawan_sync", "Investigation ✅ Synced: $synced | ❌ Unsynced: $unsynced")
+                    Log.d("pawan_sync", "Current Total ✅ $totalSyncedCount | ❌ $totalUnsyncedCount")
+
+                    // Move to next sync task after completion
+                    startNextSync()
+
+                    cont.resume(Unit)
+                }
+            }
+        } else {
+            Log.d("SyncCheck", "No unsynced Investigation notes found")
+            startNextSync() // nothing to sync, continue chain
+        }
+    }
+
+
+    private suspend fun insertPreOpDetails() {
+        val unsyncedList = entPreOpDetailsViewModel.getUnsyncedPreOpDetails()
+        Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced PreOpDetails records")
+
+        if (unsyncedList.isNotEmpty()) {
+            suspendCoroutine<Unit> { cont ->
+                entPreOpDetailsViewModel.sendDoctorPreOpDetailsToServer(unsyncedList) { synced, unsynced ->
+                    totalSyncedCount += synced
+                    totalUnsyncedCount += unsynced
+
+                    Log.d("pawan_sync", "PreOpDetails ✅ Synced: $synced | ❌ Unsynced: $unsynced")
+                    Log.d("pawan_sync", "Current Total ✅ $totalSyncedCount | ❌ $totalUnsyncedCount")
+
+                    startNextSync()
+                    cont.resume(Unit)
+                }
+            }
+        } else {
+            Log.d("SyncCheck", "No unsynced PreOpDetails found")
+            startNextSync()
+        }
+    }
+
+
+    private suspend fun insertSurgicalNotes() {
+        val unsyncedList = entSurgicalNotesViewModel.getUnsyncedSurgicalNotes()
+        Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced SurgicalNotes records")
+
+        if (unsyncedList.isNotEmpty()) {
+            suspendCoroutine<Unit> { cont ->
+                entSurgicalNotesViewModel.sendDoctorSurgicalNotesToServer(unsyncedList) { synced, unsynced ->
+                    totalSyncedCount += synced
+                    totalUnsyncedCount += unsynced
+
+                    Log.d("pawan_sync", "SurgicalNotes ✅ Synced: $synced | ❌ Unsynced: $unsynced")
+                    Log.d("pawan_sync", "Current Total ✅ $totalSyncedCount | ❌ $totalUnsyncedCount")
+
+                    startNextSync()
+                    cont.resume(Unit)
+                }
+            }
+        } else {
+            Log.d("SyncCheck", "No unsynced SurgicalNotes found")
+            startNextSync()
+        }
+    }
+
+
+    private suspend fun insertPostOpNotes() {
+        val unsyncedList = entPostOpNotesViewModel.getUnsyncedPostOpNotes()
+        Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced PostOpNotes records")
+
+        if (unsyncedList.isNotEmpty()) {
+            suspendCoroutine<Unit> { cont ->
+                entPostOpNotesViewModel.sendDoctorPostOpNotesToServer(unsyncedList) { synced, unsynced ->
+                    totalSyncedCount += synced
+                    totalUnsyncedCount += unsynced
+
+                    Log.d("pawan_sync", "PostOpNotes ✅ Synced: $synced | ❌ Unsynced: $unsynced")
+                    Log.d("pawan_sync", "Current Total ✅ $totalSyncedCount | ❌ $totalUnsyncedCount")
+
+                    startNextSync()
+                    cont.resume(Unit)
+                }
+            }
+        } else {
+            Log.d("SyncCheck", "No unsynced PostOpNotes found")
+            startNextSync()
+        }
+    }
+
+
+    private suspend fun insertAudiometryDetails() {
+        val unsyncedList = entAudiometryViewModel.getUnsyncedAudiometryDetails()
+        Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced Audiometry records")
+
+        if (unsyncedList.isNotEmpty()) {
+            suspendCoroutine<Unit> { cont ->
+                entAudiometryViewModel.sendDoctorAudiometryDetailsToServer(unsyncedList) { synced, unsynced ->
+                    totalSyncedCount += synced
+                    totalUnsyncedCount += unsynced
+
+                    Log.d("pawan_sync", "Audiometry ✅ Synced: $synced | ❌ Unsynced: $unsynced")
+                    Log.d("pawan_sync", "Current Total ✅ $totalSyncedCount | ❌ $totalUnsyncedCount")
+
+                    startNextSync()
+                    cont.resume(Unit)
+                }
+            }
+        } else {
+            Log.d("SyncCheck", "No unsynced Audiometry records found")
+            startNextSync()
+        }
+    }
+
+
+    private suspend fun insertPythologyDetails() {
+        val unsyncedList = pathologyViewModel.getUnsyncedPathologyDetails()
+        Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced Pathology records")
+
+        if (unsyncedList.isNotEmpty()) {
+            suspendCoroutine<Unit> { cont ->
+                pathologyViewModel.sendDoctorPathologyDetailsToServer(unsyncedList) { synced, unsynced ->
+                    totalSyncedCount += synced
+                    totalUnsyncedCount += unsynced
+
+                    Log.d("pawan_sync", "Pathology ✅ Synced: $synced | ❌ Unsynced: $unsynced")
+                    Log.d("pawan_sync", "Current Total ✅ $totalSyncedCount | ❌ $totalUnsyncedCount")
+
+                    startNextSync()
+                    cont.resume(Unit)
+                }
+            }
+        } else {
+            Log.d("SyncCheck", "No unsynced Pathology records found")
+            startNextSync()
+        }
+    }
+
+
+    private fun logResult(tag: String, success: Boolean, message: String?, count: Int) {
+        if (success) {
+            Toast.makeText(this, "$tag: Successfully sent $count records", Toast.LENGTH_SHORT)
+                .show()
+            Log.d("SyncCheck $tag", "Successfully sent $count records.")
+        } else {
+            Log.e("SyncCheck $tag", "Sync failed: $message")
+        }
+    }
+
 
     private suspend fun insertEntOpdDoctorSymptomsNote() {
         val unsyncedList = entOpdDoctorsNoteViewModel.getUnsyncedSymptomsOnce()
@@ -2919,92 +3515,78 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private suspend fun insertEntOpdDoctorInvestigationNote() {
-        val unsyncedList = entOpdDoctorsNoteViewModel.getUnsyncedInvestigationOnce()
-        Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced investigation records")
-        if (!unsyncedList.isNullOrEmpty()) {
-            suspendCoroutine<Unit> { cont ->
-                entOpdDoctorsNoteViewModel.sendDoctorInvestigationNotesToServer(unsyncedList) { success, message ->
-                    logResult("Investigation", success, message, unsyncedList.size)
-                    cont.resume(Unit)
-                }
-            }
-        }
-    }
+//
+//    private suspend fun insertEntOpdDoctorInvestigationNote() : SyncResult{
+//        val unsyncedList = entOpdDoctorsNoteViewModel.getUnsyncedInvestigationOnce()
+//        return performSyncOperation("OPD", unsyncedList) { list, callback ->
+//            entOpdDoctorsNoteViewModel.sendDoctorInvestigationNotesToServer(list, callback)
+//        }
+//    }
+//
+//    private suspend fun insertPreOpDetails(): SyncResult {
+//        val unsyncedList = entPreOpDetailsViewModel.getUnsyncedPreOpDetails()
+//        return performSyncOperation("PreOp", unsyncedList) { list, callback ->
+//            entPreOpDetailsViewModel.sendDoctorPreOpDetailsToServer(list, callback)
+//        }
+//    }
+//
+//    private suspend fun insertSurgicalNotes(): SyncResult {
+//        val unsyncedList = entSurgicalNotesViewModel.getUnsyncedSurgicalNotes()
+//        return performSyncOperation("SurgicalNotes", unsyncedList) { list, callback ->
+//            entSurgicalNotesViewModel.sendDoctorSurgicalNotesToServer(list, callback)
+//        }
+//    }
+//
+//    private suspend fun insertPostOpNotes(): SyncResult {
+//        val unsyncedList = entPostOpNotesViewModel.getUnsyncedPostOpNotes()
+//        return performSyncOperation("PostOp", unsyncedList) { list, callback ->
+//            entPostOpNotesViewModel.sendDoctorPostOpNotesToServer(list, callback)
+//        }
+//    }
+//
+//    private suspend fun insertAudiometryDetails(): SyncResult {
+//        val unsyncedList = entAudiometryViewModel.getUnsyncedAudiometryDetails()
+//        return performSyncOperation("Audiometry", unsyncedList) { list, callback ->
+//            entAudiometryViewModel.sendDoctorAudiometryDetailsToServer(list, callback)
+//        }
+//    }
+//
+//    private suspend fun insertPythologyDetails(): SyncResult {
+//        val unsyncedList = pathologyViewModel.getUnsyncedPathologyDetails()
+//        return performSyncOperation("Pathology", unsyncedList) { list, callback ->
+//            pathologyViewModel.sendDoctorPathologyDetailsToServer(list, callback)
+//        }
+//    }
+//
+//    private suspend fun <T> performSyncOperation(
+//        type: String,
+//        unsyncedList: List<T>,
+//        sendToServer: (List<T>, (Boolean, String) -> Unit) -> Unit
+//    ): SyncResult {
+//        val totalCount = unsyncedList.size
+//        var syncedCount = 0
+//        var message = ""
+//        var success = false
+//
+//        if (unsyncedList.isNotEmpty()) {
+//            suspendCoroutine<Unit> { cont ->
+//                sendToServer(unsyncedList) { isSuccess, msg ->
+//                    success = isSuccess
+//                    message = msg
+//                    syncedCount = if (isSuccess) totalCount else 0
+//                    cont.resume(Unit)
+//                }
+//            }
+//        }
+//
+//        val unsyncedCount = totalCount - syncedCount
+//        logResult(type, success, message, totalCount)
+////        Log.d("pawan_sync", "$type → Total: $totalCount | Synced: $syncedCount | Unsynced: $unsyncedCount")
+////        updateGlobalSyncCounts(syncedCount, unsyncedCount, type)
+//
+//        return SyncResult(type, totalCount, syncedCount, unsyncedCount, success, message)
+//    }
 
-    private suspend fun insertPreOpDetails() {
-        val unsyncedList = entPreOpDetailsViewModel.getUnsyncedPreOpDetails()
-        Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced pre-op records")
-        if (!unsyncedList.isNullOrEmpty()) {
-            suspendCoroutine<Unit> { cont ->
-                entPreOpDetailsViewModel.sendDoctorPreOpDetailsToServer(unsyncedList) { success, message ->
-                    logResult("PreOp", success, message, unsyncedList.size)
-                    cont.resume(Unit)
-                }
-            }
-        }
-    }
-
-    private suspend fun insertSurgicalNotes() {
-        val unsyncedList = entSurgicalNotesViewModel.getUnsyncedSurgicalNotes()
-        Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced surgical notes")
-        if (!unsyncedList.isNullOrEmpty()) {
-            suspendCoroutine<Unit> { cont ->
-                entSurgicalNotesViewModel.sendDoctorSurgicalNotesToServer(unsyncedList) { success, message ->
-                    logResult("SurgicalNotes", success, message, unsyncedList.size)
-                    cont.resume(Unit)
-                }
-            }
-        }
-    }
-
-    private suspend fun insertPostOpNotes() {
-        val unsyncedList = entPostOpNotesViewModel.getUnsyncedPostOpNotes()
-        Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced post-op notes")
-        if (!unsyncedList.isNullOrEmpty()) {
-            suspendCoroutine<Unit> { cont ->
-                entPostOpNotesViewModel.sendDoctorPostOpNotesToServer(unsyncedList) { success, message ->
-                    logResult("PostOp", success, message, unsyncedList.size)
-                    cont.resume(Unit)
-                }
-            }
-        }
-    }
-
-    private suspend fun insertAudiometryDetails() {
-        val unsyncedList = entAudiometryViewModel.getUnsyncedAudiometryDetails()
-        Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced audiometry records")
-        if (!unsyncedList.isNullOrEmpty()) {
-            suspendCoroutine<Unit> { cont ->
-                entAudiometryViewModel.sendDoctorAudiometryDetailsToServer(unsyncedList) { success, message ->
-                    logResult("Audiometry", success, message, unsyncedList.size)
-                    cont.resume(Unit)
-                }
-            }
-        }
-    }
-
-    private suspend fun insertPythologyDetails() {
-        val unsyncedList = pathologyViewModel.getUnsyncedPathologyDetails()
-        Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced pathology records")
-        if (!unsyncedList.isNullOrEmpty()) {
-            suspendCoroutine<Unit> { cont ->
-                pathologyViewModel.sendDoctorPathologyDetailsToServer(unsyncedList) { success, message ->
-                    logResult("Pathology", success, message, unsyncedList.size)
-                    cont.resume(Unit)
-                }
-            }
-        }
-    }
-
-    private fun logResult(tag: String, success: Boolean, message: String?, count: Int) {
-        if (success) {
-            Toast.makeText(this, "$tag: Successfully sent $count records", Toast.LENGTH_SHORT).show()
-            Log.d("SyncCheck $tag", "Successfully sent $count records.")
-        } else {
-            Log.e("SyncCheck $tag", "Sync failed: $message")
-        }
-    }
 
     private suspend fun loadAndUploadAudiometryImage() {
         val unsyncedList = withContext(Dispatchers.IO) {
@@ -3018,7 +3600,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             if (!imageFile.exists()) continue
 
             val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-            val multipartBody = MultipartBody.Part.createFormData("fileName", imageFile.name, requestFile)
+            val multipartBody =
+                MultipartBody.Part.createFormData("fileName", imageFile.name, requestFile)
             val patientId = imageEntity.patientId.toString().toRequestBody()
             val campId = imageEntity.campId.toString().toRequestBody()
             val userId = imageEntity.userId.toString().toRequestBody()
@@ -3054,19 +3637,28 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             if (!imageFile.exists()) continue
 
             val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-            val multipartBody = MultipartBody.Part.createFormData("fileName", imageFile.name, requestFile)
+            val multipartBody =
+                MultipartBody.Part.createFormData("fileName", imageFile.name, requestFile)
             val patientId = imageEntity.patientId.toString().toRequestBody()
             val campId = imageEntity.campId.toString().toRequestBody()
             val userId = imageEntity.userId.toString().toRequestBody()
             val appCreatedDate = (imageEntity.appCreatedDate ?: "").toRequestBody()
             val reportType = (imageEntity.reportType ?: "").toRequestBody()
             val appId = (imageEntity.app_id ?: "1").toRequestBody()
-            val uniqueId = imageEntity.formId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+            val uniqueId =
+                imageEntity.formId.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
             try {
                 val response = withContext(Dispatchers.IO) {
                     pathologyViewModel.syncPathologyImagesNew(
-                        multipartBody, patientId, campId, userId, appCreatedDate, reportType, appId, uniqueId
+                        multipartBody,
+                        patientId,
+                        campId,
+                        userId,
+                        appCreatedDate,
+                        reportType,
+                        appId,
+                        uniqueId
                     )
                 }
                 if (response.isSuccessful) {
@@ -3091,7 +3683,8 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             if (!imageFile.exists()) continue
 
             val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-            val multipartBody = MultipartBody.Part.createFormData("fileName", imageFile.name, requestFile)
+            val multipartBody =
+                MultipartBody.Part.createFormData("fileName", imageFile.name, requestFile)
             val patientId = imageEntity.patientId.toString().toRequestBody()
             val campId = imageEntity.campId.toString().toRequestBody()
             val userId = imageEntity.userId.toString().toRequestBody()
@@ -3117,86 +3710,51 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
     // Get Ent Updated Data From Server
-    private fun getUpdatePreOpDetailsFromServer(){
+    private fun getUpdatePreOpDetailsFromServer() {
         entPreOpDetailsViewModel.getUpdatePreOpDetailsFromServer()
     }
 
-    private fun getUpdatePreOPImageDetailsFromServer(){
+    private fun getUpdatePreOPImageDetailsFromServer() {
         entPreOpDetailsViewModel.getUpdatePreOpImageDetailsFromServer()
     }
 
-    private fun getUpdateSurgicalNotesFromServer(){
+    private fun getUpdateSurgicalNotesFromServer() {
         entSurgicalNotesViewModel.getUpdateSurgicalNotesFromServer()
     }
 
-    private fun getUpdatePostOpNotesFromServer(){
+    private fun getUpdatePostOpNotesFromServer() {
         entPostOpNotesViewModel.getUpdatePostOpNotesFromServer()
     }
 
-    private fun getUpdateAudiometryDetailsFromServer(){
+    private fun getUpdateAudiometryDetailsFromServer() {
         entAudiometryViewModel.getUpdateAudiometryDetailsFromServer()
     }
 
-    private fun getUpdateAudiometryImageDetailsFromServer(){
+    private fun getUpdateAudiometryImageDetailsFromServer() {
         entAudiometryViewModel.getUpdateAudiometryImageDetailsFromServer()
     }
 
 
-    private fun getUpdateSymptomsFromServer(){
+    private fun getUpdateSymptomsFromServer() {
         entOpdDoctorsNoteViewModel.getUpdateSymptomsFromServer()
     }
 
-    private fun getUpdateImpressionFromServer(){
+    private fun getUpdateImpressionFromServer() {
         entOpdDoctorsNoteViewModel.getUpdateImpressionFromServer()
     }
 
-    private fun getUpdateDoctorInvestigationServer(){
+    private fun getUpdateDoctorInvestigationServer() {
         entOpdDoctorsNoteViewModel.getUpdateDoctorInvestigationServer()
     }
 
-    private fun getUpdatePathologyDetailsServer(){
+    private fun getUpdatePathologyDetailsServer() {
         pathologyViewModel.getUpdatePathologyDetailsServer()
     }
 
-    private fun getUpdatedPathologyImageDetailsFromServer(){
+    private fun getUpdatedPathologyImageDetailsFromServer() {
         pathologyViewModel.getUpdatedPathologyImageDetailsFromServer()
     }
 
-    private fun Insert_Eye_OPD_Doctors_Note() {
-        viewModel1.fetchUnsyncedOpDoctorNotes { unsyncedList ->
-            if (unsyncedList.isNotEmpty()) {
-                val requestList = unsyncedList.map { data ->
-                    Eyeopddocnote(
-                        _id = data._id,
-                        camp_id = data.camp_id,
-                        createdDate = data.createdDate,
-                        opd_eye_diagnosis = data.opd_eye_diagnosis,
-                        opd_eye_diagnosis_description = data.opd_eye_diagnosis_description,
-                        opd_eye_examination = data.opd_eye_examination,
-                        opd_eye_examination_description = data.opd_eye_examination_description,
-                        opd_eye_notes = data.opd_eye_notes,
-                        opd_eye_recommended = data.opd_eye_recommended,
-                        opd_eye_symptoms = data.opd_eye_symptoms,
-                        opd_eye_symptoms_description = data.opd_eye_symptoms_description,
-                        patient_id = data.patient_id,
-                        user_id = data.user_id
-                    )
-                }
-                val request = sendEyeOPDDoctorsNoteData(requestList)
-
-                viewModel.insertEyeOPDDoctorNote(progressDialog, request)
-                viewModel.getEyeOPDDoctorsNoteData.observe(this) { response ->
-                    if (response is ResourceApp.Success && response.data?.ErrorMessage == "Success") {
-                        unsyncedList.forEach {
-                            viewModel1.updateEyeopddocnotes(it._id.toString(), 1)
-                        }
-                    }
-                }
-            } else {
-                Log.d("pawan_sync", "No unsynced records found.")
-            }
-        }
-    }
 
     private fun Clear_Vitals() {
         viewModel1.allVitals.observe(this, Observer { response ->
@@ -3341,7 +3899,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     private fun showToast(message: String) {}
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_READ_EXTERNAL_STORAGE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -3358,6 +3920,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                     Log.e(ConstantsApp.TAG, "Storage permission denied")
                 }
             }
+
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
@@ -3405,13 +3968,16 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         )
                         requestUpdate(appUpdateInfo)
                     }
+
                     UpdateAvailability.UPDATE_NOT_AVAILABLE -> {
                         Log.d(ConstantsApp.TAG, "No updates available")
                     }
+
                     UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS -> {
                         Log.d(ConstantsApp.TAG, "Developer triggered update in progress")
                         onResume()
                     }
+
                     UpdateAvailability.UNKNOWN -> Log.d(ConstantsApp.TAG, "Update status unknown")
                 }
             }.addOnFailureListener { exception ->
@@ -3436,45 +4002,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private fun syncNewVitals() {
-        if (isInternetAvailable(this)) {
-            val data = HashMap<String, Any>()
-            data["patient"] = ""
-            val intent = Intent(this, VitalsFormService::class.java).apply {
-                putExtra("QUERY_PARAMS", data)
-            }
-            startService(intent)
-        } else {
-            Utility.infoToast(this@MainActivity, "Internet Not Available")
-        }
-    }
-
-    private fun syncNewOpdForm() {
-        if (isInternetAvailable(this)) {
-            val data = HashMap<String, Any>()
-            data["patient"] = ""
-            val intent = Intent(this, OpdFormService::class.java).apply {
-                putExtra("QUERY_PARAMS", data)
-            }
-            startService(intent)
-        } else {
-            Utility.infoToast(this@MainActivity, "Internet Not Available")
-        }
-    }
-
-    private fun syncNewVisualAcuity() {
-        if (isInternetAvailable(this)) {
-            val data = HashMap<String, Any>()
-            data["patient"] = ""
-            val intent = Intent(this, VisualAcuityFormService::class.java).apply {
-                putExtra("QUERY_PARAMS", data)
-            }
-            startService(intent)
-        } else {
-            Utility.infoToast(this@MainActivity, "Internet Not Available")
-        }
-    }
-
     private fun reportDialog() {
         val layoutResId = R.layout.reports_dialog
         val alertCustomDialog = layoutInflater.inflate(layoutResId, null)
@@ -3494,8 +4021,10 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
         val tvVitalsReport: TextView = alertCustomDialog.findViewById(R.id.tvVitalsReport)
         val tvOpdReport: TextView = alertCustomDialog.findViewById(R.id.tvOpdReport)
-        val tvVisualAcuityReport: TextView = alertCustomDialog.findViewById(R.id.tvVisualAcuityReport)
-        val tvRefractiveReport: TextView = alertCustomDialog.findViewById(R.id.tvRefractiveErrorReport)
+        val tvVisualAcuityReport: TextView =
+            alertCustomDialog.findViewById(R.id.tvVisualAcuityReport)
+        val tvRefractiveReport: TextView =
+            alertCustomDialog.findViewById(R.id.tvRefractiveErrorReport)
         val tvOtherReport: TextView = alertCustomDialog.findViewById(R.id.tvOtherReports)
 
 
@@ -3550,22 +4079,42 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
         tvVitalsReport.setOnClickListener {
             finalDialog.dismiss()
-            startActivity(Intent(this, PatientReportActivity::class.java).putExtra("report", VITALS_FORM))
+            startActivity(
+                Intent(this, PatientReportActivity::class.java).putExtra(
+                    "report",
+                    VITALS_FORM
+                )
+            )
         }
 
         tvOpdReport.setOnClickListener {
             finalDialog.dismiss()
-            startActivity(Intent(this, PatientReportActivity::class.java).putExtra("report", OPD_FORM))
+            startActivity(
+                Intent(this, PatientReportActivity::class.java).putExtra(
+                    "report",
+                    OPD_FORM
+                )
+            )
         }
 
         tvVisualAcuityReport.setOnClickListener {
             finalDialog.dismiss()
-            startActivity(Intent(this, PatientReportActivity::class.java).putExtra("report", VISUAL_ACUITY_FORM))
+            startActivity(
+                Intent(this, PatientReportActivity::class.java).putExtra(
+                    "report",
+                    VISUAL_ACUITY_FORM
+                )
+            )
         }
 
         tvRefractiveReport.setOnClickListener {
             finalDialog.dismiss()
-            startActivity(Intent(this, PatientReportActivity::class.java).putExtra("report", REFRACTIVE_FORM))
+            startActivity(
+                Intent(this, PatientReportActivity::class.java).putExtra(
+                    "report",
+                    REFRACTIVE_FORM
+                )
+            )
         }
 
         tvOtherReport.setOnClickListener {
@@ -3575,32 +4124,62 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
         tvOpDoctorNotes.setOnClickListener {
             finalDialog.dismiss()
-            startActivity(Intent(this, EntPatientReportActivity::class.java).putExtra("report", ENT_OPD_DOCTOR_NOTES))
+            startActivity(
+                Intent(this, EntPatientReportActivity::class.java).putExtra(
+                    "report",
+                    ENT_OPD_DOCTOR_NOTES
+                )
+            )
         }
 
         tvAudiometry.setOnClickListener {
             finalDialog.dismiss()
-            startActivity(Intent(this, EntPatientReportActivity::class.java).putExtra("report", ENT_AUDIOMETRY))
+            startActivity(
+                Intent(this, EntPatientReportActivity::class.java).putExtra(
+                    "report",
+                    ENT_AUDIOMETRY
+                )
+            )
         }
 
         tvPreOpNotes.setOnClickListener {
             finalDialog.dismiss()
-            startActivity(Intent(this, EntPatientReportActivity::class.java).putExtra("report", ENT_PRE_OP_DETAILS))
+            startActivity(
+                Intent(this, EntPatientReportActivity::class.java).putExtra(
+                    "report",
+                    ENT_PRE_OP_DETAILS
+                )
+            )
         }
 
         tvSurgicalNotes.setOnClickListener {
             finalDialog.dismiss()
-            startActivity(Intent(this, EntPatientReportActivity::class.java).putExtra("report", ENT_SURGICAL_NOTES))
+            startActivity(
+                Intent(this, EntPatientReportActivity::class.java).putExtra(
+                    "report",
+                    ENT_SURGICAL_NOTES
+                )
+            )
         }
 
         tvPostOpDetails.setOnClickListener {
             finalDialog.dismiss()
-            startActivity(Intent(this, EntPatientReportActivity::class.java).putExtra("report", ENT_POST_OP_NOTES))
+            startActivity(
+                Intent(this, EntPatientReportActivity::class.java).putExtra(
+                    "report",
+                    ENT_POST_OP_NOTES
+                )
+            )
         }
 
         pathologyReports.setOnClickListener {
             finalDialog.dismiss()
-            startActivity(Intent(this, EntPatientReportActivity::class.java).putExtra("report", PATHOLOGY_REPORTS))
+            startActivity(
+                Intent(this, EntPatientReportActivity::class.java).putExtra(
+                    "report",
+                    PATHOLOGY_REPORTS
+                )
+            )
         }
 
         finalDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

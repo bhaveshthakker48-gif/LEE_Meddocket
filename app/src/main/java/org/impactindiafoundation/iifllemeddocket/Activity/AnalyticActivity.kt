@@ -136,6 +136,8 @@ class AnalyticActivity : BaseActivity() {
     //Pathology
     private val pathologyViewModel: PathologyViewModel by viewModels()
 
+
+
     var totalEntPatientCount = 0
     var totalGeneralPatientCount = 0
     var totalEyePatientCount = 0
@@ -150,13 +152,19 @@ class AnalyticActivity : BaseActivity() {
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Choose whichever bottom inset is larger (IME or system bars)
+            val bottom = maxOf(systemBarsInsets.bottom, imeInsets.bottom)
+
             view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                bottom
             )
+
             insets
         }
         binding.LinearLayout1.visibility = View.GONE
@@ -396,26 +404,55 @@ class AnalyticActivity : BaseActivity() {
     }
 
     private fun setSynedData(selectedItem: String, selected_date: String) {
-        Log.d(ConstantsApp.TAG, "selected_date in setSynedData=> $selected_date")
-        Log.d(ConstantsApp.TAG, "selectedItem in setSynedData=> $selectedItem")
+        Log.d(ConstantsApp.TAG, "selected_date in setSynedData => $selected_date")
+        Log.d(ConstantsApp.TAG, "selectedItem in setSynedData => $selectedItem")
 
-        viewModel1.allSynData.observe(this, Observer { response ->
-            Log.d(ConstantsApp.TAG, "allSynData data=> $response")
+        // 1️⃣ Initialize adapter before observing LiveData
+        synAdapter = SynAdapter(emptyList(), this)
+        binding.RecyclerViewSyncedData.layoutManager = LinearLayoutManager(this)
+        binding.RecyclerViewSyncedData.adapter = synAdapter
 
-            val filteredRecords = filterRecords(selectedItem, selected_date, response)
+        // 2️⃣ Observe LiveData after adapter is ready
+        entPreOpDetailsViewModel.getAllSyncSummaries().observe(this) { summaries ->
+            if (!summaries.isNullOrEmpty()) {
+                // 🔹 Filter: remove entries with both counts = 0
+                val filteredList = summaries.filter {
+                    !(it.totalSynced == 0 && it.totalUnsynced == 0)
+                }
 
-            Log.d(ConstantsApp.TAG, "filteredRecords=>" + filteredRecords)
-
-            if (filteredRecords.isNotEmpty()) {
-                synAdapter = SynAdapter(filteredRecords, this)
-                binding.RecyclerViewSyncedData.layoutManager = LinearLayoutManager(this)
-                binding.RecyclerViewSyncedData.adapter = synAdapter
-                synAdapter.notifyDataSetChanged() // Force RecyclerView refresh
+                if (filteredList.isNotEmpty()) {
+                    synAdapter.updateData(filteredList)
+                } else {
+                    Log.d(ConstantsApp.TAG, "All summaries have 0 sync & unsync count — nothing to show.")
+                    synAdapter.updateData(emptyList())
+                }
             } else {
-                Log.d(ConstantsApp.TAG, "Filtered records are empty.")
+                Log.d(ConstantsApp.TAG, "No sync summaries found.")
             }
-        })
+        }
     }
+
+//    private fun setSynedData(selectedItem: String, selected_date: String) {
+//        Log.d(ConstantsApp.TAG, "selected_date in setSynedData=> $selected_date")
+//        Log.d(ConstantsApp.TAG, "selectedItem in setSynedData=> $selectedItem")
+
+//        viewModel1.allSynData.observe(this, Observer { response ->
+//            Log.d(ConstantsApp.TAG, "allSynData data=> $response")
+//
+//            val filteredRecords = filterRecords(selectedItem, selected_date, response)
+//
+//            Log.d(ConstantsApp.TAG, "filteredRecords=>" + filteredRecords)
+//
+//            if (filteredRecords.isNotEmpty()) {
+//                synAdapter = SynAdapter(filteredRecords, this)
+//                binding.RecyclerViewSyncedData.layoutManager = LinearLayoutManager(this)
+//                binding.RecyclerViewSyncedData.adapter = synAdapter
+//                synAdapter.notifyDataSetChanged() // Force RecyclerView refresh
+//            } else {
+//                Log.d(ConstantsApp.TAG, "Filtered records are empty.")
+//            }
+//        })
+//    }
 
     private fun GetCountAllLocalTables(selectedItem: String, selected_date: String) {
 

@@ -11,6 +11,8 @@ import org.impactindiafoundation.iifllemeddocket.architecture.apiCall.APIClient
 import org.impactindiafoundation.iifllemeddocket.architecture.database.EntDataBase
 import org.impactindiafoundation.iifllemeddocket.architecture.database.UserDatabase
 import org.impactindiafoundation.iifllemeddocket.architecture.model.PrescriptionPatientReport
+import org.impactindiafoundation.iifllemeddocket.architecture.model.SyncPrescriptionRecordEntity
+import org.impactindiafoundation.iifllemeddocket.architecture.model.SyncSummaryEntity
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entapimodel.EntAudiometryImageResponse
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entapimodel.EntAudiometryItem
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entapimodel.EntAudiometryRequest
@@ -888,4 +890,17 @@ class EntRepository @Inject constructor(
 
     suspend fun getPrescriptionPatientReport() = entDataBase.prescriptionPatientReportDao().getPrescriptionPatientReport()
 
+
+    //SyncSummmary
+    suspend fun insertSyncData(summary: SyncSummaryEntity) {
+        entDataBase.syncSummaryDao().insertSyncSummary(summary)
+    }
+
+    fun getAllSyncSummaries(): LiveData<List<SyncSummaryEntity>> = entDataBase.syncSummaryDao().getAllSyncSummaries()
+
+    val allSyncRecords: LiveData<List<SyncPrescriptionRecordEntity>> = entDataBase.syncPrescriptionRecordDao().getAllSyncRecords()
+
+    suspend fun insertSyncRecord(record: SyncPrescriptionRecordEntity) {
+        entDataBase.syncPrescriptionRecordDao().insertSyncRecord(record)
+    }
 }

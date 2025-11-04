@@ -77,8 +77,8 @@ import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROO
     CreatePrescriptionModel::class,
     ImagePrescriptionModel::class,
     FinalPrescriptionDrug::class
-                     ], version = 4, exportSchema = false)
-@TypeConverters(PrescriptionItemTypeConverter::class) // Add TypeConverter here
+                     ], version = 5, exportSchema = false)
+@TypeConverters(PrescriptionItemTypeConverter::class)
 abstract class LLE_MedDocket_Room_Database : RoomDatabase() {
 
     abstract fun Vital_DAO(): Vital_DAO
@@ -114,49 +114,18 @@ abstract class LLE_MedDocket_Room_Database : RoomDatabase() {
 
         private val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                // Migration logic from version 1 to 2
-                // Update the schema as needed
-
-
-
                 database.execSQL("ALTER TABLE CreatePrescriptionModel ADD COLUMN device_id TEXT")
                 database.execSQL("ALTER TABLE CreatePrescriptionModel ADD COLUMN device_name TEXT")
                 database.execSQL("ALTER TABLE CreatePrescriptionModel ADD COLUMN patient_name TEXT DEFAULT NULL")
-
-
-
-
             }
         }
 
-      /*  private val MIGRATION_3_4 = object : Migration(3, 4) {
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                // Migration logic from version 1 to 2
-                // Update the schema as needed
-
-
-
-
-
+                // Add the new column to existing table
+                database.execSQL("ALTER TABLE CreatePrescriptionModel ADD COLUMN doctor_specialty TEXT DEFAULT ''")
             }
-        }*/
-     /*   private val MIGRATION_2_3 = object : Migration(2, 3) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                // Migration logic from version 1 to 2
-                // Update the schema as needed
-
-
-
-                database.execSQL("ALTER TABLE CreatePrescriptionModel ADD COLUMN device_name TEXT")
-
-            }
-        }*/
-
-
-
-
-
-
+        }
 
         fun getDatabase(context: Context): LLE_MedDocket_Room_Database {
             return database ?: synchronized(this) {
@@ -167,15 +136,14 @@ abstract class LLE_MedDocket_Room_Database : RoomDatabase() {
         private fun buildDatabase(context: Context): LLE_MedDocket_Room_Database {
             return Room.databaseBuilder(
                 context.applicationContext,
-                LLE_MedDocket_Room_Database::class.java, "LLE_MedDocket_Room_Database"
-            ).addMigrations(MIGRATION_1_2).fallbackToDestructiveMigration()
+                LLE_MedDocket_Room_Database::class.java,
+                "LLE_MedDocket_Room_Database"
+            )
+                .addMigrations(MIGRATION_1_2, MIGRATION_4_5)
                 .build()
         }
-
-
     }
 
-    // Add a suspend function to perform database operations on a background thread
     suspend fun performDatabaseOperation(operation: suspend () -> Unit) {
         withContext(Dispatchers.IO) {
             operation()
@@ -186,23 +154,6 @@ abstract class LLE_MedDocket_Room_Database : RoomDatabase() {
         return withContext(Dispatchers.IO) {
             block()
         }
-    }
-
-
-    suspend fun <T> performDatabaseOperation5(databaseOperation: () -> LiveData<T>): LiveData<T> {
-        return withContext(Dispatchers.IO) {
-            databaseOperation.invoke()
-        }
-    }
-
-    suspend fun <T> performDatabaseOperation1(block: suspend () -> T): T {
-        return withContext(Dispatchers.IO) {
-            block.invoke()
-        }
-    }
-
-    suspend fun <T> performDatabaseOperation2(operation: suspend () -> T): T {
-        return operation()
     }
 
     suspend fun <T> performDatabaseOperation3(
@@ -222,7 +173,5 @@ abstract class LLE_MedDocket_Room_Database : RoomDatabase() {
             databaseOperation.invoke()
         }
     }
-
-
 }
 

@@ -20,7 +20,7 @@
         tools:visibility="visible"
         android:visibility="gone"
         android:orientation="horizontal"
-        android:weightSum="3"
+        android:weightSum="4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_medicine_report">
@@ -61,6 +61,19 @@
             android:background="@drawable/textview_background"
             android:padding="@dimen/_2sdp"
             android:text="Synced"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/tvUNSyncedCount"
+            style="@style/textView_bold_5ssp"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_margin="@dimen/_1sdp"
+            android:layout_weight="1"
+            android:background="@drawable/textview_background"
+            android:padding="@dimen/_2sdp"
+            android:text="Unsynced"
             android:textAlignment="center"
             android:textColor="@color/white" />
 

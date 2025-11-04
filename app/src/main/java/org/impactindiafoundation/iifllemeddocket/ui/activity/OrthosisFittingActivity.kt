@@ -63,17 +63,13 @@ class OrthosisFittingActivity : BaseActivity() {
 
     private lateinit var binding: ActivityOrthosisFittingBinding
     private val orthosisFittingVM: OrthosisFittingViewModel by viewModels()
-    private val orthosisFittingFormList = ArrayList<OrthosisPatientData>()
     private lateinit var orthosisFittingAdapter: OrthosisFittingFormAdapter
     lateinit var sessionManager: SessionManager
-
     private var fittingList = ArrayList<OrthosisPatientData>()
     private var isStatusGiven = false
     private var screen = ""
-
     private var imageList = ArrayList<FormImages>()
     private var videoList = ArrayList<FormVideos>()
-
     private lateinit var imageAdapter: ImageAdapter
     private var campPatientData: CampPatientDataItem? = null
     private var formPatientData: OrthosisPatientForm? = null
@@ -86,7 +82,6 @@ class OrthosisFittingActivity : BaseActivity() {
     private var canEdit = true
     private var diagnosisList = ArrayList<DiagnosisType>()
     private var isSelectedOtherDiagnosis = false
-
     private var selectedDiagnosis: DiagnosisType? = null
     private var selectedEquipment: Equipment? = null
     private var tempId = 0
@@ -97,44 +92,33 @@ class OrthosisFittingActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityOrthosisFittingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply padding to the activity content (this handles all root layouts properly)
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val bottom = maxOf(systemBarsInsets.bottom, imeInsets.bottom)
             view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                bottom
             )
-
             insets
         }
-
         sessionManager = SessionManager(this)
-
-
         initUi()
         setUpImagesRecyclerView()
         setUpFittingFormRecyclerView(true)
         orthosisFittingVM.getDiagnosisMasterLocal()
         initObserver()
-        //for commit once again
-
-
     }
 
     val formImageLauncher = object : ResultImage {
-
         override val result: ActivityResultLauncher<Intent> = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result: ActivityResult ->
@@ -159,7 +143,6 @@ class OrthosisFittingActivity : BaseActivity() {
                     else{
                         Utility.warningToast(this@OrthosisFittingActivity, "Only 4 images are allowed!")
                     }
-
                 }
                 val formImage = FormImages(
                     formId = 0,
@@ -170,7 +153,6 @@ class OrthosisFittingActivity : BaseActivity() {
                 isFormImageLocal = false
                 imageList.add(formImage)
                 imageAdapter.notifyDataSetChanged()
-
             }
         }
     }
@@ -182,8 +164,17 @@ class OrthosisFittingActivity : BaseActivity() {
         canEdit = intent.getBooleanExtra("edit", true)
 
         if (!intent.getStringExtra("temp_id").isNullOrEmpty()) {
-            tempId = intent.getStringExtra("temp_id").toString().toInt()
+            val tempIdString = intent.getStringExtra("temp_id")
+            Log.d("Sultan", "Received temp_id from intent: $tempIdString")
+            try {
+                tempId = tempIdString!!.toInt()
+                Log.d("Sultan", "Parsed tempId successfully: $tempId")
+            } catch (e: NumberFormatException) {
+                Log.e("Sultan", "Failed to parse temp_id: ${e.message}", e)
+                tempId = 0
+            }
         } else {
+            Log.w("Sultan", "No temp_id found in intent, setting tempId = 0")
             tempId = 0
         }
         if (screen == "Camp_List" || screen == SCREEN_QR) {
@@ -193,23 +184,24 @@ class OrthosisFittingActivity : BaseActivity() {
                     orthosisFittingVM.getCampPatientListById(tempId?.toInt() ?: 0)
                 }
                 else{
-                    //call from local patient form
                     orthosisFittingVM.getOrthosisPatientFormById(formId)
                 }
-
             } else {
-                //else call from camp patient detail
                 orthosisFittingVM.getCampPatientListById(tempId?.toInt() ?: 0)
             }
         } else {
             if (screen == "PatientID") {
+                Log.d("Sultan", "Screen type: PatientID")
                 if (tempId != 0) {
-                    orthosisFittingVM.getCampPatientListById(tempId?.toInt() ?: 0)
+                    Log.d("Sultan", "Fetching patient data by tempId=$tempId using ViewModel")
+                    orthosisFittingVM.getCampPatientListById(tempId)
+                } else {
+                    Log.w("Sultan", "tempId is 0, skipping patient data fetch for PatientID")
                 }
-            } else{
+            } else {
+                Log.d("Sultan", "Screen type: $screen -> Calling getPatientData()")
                 getPatientData()
             }
-
         }
         binding.orthosisToolBar.toolbar.title = "Fitting"
 
@@ -243,7 +235,6 @@ class OrthosisFittingActivity : BaseActivity() {
                         )
                         dialog.show(supportFragmentManager, "ImagePickerDialog")
                     }
-
                 }
             } else {
                 Utility.warningToast(this@OrthosisFittingActivity, "Cannot Edit Data")
@@ -251,7 +242,6 @@ class OrthosisFittingActivity : BaseActivity() {
         }
 
         binding.tvVideos.setOnClickListener {
-            //  dispatchTakeVideoIntent()
             val intent = Intent(this@OrthosisFittingActivity, VideoRecordActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE)
         }
@@ -263,134 +253,165 @@ class OrthosisFittingActivity : BaseActivity() {
         }
 
         binding.etDiagnosisType.setOnClickListener {
-
             inflateDiagnosisBottomSheet()
         }
 
         val diagnosisTypeHint = this@OrthosisFittingActivity.getString(R.string.txt_diagnosis_type)
         setAsteriskColor(binding.etlDiagnosisType, diagnosisTypeHint)
 
-        val enterDiagnosisHint =
-            this@OrthosisFittingActivity.getString(R.string.txt_enter_diagnosis_type)
+        val enterDiagnosisHint = this@OrthosisFittingActivity.getString(R.string.txt_enter_diagnosis_type)
         setAsteriskColor(binding.etlOtherDiagnosis, enterDiagnosisHint)
 
-        val prescribedStatusHint =
-            this@OrthosisFittingActivity.getString(R.string.txt_prescribed_status)
+        val prescribedStatusHint = this@OrthosisFittingActivity.getString(R.string.txt_prescribed_status)
         setAsteriskColor(binding.etlPrescribedStatus, prescribedStatusHint)
-
     }
 
     private fun initObserver() {
         orthosisFittingVM.campPatientListById.observe(this) {
             when (it.status) {
                 Status.LOADING -> {
+                    Log.d("sahil", "🕐 Loading campPatientListById data...")
                     progress.show()
                 }
 
                 Status.SUCCESS -> {
                     progress.dismiss()
+                    Log.d("sahil", "✅ campPatientListById fetch success")
+
                     try {
                         if (!it.data.isNullOrEmpty()) {
                             val patientData = it.data[0]
-                            campPatientData = it.data[0]
+                            campPatientData = patientData
                             campId = patientData.camp_id.toInt()
+
+                            Log.d("sahil", """
+                        Patient Data Loaded:
+                        - Camp ID: $campId
+                        - Patient Temp ID: ${patientData.temp_patient_id}
+                        - Name: ${patientData.patient_name}
+                        - Gender: ${patientData.patient_gender}
+                        - Age: ${patientData.patient_age_years}
+                        - Edited: ${patientData.isEdited}
+                        - Equipment Category: ${patientData.equipment_category}
+                        - Equipment Status: ${patientData.equipment_status}
+                    """.trimIndent())
+
+                            // 🟠 Case: Already edited form
                             if (patientData.isEdited) {
+                                Log.d("sahil", "🟠 Patient form already edited → fetching Orthosis form by tempId: $tempPatientId")
                                 orthosisFittingVM.getOrthosisPatientFormByTempId(tempPatientId)
-                            } else {
+                            }
+                            // 🟢 Case: New or unedited form
+                            else {
+                                Log.d("sahil", "🟢 New or unedited form detected (screen = $screen)")
+
                                 if (screen == "Camp_List") {
+                                    Log.d("sahil", "🔒 Read-only mode (Camp_List): disabling inputs and hiding actions")
                                     binding.llBottomOptions.visibility = View.GONE
                                     binding.llImages.visibility = View.GONE
                                     binding.llVideos.visibility = View.GONE
 
                                     binding.etPatientHeight.isEnabled = false
+                                    binding.etPatientWeight.isEnabled = false
+                                    Log.d("sahil", "etPatientHeight.isEnabled=${binding.etPatientHeight.isEnabled}")
+                                    Log.d("sahil", "etPatientWeight.isEnabled=${binding.etPatientWeight.isEnabled}")
+                                    binding.etDiagnosisType.isEnabled = false
+                                    binding.etPrescribed.isEnabled = false
+                                    binding.etPrescribedStatus.isEnabled = false
+                                    binding.etOtherDiagnosis.isEnabled = false
+                                } else {
+                                    Log.d("sahil", "📝 Editable mode enabled for patient")
                                     binding.etPatientHeight.isEnabled = false
+                                    binding.etPatientWeight.isEnabled = false
+                                    Log.d("sahil", "etPatientHeight.isEnabled=${binding.etPatientHeight.isEnabled}")
+                                    Log.d("sahil", "etPatientWeight.isEnabled=${binding.etPatientWeight.isEnabled}")
                                     binding.etDiagnosisType.isEnabled = false
                                     binding.etPrescribed.isEnabled = false
                                     binding.etPrescribedStatus.isEnabled = false
                                     binding.etOtherDiagnosis.isEnabled = false
 
-                                } else {
-
-                                    binding.etPatientHeight.isEnabled = true
-                                    binding.etPatientHeight.isEnabled = true
-                                    binding.etDiagnosisType.isEnabled = true
-                                    binding.etPrescribed.isEnabled = true
-                                    binding.etPrescribedStatus.isEnabled = true
-                                    binding.etOtherDiagnosis.isEnabled = true
-
                                     binding.llImages.visibility = View.GONE
                                     binding.llVideos.visibility = View.GONE
                                     binding.llBottomOptions.visibility = View.VISIBLE
                                 }
-                                fittingList.clear()
 
-                                binding.tvPatientDetails.text =
-                                    "Patient Details - ${patientData.temp_patient_id}"
+                                // 🧩 Clear and prepare fitting data
+                                fittingList.clear()
+                                Log.d("sahil", "🧩 Cleared fittingList and setting up UI fields")
+
+                                binding.tvPatientDetails.text = "Patient Details - ${patientData.temp_patient_id}"
                                 binding.tvCampDetails.text = "Camp : ${patientData.camp_name}"
                                 binding.tvPatientName.text = "Name : ${patientData.patient_name}"
-                                binding.tvPatientGender.text =
-                                    "Gender : ${patientData.patient_gender}"
+                                binding.tvPatientGender.text = "Gender : ${patientData.patient_gender}"
                                 binding.tvPatientAge.text = "Age : ${patientData.patient_age_years}"
                                 binding.etPatientHeight.setText(patientData.patient_height_cm)
                                 binding.etPatientWeight.setText(patientData.patient_weight_kg)
 
-
                                 binding.etDiagnosisType.setText(patientData.diagnosis)
                                 binding.etlOtherDiagnosis.visibility = View.GONE
+
+                                // 🧠 Equipment category logging
                                 if (!patientData.equipment_category.isNullOrEmpty()) {
                                     binding.etlPrescribed.visibility = View.VISIBLE
                                     binding.etPrescribed.setText(patientData.equipment_category)
+                                    Log.d("sahil", "🧠 Equipment Category set: ${patientData.equipment_category}")
                                 } else {
                                     binding.etlPrescribed.visibility = View.GONE
-
+                                    Log.d("sahil", "⚪ No Equipment Category found")
                                 }
 
+                                // 📋 Equipment status logging
                                 if (!patientData.equipment_status.isNullOrEmpty()) {
                                     binding.etPrescribedStatus.setText(patientData.equipment_status)
+                                    Log.d("sahil", "📋 Equipment Status set: ${patientData.equipment_status}")
                                 } else {
                                     binding.etlPrescribedStatus.visibility = View.GONE
-
+                                    Log.d("sahil", "⚪ No Equipment Status found")
                                 }
+
+                                // ➕ Load orthosis types
+                                Log.d("sahil", "🦵 Adding orthosis types (${patientData.patientOrthosisTypes.size} total)")
                                 for (i in patientData.patientOrthosisTypes) {
+                                    Log.d("sahil", "   ➕ Orthosis type added: ${i.orthosis}")
                                     fittingList.add(i)
                                 }
 
+                                // 📄 Setup RecyclerView
                                 if (screen == "Camp_List") {
+                                    Log.d("sahil", "📄 Setting up RecyclerView (Read-Only) with ${fittingList.size} items")
                                     setUpFittingFormRecyclerView(false)
-
                                 } else {
+                                    Log.d("sahil", "🧾 Setting up RecyclerView (Editable) with ${fittingList.size} items")
                                     setUpFittingFormRecyclerView(true)
-
                                 }
                             }
+                        }
+                        // ⚠️ Case: Empty data
+                        else {
+                            Log.d("sahil", "⚠️ No patient data found in response")
 
-                        } else {
                             if (screen == "PatientID") {
+                                Log.d("sahil", "🔁 Fetching orthosis patient form by tempId: $tempId")
                                 orthosisFittingVM.getOrthosisPatientFormByTempId(tempId)
-
                             }
+
                             if (screen == SCREEN_QR) {
-                                val intent =
-                                    Intent(
-                                        this@OrthosisFittingActivity,
-                                        OrthosisActivity::class.java
-                                    )
+                                Log.d("sahil", "🔀 Redirecting to OrthosisActivity (QR Scan Flow)")
+                                val intent = Intent(this@OrthosisFittingActivity, OrthosisActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }
                         }
-
-
                     } catch (e: Exception) {
+                        Log.e("sahil", "❌ Exception during campPatientListById processing: ${e.message}", e)
                         Utility.errorToast(this@OrthosisFittingActivity, e.message.toString())
                     }
                 }
 
                 Status.ERROR -> {
                     progress.dismiss()
-
+                    Log.e("sahil", "🚨 Error fetching campPatientListById: ${it.message}")
                     Utility.errorToast(this@OrthosisFittingActivity, "Unexpected error")
-
                 }
             }
         }
@@ -450,13 +471,10 @@ class OrthosisFittingActivity : BaseActivity() {
                             orthosisFittingVM.getFormVideos(patientData.id)
                             if (patientData.isEdited) {
                                 fittingList.clear()
-                                // campPatientData = it.data[0]
-                                binding.tvPatientDetails.text =
-                                    "Patient Details - ${patientData.tempPatientId}"
+                                binding.tvPatientDetails.text = "Patient Details - ${patientData.tempPatientId}"
                                 binding.tvCampDetails.text = "Camp : ${patientData.location}"
                                 binding.tvPatientName.text = "Name : ${patientData.patientName}"
-                                binding.tvPatientGender.text =
-                                    "Gender : ${patientData.patientGender}"
+                                binding.tvPatientGender.text = "Gender : ${patientData.patientGender}"
                                 binding.tvPatientAge.text = "Age : ${patientData.patientAge}"
                                 binding.etPatientHeight.setText(patientData.patientHeightCm)
                                 binding.etPatientWeight.setText(patientData.patientWeightKg)
@@ -465,24 +483,15 @@ class OrthosisFittingActivity : BaseActivity() {
                                 }
                                 orthosisFittingAdapter.notifyDataSetChanged()
                             } else {
-                                val intent =
-                                    Intent(
-                                        this@OrthosisFittingActivity,
-                                        OrthosisActivity::class.java
-                                    )
+                                val intent = Intent(this@OrthosisFittingActivity, OrthosisActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }
-
                         } else {
                             if (screen == "PatientID") {
                                 orthosisFittingVM.getCampPatientListById(tempId?.toInt() ?: 0)
                             } else {
-                                val intent =
-                                    Intent(
-                                        this@OrthosisFittingActivity,
-                                        OrthosisActivity::class.java
-                                    )
+                                val intent = Intent(this@OrthosisFittingActivity, OrthosisActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }
@@ -498,81 +507,99 @@ class OrthosisFittingActivity : BaseActivity() {
                 }
             }
         }
+
         orthosisFittingVM.orthosisPatientFormListByTempId.observe(this) {
+            Log.d("Sultan", "Observer triggered for orthosisPatientFormListByTempId, status=${it.status}")
+
             when (it.status) {
                 Status.LOADING -> {
+                    Log.d("Sultan", "Status: LOADING -> Showing progress dialog")
                     progress.show()
                 }
 
                 Status.SUCCESS -> {
+                    Log.d("Sultan", "Status: SUCCESS -> Dismissing progress dialog")
                     progress.dismiss()
+
                     try {
                         if (!it.data.isNullOrEmpty()) {
+                            Log.d("Sultan", "Received ${it.data.size} patient records")
+
                             val patientData = it.data[0]
+                            Log.d("Sultan", "Processing patientData: tempId=${patientData.tempPatientId}, isEdited=${patientData.isEdited}")
+
                             if (patientData.isEdited) {
+                                Log.d("Sultan", "Patient data is edited, populating UI fields")
                                 fittingList.clear()
-                                // campPatientData = it.data[0]
-                                binding.tvPatientDetails.text =
-                                    "Patient Details - ${patientData.tempPatientId}"
+
+                                binding.tvPatientDetails.text = "Patient Details - ${patientData.tempPatientId}"
                                 binding.tvCampDetails.text = "Camp : ${patientData.location}"
                                 binding.tvPatientName.text = "Name : ${patientData.patientName}"
-                                binding.tvPatientGender.text =
-                                    "Gender : ${patientData.patientGender}"
+                                binding.tvPatientGender.text = "Gender : ${patientData.patientGender}"
                                 binding.tvPatientAge.text = "Age : ${patientData.patientAge}"
                                 binding.etPatientHeight.setText(patientData.patientHeightCm)
                                 binding.etPatientWeight.setText(patientData.patientWeightKg)
                                 binding.etDiagnosisType.setText(patientData.diagnosis)
                                 binding.etlOtherDiagnosis.visibility = View.GONE
+
                                 if (!patientData.equipmentCategory.isNullOrEmpty()) {
+                                    Log.d("Sultan", "Equipment Category found: ${patientData.equipmentCategory}")
                                     binding.etPrescribed.setText(patientData.equipmentCategory)
                                 } else {
+                                    Log.w("Sultan", "Equipment Category is null or empty, showing prescribed field")
                                     binding.etlPrescribed.visibility = View.VISIBLE
                                 }
+
                                 if (!patientData.equipmentStatus.isNullOrEmpty()) {
+                                    Log.d("Sultan", "Equipment Status found: ${patientData.equipmentStatus}")
                                     binding.etPrescribedStatus.setText(patientData.equipmentStatus)
                                 } else {
+                                    Log.w("Sultan", "Equipment Status is null or empty, showing prescribed status field")
                                     binding.etlPrescribedStatus.visibility = View.VISIBLE
                                 }
+
                                 for (i in patientData.orthosisList) {
+                                    Log.d("Sultan", "Adding orthosis item to fittingList: $i")
                                     fittingList.add(i)
                                 }
+
                                 if (screen == "Camp_List") {
+                                    Log.d("Sultan", "Screen: Camp_List -> Setting up non-editable fitting form recycler")
                                     setUpFittingFormRecyclerView(false)
-
                                 } else {
+                                    Log.d("Sultan", "Screen: $screen -> Setting up editable fitting form recycler")
                                     setUpFittingFormRecyclerView(true)
-
                                 }
+
                             } else {
-                                val intent =
-                                    Intent(
-                                        this@OrthosisFittingActivity,
-                                        OrthosisActivity::class.java
-                                    )
+                                Log.d("Sultan", "Patient data not edited -> Redirecting to OrthosisActivity with local_patient_id=${patientData.id}")
+                                val intent = Intent(this@OrthosisFittingActivity, OrthosisActivity::class.java)
                                 intent.putExtra("local_patient_id", patientData.id.toString())
                                 startActivity(intent)
                                 finish()
                             }
+
                         } else {
+                            Log.w("Sultan", "No patient data found in response")
                             if (screen == "PatientID") {
+                                Log.w("Sultan", "Screen is PatientID -> Showing toast and navigating back")
                                 Utility.infoToast(this@OrthosisFittingActivity, "No Data Found")
                                 onBackPressed()
                             } else {
-                                val intent =
-                                    Intent(
-                                        this@OrthosisFittingActivity,
-                                        OrthosisActivity::class.java
-                                    )
+                                Log.d("Sultan", "Screen is $screen -> Redirecting to OrthosisActivity")
+                                val intent = Intent(this@OrthosisFittingActivity, OrthosisActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }
                         }
                     } catch (e: Exception) {
+                        Log.e("Sultan", "Exception while processing patient data: ${e.message}", e)
                         Utility.errorToast(this@OrthosisFittingActivity, e.message.toString())
                     }
                 }
 
                 Status.ERROR -> {
+                    Log.e("Sultan", "Status: ERROR -> Dismissing progress and showing error toast")
                     progress.dismiss()
                     Utility.errorToast(this@OrthosisFittingActivity, "Unexpected error")
                 }

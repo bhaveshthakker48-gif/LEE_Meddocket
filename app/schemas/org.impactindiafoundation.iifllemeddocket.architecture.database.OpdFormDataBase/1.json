@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "51291691aea82f181ee33258ae39f73d",
+    "identityHash": "30f2bb6cb77133b29ab69578a4a7465b",
     "entities": [
       {
         "tableName": "PatientMedicine",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `isSyn` INTEGER NOT NULL, `camp_id` TEXT, `created_by` TEXT NOT NULL, `department` TEXT NOT NULL, `doctor_name` TEXT NOT NULL, `doctor_specialty` TEXT NOT NULL, `patient_name` TEXT NOT NULL, `patient_temp_id` TEXT NOT NULL, `createdDate` TEXT NOT NULL, `prescriptionItems` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `isSyn` INTEGER NOT NULL, `camp_id` TEXT, `created_by` TEXT NOT NULL, `department` TEXT NOT NULL, `doctor_name` TEXT NOT NULL, `doctor_specialty` TEXT NOT NULL, `patient_name` TEXT NOT NULL, `patient_geneder` TEXT NOT NULL, `patient_temp_id` TEXT NOT NULL, `createdDate` TEXT NOT NULL, `prescriptionItems` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "_id",
@@ -53,6 +53,12 @@
           {
             "fieldPath": "patient_name",
             "columnName": "patient_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patient_geneder",
+            "columnName": "patient_geneder",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -120,7 +126,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '51291691aea82f181ee33258ae39f73d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '30f2bb6cb77133b29ab69578a4a7465b')"
     ]
   }
 }

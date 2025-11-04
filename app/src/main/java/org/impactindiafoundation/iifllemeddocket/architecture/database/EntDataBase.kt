@@ -7,6 +7,8 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import org.impactindiafoundation.iifllemeddocket.architecture.dao.PrescriptionPatientReportDao
+import org.impactindiafoundation.iifllemeddocket.architecture.dao.SyncPrescriptionRecordDao
+import org.impactindiafoundation.iifllemeddocket.architecture.dao.SyncSummaryDao
 import org.impactindiafoundation.iifllemeddocket.architecture.dao.entdao.AudiometryDao
 import org.impactindiafoundation.iifllemeddocket.architecture.dao.entdao.AudiometryImageDao
 import org.impactindiafoundation.iifllemeddocket.architecture.dao.entdao.DoctorNoteInvestigationDao
@@ -21,6 +23,8 @@ import org.impactindiafoundation.iifllemeddocket.architecture.dao.pathologydao.P
 import org.impactindiafoundation.iifllemeddocket.architecture.dao.pathologydao.PathologyImageDao
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants
 import org.impactindiafoundation.iifllemeddocket.architecture.model.PrescriptionPatientReport
+import org.impactindiafoundation.iifllemeddocket.architecture.model.SyncPrescriptionRecordEntity
+import org.impactindiafoundation.iifllemeddocket.architecture.model.SyncSummaryEntity
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasemodel.AudiometryEntity
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasemodel.AudiometryImageEntity
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasemodel.DoctorNoteInvestigationEntity
@@ -34,7 +38,7 @@ import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasem
 import org.impactindiafoundation.iifllemeddocket.architecture.model.pathalogydatabasemodel.PathologyImageEntity
 import org.impactindiafoundation.iifllemeddocket.architecture.model.pathalogydatabasemodel.PathologyEntity
 
-@Database(entities = [EntSymptomsEntity::class, EntImpressionEntity::class, DoctorNoteInvestigationEntity::class, EntPreOpDetailsEntity::class, SurgicalNotesEntity::class, EntPostOpNotesEntity::class, AudiometryEntity::class, AudiometryImageEntity::class, EntPatientReport::class, PathologyEntity::class, PathologyImageEntity::class, PreOpImageEntity::class, PrescriptionPatientReport::class], version = 3)
+@Database(entities = [EntSymptomsEntity::class, EntImpressionEntity::class, DoctorNoteInvestigationEntity::class, EntPreOpDetailsEntity::class, SurgicalNotesEntity::class, EntPostOpNotesEntity::class, AudiometryEntity::class, AudiometryImageEntity::class, EntPatientReport::class, PathologyEntity::class, PathologyImageEntity::class, PreOpImageEntity::class, PrescriptionPatientReport::class, SyncSummaryEntity::class, SyncPrescriptionRecordEntity::class], version = 5)
 abstract class EntDataBase : RoomDatabase() {
     abstract fun entSymptomsDao(): EntSymptomDao
     abstract fun entImpressionListDao(): EntImpressionListDao
@@ -49,6 +53,8 @@ abstract class EntDataBase : RoomDatabase() {
     abstract fun pathologyImageDao(): PathologyImageDao
     abstract fun pathology(): PathalogyDao
     abstract fun prescriptionPatientReportDao(): PrescriptionPatientReportDao
+    abstract fun syncSummaryDao(): SyncSummaryDao
+    abstract fun syncPrescriptionRecordDao (): SyncPrescriptionRecordDao
 
 
     companion object {
@@ -91,7 +97,40 @@ abstract class EntDataBase : RoomDatabase() {
             }
         }
 
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    """
+            CREATE TABLE IF NOT EXISTS `sync_summary_table` (
+                `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                `totalSynced` INTEGER NOT NULL,
+                `totalUnsynced` INTEGER NOT NULL,
+                `dateTime` TEXT NOT NULL,
+                `formType` TEXT NOT NULL
+            )
+            """.trimIndent()
+                )
+            }
+        }
 
-        val migrations = arrayOf(MIGRATION_1_2)
+        val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS `sync_prescription_record_table` (
+                        `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                        `date` TEXT NOT NULL,
+                        `time` TEXT NOT NULL,
+                        `syncCount` INTEGER NOT NULL,
+                        `unsyncCount` INTEGER NOT NULL,
+                        `formType` TEXT NOT NULL
+                    )
+                    """.trimIndent()
+                )
+            }
+        }
+
+        // 🧱 Register all migrations
+        val migrations = arrayOf(MIGRATION_1_2, MIGRATION_3_4, MIGRATION_4_5)
     }
 }

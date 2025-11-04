@@ -56,17 +56,10 @@ class OrthosisFormAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
-//            this@OrthosisFormAdapter.binding = binding
             val content = data[position]
-
-//            setUpMeasurementRecyclerview(binding, content.patientOrthosisMeasurements, position)
-//            setUpOrthosisImageRecyclerview(binding, content.orthosisImageList, position,0)
             hideAllKeypad(binding)
-
             binding.apply {
-
                 setColorForAllEditText(binding)
-
                 if (!content.patientOrthosisMeasurements.isNullOrEmpty()) {
                     if (content.orthosis.name == "Other") {
                         setUpOtherMeasurementRecyclerView(
@@ -91,12 +84,7 @@ class OrthosisFormAdapter(
                     binding!!.etlAmputationSide.visibility = View.VISIBLE
                     binding!!.etlAmputationLevel.visibility = View.VISIBLE
                     binding!!.etlAmputationCause.visibility = View.VISIBLE
-
-                }
-//                else if (!content.amputationDate.isNullOrEmpty())
-                else
-                {
-
+                } else {
                     etlAmputationDate.visibility = View.GONE
                     etlAmputationSide.visibility = View.GONE
                     etlAmputationLevel.visibility = View.GONE
@@ -106,11 +94,9 @@ class OrthosisFormAdapter(
                     etAmputationSide.setText("")
                     etAmputationLevel.setText("")
                     etAmputationCause.setText("")
-
                     if (!content.amputationDate.isNullOrEmpty()) {
                         binding.etlAmputationDate.visibility = View.VISIBLE
                         binding.etAmputationDate.setText(convertDateFormatFromData(content.amputationDate))
-
                     }
 
                     if (!content.amputationSide.isNullOrEmpty()) {
@@ -125,60 +111,34 @@ class OrthosisFormAdapter(
                         binding.etAmputationLevel.setText(content.amputationLevel)
                     } else {
                         binding.etlAmputationLevel.visibility = View.GONE
-
                     }
-
 
                     if (!content.amputationCause.isNullOrEmpty()) {
                         binding.etlAmputationCause.visibility = View.VISIBLE
                         binding.etAmputationCause.setText(content.amputationCause)
                     } else {
                         binding.etlAmputationCause.visibility = View.GONE
-
                     }
 
                     if (!content.fit_properly.isNullOrEmpty()) {
                         binding.etlFittingStatus.visibility = View.VISIBLE
-
                         binding.etFittingStatus.setText(content.fit_properly)
-
                     } else {
                         binding.etlFittingStatus.visibility = View.GONE
-
                     }
+
                     if (!content.fit_properly_reason.isNullOrEmpty()) {
                         binding.etlFittingFeedback.visibility = View.VISIBLE
                         binding.etFittingFeedback.setText(content.fit_properly_reason)
-
                     } else {
                         binding.etlFittingFeedback.visibility = View.GONE
-
                     }
-
                 }
-//                else {
-//                    etlAmputationDate.visibility = View.GONE
-//                    etlAmputationSide.visibility = View.GONE
-//                    etlAmputationLevel.visibility = View.GONE
-//                    etlAmputationCause.visibility = View.GONE
-//
-//                    etAmputationDate.setText("")
-//                    etAmputationSide.setText("")
-//                    etAmputationLevel.setText("")
-//                    etAmputationCause.setText("")
-//                }
-//                setUpMeasurementRecyclerview(binding, content.patientOrthosisMeasurements, position)
-//               setUpOrthosisImageRecyclerview(binding, content.orthosisImageList, position, content.orthoFormId)
-
-                val orthoImageList =
-                    content.orthosisImageList.filter { it.orthosisFormId == content.orthoFormId }
+                val orthoImageList = content.orthosisImageList.filter { it.orthosisFormId == content.orthoFormId }
 
                 if (!orthoImageList.isNullOrEmpty()) {
                     binding.llOrthosisImages.visibility = View.VISIBLE
-
-
                     if (orthoImageList.size >= 1) {
-
                         if (!orthoImageList[0].images.isNullOrEmpty()) {
                             binding.clOrthoImage1.visibility = View.VISIBLE
                             Glide.with(context)
@@ -192,7 +152,6 @@ class OrthosisFormAdapter(
                     } else {
                         binding.clOrthoImage1.visibility = View.GONE
                     }
-
 
                     if (orthoImageList.size >= 2) {
                         if (!orthoImageList[1].images.isNullOrEmpty()) {
@@ -212,7 +171,6 @@ class OrthosisFormAdapter(
                         binding.cvOrthoImage2.visibility = View.GONE
                     }
 
-
                     if (orthoImageList.size >= 3) {
                         if (!orthoImageList[2].images.isNullOrEmpty()) {
                             binding.clOrthoImage3.visibility = View.VISIBLE
@@ -228,7 +186,6 @@ class OrthosisFormAdapter(
                         binding.clOrthoImage3.visibility = View.GONE
                     }
 
-
                     if (orthoImageList.size == 4) {
                         if (!orthoImageList[3].images.isNullOrEmpty()) {
                             binding.clOrthoImage4.visibility = View.VISIBLE
@@ -243,7 +200,6 @@ class OrthosisFormAdapter(
                     } else {
                         binding.clOrthoImage4.visibility = View.GONE
                     }
-
 
                     binding.ivOrthoRemove1.setOnClickListener {
                         event.onOrthosisImageRemove(position, 0, orthoImageList[0].images)
@@ -273,31 +229,22 @@ class OrthosisFormAdapter(
                     binding.etlOtherOrthosis.visibility = View.GONE
                     binding.etOrthosisType.setText(content.orthosis.name)
                     binding.etOtherOrthosis.setText("")
-
                 }
+
                 binding.etOrthosisStatus.setText(content.status)
                 binding.etExaminationDate.setText(getCurrentDate())
 
-
-
-
                 binding.tvOrthosisType.setOnClickListener {
                     var isArrowDown = binding.llOrthosisDetails.isVisible
-                    //for up arrow logic for degree's for rotation
                     val fromDegree = if (isArrowDown) 0f else 180f
                     val toDegree = if (isArrowDown) 180f else 360f
-
-                    //for down arrow logic for degree's for rotation
-//                    val fromDegree = if (isArrowDown) 180f else 0f
-//                    val toDegree = if (isArrowDown) 360f else 180f
-
                     val rotateAnimator = ObjectAnimator.ofFloat(
                         binding.ivArrowDown,
                         "rotation",
                         fromDegree,
                         toDegree
                     )
-                    rotateAnimator.duration = 300 // duration of the animation in milliseconds
+                    rotateAnimator.duration = 300
                     rotateAnimator.start()
 
                     if (isArrowDown) {
@@ -314,17 +261,13 @@ class OrthosisFormAdapter(
                     var isArrowDown = binding.llOrthosisDetails.isVisible
                     val fromDegree = if (isArrowDown) 0f else 180f
                     val toDegree = if (isArrowDown) 180f else 360f
-
-//                    val fromDegree = if (isArrowDown) 180f else 0f
-//                    val toDegree = if (isArrowDown) 360f else 180f
-
                     val rotateAnimator = ObjectAnimator.ofFloat(
                         binding.ivArrowDown,
                         "rotation",
                         fromDegree,
                         toDegree
                     )
-                    rotateAnimator.duration = 300 // duration of the animation in milliseconds
+                    rotateAnimator.duration = 300
                     rotateAnimator.start()
 
                     if (isArrowDown) {
@@ -337,197 +280,11 @@ class OrthosisFormAdapter(
                     isArrowDown = !isArrowDown
                 }
 
-//                if (content.image != "") {
-//                    binding.llOrthosisDetails.visibility = View.VISIBLE
-//                    binding.llMeasurementsDetails.visibility = View.VISIBLE
-//
-//                    var isArrowDown = true
-//                    binding.tvOrthosisType.setOnClickListener {
-////                    val fromDegree = if (isArrowDown) 0f else 180f
-////                    val toDegree = if (isArrowDown) 180f else 360f
-//
-//                        val fromDegree = if (isArrowDown) 180f else 0f
-//                        val toDegree = if (isArrowDown) 360f else 180f
-//
-//                        val rotateAnimator = ObjectAnimator.ofFloat(
-//                            binding.ivArrowDown,
-//                            "rotation",
-//                            fromDegree,
-//                            toDegree
-//                        )
-//                        rotateAnimator.duration = 300 // duration of the animation in milliseconds
-//                        rotateAnimator.start()
-//
-//                        if (isArrowDown) {
-//                            binding.llOrthosisDetails.visibility = View.GONE
-//                            binding.llMeasurementsDetails.visibility = View.GONE
-//                        } else {
-//                            binding.llOrthosisDetails.visibility = View.VISIBLE
-//                            binding.llMeasurementsDetails.visibility = View.VISIBLE
-//                        }
-//                        isArrowDown = !isArrowDown
-//                    }
-//
-//                    binding.ivArrowDown.setOnClickListener {
-////                    val fromDegree = if (isArrowDown) 0f else 180f
-////                    val toDegree = if (isArrowDown) 180f else 360f
-//
-//                        val fromDegree = if (isArrowDown) 180f else 0f
-//                        val toDegree = if (isArrowDown) 360f else 180f
-//
-//                        val rotateAnimator = ObjectAnimator.ofFloat(
-//                            binding.ivArrowDown,
-//                            "rotation",
-//                            fromDegree,
-//                            toDegree
-//                        )
-//                        rotateAnimator.duration = 300 // duration of the animation in milliseconds
-//                        rotateAnimator.start()
-//
-//                        if (isArrowDown) {
-//                            binding.llOrthosisDetails.visibility = View.GONE
-//                            binding.llMeasurementsDetails.visibility = View.GONE
-//                        } else {
-//                            binding.llOrthosisDetails.visibility = View.VISIBLE
-//                            binding.llMeasurementsDetails.visibility = View.VISIBLE
-//                        }
-//                        isArrowDown = !isArrowDown
-//                    }
-//                } else {
-//                    binding.llOrthosisDetails.visibility = View.GONE
-//                    binding.llMeasurementsDetails.visibility = View.GONE
-//
-//                    var isArrowDown = false
-//                    binding.tvOrthosisType.setOnClickListener {
-////                    val fromDegree = if (isArrowDown) 0f else 180f
-////                    val toDegree = if (isArrowDown) 180f else 360f
-//
-//                        val fromDegree = if (isArrowDown) 180f else 0f
-//                        val toDegree = if (isArrowDown) 360f else 180f
-//
-//                        val rotateAnimator = ObjectAnimator.ofFloat(
-//                            binding.ivArrowDown,
-//                            "rotation",
-//                            fromDegree,
-//                            toDegree
-//                        )
-//                        rotateAnimator.duration = 300 // duration of the animation in milliseconds
-//                        rotateAnimator.start()
-//
-//                        if (isArrowDown) {
-//                            binding.llOrthosisDetails.visibility = View.GONE
-//                            binding.llMeasurementsDetails.visibility = View.GONE
-//                        } else {
-//                            binding.llOrthosisDetails.visibility = View.VISIBLE
-//                            binding.llMeasurementsDetails.visibility = View.VISIBLE
-//                        }
-//                        isArrowDown = !isArrowDown
-//                    }
-//
-//                    binding.ivArrowDown.setOnClickListener {
-////                    val fromDegree = if (isArrowDown) 0f else 180f
-////                    val toDegree = if (isArrowDown) 180f else 360f
-//
-//                        val fromDegree = if (isArrowDown) 180f else 0f
-//                        val toDegree = if (isArrowDown) 360f else 180f
-//
-//                        val rotateAnimator = ObjectAnimator.ofFloat(
-//                            binding.ivArrowDown,
-//                            "rotation",
-//                            fromDegree,
-//                            toDegree
-//                        )
-//                        rotateAnimator.duration = 300 // duration of the animation in milliseconds
-//                        rotateAnimator.start()
-//
-//                        if (isArrowDown) {
-//                            binding.llOrthosisDetails.visibility = View.GONE
-//                            binding.llMeasurementsDetails.visibility = View.GONE
-//                        } else {
-//                            binding.llOrthosisDetails.visibility = View.VISIBLE
-//                            binding.llMeasurementsDetails.visibility = View.VISIBLE
-//                        }
-//                        isArrowDown = !isArrowDown
-//                    }
-//                }
-
-
                 if (content.orthosis.name == "") {
                     binding.tvOrthosisType.text = "(${position + 1}) Select Orthosis Type"
                 } else {
                     binding.tvOrthosisType.text = "(${position + 1}) ${content.orthosis.name}"
                 }
-
-
-                //setting initial data of orthosis
-
-//                if (content.image != "") {
-//                    // val imageFile = File(content.image)
-//                    binding.cvImage.visibility = View.VISIBLE
-//
-//                    Glide.with(context)
-//                        .load(content.image).placeholder(R.drawable.img_placeholder)
-//                        .error(R.drawable.img_placeholder)
-//                        .into(binding.ivOrthosisImage)
-//                } else {
-//                    binding.cvImage.visibility = View.GONE
-//                }
-
-
-//                binding.llOrthosisDetails.visibility = View.GONE
-//                binding.llMeasurementsDetails.visibility = View.GONE
-//                var isArrowDown = false
-//                binding.tvOrthosisType.setOnClickListener {
-////                    val fromDegree = if (isArrowDown) 0f else 180f
-////                    val toDegree = if (isArrowDown) 180f else 360f
-//
-//                    val fromDegree = if (isArrowDown) 180f else 0f
-//                    val toDegree = if (isArrowDown) 360f else 180f
-//
-//                    val rotateAnimator = ObjectAnimator.ofFloat(
-//                        binding.ivArrowDown,
-//                        "rotation",
-//                        fromDegree,
-//                        toDegree
-//                    )
-//                    rotateAnimator.duration = 300 // duration of the animation in milliseconds
-//                    rotateAnimator.start()
-//
-//                    if (isArrowDown) {
-//                        binding.llOrthosisDetails.visibility = View.GONE
-//                        binding.llMeasurementsDetails.visibility = View.GONE
-//                    } else {
-//                        binding.llOrthosisDetails.visibility = View.VISIBLE
-//                        binding.llMeasurementsDetails.visibility = View.VISIBLE
-//                    }
-//                    isArrowDown = !isArrowDown
-//                }
-//
-//                binding.ivArrowDown.setOnClickListener {
-////                    val fromDegree = if (isArrowDown) 0f else 180f
-////                    val toDegree = if (isArrowDown) 180f else 360f
-//
-//                    val fromDegree = if (isArrowDown) 180f else 0f
-//                    val toDegree = if (isArrowDown) 360f else 180f
-//
-//                    val rotateAnimator = ObjectAnimator.ofFloat(
-//                        binding.ivArrowDown,
-//                        "rotation",
-//                        fromDegree,
-//                        toDegree
-//                    )
-//                    rotateAnimator.duration = 300 // duration of the animation in milliseconds
-//                    rotateAnimator.start()
-//
-//                    if (isArrowDown) {
-//                        binding.llOrthosisDetails.visibility = View.GONE
-//                        binding.llMeasurementsDetails.visibility = View.GONE
-//                    } else {
-//                        binding.llOrthosisDetails.visibility = View.VISIBLE
-//                        binding.llMeasurementsDetails.visibility = View.VISIBLE
-//                    }
-//                    isArrowDown = !isArrowDown
-//                }
 
                 binding.etOrthosisType.setOnClickListener {
                     if (isEditable) {
@@ -539,16 +296,10 @@ class OrthosisFormAdapter(
                     } else {
                         Utility.warningToast(context, "Not Editable")
                     }
-
                 }
 
-//                val customDropDownAdapter =
-//                    CustomDropDownAdapter(context, listOf("Select", "Pending", "Given"))
-//                binding.etOrthosisStatus!!.adapter = customDropDownAdapter
-
                 val statusOptions = listOf("Pending", "Given")
-                val statusadapter =
-                    ArrayAdapter(
+                val statusadapter = ArrayAdapter(
                         context,
                         android.R.layout.simple_dropdown_item_1line,
                         statusOptions
@@ -562,10 +313,8 @@ class OrthosisFormAdapter(
                     }
                 }
 
-
                 val fitStatusOptions = listOf("Yes", "No")
-                val fitStatusAdapter =
-                    ArrayAdapter(
+                val fitStatusAdapter = ArrayAdapter(
                         context,
                         android.R.layout.simple_dropdown_item_1line,
                         fitStatusOptions
@@ -587,11 +336,9 @@ class OrthosisFormAdapter(
                         Utility.warningToast(context, "Not Editable")
                     }
                 }
-//                var selected_eye=binding.spinnerExaminationEye.selectedItem.toString()
 
                 val options = listOf("Left", "Right")
-                val adapter =
-                    ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, options)
+                val adapter = ArrayAdapter(context, android.R.layout.simple_dropdown_item_1line, options)
                 binding.etAmputationSide.setAdapter(adapter)
                 binding.etAmputationSide.setOnClickListener {
                     if (isEditable) {
@@ -609,44 +356,22 @@ class OrthosisFormAdapter(
                             binding.etAmputationDate,
                             object : Utility.DateListener {
                                 override fun onDateSelected(date: String) {
-                                    //  val convertedDate = convertDateFormat(date)
                                     binding.etAmputationDate.setText(date)
                                 }
-
                             })
                     } else {
                         Utility.warningToast(context, "Not Editable")
                     }
-
                 }
-
-//                binding.etExaminationDate.setOnClickListener {
-//                    Utility.openExaminationDatePicker(
-//                        context,
-//                        Utility.HIDE_PREVIOUS_DATES,
-//                        binding.etExaminationDate,
-//                        localUser.campFrom,
-//                        localUser.campTo,
-//                        object : Utility.ExaminationDateListener {
-//                            override fun onDateSelected(date: String) {
-//                                val convertedDate = convertDateFormat(date)
-//                                binding.etExaminationDate.setText(convertedDate)
-//                            }
-//
-//                        })
-//                }
 
                 binding.etAmputationLevel.setOnClickListener {
                     if (isEditable) {
                         binding.etAmputationLevel.isEnabled = true
                     } else {
                         binding.etAmputationLevel.isEnabled = false
-
                         Utility.warningToast(context, "Not Editable")
                     }
                 }
-
-
             }
 
             binding.etAmputationCause.isFocusable = isEditable
@@ -664,7 +389,6 @@ class OrthosisFormAdapter(
                 }
             }
 
-
             binding.btnAddImage.setOnClickListener {
                 if (isEditable) {
                     if (!binding.etOrthosisType.text.isNullOrEmpty()) {
@@ -681,19 +405,8 @@ class OrthosisFormAdapter(
                 } else {
                     Utility.warningToast(context, "Not Editable")
                 }
-
-
             }
 
-
-            //        val amputationDate: String,
-//        val amputationSide: String, // Right/Left
-//        val amputationLevel: String,
-//        val amputationCause: String,
-//        val orthosis: OrthosisType,//object
-//        val status: String,
-//        val patientOrthosisMeasurements: List<MeasurementPatientData>,
-//        val deleted: Boolean = false
             binding.etAmputationDate.doOnTextChanged { text, start, before, count ->
                 if (!text.isNullOrEmpty()) {
                     event.setOrthosisEditTextData(
@@ -715,7 +428,6 @@ class OrthosisFormAdapter(
                     event.setOrthosisEditTextData(position, "amputationSide", text.toString())
                 } else {
                     event.setOrthosisEditTextData(position, "amputationSide", "")
-
                 }
             }
 
@@ -732,7 +444,6 @@ class OrthosisFormAdapter(
                     event.setOrthosisEditTextData(position, "amputationCause", text.toString())
                 } else {
                     event.setOrthosisEditTextData(position, "amputationCause", "")
-
                 }
             }
 
@@ -749,7 +460,6 @@ class OrthosisFormAdapter(
                     }
                     event.setOrthosisEditTextData(position, "status", text.toString())
                 }
-
             }
 
             binding.etFittingStatus.doOnTextChanged { text, start, before, count ->
@@ -757,9 +467,7 @@ class OrthosisFormAdapter(
                     event.setOrthosisEditTextData(position, "fittingStatus", text.toString())
                 } else {
                     event.setOrthosisEditTextData(position, "fittingStatus", "")
-
                 }
-
             }
 
             binding.etFittingFeedback.doOnTextChanged { text, start, before, count ->
@@ -767,7 +475,6 @@ class OrthosisFormAdapter(
                     event.setOrthosisEditTextData(position, "fittingReason", text.toString())
                 } else {
                     event.setOrthosisEditTextData(position, "fittingReason", "")
-
                 }
             }
 
@@ -776,16 +483,8 @@ class OrthosisFormAdapter(
                     event.setOrthosisEditTextData(position, "otherOrthosis", text.toString())
                 } else {
                     event.setOrthosisEditTextData(position, "otherOrthosis", "")
-
                 }
             }
-
-//            binding.etExaminationDate.doOnTextChanged { text, start, before, count ->
-//                if (!text.isNullOrEmpty()) {
-//                    event.setOrthosisEditTextData(position, "examinationDate", text.toString())
-//                }
-//
-//            }
 
             binding.ivDeleteForm.setOnClickListener {
                 if (isEditable) {
@@ -799,7 +498,6 @@ class OrthosisFormAdapter(
                 if (isEditable) {
                     binding.tvOrthosisType.text = "(${position + 1}) Select Orthosis Type"
                     setUpMeasurementRecyclerview(isEditable, binding, listOf(), position)
-
                     //clearing orthosis data
                     content.amputationDate = ""
                     content.amputationSide = ""
@@ -817,14 +515,12 @@ class OrthosisFormAdapter(
 
                     //clearing orthosis images
                     content.orthosisImageList.clear()
-
                     binding.cvImage.visibility = View.GONE
                     clearForm(binding)
                     notifyDataSetChanged()
                 } else {
                     Utility.warningToast(context, "Not Editable")
                 }
-
             }
         }
     }
@@ -857,7 +553,6 @@ class OrthosisFormAdapter(
         return position
     }
 
-
     private fun inflateBottomSheet(
         orthosisTypeList: List<OrthosisType>,
         binding: ItemOrthosisFormBinding,
@@ -877,15 +572,10 @@ class OrthosisFormAdapter(
             0,
             true
         ) { selectedValue ->
-            //Logger.d("TAG", "onCreate: $selectedValue")
-            // binding!!.etAssembly.setText(selectedValue.title)
-            // val assemblyData  = assemblyList[selectedValue.position]
             val orthosisType = orthosisTypeList[selectedValue.position]
             var otherMeasurementAdapter: OtherMeasurementAdapter? = null
 
             if (orthosisType.name == "Other") {
-
-                //if orthosis is selected other - logic
                 binding.etlOtherOrthosis.visibility = View.VISIBLE
                 binding.btnAddMeasurement.visibility = View.VISIBLE
                 binding.rvOtherMeasurements.visibility = View.VISIBLE
@@ -906,10 +596,6 @@ class OrthosisFormAdapter(
                         otherMeasurement = ""
                     )
                 )
-                //setUpMeasurementRecyclerview(binding, measurementList, itemPosition)
-
-
-                //measurement recyclerview
                 otherMeasurementAdapter = OtherMeasurementAdapter(
                     isEditable,
                     context,
@@ -922,9 +608,7 @@ class OrthosisFormAdapter(
                             measurementValue: String,
                             measurementUnit: String,
                             isOtherMeasurement: Boolean
-
                         ) {
-
                             event.onMeasurementData(
                                 itemPosition,
                                 childPosition,
@@ -948,20 +632,11 @@ class OrthosisFormAdapter(
                                 )
                             }
                         }
-
-
                     })
                 binding.rvOtherMeasurements.layoutManager =
                     LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 binding.rvOtherMeasurements.adapter = otherMeasurementAdapter
-                //end measurement recyclerview
-
-
-                //updating measurement to main screen
                 event.updateMeasurementList(itemPosition, measurementList, orthosisType)
-//                event.setOrthosisTypeData(itemPosition, orthosisType)
-
-                //adding and deleting measurement logic
                 binding.btnAddMeasurement.setOnClickListener {
                     measurementList.add(
                         MeasurementPatientData(
@@ -1001,16 +676,12 @@ class OrthosisFormAdapter(
                 }
                 setUpMeasurementRecyclerview(isEditable, binding, measurementData, itemPosition)
                 event.updateMeasurementList(itemPosition, measurementData, orthosisType)
-//                event.setOrthosisTypeData(itemPosition, orthosisType)
             }
-
         }
-
         dialog.show(fragmentManager, "SingleSelectBottomSheetDialogFragment")
     }
 
     interface OrthosisFormClickListener {
-
         fun updateMeasurementList(
             parentPosition: Int,
             measurementList: List<MeasurementPatientData>,
@@ -1027,25 +698,15 @@ class OrthosisFormAdapter(
             isOtherMeasurement: Boolean
         )
 
-        //        val amputationDate: String,
-//        val amputationSide: String, // Right/Left
-//        val amputationLevel: String,
-//        val amputationCause: String,
-//        val orthosis: OrthosisType,//object
-//        val status: String,
-//        val patientOrthosisMeasurements: List<MeasurementPatientData>,
-//        val deleted: Boolean = false
         fun setOrthosisEditTextData(position: Int, fieldName: String, fieldValue: String)
 
         fun setOrthosisTypeData(position: Int, orthosisType: OrthosisType)
-
 
         fun onDeleteForm(position: Int)
 
         fun onImageClick(position: Int)
 
         fun onOrthosisImageRemove(parentPosition: Int, childPosition: Int, image: String)
-
     }
 
     private fun setColorForAllEditText(binding: ItemOrthosisFormBinding) {
@@ -1082,7 +743,6 @@ class OrthosisFormAdapter(
 
     private fun setAsteriskColor(etlField: TextInputLayout, hintText: String) {
         val spannableString = SpannableString(hintText)
-
         val redColor = ForegroundColorSpan(context.resources.getColor(R.color.dark_red))
         spannableString.setSpan(
             redColor,
@@ -1090,22 +750,7 @@ class OrthosisFormAdapter(
             hintText.length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-
         etlField.hint = spannableString
-
-    }
-
-    private fun setTextColorAsteriskColor(binding: ItemOrthosisFormBinding) {
-        val orthosisStatusText = "Orthosis Status*"
-        val spannableString = SpannableString(orthosisStatusText)
-        val redColor = ForegroundColorSpan(context.resources.getColor(R.color.dark_red))
-        spannableString.setSpan(
-            redColor,
-            orthosisStatusText.length - 1,
-            orthosisStatusText.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        //  binding.tvOrthosisStatus.text = spannableString
     }
 
     private fun setUpMeasurementRecyclerview(
@@ -1128,7 +773,6 @@ class OrthosisFormAdapter(
                     measurementUnit: String,
                     isOtherMeasurement: Boolean
                 ) {
-
                     event.onMeasurementData(
                         parentPosition,
                         childPosition,
@@ -1140,17 +784,12 @@ class OrthosisFormAdapter(
                     )
                 }
 
-                override fun onRemoveMeasurement(childPosistion: Int) {
-                    //
-                }
-
-
+                override fun onRemoveMeasurement(childPosistion: Int) {}
             })
         binding.rvOrthosisMeasurements.adapter = childAdapter
         binding.rvOrthosisMeasurements.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
-
 
     private fun clearForm(binding: ItemOrthosisFormBinding) {
         binding.etOrthosisType.setText("")
@@ -1161,26 +800,18 @@ class OrthosisFormAdapter(
         binding.etAmputationCause.setText("")
         binding.etFittingStatus.setText("")
         binding.etFittingFeedback.setText("")
-        // binding.etExaminationDate.setText("")
-
     }
 
     fun convertDateFormat(dateString: String): String {
-        // Define the input and output date formats
         val inputFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-
-        // Parse the input date string and format it to the output format
         val date = inputFormat.parse(dateString)
         return outputFormat.format(date!!)
     }
 
     fun convertDateFormatFromData(dateString: String): String {
-        // Define the input and output date formats
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val outputFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-
-        // Parse the input date string and format it to the output format
         val date = inputFormat.parse(dateString)
         return outputFormat.format(date!!)
     }
@@ -1199,41 +830,12 @@ class OrthosisFormAdapter(
         binding.etAmputationLevel.setOnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) hideKeyboard(view)
         }
-
         binding.etAmputationCause.setOnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) hideKeyboard(view)
         }
-
         binding.etFittingFeedback.setOnFocusChangeListener { view, hasFocus ->
             if (!hasFocus) hideKeyboard(view)
         }
-
-    }
-
-    private fun setUpOrthosisImageRecyclerview(
-        binding: ItemOrthosisFormBinding,
-        orthosisImageList: List<OrthosisImages>,
-        parentPosition: Int,
-        orthosFormId: Int
-    ) {
-        val filteredOrthoImage = orthosisImageList.filter { it.orthosisFormId == orthosFormId }
-        val orthosisImageAdapter = OrthosisImageAdapter(
-            context,
-            filteredOrthoImage,
-            object : OrthosisImageAdapter.OrthosisImageAdapterEvent {
-                override fun onImageClick(position: Int) {
-                    //
-                }
-
-                override fun onImageRemove(position: Int, image: String) {
-                    event.onOrthosisImageRemove(parentPosition, position, image)
-                }
-
-
-            })
-        binding.rvOrthosisMeasurements.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.rvOrthosisImages.adapter = orthosisImageAdapter
     }
 
     private fun removeMeasurement(
@@ -1246,11 +848,9 @@ class OrthosisFormAdapter(
         val messageDialog = AlertDialog.Builder(context)
         messageDialog.setView(alertCustomDialog)
 
-
         val tvCancel: TextView = alertCustomDialog.findViewById(R.id.tvCancel)
         val tvTitle: TextView = alertCustomDialog.findViewById(R.id.tvTitle)
         val tvYes: TextView = alertCustomDialog.findViewById(R.id.tvDelete)
-
         val finalDialog = messageDialog.create()
 
         tvTitle.text = "Are you sure you want \nto Remove Measurement"
@@ -1259,8 +859,6 @@ class OrthosisFormAdapter(
         }
         tvYes.setOnClickListener {
             finalDialog.dismiss()
-            //perform operation
-
             measurementList.removeAt(childPosition)
             measurementAdapter.notifyDataSetChanged()
         }
@@ -1299,11 +897,7 @@ class OrthosisFormAdapter(
                     )
                 }
 
-                override fun onRemoveMeasurement(childPosistion: Int) {
-                    //
-                }
-
-
+                override fun onRemoveMeasurement(childPosistion: Int) {}
             })
         binding.rvOrthosisMeasurements.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -1314,63 +908,4 @@ class OrthosisFormAdapter(
         this.isAmputee = isAmputee
         notifyDataSetChanged()
     }
-
-
-    fun orthosisImageClick(
-        orthosisImageList: MutableList<OrthosisImages>,
-        parentPosition: Int,
-        orthoFormId: Int
-    ) {
-        data[parentPosition].orthosisImageList = orthosisImageList
-        val orthoImageList = orthosisImageList.filter { it.orthosisFormId == orthoFormId }
-
-        if (!orthoImageList.isNullOrEmpty()) {
-            if (orthoImageList.size == 1) {
-                if (!orthoImageList[0].images.isNullOrEmpty()) {
-                    Glide.with(context)
-                        .load(orthoImageList[0].images).placeholder(R.drawable.img_placeholder)
-                        .error(R.drawable.img_placeholder)
-                        .into(this@OrthosisFormAdapter.binding!!.ivOthoFile1)
-                }
-            }
-
-
-            if (orthoImageList.size == 2) {
-                if (!orthoImageList[1].images.isNullOrEmpty()) {
-                    Glide.with(context)
-                        .load(orthoImageList[1].images).placeholder(R.drawable.img_placeholder)
-                        .error(R.drawable.img_placeholder)
-                        .into(this@OrthosisFormAdapter.binding!!.ivOthoFile2)
-                }
-            }
-
-
-            if (orthoImageList.size == 3) {
-                if (!orthoImageList[2].images.isNullOrEmpty()) {
-                    Glide.with(context)
-                        .load(orthoImageList[2].images).placeholder(R.drawable.img_placeholder)
-                        .error(R.drawable.img_placeholder)
-                        .into(this@OrthosisFormAdapter.binding!!.ivOthoFile3)
-                }
-            }
-
-
-            if (orthoImageList.size == 4) {
-                if (!orthoImageList[3].images.isNullOrEmpty()) {
-                    Glide.with(context)
-                        .load(orthoImageList[3].images).placeholder(R.drawable.img_placeholder)
-                        .error(R.drawable.img_placeholder)
-                        .into(this@OrthosisFormAdapter.binding!!.ivOthoFile4)
-                }
-            }
-
-
-        }
-
-        // notifyItemChanged(parentPosition)
-        // notifyDataSetChanged()
-
-    }
-
-    fun getDataList(): List<OrthosisPatientData> = data
 }

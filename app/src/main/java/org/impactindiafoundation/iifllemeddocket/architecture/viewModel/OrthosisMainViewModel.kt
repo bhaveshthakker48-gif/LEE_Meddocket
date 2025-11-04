@@ -54,6 +54,7 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
     private var _formImagesListForSync = MutableLiveData<Resource<List<FormImages>>>()
     val formImagesListForSync: LiveData<Resource<List<FormImages>>> get() = _formImagesListForSync
 
+
     private var _orthosisImagesList = MutableLiveData<Resource<List<OrthosisImages>>>()
     val orthosisImagesList: LiveData<Resource<List<OrthosisImages>>> get() = _orthosisImagesList
 
@@ -186,25 +187,38 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
         }
     }
 
-    fun getFormImagesForSync() = CoroutineScope(Dispatchers.IO).launch {
-        _formImagesListForSync.postValue(Resource.loading(null))
-        try {
+//    fun getFormImagesForSync() = CoroutineScope(Dispatchers.IO).launch {
+//        _formImagesListForSync.postValue(Resource.loading(null))
+//        try {
+//            try {
+//                newMainRepository.getFormImagesForSync().let {
+//                    _formImagesListForSync.postValue(Resource.success(it))
+//                }
+//            } catch (e: Exception) {
+//                _formImagesListForSync.postValue(
+//                    Resource.error(
+//                        e.toString(),
+//                        null
+//                    )
+//                )
+//            }
+//        } catch (e: Exception) {
+//            _formImagesListForSync.postValue(Resource.error(e.message.toString(), null))
+//        }
+//    }
+
+    fun getUnsyncedFormImages() {
+        viewModelScope.launch {
+            _formImagesListForSync.postValue(Resource.loading(null))
             try {
-                newMainRepository.getFormImagesForSync().let {
-                    _formImagesListForSync.postValue(Resource.success(it))
-                }
+                val list = newMainRepository.getUnsyncedFormImages()
+                _formImagesListForSync.postValue(Resource.success(list))
             } catch (e: Exception) {
-                _formImagesListForSync.postValue(
-                    Resource.error(
-                        e.toString(),
-                        null
-                    )
-                )
+                _formImagesListForSync.postValue(Resource.error(e.message.toString(), null))
             }
-        } catch (e: Exception) {
-            _formImagesListForSync.postValue(Resource.error(e.message.toString(), null))
         }
     }
+
 
     fun getFormOrthosisImages() = CoroutineScope(Dispatchers.IO).launch {
         _orthosisImagesList.postValue(Resource.loading(null))
@@ -226,25 +240,46 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
         }
     }
 
-    fun getOrthosisImagesForSync() = CoroutineScope(Dispatchers.IO).launch {
+//    fun getOrthosisImagesForSync() = CoroutineScope(Dispatchers.IO).launch {
+//        _orthosisImagesListForSync.postValue(Resource.loading(null))
+//        try {
+//            try {
+//                newMainRepository.getFormOrthosisImages().let {
+//                    _orthosisImagesListForSync.postValue(Resource.success(it))
+//                }
+//            } catch (e: Exception) {
+//                _orthosisImagesListForSync.postValue(
+//                    Resource.error(
+//                        e.toString(),
+//                        null
+//                    )
+//                )
+//            }
+//        } catch (e: Exception) {
+//            _orthosisImagesListForSync.postValue(Resource.error(e.message.toString(), null))
+//        }
+//    }
+
+    fun getUnsyncedOrthosisImages() = viewModelScope.launch {
         _orthosisImagesListForSync.postValue(Resource.loading(null))
         try {
-            try {
-                newMainRepository.getFormOrthosisImages().let {
-                    _orthosisImagesListForSync.postValue(Resource.success(it))
-                }
-            } catch (e: Exception) {
-                _orthosisImagesListForSync.postValue(
-                    Resource.error(
-                        e.toString(),
-                        null
-                    )
-                )
-            }
+            val list = newMainRepository.getUnsyncedOrthosisImages()
+            _orthosisImagesListForSync.postValue(Resource.success(list))
         } catch (e: Exception) {
             _orthosisImagesListForSync.postValue(Resource.error(e.message.toString(), null))
         }
     }
+
+    fun getUnsyncedEquipmentImages() = viewModelScope.launch {
+        _equipmentImagesListForSync.postValue(Resource.loading(null))
+        try {
+            val list = newMainRepository.getUnsyncedEquipmentImages()
+            _equipmentImagesListForSync.postValue(Resource.success(list))
+        } catch (e: Exception) {
+            _equipmentImagesListForSync.postValue(Resource.error(e.message.toString(), null))
+        }
+    }
+
 
 
     fun getEquipmentImages() = CoroutineScope(Dispatchers.IO).launch {
@@ -267,25 +302,25 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
         }
     }
 
-    fun getEquipmentImagesForSync() = CoroutineScope(Dispatchers.IO).launch {
-        _equipmentImagesListForSync.postValue(Resource.loading(null))
-        try {
-            try {
-                newMainRepository.getEquipmentImage().let {
-                    _equipmentImagesListForSync.postValue(Resource.success(it))
-                }
-            } catch (e: Exception) {
-                _equipmentImagesListForSync.postValue(
-                    Resource.error(
-                        e.toString(),
-                        null
-                    )
-                )
-            }
-        } catch (e: Exception) {
-            _equipmentImagesListForSync.postValue(Resource.error(e.message.toString(), null))
-        }
-    }
+//    fun getEquipmentImagesForSync() = CoroutineScope(Dispatchers.IO).launch {
+//        _equipmentImagesListForSync.postValue(Resource.loading(null))
+//        try {
+//            try {
+//                newMainRepository.getEquipmentImage().let {
+//                    _equipmentImagesListForSync.postValue(Resource.success(it))
+//                }
+//            } catch (e: Exception) {
+//                _equipmentImagesListForSync.postValue(
+//                    Resource.error(
+//                        e.toString(),
+//                        null
+//                    )
+//                )
+//            }
+//        } catch (e: Exception) {
+//            _equipmentImagesListForSync.postValue(Resource.error(e.message.toString(), null))
+//        }
+//    }
 
     fun getFormVideos() = CoroutineScope(Dispatchers.IO).launch {
         _formVideosList.postValue(Resource.loading(null))
@@ -326,6 +361,19 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
             _formVideosListForSync.postValue(Resource.error(e.message.toString(), null))
         }
     }
+
+    fun getUnsyncedFormVideos() {
+        _formVideosListForSync.postValue(Resource.loading(null))
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val unsyncedVideos = newMainRepository.getUnsyncedFormVideos()
+                _formVideosListForSync.postValue(Resource.success(unsyncedVideos))
+            } catch (e: Exception) {
+                _formVideosListForSync.postValue(Resource.error("Error fetching unsynced form videos", null))
+            }
+        }
+    }
+
 
     fun getCampPatientList() = CoroutineScope(Dispatchers.IO).launch {
         _campPatientList.postValue(Resource.loading(null))
@@ -595,4 +643,6 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
             newMainRepository.updateSyncedVideo(videoId)
         }
     }
+
+
 }

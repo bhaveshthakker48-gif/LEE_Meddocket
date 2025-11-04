@@ -39,7 +39,11 @@ import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROO
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.Vitals
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Resource
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisTypeModelItem
+import org.impactindiafoundation.iifllemeddocket.architecture.model.PrescriptionSynTable
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasemodel.EntPostOpNotesEntity
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class LLE_MedDocket_ViewModel(private val repository: LLE_MedDocket_Repository) : ViewModel() {
 
@@ -107,6 +111,10 @@ class LLE_MedDocket_ViewModel(private val repository: LLE_MedDocket_Repository) 
     val allSpectacleDisdributionStatus:LiveData<List<SpectacleDisdributionStatusModel>> = repository.allSpectacleDisdributionStatus
 
     val allSynData:LiveData<List<SynTable>> = repository.allSynData
+    fun getSynDataByType(type: String): LiveData<List<SynTable>> {
+        return repository.getSynDataByType(type)
+    }
+
 
     val allCurrentInventory:LiveData<List<CurrentInventoryLocal>> = repository.allCurrentInventory
 
@@ -275,71 +283,57 @@ class LLE_MedDocket_ViewModel(private val repository: LLE_MedDocket_Repository) 
             }
         }
     }
-
-    fun updateEyeopddocnotes(_id: String, syn: Int) {
-
-        viewModelScope.launch {
-            try {
-                repository.updateEyeopddocnotes(_id,syn)
-                showToast("Eye OPd doc notes  data is inserted successfully")
-            } catch (e: Exception) {
-                showToast("Insert Eye OPd doc notes  failed: ${e.message}")
-            }
-        }
-
-    }
-
-    fun updateEye_Pre_Op_Investigations(_id: String, syn: Int) {
-        Log.d("pawan_sync", "Updating isSyn=$syn for local record _id=$_id")
-        viewModelScope.launch {
-            try {
-                repository.updateEye_Pre_Op_Investigations(_id, syn)
-                Log.d("pawan_sync", "Successfully updated local DB for _id=$_id")
-            } catch (e: Exception) {
-                Log.e("pawan_sync", "Failed to update _id=$_id: ${e.message}")
-            }
+    // ✅ Correct suspend versions — no viewModelScope.launch
+    suspend fun updateEyeopddocnotes(_id: String, syn: Int) {
+        try {
+            Log.d("pawan_sync", "Updating EyeOPDDoctorNote isSyn=$syn for local record _id=$_id")
+            repository.updateEyeopddocnotes(_id, syn)
+            Log.d("pawan_sync", "✅ Successfully updated EyeOPDDoctorNote _id=$_id to isSyn=$syn")
+        } catch (e: Exception) {
+            Log.e("pawan_sync", "❌ Failed to update EyeOPDDoctorNote _id=$_id: ${e.message}", e)
         }
     }
 
-
-    fun updateEye_Pre_Op_Notes(_id: String, syn: Int) {
-
-        viewModelScope.launch {
-            try {
-                repository.updateEye_Pre_Op_Notes(_id,syn)
-                showToast("Eye_Pre_Op_Notes is updated successfully")
-            } catch (e: Exception) {
-                showToast("Update Eye_Pre_Op_Notes  failed: ${e.message}")
-            }
+    suspend fun updateEye_Pre_Op_Investigations(_id: String, syn: Int) {
+        try {
+            Log.d("pawan_sync", "Updating Eye_Pre_Op_Investigations isSyn=$syn for local record _id=$_id")
+            repository.updateEye_Pre_Op_Investigations(_id, syn)
+            Log.d("pawan_sync", "✅ Successfully updated Eye_Pre_Op_Investigations _id=$_id to isSyn=$syn")
+        } catch (e: Exception) {
+            Log.e("pawan_sync", "❌ Failed to update Eye_Pre_Op_Investigations _id=$_id: ${e.message}", e)
         }
-
     }
 
-    fun updateCataract_Surgeries(_id: Int, syn: Int) {
-
-        viewModelScope.launch {
-            try {
-                repository.updateCataract_Surgeries(_id,syn)
-                showToast("Cataract_Surgeries is updated successfully")
-            } catch (e: Exception) {
-                showToast("UpdateCataract_Surgeries  failed: ${e.message}")
-            }
+    suspend fun updateEye_Pre_Op_Notes(_id: String, syn: Int) {
+        try {
+            Log.d("pawan_sync", "Updating Eye_Pre_Op_Notes isSyn=$syn for local record _id=$_id")
+            repository.updateEye_Pre_Op_Notes(_id, syn)
+            Log.d("pawan_sync", "✅ Successfully updated Eye_Pre_Op_Notes _id=$_id to isSyn=$syn")
+        } catch (e: Exception) {
+            Log.e("pawan_sync", "❌ Failed to update Eye_Pre_Op_Notes _id=$_id: ${e.message}", e)
         }
-
     }
 
-    fun UpdatePostOpAndFollowUpsResponse(_id: String, syn: Int) {
-
-        viewModelScope.launch {
-            try {
-                repository.UpdatePostOpAndFollowUps(_id,syn)
-                showToast("PostOpAndFollowUps is updated successfully")
-            } catch (e: Exception) {
-                showToast("Update PostOpAndFollowUps failed: ${e.message}")
-            }
+    suspend fun updateCataract_Surgeries(_id: Int, syn: Int) {
+        try {
+            Log.d("pawan_sync", "Updating Cataract_Surgeries isSyn=$syn for local record _id=$_id")
+            repository.updateCataract_Surgeries(_id, syn)
+            Log.d("pawan_sync", "✅ Successfully updated Cataract_Surgeries _id=$_id to isSyn=$syn")
+        } catch (e: Exception) {
+            Log.e("pawan_sync", "❌ Failed to update Cataract_Surgeries _id=$_id: ${e.message}", e)
         }
-
     }
+
+    suspend fun UpdatePostOpAndFollowUpsResponse(_id: String, syn: Int) {
+        try {
+            Log.d("pawan_sync", "Updating PostOpAndFollowUps isSyn=$syn for local record _id=$_id")
+            repository.UpdatePostOpAndFollowUps(_id, syn)
+            Log.d("pawan_sync", "✅ Successfully updated PostOpAndFollowUps _id=$_id to isSyn=$syn")
+        } catch (e: Exception) {
+            Log.e("pawan_sync", "❌ Failed to update PostOpAndFollowUps _id=$_id: ${e.message}", e)
+        }
+    }
+
 
     fun updateImage(_id: String, syn: Int) {
 
@@ -426,13 +420,16 @@ class LLE_MedDocket_ViewModel(private val repository: LLE_MedDocket_Repository) 
 
     }
 
-    fun getPrescriptionDataPatientID(patientID: Int) {
+    fun getPrescriptionDataPatientID(patientId: Int) {
+        Log.d("pawan", "getPrescriptionDataPatientID called with => $patientId")
         viewModelScope.launch {
             try {
-                val prescriptionList = repository.getPrescriptionDataPatientID(patientID)
-                _prescriptionData.postValue(prescriptionList)
+                val response = repository.getPrescriptionDataPatientID(patientId)
+                Log.d("pawan", "repository.getPrescription() => $response")
+                _prescriptionData.value = response
             } catch (e: Exception) {
-                e.printStackTrace()
+                Log.e("pawan", "Error fetching prescription => ${e.message}")
+                _prescriptionData.value = emptyList()
             }
         }
     }
@@ -517,18 +514,6 @@ class LLE_MedDocket_ViewModel(private val repository: LLE_MedDocket_Repository) 
 
     }
 
-    fun GetPrescriptionStatusDetails(patientId: Int, forceRefresh: Boolean) {
-
-        viewModelScope.launch {
-            try {
-                _prescriptionsStatus.value = repository.GetPrescriptionStatusDetails(patientId,forceRefresh)
-            } catch (e: Exception) {
-                // Handle the error, log, or show an error message
-            }
-        }
-
-    }
-
     fun getPrescriptionStatusDetailsWithPaginationNew(patientId: Int, pageSize: Int, page: Int, forceRefresh: Boolean) {
         viewModelScope.launch {
             try {
@@ -604,18 +589,6 @@ class LLE_MedDocket_ViewModel(private val repository: LLE_MedDocket_Repository) 
         }
     }
 
-    fun updateNewPrescriptionData(toInt: Int, syn: Int) {
-
-        viewModelScope.launch {
-            try {
-                repository.updateNewPrescriptionData(toInt,syn)
-                // showToast("PrescriptionGlasses is updated successfully")
-            } catch (e: Exception) {
-                showToast("Update PrescriptionGlasses failed: ${e.message}")
-            }
-        }
-
-    }
 
     fun insertImagePrescriptionModel(imagePrescription: ImagePrescriptionModel) {
 
@@ -642,6 +615,9 @@ class LLE_MedDocket_ViewModel(private val repository: LLE_MedDocket_Repository) 
         }
 
     }
+
+
+
 
 }
 

@@ -96,13 +96,19 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         WindowCompat.getInsetsController(window, window.decorView)?.isAppearanceLightStatusBars = true
         window.statusBarColor = Color.WHITE
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Choose whichever bottom inset is larger (IME or system bars)
+            val bottom = maxOf(systemBarsInsets.bottom, imeInsets.bottom)
+
             view.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
+                systemBarsInsets.left,
+                systemBarsInsets.top,
+                systemBarsInsets.right,
+                bottom
             )
+
             insets
         }
 
@@ -267,6 +273,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             }
 
             "Indent User" -> {
+                Log.d("pawan", "🟢 Login successful for Indent User")
+                Log.d("pawan", "camp_id => ${data.camp_id}")
+                Log.d("pawan", "Userid => ${data.Userid}")
+                Log.d("pawan", "Designation => ${data.Designation_name}")
+                Log.d("pawan", "Navigating to PharmaMainActivity...")
                 sessionManager.setCampUserID(data.camp_id.toString(), data.Userid.toString())
                 val intent = Intent(this@LoginActivity, PharmaMainActivity::class.java)
                 intent.putExtra("isLogin",true)
@@ -350,6 +361,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                                         finish()
                                     }
                                     "Indent User" -> {
+                                        Log.d("pawan", "camp_id => ${data.camp_id}")
+                                        Log.d("pawan", "Userid => ${data.Userid}")
+                                        Log.d("pawan", "Designation => ${data.Designation_name}")
                                         sessionManager.setCampUserID(
                                             data.camp_id.toString(),
                                             data.Userid.toString()

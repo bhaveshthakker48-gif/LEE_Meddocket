@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.impactindiafoundation.iifllemeddocket.architecture.model.PatientMedicine
-import org.impactindiafoundation.iifllemeddocket.databinding.ItemPatientMedicineBinding
 import org.impactindiafoundation.iifllemeddocket.databinding.ItemSingleMedicineBinding
-
 
 class MedicineItemAdapter(
     val context: Context,
@@ -24,11 +22,8 @@ class MedicineItemAdapter(
             binding.apply {
                 tvMedicineName.text = content.item_name
                 tvMedicineBrand.text = content.brand_name
-                tvMedicineCount.text = content.dose
-
+                tvMedicineCount.text = content.qty.toString()
             }
-
-
         }
     }
 

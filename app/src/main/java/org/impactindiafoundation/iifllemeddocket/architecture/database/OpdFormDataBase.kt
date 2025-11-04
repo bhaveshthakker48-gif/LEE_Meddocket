@@ -6,8 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
-import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.FinalPrescriptionDrug
-import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.PrescriptionItemTypeConverter
 import org.impactindiafoundation.iifllemeddocket.Utils.typeConvertors.PatientMedicineTypeConverter
 import org.impactindiafoundation.iifllemeddocket.architecture.dao.OpdSyncDao
 import org.impactindiafoundation.iifllemeddocket.architecture.dao.PrescriptionsDao
@@ -15,12 +13,11 @@ import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OpdSyncTable
 import org.impactindiafoundation.iifllemeddocket.architecture.model.PatientMedicine
 
-
 /**
  * Created by JOSUS PRAISER on 30-01-2025.
  * This DataBase is for OPD Prescriptions not of Volunteer Login - For OPD Login
  */
-@Database(entities = [PatientMedicine::class, OpdSyncTable::class], version = 1)
+@Database(entities = [PatientMedicine::class, OpdSyncTable::class], version = 4)
 @TypeConverters(PatientMedicineTypeConverter::class)
 abstract class OpdFormDataBase : RoomDatabase() {
 
@@ -38,14 +35,31 @@ abstract class OpdFormDataBase : RoomDatabase() {
                     OpdFormDataBase::class.java,
                     Constants.OPD_FORM_DATABASE_NAME
                 )
-                    .addMigrations(*migrations)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                     .build()
                 INSTANCE = instance
                 instance
             }
         }
 
-        val migrations = arrayOf<Migration>()
+        val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: androidx.sqlite.db.SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE PatientMedicine ADD COLUMN patient_geneder TEXT NOT NULL DEFAULT ''")
+            }
+        }
 
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: androidx.sqlite.db.SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE PatientMedicine ADD COLUMN patient_age INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(database: androidx.sqlite.db.SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE OpdSyncTable ADD COLUMN unsyncFormCount INTEGER NOT NULL DEFAULT 0"
+                )
+            }
+        }
     }
 }

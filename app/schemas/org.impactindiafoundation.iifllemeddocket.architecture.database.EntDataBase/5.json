@@ -1,0 +1,1652 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 5,
+    "identityHash": "313d292a8bc0d6458d35a900c29fefc5",
+    "entities": [
+      {
+        "tableName": "symptoms_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uniqueId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `formId` INTEGER NOT NULL, `patientId` INTEGER NOT NULL, `campId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `organ` TEXT NOT NULL, `part` TEXT NOT NULL, `symptom` TEXT, `symptomId` INTEGER NOT NULL, `appCreatedDate` TEXT NOT NULL, `app_id` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uniqueId",
+            "columnName": "uniqueId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "formId",
+            "columnName": "formId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campId",
+            "columnName": "campId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "organ",
+            "columnName": "organ",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "part",
+            "columnName": "part",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "symptom",
+            "columnName": "symptom",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "symptomId",
+            "columnName": "symptomId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appCreatedDate",
+            "columnName": "appCreatedDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "app_id",
+            "columnName": "app_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "uniqueId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "impression_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uniqueId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `formId` INTEGER NOT NULL, `patientId` INTEGER NOT NULL, `campId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `part` TEXT NOT NULL, `impression` TEXT, `impressionId` INTEGER NOT NULL, `appCreatedDate` TEXT NOT NULL, `app_id` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uniqueId",
+            "columnName": "uniqueId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "formId",
+            "columnName": "formId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campId",
+            "columnName": "campId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "part",
+            "columnName": "part",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "impression",
+            "columnName": "impression",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "impressionId",
+            "columnName": "impressionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appCreatedDate",
+            "columnName": "appCreatedDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "app_id",
+            "columnName": "app_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "uniqueId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "doctor_note_investigation_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uniqueId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `patientId` INTEGER NOT NULL, `campId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `cbc` INTEGER NOT NULL, `bt` INTEGER NOT NULL, `ct` INTEGER NOT NULL, `hiv` INTEGER NOT NULL, `hbsag` INTEGER NOT NULL, `puretoneaudiometry` INTEGER NOT NULL, `impedanceaudiometry` INTEGER NOT NULL, `xray` INTEGER NOT NULL, `xray_value` TEXT, `removalOfimpactedwax_right` INTEGER NOT NULL, `removalOfimpactedwax_left` INTEGER NOT NULL, `tympanoplasty_right` INTEGER NOT NULL, `tympanoplasty_left` INTEGER NOT NULL, `exploratoryTympanoplasty_right` INTEGER NOT NULL, `exploratoryTympanoplasty_left` INTEGER NOT NULL, `exploratoryMastoidectomy_right` INTEGER NOT NULL, `exploratoryMastoidectomy_left` INTEGER NOT NULL, `fbremoval_right` INTEGER NOT NULL, `fbremoval_left` INTEGER NOT NULL, `grommetInsertion_right` INTEGER NOT NULL, `grommetInsertion_left` INTEGER NOT NULL, `excisionBiospy_right` INTEGER NOT NULL, `excisionBiospy_left` INTEGER NOT NULL, `other` TEXT, `other_right` INTEGER NOT NULL, `other_left` INTEGER NOT NULL, `lineUpForSurgery` INTEGER NOT NULL, `medication` INTEGER NOT NULL, `audiometry` INTEGER NOT NULL, `appCreatedDate` TEXT, `app_id` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uniqueId",
+            "columnName": "uniqueId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campId",
+            "columnName": "campId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cbc",
+            "columnName": "cbc",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bt",
+            "columnName": "bt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ct",
+            "columnName": "ct",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hiv",
+            "columnName": "hiv",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hbsag",
+            "columnName": "hbsag",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "puretoneaudiometry",
+            "columnName": "puretoneaudiometry",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "impedanceaudiometry",
+            "columnName": "impedanceaudiometry",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "xray",
+            "columnName": "xray",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "xray_value",
+            "columnName": "xray_value",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "removalOfimpactedwax_right",
+            "columnName": "removalOfimpactedwax_right",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "removalOfimpactedwax_left",
+            "columnName": "removalOfimpactedwax_left",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tympanoplasty_right",
+            "columnName": "tympanoplasty_right",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tympanoplasty_left",
+            "columnName": "tympanoplasty_left",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exploratoryTympanoplasty_right",
+            "columnName": "exploratoryTympanoplasty_right",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exploratoryTympanoplasty_left",
+            "columnName": "exploratoryTympanoplasty_left",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exploratoryMastoidectomy_right",
+            "columnName": "exploratoryMastoidectomy_right",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exploratoryMastoidectomy_left",
+            "columnName": "exploratoryMastoidectomy_left",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fbremoval_right",
+            "columnName": "fbremoval_right",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fbremoval_left",
+            "columnName": "fbremoval_left",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "grommetInsertion_right",
+            "columnName": "grommetInsertion_right",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "grommetInsertion_left",
+            "columnName": "grommetInsertion_left",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "excisionBiospy_right",
+            "columnName": "excisionBiospy_right",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "excisionBiospy_left",
+            "columnName": "excisionBiospy_left",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "other",
+            "columnName": "other",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "other_right",
+            "columnName": "other_right",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "other_left",
+            "columnName": "other_left",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lineUpForSurgery",
+            "columnName": "lineUpForSurgery",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "medication",
+            "columnName": "medication",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "audiometry",
+            "columnName": "audiometry",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appCreatedDate",
+            "columnName": "appCreatedDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "app_id",
+            "columnName": "app_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "uniqueId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "preop_details_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uniqueId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `patientId` INTEGER NOT NULL, `campId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `injtt` INTEGER NOT NULL, `adulttab` INTEGER NOT NULL, `childrensolidorliquid` INTEGER NOT NULL, `childrenbreastfed` INTEGER NOT NULL, `childrenwaterorliquid` INTEGER NOT NULL, `adultsolidorliquid` INTEGER NOT NULL, `adultwaterorliquid` INTEGER NOT NULL, `currentedicine` TEXT NOT NULL, `childrensolidorliquidTime` TEXT NOT NULL, `childrenbreastfedTime` TEXT NOT NULL, `childrenwaterorliquidTime` TEXT NOT NULL, `adultsolidorliquidTime` TEXT NOT NULL, `adultwaterorliquidTime` TEXT NOT NULL, `otherInstructions` INTEGER NOT NULL, `otherInstructionsDetail` TEXT, `surgeryCancel` INTEGER, `surgeryCancelReason` TEXT, `appCreatedDate` TEXT NOT NULL, `app_id` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uniqueId",
+            "columnName": "uniqueId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campId",
+            "columnName": "campId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "injtt",
+            "columnName": "injtt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "adulttab",
+            "columnName": "adulttab",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "childrensolidorliquid",
+            "columnName": "childrensolidorliquid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "childrenbreastfed",
+            "columnName": "childrenbreastfed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "childrenwaterorliquid",
+            "columnName": "childrenwaterorliquid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "adultsolidorliquid",
+            "columnName": "adultsolidorliquid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "adultwaterorliquid",
+            "columnName": "adultwaterorliquid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentedicine",
+            "columnName": "currentedicine",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "childrensolidorliquidTime",
+            "columnName": "childrensolidorliquidTime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "childrenbreastfedTime",
+            "columnName": "childrenbreastfedTime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "childrenwaterorliquidTime",
+            "columnName": "childrenwaterorliquidTime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "adultsolidorliquidTime",
+            "columnName": "adultsolidorliquidTime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "adultwaterorliquidTime",
+            "columnName": "adultwaterorliquidTime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "otherInstructions",
+            "columnName": "otherInstructions",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "otherInstructionsDetail",
+            "columnName": "otherInstructionsDetail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "surgeryCancel",
+            "columnName": "surgeryCancel",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "surgeryCancelReason",
+            "columnName": "surgeryCancelReason",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "appCreatedDate",
+            "columnName": "appCreatedDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "app_id",
+            "columnName": "app_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "uniqueId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "surgical_note_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uniqueId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `patientId` INTEGER NOT NULL, `campId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `lignocaineSensitive` INTEGER NOT NULL, `xylocaineSensitive` INTEGER NOT NULL, `localApplicationDone` INTEGER NOT NULL, `localInfiltrationDone` INTEGER NOT NULL, `nerveBlock` INTEGER NOT NULL, `generalEndotrachealUsed` INTEGER NOT NULL, `pulseMonitored` INTEGER NOT NULL, `respirationMonitored` INTEGER NOT NULL, `bpMonitored` INTEGER NOT NULL, `ecgMonitored` INTEGER NOT NULL, `temperatureMonitored` INTEGER NOT NULL, `antibioticGiven` INTEGER NOT NULL, `ethamsylateGiven` INTEGER NOT NULL, `adrenalinInfiltrationDone` INTEGER NOT NULL, `earWaxRemovalDone` INTEGER NOT NULL, `tympanoplastyDone` INTEGER NOT NULL, `mastoidectomyDone` INTEGER NOT NULL, `foreignBodyRemovalDone` INTEGER NOT NULL, `grommentInsertionDone` INTEGER NOT NULL, `excisionBiopsyDone` INTEGER NOT NULL, `other` TEXT, `bpInterpretation` TEXT, `pulseValue` TEXT, `bpSystolic` TEXT, `bpDiastolic` TEXT, `respirationValue` TEXT, `temperatureValue` TEXT, `temperatureUnit` TEXT, `ecgDetail` TEXT, `antibioticDetail` TEXT, `appCreatedDate` TEXT NOT NULL, `app_id` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uniqueId",
+            "columnName": "uniqueId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campId",
+            "columnName": "campId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lignocaineSensitive",
+            "columnName": "lignocaineSensitive",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "xylocaineSensitive",
+            "columnName": "xylocaineSensitive",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "localApplicationDone",
+            "columnName": "localApplicationDone",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "localInfiltrationDone",
+            "columnName": "localInfiltrationDone",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nerveBlock",
+            "columnName": "nerveBlock",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalEndotrachealUsed",
+            "columnName": "generalEndotrachealUsed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pulseMonitored",
+            "columnName": "pulseMonitored",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "respirationMonitored",
+            "columnName": "respirationMonitored",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bpMonitored",
+            "columnName": "bpMonitored",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ecgMonitored",
+            "columnName": "ecgMonitored",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "temperatureMonitored",
+            "columnName": "temperatureMonitored",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "antibioticGiven",
+            "columnName": "antibioticGiven",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ethamsylateGiven",
+            "columnName": "ethamsylateGiven",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "adrenalinInfiltrationDone",
+            "columnName": "adrenalinInfiltrationDone",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "earWaxRemovalDone",
+            "columnName": "earWaxRemovalDone",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tympanoplastyDone",
+            "columnName": "tympanoplastyDone",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mastoidectomyDone",
+            "columnName": "mastoidectomyDone",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "foreignBodyRemovalDone",
+            "columnName": "foreignBodyRemovalDone",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "grommentInsertionDone",
+            "columnName": "grommentInsertionDone",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "excisionBiopsyDone",
+            "columnName": "excisionBiopsyDone",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "other",
+            "columnName": "other",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "bpInterpretation",
+            "columnName": "bpInterpretation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pulseValue",
+            "columnName": "pulseValue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "bpSystolic",
+            "columnName": "bpSystolic",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "bpDiastolic",
+            "columnName": "bpDiastolic",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "respirationValue",
+            "columnName": "respirationValue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "temperatureValue",
+            "columnName": "temperatureValue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "temperatureUnit",
+            "columnName": "temperatureUnit",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ecgDetail",
+            "columnName": "ecgDetail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "antibioticDetail",
+            "columnName": "antibioticDetail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "appCreatedDate",
+            "columnName": "appCreatedDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "app_id",
+            "columnName": "app_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "uniqueId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "post_op_notes_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uniqueId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `patientId` INTEGER NOT NULL, `campId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `ivHydrationGiven` INTEGER NOT NULL, `npoTill` TEXT, `clearFluidsStartTime` TEXT, `paracetamolGiven` INTEGER NOT NULL, `antibioticClavulanateGiven` INTEGER NOT NULL, `ofloxacinGiven` INTEGER NOT NULL, `otherMedicationsNote` TEXT, `wickDrainUsed` INTEGER NOT NULL, `redivacUsed` INTEGER NOT NULL, `watchForSoakage` INTEGER NOT NULL, `watchForHematoma` INTEGER NOT NULL, `watchForMiddleEarInfection` INTEGER NOT NULL, `watchForWoundInfection` INTEGER NOT NULL, `watchForWoundDehiscence` INTEGER NOT NULL, `watchForFacialPalsy` INTEGER NOT NULL, `sutureRemovalDate` TEXT, `audiogramResult` TEXT, `audiogramDate` TEXT, `hasComplicationInfection` INTEGER NOT NULL, `otherComplicationsNote` TEXT, `tympanicMembraneStatus` TEXT, `otorrhoeaPresent` INTEGER NOT NULL, `airConductionThresholdDb` TEXT, `hearingThresholdDate` TEXT, `ivHyderationDetail` TEXT, `appCreatedDate` TEXT NOT NULL, `app_id` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uniqueId",
+            "columnName": "uniqueId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campId",
+            "columnName": "campId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ivHydrationGiven",
+            "columnName": "ivHydrationGiven",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "npoTill",
+            "columnName": "npoTill",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "clearFluidsStartTime",
+            "columnName": "clearFluidsStartTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "paracetamolGiven",
+            "columnName": "paracetamolGiven",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "antibioticClavulanateGiven",
+            "columnName": "antibioticClavulanateGiven",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ofloxacinGiven",
+            "columnName": "ofloxacinGiven",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "otherMedicationsNote",
+            "columnName": "otherMedicationsNote",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "wickDrainUsed",
+            "columnName": "wickDrainUsed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "redivacUsed",
+            "columnName": "redivacUsed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "watchForSoakage",
+            "columnName": "watchForSoakage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "watchForHematoma",
+            "columnName": "watchForHematoma",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "watchForMiddleEarInfection",
+            "columnName": "watchForMiddleEarInfection",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "watchForWoundInfection",
+            "columnName": "watchForWoundInfection",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "watchForWoundDehiscence",
+            "columnName": "watchForWoundDehiscence",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "watchForFacialPalsy",
+            "columnName": "watchForFacialPalsy",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sutureRemovalDate",
+            "columnName": "sutureRemovalDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "audiogramResult",
+            "columnName": "audiogramResult",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "audiogramDate",
+            "columnName": "audiogramDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hasComplicationInfection",
+            "columnName": "hasComplicationInfection",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "otherComplicationsNote",
+            "columnName": "otherComplicationsNote",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tympanicMembraneStatus",
+            "columnName": "tympanicMembraneStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "otorrhoeaPresent",
+            "columnName": "otorrhoeaPresent",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "airConductionThresholdDb",
+            "columnName": "airConductionThresholdDb",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hearingThresholdDate",
+            "columnName": "hearingThresholdDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ivHyderationDetail",
+            "columnName": "ivHyderationDetail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "appCreatedDate",
+            "columnName": "appCreatedDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "app_id",
+            "columnName": "app_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "uniqueId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "audiometry_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uniqueId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `patientId` INTEGER NOT NULL, `campId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `conductiveLeft` INTEGER NOT NULL, `conductiveRight` INTEGER NOT NULL, `conductiveBilateral` INTEGER NOT NULL, `sensorineuralLeft` INTEGER NOT NULL, `sensorineuralRight` INTEGER NOT NULL, `sensorineuralBilateral` INTEGER NOT NULL, `hearingAidGiven` INTEGER NOT NULL, `hearingAidType` TEXT, `appCreatedDate` TEXT, `app_id` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uniqueId",
+            "columnName": "uniqueId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campId",
+            "columnName": "campId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "conductiveLeft",
+            "columnName": "conductiveLeft",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "conductiveRight",
+            "columnName": "conductiveRight",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "conductiveBilateral",
+            "columnName": "conductiveBilateral",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sensorineuralLeft",
+            "columnName": "sensorineuralLeft",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sensorineuralRight",
+            "columnName": "sensorineuralRight",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sensorineuralBilateral",
+            "columnName": "sensorineuralBilateral",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hearingAidGiven",
+            "columnName": "hearingAidGiven",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hearingAidType",
+            "columnName": "hearingAidType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "appCreatedDate",
+            "columnName": "appCreatedDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "app_id",
+            "columnName": "app_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "uniqueId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "audiometry_image_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `patientId` INTEGER NOT NULL, `campId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `appCreatedDate` TEXT, `filename` TEXT NOT NULL, `app_id` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campId",
+            "columnName": "campId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appCreatedDate",
+            "columnName": "appCreatedDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "filename",
+            "columnName": "filename",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "app_id",
+            "columnName": "app_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ent_patient_report",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `formType` TEXT NOT NULL, `formId` INTEGER NOT NULL, `patientFname` TEXT NOT NULL, `patientLname` TEXT NOT NULL, `patientId` INTEGER NOT NULL, `patientGen` TEXT NOT NULL, `patientAge` INTEGER NOT NULL, `camp_id` INTEGER NOT NULL, `location` TEXT NOT NULL, `AgeUnit` TEXT NOT NULL, `RegNo` TEXT NOT NULL, `app_id` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "formType",
+            "columnName": "formType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "formId",
+            "columnName": "formId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientFname",
+            "columnName": "patientFname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientLname",
+            "columnName": "patientLname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientGen",
+            "columnName": "patientGen",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientAge",
+            "columnName": "patientAge",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "AgeUnit",
+            "columnName": "AgeUnit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "RegNo",
+            "columnName": "RegNo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "app_id",
+            "columnName": "app_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "pathology_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uniqueId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `patientId` INTEGER NOT NULL, `campId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `cbc` INTEGER NOT NULL, `cbcValue` TEXT, `bt` INTEGER NOT NULL, `btValue` TEXT, `ct` INTEGER NOT NULL, `ctValue` TEXT, `hiv` INTEGER NOT NULL, `hivValue` TEXT, `hbsag` INTEGER NOT NULL, `hbsagValue` TEXT, `pta` INTEGER NOT NULL, `ptaValue` TEXT, `impedanceAudiometry` INTEGER NOT NULL, `impedanceAudiometryValue` TEXT, `appCreatedDate` TEXT, `app_id` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uniqueId",
+            "columnName": "uniqueId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campId",
+            "columnName": "campId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cbc",
+            "columnName": "cbc",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cbcValue",
+            "columnName": "cbcValue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "bt",
+            "columnName": "bt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "btValue",
+            "columnName": "btValue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ct",
+            "columnName": "ct",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ctValue",
+            "columnName": "ctValue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hiv",
+            "columnName": "hiv",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hivValue",
+            "columnName": "hivValue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hbsag",
+            "columnName": "hbsag",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hbsagValue",
+            "columnName": "hbsagValue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "pta",
+            "columnName": "pta",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ptaValue",
+            "columnName": "ptaValue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "impedanceAudiometry",
+            "columnName": "impedanceAudiometry",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "impedanceAudiometryValue",
+            "columnName": "impedanceAudiometryValue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "appCreatedDate",
+            "columnName": "appCreatedDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "app_id",
+            "columnName": "app_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "uniqueId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "pathology_image_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `formId` INTEGER NOT NULL, `patientId` INTEGER NOT NULL, `campId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `appCreatedDate` TEXT, `filename` TEXT NOT NULL, `reportType` TEXT NOT NULL, `app_id` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "formId",
+            "columnName": "formId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campId",
+            "columnName": "campId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appCreatedDate",
+            "columnName": "appCreatedDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "filename",
+            "columnName": "filename",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reportType",
+            "columnName": "reportType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "app_id",
+            "columnName": "app_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "preop_image_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `patientId` INTEGER NOT NULL, `campId` INTEGER NOT NULL, `userId` INTEGER NOT NULL, `appCreatedDate` TEXT, `filename` TEXT NOT NULL, `app_id` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campId",
+            "columnName": "campId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appCreatedDate",
+            "columnName": "appCreatedDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "filename",
+            "columnName": "filename",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "app_id",
+            "columnName": "app_id",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "prescription_patient_report",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `formId` INTEGER NOT NULL, `patientFname` TEXT NOT NULL, `patientLname` TEXT NOT NULL, `patientId` INTEGER NOT NULL, `patientGen` TEXT NOT NULL, `patientAge` INTEGER NOT NULL, `camp_id` INTEGER NOT NULL, `AgeUnit` TEXT NOT NULL, `location` TEXT NOT NULL, `isSyn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "formId",
+            "columnName": "formId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientFname",
+            "columnName": "patientFname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientLname",
+            "columnName": "patientLname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientId",
+            "columnName": "patientId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientGen",
+            "columnName": "patientGen",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "patientAge",
+            "columnName": "patientAge",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "camp_id",
+            "columnName": "camp_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "AgeUnit",
+            "columnName": "AgeUnit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSyn",
+            "columnName": "isSyn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "sync_summary_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `totalSynced` INTEGER NOT NULL, `totalUnsynced` INTEGER NOT NULL, `dateTime` TEXT NOT NULL, `formType` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalSynced",
+            "columnName": "totalSynced",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalUnsynced",
+            "columnName": "totalUnsynced",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateTime",
+            "columnName": "dateTime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "formType",
+            "columnName": "formType",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "sync_prescription_record_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `date` TEXT NOT NULL, `time` TEXT NOT NULL, `syncCount` INTEGER NOT NULL, `unsyncCount` INTEGER NOT NULL, `formType` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "syncCount",
+            "columnName": "syncCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unsyncCount",
+            "columnName": "unsyncCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "formType",
+            "columnName": "formType",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '313d292a8bc0d6458d35a900c29fefc5')"
+    ]
+  }
+}
