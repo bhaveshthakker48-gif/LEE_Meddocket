@@ -236,23 +236,53 @@ class LLE_MedDocketViewModel(val LLE_MedDocketRespository: LLE_MedDocketResposit
         return ResourceApp.Error(response.message())
     }
 
-    fun uploadFile1(progressDialog: ProgressDialog, imageUploadParams: ImageUploadParams)=viewModelScope.launch {
+    fun uploadFile1(
+        progressDialog: ProgressDialog,
+        imageUploadParams: ImageUploadParams
+    ) = viewModelScope.launch {
+        Log.d("UpdateImage", "📡 uploadFile1() called")
+        Log.d("UpdateImage", "➡️ Parameters: " +
+                "\n   - File: ${imageUploadParams.filePart.body.contentType()}" +
+                "\n   - Type: ${imageUploadParams.imageTypeRequestBody}" +
+                "\n   - Patient ID: ${imageUploadParams.patientIdRequestBody}" +
+                "\n   - Camp ID: ${imageUploadParams.campIdRequestBody}" +
+                "\n   - User ID: ${imageUploadParams.userIdRequestBody}" +
+                "\n   - Local DB ID: ${imageUploadParams.idRequestBody}")
+
         try {
             if (ConstantsApp.checkInternetConenction(app)) {
+                Log.d("UpdateImage", "🌐 Internet connection available, starting upload")
+
                 getImageUploadResponse.postValue(ResourceApp.Loading())
-                val data=LLE_MedDocketRespository.imageUpload1(imageUploadParams)
-                getImageUploadResponse.postValue(handleImageUpload(data)!!)
-            }
-            else{
+
+                // Make API call
+                Log.d("UpdateImage", "🚀 Calling repository.imageUpload1()...")
+                val data = LLE_MedDocketRespository.imageUpload1(imageUploadParams)
+                Log.d("UpdateImage", "📬 Raw API response received: $data")
+
+                // Handle the response
+                val handledResponse = handleImageUpload(data)
+                Log.d("UpdateImage", "🧩 handleImageUpload() returned: $handledResponse")
+
+                if (handledResponse != null) {
+                    Log.d("UpdateImage", "✅ Posting handled response to LiveData")
+                    getImageUploadResponse.postValue(handledResponse)
+                } else {
+                    Log.e("UpdateImage", "⚠️ handleImageUpload() returned null — response not posted")
+                }
+            } else {
+                Log.w("UpdateImage", "❌ No internet connection detected")
                 Toast.makeText(app, R.string.no_internet_connection, Toast.LENGTH_SHORT).show()
                 progressDialog.dismiss()
             }
-        }
-        catch (e: Exception) {
-            e.printStackTrace()
+        } catch (e: Exception) {
+            Log.e("UpdateImage", "❌ Exception during uploadFile1(): ${e.message}", e)
             progressDialog.dismiss()
+        } finally {
+            Log.d("UpdateImage", "🧹 uploadFile1() finished (finally block reached)")
         }
     }
+
 
     private fun handleImageUpload(response: Response<getImageUploadResponse>): ResourceApp<getImageUploadResponse>? {
         if (response.isSuccessful) {

@@ -1,692 +1,756 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:layout_height="match_parent"
     android:background="@color/baby_blue"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
     <include
         android:id="@+id/toolbarEyePreOPInvestigation"
         layout="@layout/toolbar" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <androidx.cardview.widget.CardView
-                android:elevation="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
+                android:elevation="0dp"
                 app:cardBackgroundColor="@android:color/white"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="9dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                app:cardElevation="9dp">
+
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
                         <TextView
-                            android:text="General Investigations"
                             style="@style/refreactive_head_title1"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:text="General Investigations" />
+
                         <LinearLayout
-                            android:padding="@dimen/_5sdp"
-                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/_5sdp">
+
                             <TextView
                                 style="@style/refreactive_sub_title"
-                                android:text="Blood Pressure"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:text="Blood Pressure" />
+
                             <LinearLayout
-                                android:gravity="center"
-                                android:weightSum="4"
-                                android:orientation="horizontal"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:orientation="horizontal"
+                                android:weightSum="3">
+
                                 <EditText
-                                    android:maxLength="3"
                                     android:id="@+id/EditText_BP_Systolic"
-
-                                    style="@style/edittext_pre_op_num"
-                                    android:layout_weight="1"
                                     android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_5sdp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edittext_background"
+                                    android:fontFamily="@font/opensans_semibold"
+                                    android:gravity="center_vertical"
                                     android:hint="Systolic"
-                                    android:layout_height="wrap_content"/>
+                                    android:inputType="numberDecimal"
+                                    android:padding="@dimen/_2sdp"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/gray"
+                                    android:textSize="@dimen/_10ssp" />
+
                                 <EditText
-                                    android:maxLength="3"
                                     android:id="@+id/EditText_BP_Diastolic"
-                                    style="@style/edittext_pre_op_num"
-                                    android:layout_weight="1"
                                     android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_5sdp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edittext_background"
+                                    android:fontFamily="@font/opensans_semibold"
+                                    android:gravity="center_vertical"
                                     android:hint="Diastolic"
-                                    android:layout_height="wrap_content"/>
-                                <TextView
+                                    android:inputType="numberDecimal"
+                                    android:padding="@dimen/_2sdp"
                                     android:textColor="@color/black"
+                                    android:textColorHint="@color/gray"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
                                     android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center_horizontal"
                                     android:text="mm/Hg"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <TextView
-                                    style="@style/textView_normal"
-                                    android:id="@+id/TextView_BP_Interpretation"
-                                    android:textColor="@color/black"
-                                    android:layout_gravity="center"
-                                    android:hint=" "
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                                    android:textColor="@color/black" />
 
                             </LinearLayout>
 
+                            <TextView
+                                android:id="@+id/TextView_BP_Interpretation"
+                                style="@style/textView_normal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/_10sdp"
+                                android:hint=" "
+                                android:textColor="@color/black" />
 
 
                         </LinearLayout>
+
                         <View
-                            android:background="@color/black"
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"/>
-                        <LinearLayout
-                            android:padding="@dimen/_5sdp"
+                            android:layout_height="1dp"
                             android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:padding="@dimen/_5sdp">
+
                             <TextView
                                 style="@style/refreactive_sub_title"
-                                android:text="Blood Sugar-F and PP"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
-                            <LinearLayout
-                                android:gravity="center"
-                                android:weightSum="3"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-                                <EditText
-                                    android:maxLength="3"
-                                    android:id="@+id/EditText_BSF"
+                                android:layout_height="wrap_content"
+                                android:text="Blood Sugar-F and PP" />
 
-                                    style="@style/edittext_pre_op_num"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:hint="Fasting"
-                                    android:layout_height="wrap_content"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:orientation="horizontal"
+                                android:weightSum="3">
+
                                 <EditText
-                                    android:maxLength="3"
+                                    android:id="@+id/EditText_BSF"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_5sdp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edittext_background"
+                                    android:fontFamily="@font/opensans_semibold"
+                                    android:gravity="center_vertical"
+                                    android:hint="Fasting"
+                                    android:inputType="numberDecimal"
+                                    android:padding="@dimen/_2sdp"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/gray"
+                                    android:textSize="@dimen/_10ssp" />
+
+                                <EditText
                                     android:id="@+id/EditText_PP"
-                                    style="@style/edittext_pre_op_num"
-                                    android:layout_weight="1"
                                     android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_5sdp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edittext_background"
+                                    android:fontFamily="@font/opensans_semibold"
+                                    android:gravity="center_vertical"
                                     android:hint="PP"
-                                    android:layout_height="wrap_content"/>
-                                <TextView
+                                    android:inputType="numberDecimal"
+                                    android:padding="@dimen/_2sdp"
                                     android:textColor="@color/black"
-                                    android:layout_gravity="center"
-                                    android:text="mg/dL"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                                    android:textColorHint="@color/gray"
+                                    android:textSize="@dimen/_10ssp" />
+
                                 <TextView
-                                    android:id="@+id/TextView_Sugar_interpretation"
-                                    android:textColor="@color/black"
-                                    android:layout_gravity="center"
-                                    android:text="mg/dL"
-                                    android:layout_weight="1"
                                     android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:gravity="center_horizontal"
+                                    android:text="mm/Hg"
+                                    android:textColor="@color/black" />
 
                             </LinearLayout>
 
-
+                            <TextView
+                                android:id="@+id/TextView_Sugar_interpretation"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:visibility="gone"
+                                android:gravity="center_horizontal"
+                                android:text="mm/Hg"
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
-                        <View
-                            android:background="@color/black"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"/>
-                        <LinearLayout
 
-                            android:padding="@dimen/_5sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:orientation="horizontal"
-                            android:weightSum="4"
+                        <View
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="1dp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp"
+                            android:weightSum="4">
+
                             <TextView
-                                android:layout_weight="1"
                                 style="@style/refreactive_sub_title"
-                                android:text="Haemoglobin"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
+                                android:layout_gravity="center_vertical"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.5"
+                                android:text="Haemoglobin" />
 
                             <EditText
-                                android:maxLength="4"
                                 android:id="@+id/EditText_Haemoglobin"
-
-                                style="@style/edittext_pre_op_num"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_5sdp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edittext_background"
+                                android:fontFamily="@font/opensans_semibold"
+                                android:gravity="center_vertical"
                                 android:hint="Enter"
-                                android:layout_height="wrap_content"/>
+                                android:inputType="numberDecimal"
+                                android:maxLength="5"
+                                android:padding="@dimen/_2sdp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/gray"
+                                android:textSize="@dimen/_10ssp" />
 
                             <TextView
-                                android:textColor="@color/black"
-                                android:layout_gravity="center"
-                                android:text="g/dL"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="0.5"
+                                android:text="g/dL"
+                                android:textColor="@color/black" />
+
                             <TextView
                                 android:id="@+id/textView_HB_interpretation"
-                                android:textColor="@color/black"
-                                android:layout_gravity="center"
-
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
-
-
-
-
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
-                        <View
-                            android:background="@color/black"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"/>
-                        <LinearLayout
 
-                            android:padding="@dimen/_5sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:orientation="horizontal"
-                            android:weightSum="3"
+                        <View
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="1dp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp"
+                            android:weightSum="2">
+
                             <TextView
-                                android:layout_weight="1"
                                 style="@style/refreactive_sub_title"
-                                android:text="CBC"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
+                                android:gravity="center_vertical"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="CBC" />
 
                             <EditText
-                                android:maxLength="3"
                                 android:id="@+id/EditText_CBC"
-
-                                style="@style/edittext_pre_op_num"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:hint="Findings"
-                                android:layout_height="wrap_content"/>
-
-                            <TextView
+                                android:background="@drawable/edittext_background"
+                                android:fontFamily="@font/opensans_semibold"
+                                android:gravity="center_vertical"
+                                android:padding="@dimen/_2sdp"
                                 android:textColor="@color/black"
-                                android:layout_gravity="center"
-                                android:text=""
-                                android:layout_weight="1"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
-
-
-
-
+                                android:textColorHint="@color/gray"
+                                android:textSize="@dimen/_10ssp"/>
 
                         </LinearLayout>
-                        <View
-                            android:background="@color/black"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"/>
-                        <LinearLayout
 
-                            android:padding="@dimen/_5sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:orientation="horizontal"
-                            android:weightSum="3"
+                        <View
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="1dp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp"
+                            android:weightSum="3">
+
                             <TextView
-                                android:layout_weight="1"
                                 style="@style/refreactive_sub_title"
-                                android:text="Prothrombin Time"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:layout_weight="1.3"
+                                android:text="Prothrombin Time" />
 
                             <EditText
-                                android:maxLength="3"
                                 android:id="@+id/EditText_Prothrombin_Time"
-
-                                style="@style/edittext_pre_op_num"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:hint="Enter"
-                                android:layout_height="wrap_content"/>
+                                android:background="@drawable/edittext_background"
+                                android:fontFamily="@font/opensans_semibold"
+                                android:gravity="center_vertical"
+                                android:inputType="numberDecimal"
+                                android:padding="@dimen/_2sdp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/gray"
+                                android:textSize="@dimen/_10ssp"/>
 
                             <TextView
-                                android:textColor="@color/black"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
+                                android:layout_weight="0.7"
+                                android:layout_marginStart="@dimen/_2sdp"
                                 android:text="seconds"
-                                android:layout_weight="1"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
-
-
-
+                                android:textColor="@color/black" />
 
 
                         </LinearLayout>
+
                         <View
-                            android:background="@color/black"
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"/>
+                            android:layout_height="1dp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@color/black" />
+
                         <LinearLayout
 
-                            android:padding="@dimen/_5sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:orientation="horizontal"
-                            android:weightSum="3"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp"
+                            android:weightSum="3">
+
                             <TextView
-                                android:layout_weight="1"
                                 style="@style/refreactive_sub_title"
-                                android:text="Bleeding Time"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1.3"
+                                android:text="Bleeding Time" />
 
                             <EditText
-
-                                android:maxLength="3"
                                 android:id="@+id/EditText_Bleeding_Time"
-
                                 style="@style/edittext_pre_op_num"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:hint="Enter"
-                                android:layout_height="wrap_content"/>
+                                android:background="@drawable/edittext_background"
+                                android:fontFamily="@font/opensans_semibold"
+                                android:gravity="center_vertical"
+                                android:inputType="numberDecimal"
+                                android:padding="@dimen/_2sdp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/gray"
+                                android:textSize="@dimen/_10ssp"/>
 
                             <TextView
-                                android:textColor="@color/black"
-                                android:layout_gravity="center"
-                                android:text="minutes"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
-
-
-
-
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="0.7"
+                                android:text="minutes"
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
+
                         <View
-                            android:background="@color/black"
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"/>
+                            android:layout_height="1dp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@color/black" />
+
                         <LinearLayout
 
-                            android:padding="@dimen/_5sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:orientation="horizontal"
-                            android:weightSum="3"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp"
+                            android:weightSum="3">
+
                             <TextView
-                                android:layout_weight="1"
                                 style="@style/refreactive_sub_title"
-                                android:text="Clotting Time"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
+                                android:gravity="center_vertical"
+                                android:layout_gravity="center_vertical"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.3"
+                                android:text="Clotting Time" />
 
                             <EditText
-                                android:maxLength="3"
                                 android:id="@+id/EditText_Clotting_Time"
-
                                 style="@style/edittext_pre_op_num"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:hint="Enter"
-                                android:layout_height="wrap_content"/>
+                                android:background="@drawable/edittext_background"
+                                android:fontFamily="@font/opensans_semibold"
+                                android:gravity="center_vertical"
+                                android:inputType="numberDecimal"
+                                android:padding="@dimen/_2sdp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/gray"
+                                android:textSize="@dimen/_10ssp"/>
 
                             <TextView
-                                android:textColor="@color/black"
-                                android:layout_gravity="center"
-                                android:text="minutes"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
-
-
-
-
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="0.7"
+                                android:text="minutes"
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
-                        <View
-                            android:background="@color/black"
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"/>
-                        <LinearLayout
 
-                            android:padding="@dimen/_5sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:orientation="horizontal"
-                            android:weightSum="3"
+                        <View
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="1dp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp"
+                            android:weightSum="2">
+
                             <TextView
-                                android:layout_weight="1"
                                 style="@style/refreactive_sub_title"
-                                android:text="HIV"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
+                                android:gravity="center_vertical"
+                                android:layout_gravity="center_vertical"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="HIV" />
 
                             <Spinner
                                 android:id="@+id/Spinner_HIV"
                                 style="@style/spinner_padding_left_right"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
-                                android:hint="Enter"
-                                android:layout_height="wrap_content"/>
-
-                            <TextView
-                                android:textColor="@color/black"
-                                android:layout_gravity="center"
-                                android:text=""
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
-
-
-
-
+                                android:hint="Enter" />
 
                         </LinearLayout>
+
                         <View
-                            android:background="@color/black"
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"/>
+                            android:layout_height="1dp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@color/black" />
+
                         <LinearLayout
 
-                            android:padding="@dimen/_5sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:orientation="horizontal"
-                            android:weightSum="3"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp"
+                            android:weightSum="2">
+
                             <TextView
-                                android:layout_weight="1"
                                 style="@style/refreactive_sub_title"
-                                android:text="HBsAg"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
+                                android:gravity="center_vertical"
+                                android:layout_gravity="center_vertical"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="HBsAg" />
 
                             <Spinner
                                 android:id="@+id/Spinner_HBsAg"
                                 style="@style/spinner_padding_left_right"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
-                                android:hint="Enter"
-                                android:layout_height="wrap_content"/>
-
-                            <TextView
-                                android:textColor="@color/black"
-                                android:layout_gravity="center"
-                                android:text=""
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
-
-
-
-
+                                android:hint="Enter" />
 
                         </LinearLayout>
+
                         <View
-                            android:background="@color/black"
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"/>
+                            android:layout_height="1dp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@color/black" />
 
                         <LinearLayout
-
-                            android:padding="@dimen/_5sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:orientation="horizontal"
-                            android:weightSum="3"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp"
+                            android:weightSum="2">
+
                             <TextView
-                                android:layout_weight="1"
                                 style="@style/refreactive_sub_title"
-                                android:text="HCV"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
+                                android:gravity="center_vertical"
+                                android:layout_gravity="center_vertical"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="HCV" />
 
                             <Spinner
                                 android:id="@+id/Spinner_HCV"
                                 style="@style/spinner_padding_left_right"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
-                                android:hint="Enter"
-                                android:layout_height="wrap_content"/>
-
-                            <TextView
-                                android:textColor="@color/black"
-                                android:layout_gravity="center"
-                                android:text=""
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
-
-
-
+                                android:hint="Enter" />
 
 
                         </LinearLayout>
+
                         <View
-                            android:background="@color/black"
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"/>
+                            android:layout_height="1dp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@color/black" />
 
                         <LinearLayout
 
-                            android:padding="@dimen/_5sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:orientation="horizontal"
-                            android:weightSum="3"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_5sdp"
+                            android:weightSum="2">
+
                             <TextView
-                                android:layout_weight="1"
                                 style="@style/refreactive_sub_title"
-                                android:text="ECG"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
+                                android:gravity="center_vertical"
+                                android:layout_gravity="center_vertical"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="ECG" />
 
                             <EditText
                                 android:id="@+id/EditText_ECG"
-                                style="@style/edittext_pre_op_num"
-                                android:layout_weight="1"
                                 android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:hint="Findings"
-                                android:layout_height="wrap_content"/>
-
-                            <TextView
+                                android:background="@drawable/edittext_background"
+                                android:fontFamily="@font/opensans_semibold"
+                                android:gravity="center_vertical"
+                                android:padding="@dimen/_2sdp"
                                 android:textColor="@color/black"
-                                android:layout_gravity="center"
-                                android:text=""
-                                android:layout_weight="1"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"/>
-
-
-
-
+                                android:textColorHint="@color/gray"
+                                android:textSize="@dimen/_10ssp"/>
 
                         </LinearLayout>
-
-
-
-
-
-
-
-
-
                     </LinearLayout>
+
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
                         <TextView
 
-                            android:text="Eye Specific Investigations"
                             style="@style/refreactive_head_title1"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:text="Eye Specific Investigations" />
 
                         <LinearLayout
-                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
                             <TextView
-                                android:padding="@dimen/_1sdp"
                                 style="@style/refreactive_sub_title"
-                                android:text="Tomonetry"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/_1sdp"
+                                android:text="Tomonetry" />
+
                             <View
-                                android:background="@color/black"
                                 android:layout_width="match_parent"
-                                android:layout_height="1dp"/>
+                                android:layout_height="1dp"
+                                android:background="@color/black" />
+
                             <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="3"
-                                android:orientation="horizontal"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/_2sdp"
+                                android:orientation="horizontal"
+                                android:weightSum="3">
+
                                 <LinearLayout
-                                    android:gravity="center"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical"
                                     android:layout_width="0dp"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
                                     <TextView
-                                        android:padding="@dimen/_1sdp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
                                         android:background="@drawable/textview_background"
+                                        android:padding="@dimen/_1sdp"
+                                        android:text="" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:text=""
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"/>
+                                        android:textAlignment="center" />
+
                                     <TextView
-                                        android:textAlignment="center"
-                                        android:text=""
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"/>
-                                    <TextView
-                                        android:textColor="@color/black"
-                                        android:textAlignment="center"
                                         android:text="IOP"
-                                        android:layout_gravity="center"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"/>
+                                        android:textAlignment="center"
+                                        android:textColor="@color/black" />
 
                                 </LinearLayout>
-                                <View
-                                    android:layout_weight="0.01"
-                                    android:background="@color/white"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <LinearLayout
-                                    android:gravity="center"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content">
-                                    <TextView
-                                        android:padding="@dimen/_1sdp"
 
-                                        android:textStyle="bold"
-                                        android:textColor="@color/white"
-                                        android:textAlignment="center"
-                                        android:background="@drawable/textview_background"
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.01"
+                                    android:background="@color/white" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
+                                        android:background="@drawable/textview_background"
+                                        android:padding="@dimen/_1sdp"
                                         android:text="Right Eye"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"/>
+                                        android:textAlignment="center"
+                                        android:textColor="@color/white"
+                                        android:textStyle="bold" />
+
                                     <LinearLayout
-                                        android:gravity="center"
-                                        android:weightSum="2"
-                                        android:orientation="horizontal"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        android:weightSum="2">
+
                                         <EditText
                                             android:id="@+id/EditText_IOP_Right_eye"
-                                            android:hint="Enter"
-                                            android:layout_weight="1"
                                             style="@style/edittext_pre_op_num"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
-                                        <TextView
-                                            android:text="mm/Hg"
+                                            android:layout_height="wrap_content"
                                             android:layout_weight="1"
+                                            android:hint="Enter" />
 
+                                        <TextView
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="mm/Hg" />
 
                                     </LinearLayout>
                                 </LinearLayout>
+
                                 <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
                                     android:layout_weight="0.01"
-                                    android:background="@color/white"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                                    android:background="@color/white" />
+
                                 <LinearLayout
-                                    android:gravity="center"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical"
                                     android:layout_width="0dp"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
                                     <TextView
-                                        android:padding="@dimen/_1sdp"
-                                        android:textAlignment="center"
-                                        android:background="@drawable/textview_background"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
+                                        android:background="@drawable/textview_background"
+                                        android:padding="@dimen/_1sdp"
                                         android:text="Left Eye"
+                                        android:textAlignment="center"
                                         android:textColor="@color/white"
-                                        android:textStyle="bold"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"/>
+                                        android:textStyle="bold" />
+
                                     <LinearLayout
-                                        android:gravity="center"
-                                        android:weightSum="2"
-                                        android:orientation="horizontal"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:orientation="horizontal"
+                                        android:weightSum="2">
+
                                         <EditText
                                             android:id="@+id/EditText_IOP_Left_eye"
-                                            android:hint="Enter"
-                                            android:layout_weight="1"
                                             style="@style/edittext_pre_op_num"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
-                                        <TextView
-                                            android:text="mm/Hg"
+                                            android:layout_height="wrap_content"
                                             android:layout_weight="1"
+                                            android:hint="Enter" />
 
+                                        <TextView
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="mm/Hg" />
 
                                     </LinearLayout>
                                 </LinearLayout>
@@ -694,304 +758,322 @@
                             </LinearLayout>
 
                             <TextView
-                                android:padding="@dimen/_1sdp"
                                 style="@style/refreactive_sub_title"
-                                android:text="Keratometer"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/_1sdp"
+                                android:text="Keratometer" />
+
                             <View
-                                android:background="@color/black"
                                 android:layout_width="match_parent"
-                                android:layout_height="1dp"/>
+                                android:layout_height="1dp"
+                                android:background="@color/black" />
+
                             <LinearLayout
-                                android:orientation="vertical"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
 
                                 <LinearLayout
-                                    android:gravity="center"
-                                    android:weightSum="3"
-                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
                                     <TextView
-                                        android:layout_marginTop="@dimen/_1sdp"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/_1sdp"
+                                        android:layout_marginTop="@dimen/_1sdp"
                                         android:layout_marginBottom="@dimen/_1sdp"
-                                        android:padding="@dimen/_1sdp"
-                                        android:background="@drawable/textview_background"
                                         android:layout_weight="1"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"/>
+                                        android:background="@drawable/textview_background"
+                                        android:padding="@dimen/_1sdp" />
+
                                     <TextView
-                                        android:layout_margin="@dimen/_1sdp"
-                                        android:padding="@dimen/_1sdp"
-                                        android:textAlignment="center"
+                                        style="@style/textView_bold"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:textColor="@color/white"
-                                        style="@style/textView_bold"
-                                        android:text="Right Eye"
-                                        android:background="@drawable/textview_background"
+                                        android:layout_margin="@dimen/_1sdp"
                                         android:layout_weight="1"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"/>
-                                    <TextView
-                                        android:layout_marginEnd="@dimen/_1sdp"
+                                        android:background="@drawable/textview_background"
+                                        android:padding="@dimen/_1sdp"
+                                        android:text="Right Eye"
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="@color/white" />
+
+                                    <TextView
                                         style="@style/textView_bold"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/_1sdp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/textview_background"
                                         android:padding="@dimen/_1sdp"
                                         android:text="Left Eye"
-                                        android:background="@drawable/textview_background"
-                                        android:layout_weight="1"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"/>
+                                        android:textAlignment="center"
+                                        android:textColor="@color/white" />
 
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:gravity="center"
-                                    android:layout_margin="@dimen/_2sdp"
-                                    android:weightSum="3"
-                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
                                     <LinearLayout
-                                        android:orientation="vertical"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
                                         <TextView
-                                            android:padding="@dimen/_1sdp"
-                                            android:textAlignment="center"
                                             style="@style/textView_normal"
-                                            android:text="Horizontal Axis (K1)"
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:padding="@dimen/_1sdp"
+                                            android:text="Horizontal Axis (K1)"
+                                            android:textAlignment="center" />
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:weightSum="2"
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal"
+                                        android:weightSum="2">
+
                                         <EditText
-                                            android:maxLength="3"
-                                            android:inputType="numberDecimal"
                                             android:id="@+id/EditText_Horizontal_Axis_Right_eye"
-                                            android:layout_margin="@dimen/_1sdp"
                                             style="@style/enter_editText"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_1sdp"
+                                            android:layout_weight="1" />
+
                                         <Spinner
                                             android:id="@+id/Spinner_Horizontal_Axis_Right_eye"
-                                            android:layout_margin="@dimen/_1sdp"
-                                            style="@style/spinner_padding_left_right1"
-                                            android:layout_weight="1"
+                                            style="@style/spinner_padding_left_right"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_1sdp"
+                                            android:layout_weight="1" />
 
                                     </LinearLayout>
+
                                     <LinearLayout
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal">
+
                                         <LinearLayout
-                                            android:weightSum="2"
-                                            android:orientation="horizontal"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content">
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:orientation="horizontal"
+                                            android:weightSum="2">
+
                                             <EditText
-                                                android:maxLength="3"
-                                                android:inputType="numberDecimal"
                                                 android:id="@+id/EditText_Horizontal_Axis_Left_eye"
-                                                android:layout_margin="@dimen/_1sdp"
                                                 style="@style/enter_editText"
-                                                android:layout_weight="1"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1" />
+
                                             <Spinner
                                                 android:id="@+id/Spinner_Horizontal_Axis_Left_eye"
-                                                android:layout_margin="@dimen/_1sdp"
-                                                style="@style/spinner_padding_left_right1"
-                                                android:layout_weight="1"
+                                                style="@style/spinner_padding_left_right"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1" />
 
                                         </LinearLayout>
 
                                     </LinearLayout>
 
                                 </LinearLayout>
+
                                 <View
-                                    android:background="@color/black"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"/>
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
                                 <LinearLayout
-                                    android:gravity="center"
-                                    android:layout_margin="@dimen/_2sdp"
-                                    android:weightSum="3"
-                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
                                     <LinearLayout
-                                        android:orientation="vertical"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
                                         <TextView
-                                            android:padding="@dimen/_1sdp"
-                                            android:textAlignment="center"
                                             style="@style/textView_normal"
-                                            android:text="Vertical Axis (K2)"
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:padding="@dimen/_1sdp"
+                                            android:text="Vertical Axis (K2)"
+                                            android:textAlignment="center" />
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:weightSum="2"
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal"
+                                        android:weightSum="2">
+
                                         <EditText
-                                            android:maxLength="3"
-                                            android:inputType="numberDecimal"
-                                            android:layout_gravity="center_vertical"
-
                                             android:id="@+id/EditText_Vertical_Axis_Right_eye"
-                                            android:layout_margin="@dimen/_1sdp"
                                             style="@style/enter_editText"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
-                                        <Spinner
-                                            android:layout_gravity="center_vertical"
-                                            android:id="@+id/Spinner_Vertical_Axis_Right_eye"
+                                            android:layout_height="wrap_content"
                                             android:layout_margin="@dimen/_1sdp"
-                                            style="@style/spinner_padding_left_right1"
-                                            android:layout_weight="1"
+                                            android:layout_weight="1" />
+
+                                        <Spinner
+                                            android:id="@+id/Spinner_Vertical_Axis_Right_eye"
+                                            style="@style/spinner_padding_left_right"
                                             android:layout_width="0dp"
-                                            android:layout_height="@dimen/_15sdp"/>
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_1sdp"
+                                            android:layout_weight="1" />
 
                                     </LinearLayout>
+
                                     <LinearLayout
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal">
+
                                         <LinearLayout
-                                            android:weightSum="2"
-                                            android:orientation="horizontal"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content">
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:orientation="horizontal"
+                                            android:weightSum="2">
+
                                             <EditText
-                                                android:maxLength="3"
-                                                android:inputType="numberDecimal"
                                                 android:id="@+id/EditText_Vertical_Axis_Left_eye"
 
-                                                android:layout_margin="@dimen/_1sdp"
                                                 style="@style/enter_editText"
-                                                android:layout_weight="1"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1" />
+
                                             <Spinner
                                                 android:id="@+id/Spinner_Vertical_Axis_Left_eye"
-                                                android:layout_margin="@dimen/_1sdp"
-                                                style="@style/spinner_padding_left_right1"
-                                                android:layout_weight="1"
+                                                style="@style/spinner_padding_left_right"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1" />
 
                                         </LinearLayout>
 
                                     </LinearLayout>
 
                                 </LinearLayout>
+
                                 <View
-                                    android:background="@color/black"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"/>
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
                                 <LinearLayout
-                                    android:gravity="center"
-                                    android:layout_margin="@dimen/_2sdp"
-                                    android:weightSum="3"
-                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
                                     <LinearLayout
-                                        android:orientation="vertical"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
                                         <TextView
-                                            android:padding="@dimen/_1sdp"
-                                            android:textAlignment="center"
                                             style="@style/textView_normal"
-                                            android:text="Average Value"
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:padding="@dimen/_1sdp"
+                                            android:text="Average Value"
+                                            android:textAlignment="center" />
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:weightSum="2"
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal"
+                                        android:weightSum="2">
+
                                         <EditText
-                                            android:maxLength="3"
-                                            android:inputType="numberDecimal"
                                             android:id="@+id/EditText_Average_Value_Right_eye"
-                                            android:layout_margin="@dimen/_1sdp"
                                             style="@style/enter_editText"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_1sdp"
+                                            android:layout_weight="1" />
+
                                         <Spinner
                                             android:id="@+id/Spinner_Average_Value_Right_eye"
-                                            android:layout_margin="@dimen/_1sdp"
-                                            style="@style/spinner_padding_left_right1"
-                                            android:layout_weight="1"
+                                            style="@style/spinner_padding_left_right"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_1sdp"
+                                            android:layout_weight="1" />
 
                                     </LinearLayout>
+
                                     <LinearLayout
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal">
+
                                         <LinearLayout
-                                            android:weightSum="2"
-                                            android:orientation="horizontal"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content">
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:orientation="horizontal"
+                                            android:weightSum="2">
+
                                             <EditText
-                                                android:maxLength="3"
-                                                android:inputType="numberDecimal"
                                                 android:id="@+id/EditText_Average_Value_Left_eye"
-                                                android:layout_margin="@dimen/_1sdp"
                                                 style="@style/enter_editText"
-                                                android:layout_weight="1"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1" />
+
                                             <Spinner
                                                 android:id="@+id/Spinner_Average_Value_Left_eye"
-                                                android:layout_margin="@dimen/_1sdp"
-                                                style="@style/spinner_padding_left_right1"
-                                                android:layout_weight="1"
+                                                style="@style/spinner_padding_left_right"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1" />
 
                                         </LinearLayout>
 
@@ -1002,505 +1084,555 @@
                             </LinearLayout>
 
                             <TextView
-                                android:padding="@dimen/_1sdp"
                                 style="@style/refreactive_sub_title"
-                                android:text="A-Scan"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:padding="@dimen/_1sdp"
+                                android:text="A-Scan" />
+
                             <View
-                                android:background="@color/black"
                                 android:layout_width="match_parent"
-                                android:layout_height="1dp"/>
+                                android:layout_height="1dp"
+                                android:background="@color/black" />
 
                             <LinearLayout
-                                android:orientation="vertical"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
 
                                 <LinearLayout
-                                    android:gravity="center"
-                                    android:weightSum="3"
-                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
                                     <TextView
-                                        android:layout_marginTop="@dimen/_1sdp"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/_1sdp"
+                                        android:layout_marginTop="@dimen/_1sdp"
                                         android:layout_marginBottom="@dimen/_1sdp"
-                                        android:padding="@dimen/_1sdp"
-                                        android:background="@drawable/textview_background"
                                         android:layout_weight="1"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"/>
+                                        android:background="@drawable/textview_background"
+                                        android:padding="@dimen/_1sdp" />
+
                                     <TextView
-                                        android:layout_margin="@dimen/_1sdp"
-                                        android:padding="@dimen/_1sdp"
-                                        android:textAlignment="center"
+                                        style="@style/textView_bold"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:textColor="@color/white"
-                                        style="@style/textView_bold"
-                                        android:text="Right Eye"
-                                        android:background="@drawable/textview_background"
+                                        android:layout_margin="@dimen/_1sdp"
                                         android:layout_weight="1"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"/>
-                                    <TextView
-                                        android:layout_marginEnd="@dimen/_1sdp"
+                                        android:background="@drawable/textview_background"
+                                        android:padding="@dimen/_1sdp"
+                                        android:text="Right Eye"
                                         android:textAlignment="center"
-                                        android:textColor="@color/white"
+                                        android:textColor="@color/white" />
+
+                                    <TextView
                                         style="@style/textView_bold"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/_1sdp"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/textview_background"
                                         android:padding="@dimen/_1sdp"
                                         android:text="Left Eye"
-                                        android:background="@drawable/textview_background"
-                                        android:layout_weight="1"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"/>
+                                        android:textAlignment="center"
+                                        android:textColor="@color/white" />
 
                                 </LinearLayout>
 
                                 <LinearLayout
-                                    android:gravity="center"
-                                    android:layout_margin="@dimen/_2sdp"
-                                    android:weightSum="3"
-                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
                                     <LinearLayout
-                                        android:orientation="vertical"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
                                         <TextView
-                                            android:padding="@dimen/_1sdp"
-                                            android:textAlignment="center"
                                             style="@style/textView_normal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:padding="@dimen/_1sdp"
                                             android:text="1st Value"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"/>
+                                            android:textAlignment="center" />
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:weightSum="2"
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal"
+                                        android:weightSum="2">
+
                                         <EditText
-                                            android:maxLength="3"
-                                            android:inputType="numberDecimal"
                                             android:id="@+id/EditText_A_Scan_1_Value_Right_eye"
-                                            android:layout_margin="@dimen/_1sdp"
                                             style="@style/enter_editText"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
-                                        <TextView
-                                            android:text="mm"
+                                            android:layout_height="wrap_content"
                                             android:layout_margin="@dimen/_1sdp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
                                             style="@style/textView_normal"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_1sdp"
+                                            android:layout_weight="1"
+                                            android:text="mm" />
 
                                     </LinearLayout>
+
                                     <LinearLayout
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal">
+
                                         <LinearLayout
-                                            android:weightSum="2"
-                                            android:orientation="horizontal"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content">
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:orientation="horizontal"
+                                            android:weightSum="2">
+
                                             <EditText
-                                                android:maxLength="3"
-                                                android:inputType="numberDecimal"
                                                 android:id="@+id/EditText_A_Scan_1_Value_Left_eye"
-                                                android:layout_margin="@dimen/_1sdp"
                                                 style="@style/enter_editText"
-                                                android:layout_weight="1"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
-                                            <TextView
-                                                android:text="mm"
+                                                android:layout_height="wrap_content"
                                                 android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1" />
+
+                                            <TextView
                                                 style="@style/textView_normal"
-                                                android:layout_weight="1"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1"
+                                                android:text="mm" />
 
                                         </LinearLayout>
 
                                     </LinearLayout>
 
                                 </LinearLayout>
+
                                 <View
-                                    android:background="@color/black"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"/>
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
                                 <LinearLayout
-                                    android:gravity="center"
-                                    android:layout_margin="@dimen/_2sdp"
-                                    android:weightSum="3"
-                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
                                     <LinearLayout
-                                        android:orientation="vertical"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
                                         <TextView
-                                            android:padding="@dimen/_1sdp"
-                                            android:textAlignment="center"
                                             style="@style/textView_normal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:padding="@dimen/_1sdp"
                                             android:text="2nd Value"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"/>
+                                            android:textAlignment="center" />
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:weightSum="2"
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal"
+                                        android:weightSum="2">
+
                                         <EditText
-                                            android:maxLength="3"
-                                            android:inputType="numberDecimal"
                                             android:id="@+id/EditText_A_Scan_2_Value_Right_eye"
-                                            android:layout_margin="@dimen/_1sdp"
                                             style="@style/enter_editText"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
-                                        <TextView
-                                            android:text="mm"
+                                            android:layout_height="wrap_content"
                                             android:layout_margin="@dimen/_1sdp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
                                             style="@style/textView_normal"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_1sdp"
+                                            android:layout_weight="1"
+                                            android:text="mm" />
 
                                     </LinearLayout>
+
                                     <LinearLayout
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal">
+
                                         <LinearLayout
-                                            android:weightSum="2"
-                                            android:orientation="horizontal"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content">
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:orientation="horizontal"
+                                            android:weightSum="2">
+
                                             <EditText
-                                                android:maxLength="3"
-                                                android:inputType="numberDecimal"
                                                 android:id="@+id/EditText_A_Scan_2_Value_Left_eye"
-                                                android:layout_margin="@dimen/_1sdp"
                                                 style="@style/enter_editText"
-                                                android:layout_weight="1"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
-                                            <TextView
-                                                android:text="mm"
+                                                android:layout_height="wrap_content"
                                                 android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1" />
+
+                                            <TextView
                                                 style="@style/textView_normal"
-                                                android:layout_weight="1"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1"
+                                                android:text="mm" />
 
                                         </LinearLayout>
 
                                     </LinearLayout>
 
                                 </LinearLayout>
+
                                 <View
-                                    android:background="@color/black"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"/>
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
                                 <LinearLayout
-                                    android:gravity="center"
-                                    android:layout_margin="@dimen/_2sdp"
-                                    android:weightSum="3"
-                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
                                     <LinearLayout
-                                        android:orientation="vertical"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
                                         <TextView
-                                            android:padding="@dimen/_1sdp"
-                                            android:textAlignment="center"
                                             style="@style/textView_normal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:padding="@dimen/_1sdp"
                                             android:text="3rd Value"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"/>
+                                            android:textAlignment="center" />
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:weightSum="2"
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal"
+                                        android:weightSum="2">
+
                                         <EditText
-                                            android:maxLength="3"
-                                            android:inputType="numberDecimal"
                                             android:id="@+id/EditText_A_Scan_3_Value_Right_eye"
-                                            android:layout_margin="@dimen/_1sdp"
                                             style="@style/enter_editText"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
-                                        <TextView
-                                            android:text="mm"
+                                            android:layout_height="wrap_content"
                                             android:layout_margin="@dimen/_1sdp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
                                             style="@style/textView_normal"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_1sdp"
+                                            android:layout_weight="1"
+                                            android:text="mm" />
 
                                     </LinearLayout>
+
                                     <LinearLayout
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal">
+
                                         <LinearLayout
-                                            android:weightSum="2"
-                                            android:orientation="horizontal"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content">
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:orientation="horizontal"
+                                            android:weightSum="2">
+
                                             <EditText
-                                                android:maxLength="3"
-                                                android:inputType="numberDecimal"
                                                 android:id="@+id/EditText_A_Scan_3_Value_Left_eye"
-                                                android:layout_margin="@dimen/_1sdp"
                                                 style="@style/enter_editText"
-                                                android:layout_weight="1"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
-                                            <TextView
-                                                android:text="mm"
+                                                android:layout_height="wrap_content"
                                                 android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1" />
+
+                                            <TextView
                                                 style="@style/textView_normal"
-                                                android:layout_weight="1"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1"
+                                                android:text="mm" />
 
                                         </LinearLayout>
 
                                     </LinearLayout>
 
                                 </LinearLayout>
+
                                 <View
-                                    android:background="@color/black"
                                     android:layout_width="match_parent"
-                                    android:layout_height="1dp"/>
+                                    android:layout_height="1dp"
+                                    android:background="@color/black" />
+
                                 <LinearLayout
-                                    android:gravity="center"
-                                    android:layout_margin="@dimen/_2sdp"
-                                    android:weightSum="3"
-                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
                                     <LinearLayout
-                                        android:orientation="vertical"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
                                         <TextView
-                                            android:padding="@dimen/_1sdp"
-                                            android:textAlignment="center"
                                             style="@style/textView_normal"
-                                            android:text="Median Value"
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:padding="@dimen/_1sdp"
+                                            android:text="Median Value"
+                                            android:textAlignment="center" />
 
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:weightSum="2"
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal"
+                                        android:weightSum="2">
+
                                         <EditText
-                                            android:maxLength="3"
-                                            android:inputType="numberDecimal"
                                             android:id="@+id/EditText_A_Scan_Median_Value_Right_eye"
-                                            android:layout_margin="@dimen/_1sdp"
                                             style="@style/enter_editText"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
-                                        <TextView
-                                            android:text="mm"
+                                            android:layout_height="wrap_content"
                                             android:layout_margin="@dimen/_1sdp"
+                                            android:layout_weight="1" />
+
+                                        <TextView
                                             style="@style/textView_normal"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="@dimen/_1sdp"
+                                            android:layout_weight="1"
+                                            android:text="mm" />
 
                                     </LinearLayout>
+
                                     <LinearLayout
-                                        android:orientation="horizontal"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content">
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="horizontal">
+
                                         <LinearLayout
-                                            android:weightSum="2"
-                                            android:orientation="horizontal"
-                                            android:layout_weight="1"
                                             android:layout_width="0dp"
-                                            android:layout_height="wrap_content">
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:orientation="horizontal"
+                                            android:weightSum="2">
+
                                             <EditText
-                                                android:maxLength="3"
-                                                android:inputType="numberDecimal"
                                                 android:id="@+id/EditText_A_Scan_Median_Value_Left_eye"
 
-                                                android:layout_margin="@dimen/_1sdp"
                                                 style="@style/enter_editText"
-                                                android:layout_weight="1"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
-                                            <TextView
-                                                android:text="mm"
+                                                android:layout_height="wrap_content"
                                                 android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1" />
+
+                                            <TextView
                                                 style="@style/textView_normal"
-                                                android:layout_weight="1"
                                                 android:layout_width="0dp"
-                                                android:layout_height="wrap_content"/>
+                                                android:layout_height="wrap_content"
+                                                android:layout_margin="@dimen/_1sdp"
+                                                android:layout_weight="1"
+                                                android:text="mm" />
 
                                         </LinearLayout>
 
                                     </LinearLayout>
 
                                 </LinearLayout>
-                                <View
-                                    android:background="@color/black"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="1dp"/>
-                                <LinearLayout
-                                    android:gravity="center"
-                                    android:layout_margin="@dimen/_2sdp"
-                                    android:weightSum="4"
-                                    android:orientation="horizontal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-                                    <TextView
-                                        android:layout_margin="@dimen/_2sdp"
-                                        android:layout_gravity="center"
-                                        style="@style/textView_normal"
-                                        android:text="IOL Power"
-                                        android:layout_weight="1"
-                                        android:layout_width="0dp"
-                                        android:layout_height="match_parent"/>
-                                    <Spinner
-                                        android:layout_gravity="center"
 
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:layout_marginBottom="@dimen/_5sdp"
+                                    android:background="@color/black" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:orientation="horizontal"
+                                    android:weightSum="4">
+
+                                    <TextView
+                                        style="@style/textView_normal"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1.5"
+                                        android:text="IOL Power" />
+
+                                    <Spinner
                                         android:id="@+id/spinner_IOL_Power"
                                         style="@style/spinner_padding_left_right"
-                                        android:layout_weight="2"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"/>
-                                    <TextView
-                                        android:layout_margin="@dimen/_2sdp"
-                                        android:layout_gravity="center"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2" />
 
+                                    <TextView
                                         style="@style/textView_normal"
-                                        android:text="@string/dp"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="match_parent"/>
+                                        android:layout_marginStart="@dimen/_2sdp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="0.5"
+                                        android:text="@string/dp" />
 
                                 </LinearLayout>
 
                             </LinearLayout>
 
                             <TextView
-                                android:padding="@dimen/_1sdp"
                                 style="@style/refreactive_sub_title"
-                                android:text="Slite Lamp"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:padding="@dimen/_1sdp"
+                                android:text="Slite Lamp" />
+
                             <View
-                                android:background="@color/black"
                                 android:layout_width="match_parent"
-                                android:layout_height="1dp"/>
+                                android:layout_height="1dp"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:layout_marginBottom="@dimen/_5sdp"
+                                android:background="@color/black" />
+
                             <LinearLayout
-                                android:padding="@dimen/_2sdp"
-                                android:orientation="vertical"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="@dimen/_2sdp">
+
                                 <LinearLayout
-                                    android:weightSum="2"
-                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:weightSum="2">
+
                                     <Spinner
                                         android:id="@+id/Spinner_slite_lamp_eye"
-                                        android:layout_margin="@dimen/_2sdp"
                                         style="@style/spinner_padding_left_right"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"/>
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/_2sdp"
+                                        android:layout_weight="1" />
+
                                     <Spinner
                                         android:id="@+id/Spinner_slite_lamp_location"
-                                        android:layout_margin="@dimen/_2sdp"
                                         style="@style/spinner_padding_left_right"
-                                        android:layout_weight="1"
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"/>
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="@dimen/_2sdp"
+                                        android:layout_weight="1" />
 
                                 </LinearLayout>
+
                                 <LinearLayout
                                     android:id="@+id/LinearLayout_slit_lamp_other"
-                                    android:weightSum="2"
-                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:weightSum="2">
+
                                     <EditText
-                                        android:padding="@dimen/_4sdp"
-                                        android:layout_margin="@dimen/_3sdp"
-                                        android:layout_weight="1"
                                         android:id="@+id/EditText_other_details"
-                                        android:hint="Enter other details"
-                                        android:background="@drawable/edittext_background"
                                         android:layout_width="wrap_content"
-                                        android:textColor="@color/black"
-                                        android:layout_height="wrap_content"/>
-                                    <EditText
-                                        android:padding="@dimen/_4sdp"
-                                        android:layout_margin="@dimen/_3sdp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/black"
-                                        android:id="@+id/EditText_location_other_details"
-                                        android:hint="Enter location details"
+                                        android:layout_margin="@dimen/_5sdp"
                                         android:background="@drawable/edittext_background"
+                                        android:fontFamily="@font/opensans_semibold"
+                                        android:gravity="center_vertical"
+                                        android:padding="@dimen/_2sdp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/gray"
+                                        android:textSize="@dimen/_10ssp"
+                                        android:hint="Enter other details" />
+
+                                    <EditText
+                                        android:id="@+id/EditText_location_other_details"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"/>
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/edittext_background"
+                                        android:fontFamily="@font/opensans_semibold"
+                                        android:gravity="center_vertical"
+                                        android:padding="@dimen/_2sdp"
+                                        android:layout_margin="@dimen/_5sdp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/gray"
+                                        android:textSize="@dimen/_10ssp"
+                                        android:hint="Enter location details" />
 
                                 </LinearLayout>
+
                                 <EditText
-                                    android:padding="@dimen/_4sdp"
                                     android:id="@+id/EditText_slite_lamp_location_details"
-                                    android:layout_margin="@dimen/_2sdp"
-                                    android:textColor="@color/black"
-                                    android:hint="Enter Location Details"
-                                    android:background="@drawable/edittext_background"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/_2sdp"
+                                    android:layout_marginTop="@dimen/_5sdp"
+                                    android:background="@drawable/edittext_background"
+                                    android:fontFamily="@font/opensans_semibold"
+                                    android:gravity="center_vertical"
+                                    android:padding="@dimen/_2sdp"
+                                    android:textColorHint="@color/gray"
+                                    android:textSize="@dimen/_10ssp"                                    android:hint="Enter Location Details"
+                                    android:textColor="@color/black">
 
                                 </EditText>
 
@@ -1509,76 +1641,30 @@
                                     style="@style/submit_cardView"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content">
+
                                     <TextView
                                         style="@style/submit_textView"
-                                        android:text="Add"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"/>
+                                        android:layout_height="wrap_content"
+                                        android:text="Add" />
 
                                 </androidx.cardview.widget.CardView>
 
                                 <LinearLayout
                                     android:id="@+id/LinearLayout_slit_lamp_Recycleview"
-                                    android:orientation="vertical"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-                                    <LinearLayout
-                                        android:gravity="center"
-                                        android:weightSum="3"
-                                        android:orientation="horizontal"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content">
-                                        <TextView
-                                            android:layout_marginTop="@dimen/_1sdp"
-                                            android:layout_marginStart="@dimen/_1sdp"
-                                            android:layout_marginBottom="@dimen/_1sdp"
-                                            android:padding="@dimen/_1sdp"
-                                            android:text="Eye"
-                                            android:textColor="@color/white"
-                                            android:textAlignment="center"
-                                            android:layout_gravity="center"
-                                            style="@style/textView_bold"
-                                            android:background="@drawable/textview_background"
-                                            android:layout_weight="1"
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
-                                        <TextView
-                                            android:layout_margin="@dimen/_1sdp"
-                                            android:padding="@dimen/_1sdp"
-                                            android:textAlignment="center"
-                                            android:layout_gravity="center"
-                                            android:textColor="@color/white"
-                                            style="@style/textView_bold"
-                                            android:text="Location"
-                                            android:background="@drawable/textview_background"
-                                            android:layout_weight="1"
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
-                                        <TextView
-                                            android:layout_marginEnd="@dimen/_1sdp"
-                                            android:textAlignment="center"
-                                            android:textColor="@color/white"
-                                            style="@style/textView_bold"
-                                            android:padding="@dimen/_1sdp"
-                                            android:text="Details"
-                                            android:background="@drawable/textview_background"
-                                            android:layout_weight="1"
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"/>
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
 
-                                    </LinearLayout>
                                     <androidx.recyclerview.widget.RecyclerView
                                         android:id="@+id/RecyclerView_Slite_lamp"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"/>
+                                        android:layout_height="wrap_content" />
 
                                 </LinearLayout>
 
 
-
                             </LinearLayout>
-
-
 
 
                         </LinearLayout>
@@ -1594,10 +1680,11 @@
                 style="@style/submit_cardView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <TextView
                     style="@style/submit_textView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
             </androidx.cardview.widget.CardView>
 

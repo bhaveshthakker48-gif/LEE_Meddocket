@@ -337,7 +337,7 @@ class OrthosisMainActivity : BaseActivity() {
                             progress.show()
                             leastCampData!!.isComplete = true
                             orthosisMainVM.updateSingleCamp(leastCampData!!)
-                            Utility.successToast(this@OrthosisMainActivity, "Camp Completed")
+                            Utility.successToast(this@OrthosisMainActivity, "Camp Completed Successfully")
                             progress.dismiss()
                         }
                         .setNegativeButton("No") { dialog, _ ->

@@ -131,6 +131,9 @@ class LLE_MedDocket_Repository(private val Vital_DAO: Vital_DAO,
 
     val allImages: LiveData<List<ImageModel>> = Image_Upload_DAO.getAllImage()
 
+    val getAllValidImages: LiveData<List<ImageModel>> = Image_Upload_DAO.getAllValidImages()
+
+
     val allRegistartion: LiveData<List<Patient_RegistrationModel>> =
         Registration_DAO.getAllRegistrationData()
 

@@ -95,8 +95,6 @@
 
     <style name="refreactive_sub_title">
         <item name="fontFamily">@font/opensans_semibold</item>
-
-
         <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">bold</item>
 

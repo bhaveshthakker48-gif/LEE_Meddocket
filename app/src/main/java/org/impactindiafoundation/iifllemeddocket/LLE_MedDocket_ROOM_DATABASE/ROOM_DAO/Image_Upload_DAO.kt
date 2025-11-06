@@ -11,6 +11,9 @@ import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROO
 @Dao
 interface Image_Upload_DAO {
 
+    @Query("SELECT * FROM Image WHERE file_name IS NOT NULL AND file_name != ''")
+    fun getAllValidImages(): LiveData<List<ImageModel>>
+
     @Query("SELECT * FROM Image")
     fun getAllImage(): LiveData<List<ImageModel>>
 

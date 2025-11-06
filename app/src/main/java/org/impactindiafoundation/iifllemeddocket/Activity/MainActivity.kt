@@ -1,6 +1,5 @@
 package org.impactindiafoundation.iifllemeddocket.Activity
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
@@ -14,7 +13,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
@@ -27,15 +25,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.VideoView
 import androidx.activity.addCallback
 import androidx.activity.viewModels
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -43,7 +38,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.google.android.gms.tasks.Task
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.install.model.AppUpdateType
@@ -51,7 +45,6 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.gson.Gson
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -88,7 +81,6 @@ import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROO
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DAO.VisualAcuity_DAO
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DAO.Vital_DAO
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.Cataract_Surgery_Notes
-import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.Decuple
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.Eye_OPD_Doctors_Note
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.Eye_Post_Op_AND_Follow_ups
 import org.impactindiafoundation.iifllemeddocket.LLE_MedDocket_ROOM_DATABASE.ROOM_DATABASE_MODEL.Eye_Pre_Op_Investigation
@@ -136,17 +128,11 @@ import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants.S
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants.VISUAL_ACUITY_FORM
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Constants.VITALS_FORM
 import org.impactindiafoundation.iifllemeddocket.architecture.helper.Status
-import org.impactindiafoundation.iifllemeddocket.architecture.model.Measurement
-import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisTypeModelItem
-import org.impactindiafoundation.iifllemeddocket.architecture.model.SyncResult
 import org.impactindiafoundation.iifllemeddocket.architecture.model.SyncSummaryEntity
-import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasemodel.AudiometryImageEntity
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasemodel.EntEarType
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasemodel.EntNoseType
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasemodel.EntThroatType
 import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasemodel.ImpressionType
-import org.impactindiafoundation.iifllemeddocket.architecture.model.entdatabasemodel.PreOpImageEntity
-import org.impactindiafoundation.iifllemeddocket.architecture.model.pathalogydatabasemodel.PathologyImageEntity
 import org.impactindiafoundation.iifllemeddocket.architecture.viewModel.MainViewModel
 import org.impactindiafoundation.iifllemeddocket.architecture.viewModel.OpdFormViewModel
 import org.impactindiafoundation.iifllemeddocket.architecture.viewModel.RefractiveErrorViewModel
@@ -806,7 +792,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                             binding.tvUnsyncedForms.text = "UnSynced Forms :- $totalForms"
                             binding.tvUnsyncedImages.text = "UnSynced Images :- $totalImages"
 
-                            showRemainingDataWarningDialog(totalForms, totalEntImages, "DATA")
+                            showRemainingDataWarningDialog(totalForms, totalImages, "DATA")
                         }
                     }
                 }
@@ -866,7 +852,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
                             binding.tvUnsyncedForms.text = "UnSynced Forms :- $totalForms"
                             binding.tvUnsyncedImages.text = "UnSynced Images :- $totalImages"
-                            showRemainingDataWarningDialog(totalForms, totalEntImages, "BOTH")
+                            showRemainingDataWarningDialog(totalForms, totalImages, "BOTH")
                         }
                     }
                 }
@@ -969,28 +955,70 @@ class MainActivity : BaseActivity(), View.OnClickListener {
 
     private fun ImageUpload1() {
         viewModel1.allImages.observe(this, Observer { imageList ->
+            Log.d("UpdateImage", "🧾 Total images in DB: ${imageList.size}")
+
             for (currentImage in imageList) {
-                if (currentImage.isSyn == 0) {
-                    val file = File(currentImage.file_path)
-                    val requestFile =
-                        RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
-                    val body =
-                        MultipartBody.Part.createFormData("file_name", file.name, requestFile)
+                Log.d("UpdateImage", "🔍 Checking image: id=${currentImage._id}, isSyn=${currentImage.isSyn}")
+
+                // Skip already synced images
+                if (currentImage.isSyn != 0) continue
+
+                // Check if path is null or empty
+                val filePath = currentImage.file_path
+                if (filePath.isNullOrBlank()) {
+                    Log.e("UpdateImage", "⚠️ Skipping image id=${currentImage._id} because file_path is null or empty")
+                    continue
+                }
+
+                // Create file and validate existence
+                val file = File(filePath)
+                if (!file.exists()) {
+                    Log.e("UpdateImage", "🚫 Skipping image id=${currentImage._id}: file not found at path $filePath")
+                    continue
+                }
+
+                Log.d("UpdateImage", "📤 Preparing to upload image: $filePath")
+
+                try {
+                    // Prepare multipart parts
+                    val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
+                    val body = MultipartBody.Part.createFormData("file_name", file.name, requestFile)
+
                     val imageTypeRequestBody = RequestBody.create(
-                        "text/plain".toMediaTypeOrNull(), currentImage.image_type!!
+                        "text/plain".toMediaTypeOrNull(),
+                        currentImage.image_type ?: ""
                     )
                     val patientIdRequestBody = RequestBody.create(
-                        "text/plain".toMediaTypeOrNull(), currentImage.patient_id.toString()
+                        "text/plain".toMediaTypeOrNull(),
+                        currentImage.patient_id?.toString() ?: ""
                     )
                     val campIdRequestBody = RequestBody.create(
-                        "text/plain".toMediaTypeOrNull(), currentImage.camp_id.toString()
+                        "text/plain".toMediaTypeOrNull(),
+                        currentImage.camp_id?.toString() ?: ""
                     )
                     val userIdRequestBody = RequestBody.create(
-                        "text/plain".toMediaTypeOrNull(), currentImage.user_id.toString()
+                        "text/plain".toMediaTypeOrNull(),
+                        currentImage.user_id?.toString() ?: ""
                     )
                     val idRequestBody = RequestBody.create(
-                        "text/plain".toMediaTypeOrNull(), currentImage._id.toString()
+                        "text/plain".toMediaTypeOrNull(),
+                        currentImage._id.toString()
                     )
+
+                    Log.d(
+                        "UpdateImage",
+                        """
+                    ✅ Upload Params:
+                    - File: ${file.name}
+                    - Path: ${filePath}
+                    - Type: ${currentImage.image_type}
+                    - Patient ID: ${currentImage.patient_id}
+                    - Camp ID: ${currentImage.camp_id}
+                    - User ID: ${currentImage.user_id}
+                    - Local DB ID: ${currentImage._id}
+                    """.trimIndent()
+                    )
+
                     val imageUploadParams = ImageUploadParams(
                         body,
                         imageTypeRequestBody,
@@ -999,12 +1027,58 @@ class MainActivity : BaseActivity(), View.OnClickListener {
                         userIdRequestBody,
                         idRequestBody
                     )
+
                     viewModel.uploadFile1(progressDialog, imageUploadParams)
-                    ImageUploadResponseSequentially()
+                    ImageUploadResponseSequentiallyFromSync()
+
+                } catch (e: Exception) {
+                    Log.e("UpdateImage", "❌ Exception preparing upload for image id=${currentImage._id}: ${e.message}", e)
                 }
             }
         })
     }
+
+
+    private fun ImageUploadResponseSequentiallyFromSync() {
+        viewModel.getImageUploadResponse.observe(this, Observer { response ->
+            val data = response.data
+            if (data != null) {
+                val errorMessage = data.ErrorMessage
+                val id = data._id
+                val errorCode = data.ErrorCode
+
+                Log.d("UpdateImage", "📥 Response received:")
+                Log.d("UpdateImage", "ErrorMessage => $errorMessage")
+                Log.d("UpdateImage", "ErrorCode => $errorCode")
+                Log.d("UpdateImage", "Local DB id => $id")
+
+                when (errorMessage) {
+                    "Success" -> {
+                        Log.d("ImageUploadResponse", "✅ Upload success for image ID=$id, updating local DB...")
+                        UpdateImage(id)
+                    }
+                    else -> {
+                        Log.w("ImageUploadResponse", "⚠️ Upload failed or incomplete for ID=$id, message=$errorMessage")
+                    }
+                }
+            } else {
+                Log.e("UpdateImage", "❌ Response data is null")
+            }
+        })
+    }
+
+
+    private fun UpdateImage(id: String) {
+        Log.d("UpdateImage", "🔄 Attempting to update isSyn=1 for image with ID=$id")
+
+        try {
+            viewModel1.updateImage(id, 1)
+            Log.d("UpdateImage", "✅ updateImage() called successfully for ID=$id")
+        } catch (e: Exception) {
+            Log.e("UpdateImage", "❌ Exception during updateImage for ID=$id: ${e.message}", e)
+        }
+    }
+
 
     @SuppressLint("MissingInflatedId")
     private fun showPopupCampCompleted() {
@@ -2250,10 +2324,11 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
 
         // IMAGE DATA STARTS HERE
-        viewModel1.allImages.observe(this) {
+        viewModel1.getAllValidImages.observe(this) {
             totalCountDataModel.Total_Image = it.count { it.isSyn == 0 }
             checkAndReturn()
         }
+
         entAudiometryViewModel.getAllAudiometryImages.observe(this) {
             Log.d("ImageLog", "Audiometry images: ${it.size}")
             totalCountDataModel.Total_Audiometry_Image = it.count { it.app_id.isNullOrBlank() }
@@ -2272,6 +2347,7 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
     private suspend fun entSendImageToServer() {
+        ImageUpload1()
         loadAndUploadAudiometryImage()
         loadAndUploadPathologyImage()
         loadAndUploadPreOpImage()
@@ -2495,26 +2571,30 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         viewModel.getImagePrescriptionUploadResponse.observe(this, Observer { response ->
             val data = response.data
             if (data != null) {
-                val ErrorMessage = data.ErrorMessage
+                val errorMessage = data.ErrorMessage
                 val id = data._id
-                val ErrorCode = data.ErrorCode
-                Log.d(ConstantsApp.TAG, "ErrorMessage => $ErrorMessage")
-                Log.d(ConstantsApp.TAG, "ErrorCode => $ErrorCode")
-                Log.d(ConstantsApp.TAG, "id => $id")
-                when (ErrorMessage) {
+                val errorCode = data.ErrorCode
+
+                Log.d("UpdateImage", "📥 Response received:")
+                Log.d("UpdateImage", "ErrorMessage => $errorMessage")
+                Log.d("UpdateImage", "ErrorCode => $errorCode")
+                Log.d("UpdateImage", "Local DB id => $id")
+
+                when (errorMessage) {
                     "Success" -> {
+                        Log.d("ImageUploadResponse", "✅ Upload success for image ID=$id, updating local DB...")
                         UpdateImage(id)
+                    }
+                    else -> {
+                        Log.w("ImageUploadResponse", "⚠️ Upload failed or incomplete for ID=$id, message=$errorMessage")
                     }
                 }
             } else {
-                Log.e(ConstantsApp.TAG, "Response data is null")
+                Log.e("UpdateImage", "❌ Response data is null")
             }
         })
     }
 
-    private fun UpdateImage(id: String) {
-        viewModel1.updateImage(id, 1)
-    }
 
     fun gotoScreen(context: Context?, cls: Class<*>?) {
         val intent = Intent(context, cls)
@@ -2565,7 +2645,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         syncQueue.add { GetUnSyneddata() }
 
         syncAllReportData()
-        ImageUpload1()
         lifecycleScope.launch {
             insertEntOpdDoctorSymptomsNote()
             insertEntOpdDoctorImpressionNote()

@@ -102,6 +102,9 @@ class LLE_MedDocket_ViewModel(private val repository: LLE_MedDocket_Repository) 
 
     val allImages:LiveData<List<ImageModel>> =repository.allImages
 
+    val getAllValidImages:LiveData<List<ImageModel>> =repository.getAllValidImages
+
+
     val allRegistration:LiveData<List<Patient_RegistrationModel>> =repository.allRegistartion
     val allPrescription:LiveData<List<Prescription_Model>> =repository.allPrescriptionData
 

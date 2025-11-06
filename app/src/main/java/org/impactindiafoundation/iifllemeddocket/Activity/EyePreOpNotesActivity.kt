@@ -1020,7 +1020,7 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener, CompoundB
             Log.d(ConstantsApp.TAG,"filepath on camera click=>"+filePath)
 
             val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-            val fileName = "surgical_notes_image_$timestamp.jpg"
+            val fileName = "pre_op_notes_image_$timestamp.jpg"
 
             val tempFile = ConstantsApp.saveBitmapToFile1(imageBitmap, fileName, this)
             val imageUri = FileProvider.getUriForFile(
@@ -1497,30 +1497,55 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener, CompoundB
     }
 
     private fun InsertEye_Pre_Op_Notes_Localresponse() {
-        viewModel1.toastMessage.observe(this
-            , Observer { message ->
-                showToast(message)
-            })
+        viewModel1.toastMessage.observe(this) { message ->
+            Log.d(ConstantsApp.TAG, "Toast message received => $message")
+            showToast(message)
+        }
 
-        viewModel1.insertResponse1.observe(this, Observer { response ->
+        viewModel1.insertResponse1.observe(this) { response ->
             response?.let {
                 val _id = it.first
                 val camp_id = it.second
                 val patient_id = it.third
                 val userId = it.fourth
                 val filePath = it.fifth
+
+                Log.d("pawan", "Insert Response => _id=$_id, camp_id=$camp_id, patient_id=$patient_id, userId=$userId, filePath=$filePath")
+
                 if (_id != null && camp_id != null && patient_id != null && userId != null && filePath != null) {
-                    val fileName = ConstantsApp.getFileNameFromPath(filePath)
-                    val imageModel = ImageModel(0, _id, fileName, "111", patient_id, camp_id, userId, filePath)
-                    viewModel1.InsertImageLocal(imageModel)
+                    if (filePath.isNotEmpty()) {
+                        val fileName = ConstantsApp.getFileNameFromPath(filePath)
+                        Log.d("pawan", "Image found. fileName=$fileName, fullPath=$filePath")
+
+                        val imageModel = ImageModel(
+                            0,
+                            _id,
+                            fileName,
+                            "111",
+                            patient_id,
+                            camp_id,
+                            userId,
+                            filePath
+                        )
+
+                        Log.d("pawan", "Inserting ImageModel => $imageModel")
+                        viewModel1.InsertImageLocal(imageModel)
+                    } else {
+                        Log.d("pawan", "No image uploaded (filePath is empty). Skipping image insert.")
+                    }
+
                     gotoScreen(this, PatientForms::class.java)
                 } else {
+                    Log.e("pawan", "Some response properties are null: _id=$_id, camp_id=$camp_id, patient_id=$patient_id, userId=$userId, filePath=$filePath")
                     showToast("Some properties are null in the response")
                     gotoScreen(this, PatientForms::class.java)
                 }
+            } ?: run {
+                Log.e("pawan", "InsertEye_Pre_Op_Notes_Localresponse: response is null")
             }
-        })
+        }
     }
+
 
     private fun showToast(message:String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
