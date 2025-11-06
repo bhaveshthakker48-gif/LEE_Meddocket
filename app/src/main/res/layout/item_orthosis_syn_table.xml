@@ -14,16 +14,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tv_sr_no"
@@ -52,5 +44,15 @@
         android:gravity="center"
         android:textColor="@color/black"
         android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_fromType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
 
 </LinearLayout>

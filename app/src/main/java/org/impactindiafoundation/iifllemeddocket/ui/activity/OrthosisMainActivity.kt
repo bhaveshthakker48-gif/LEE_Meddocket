@@ -1058,6 +1058,10 @@ class OrthosisMainActivity : BaseActivity() {
 //        handler.removeCallbacks(serviceCheckRunnable)
     }
 
+    private var totalSyncedCount = 0
+    private var totalFailedCount = 0
+
+
     private fun syncFormImages() {
         Log.d("SyncImages", "Starting syncFormImages")
         doctorProgress.show()
@@ -1130,6 +1134,7 @@ class OrthosisMainActivity : BaseActivity() {
                         Log.d("SyncImages", "✅ Form image ${formImage.id} uploaded successfully")
                         orthosisMainVM.updateFormImageSynced(formImage.id)
                         formImageIndexCheck++
+                        totalSyncedCount++
                         orthosisMainVM.formSyncResponse.removeObservers(this)
                         syncNextFormImage()
                     }
@@ -1137,6 +1142,7 @@ class OrthosisMainActivity : BaseActivity() {
                     Status.ERROR -> {
                         Log.e("SyncImages", "❌ Failed to upload form image ${formImage.id}")
                         formImageIndexCheck++
+                        totalFailedCount++
                         orthosisMainVM.formSyncResponse.removeObservers(this)
                         syncNextFormImage()
                     }
@@ -1219,6 +1225,7 @@ class OrthosisMainActivity : BaseActivity() {
                         Log.d("SyncImages", "✅ Orthosis image ${orthosisImage.id} uploaded successfully")
                         orthosisMainVM.updateOrthosisImageSynced(orthosisImage.id)
                         orthosisImageIndexCheck++
+                        totalSyncedCount++
                         orthosisMainVM.orthosisImageSyncResponse.removeObservers(this)
                         syncNextOrthosisImage()
                     }
@@ -1226,6 +1233,7 @@ class OrthosisMainActivity : BaseActivity() {
                     Status.ERROR -> {
                         Log.e("SyncImages", "❌ Failed to upload orthosis image ${orthosisImage.id}")
                         orthosisImageIndexCheck++
+                        totalFailedCount++
                         orthosisMainVM.orthosisImageSyncResponse.removeObservers(this)
                         syncNextOrthosisImage()
                     }
@@ -1306,6 +1314,7 @@ class OrthosisMainActivity : BaseActivity() {
                         Log.d("SyncImages", "✅ Equipment image ${equipmentImage.id} uploaded successfully")
                         orthosisMainVM.updateEquipmentImageSynced(equipmentImage.id)
                         equipmentImageIndexCheck++
+                        totalSyncedCount++
                         orthosisMainVM.equipmentImageSyncResponse.removeObservers(this)
                         syncNextEquipmentImage()
                     }
@@ -1313,6 +1322,7 @@ class OrthosisMainActivity : BaseActivity() {
                     Status.ERROR -> {
                         Log.e("SyncImages", "❌ Failed to upload equipment image ${equipmentImage.id}")
                         equipmentImageIndexCheck++
+                        totalFailedCount++
                         orthosisMainVM.equipmentImageSyncResponse.removeObservers(this)
                         syncNextEquipmentImage()
                     }
@@ -1324,18 +1334,42 @@ class OrthosisMainActivity : BaseActivity() {
     }
 
     private fun finishImageSync() {
-        Log.d("SyncImages", "✅ All form, orthosis, and equipment images uploaded. Sync complete.")
-        doctorProgress.dismiss()
-        orthosisMainVM.getOrthosisPatientForm()
-        orthosisMainVM.getCampPatientList()
+        Toast.makeText(
+            this,
+            "✅ Image sync completed.\nSynced: $totalSyncedCount, Failed: $totalFailedCount",
+            Toast.LENGTH_LONG
+        ).show()
+
+        // Refresh lists
         orthosisMainVM.getFormImages()
         orthosisMainVM.getFormOrthosisImages()
         orthosisMainVM.getEquipmentImages()
         orthosisMainVM.getFormVideos()
-        Toast.makeText(this, "✅ All form, orthosis, and equipment images uploaded. Sync complete.", Toast.LENGTH_SHORT).show()
 
+        val totalFormImages = formImageListForSync.size
+        val totalOrthosisImages = orthosisImageListForSync.size
+        val totalEquipmentImages = equipmentImageListForSync.size
+
+        val totalAttempted = totalFormImages + totalOrthosisImages + totalEquipmentImages
+
+        orthosisMainVM.insertImageSyncSummary(
+            syncType = "Images",
+            syncCount = totalSyncedCount,
+            notSyncCount = totalFailedCount
+        )
+
+        Log.d(
+            "SyncImages",
+            "✅ Image sync completed. Total: $totalAttempted, Synced: $totalSyncedCount, Failed: $totalFailedCount"
+        )
+
+        doctorProgress.dismiss()
+        totalSyncedCount = 0
+        totalFailedCount = 0
     }
 
+    private var totalVideoSyncedCount = 0
+    private var totalVideoFailedCount = 0
 
     private fun syncFormVideos() {
         Log.d("SyncVideos", "Starting syncFormVideos")
@@ -1387,6 +1421,7 @@ class OrthosisMainActivity : BaseActivity() {
                     Toast.makeText(this, "Form video $currentNumber uploaded successfully", Toast.LENGTH_SHORT).show()
 
                     orthosisMainVM.updateFormVideoSynced(response.data?.success_id ?: 0)
+                    totalVideoSyncedCount++
                     orthosisMainVM.getFormVideos()
 
                     formVideoIndexCheck++
@@ -1395,6 +1430,11 @@ class OrthosisMainActivity : BaseActivity() {
                     } else {
                         Log.d("SyncVideos", "✅ All $totalVideos form videos uploaded. Dismissing progress.")
                         doctorProgress.dismiss()
+                        orthosisMainVM.insertImageSyncSummary(
+                            syncType = "Videos",
+                            syncCount = totalVideoSyncedCount,
+                            notSyncCount = totalVideoFailedCount
+                        )
                         Toast.makeText(this, "All form videos synced successfully!", Toast.LENGTH_SHORT).show()
                         orthosisMainVM.getOrthosisPatientForm()
                         orthosisMainVM.getCampPatientList()
@@ -1410,6 +1450,7 @@ class OrthosisMainActivity : BaseActivity() {
                     Utility.errorToast(this, "Upload failed for video $currentNumber")
 
                     formVideoIndexCheck++
+                    totalVideoFailedCount++
                     if (formVideoIndexCheck < formVideoListForSync.size) {
                         syncNextFormVideo()
                     } else {

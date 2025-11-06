@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/baby_blue"
@@ -411,10 +409,10 @@
                                     <TextView
                                         style="@style/textView_normal"
                                         android:layout_width="0dp"
-                                        android:layout_gravity="center_vertical"
-                                        android:gravity="center_vertical"
                                         android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
                                         android:layout_weight="1"
+                                        android:gravity="center_vertical"
                                         android:text="Blood Sugar" />
 
                                     <Spinner
@@ -458,8 +456,8 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:gravity="center_vertical"
                                     android:layout_weight="1"
+                                    android:gravity="center_vertical"
                                     android:text="Haemoglobin" />
 
                                 <Spinner
@@ -489,10 +487,10 @@
                                 <TextView
                                     style="@style/textView_normal"
                                     android:layout_width="0dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:gravity="center_vertical"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_weight="1"
+                                    android:gravity="center_vertical"
                                     android:text="Prothrombin Time" />
 
                                 <Spinner
@@ -524,8 +522,8 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:gravity="center_vertical"
                                     android:layout_weight="1"
+                                    android:gravity="center_vertical"
                                     android:text="CBC" />
 
                                 <Spinner
@@ -556,8 +554,8 @@
                                     style="@style/textView_normal"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
                                     android:layout_gravity="center_vertical"
+                                    android:layout_weight="1"
                                     android:gravity="center_vertical"
                                     android:text="Bleeding Time" />
 
@@ -588,10 +586,10 @@
                                 <TextView
                                     style="@style/textView_normal"
                                     android:layout_width="0dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:gravity="center_vertical"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_weight="1"
+                                    android:gravity="center_vertical"
                                     android:text="HIV" />
 
                                 <Spinner
@@ -622,8 +620,8 @@
                                     style="@style/textView_normal"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
                                     android:layout_gravity="center_vertical"
+                                    android:layout_weight="1"
                                     android:gravity="center_vertical"
                                     android:text="Clotting Time" />
 
@@ -656,8 +654,8 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_vertical"
-                                    android:gravity="center_vertical"
                                     android:layout_weight="1"
+                                    android:gravity="center_vertical"
                                     android:text="HBsAg" />
 
                                 <Spinner
@@ -687,10 +685,10 @@
                                 <TextView
                                     style="@style/textView_normal"
                                     android:layout_width="0dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:gravity="center_vertical"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_weight="1"
+                                    android:gravity="center_vertical"
                                     android:text="HCV" />
 
                                 <Spinner
@@ -720,10 +718,10 @@
                                 <TextView
                                     style="@style/textView_normal"
                                     android:layout_width="0dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:gravity="center_vertical"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_weight="1"
+                                    android:gravity="center_vertical"
                                     android:text="ECG" />
 
                                 <Spinner
@@ -777,7 +775,6 @@
 
                                 <EditText
                                     android:id="@+id/EditText_discussed_with"
-
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/edittext_background"
@@ -788,101 +785,105 @@
 
                             </LinearLayout>
 
-
                         </LinearLayout>
                     </LinearLayout>
+
+
+                    <TextView
+                        style="@style/refreactive_head_title1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Recommendation *" />
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp"
+                        android:weightSum="2">
 
-                        <TextView
-                            style="@style/refreactive_head_title1"
-                            android:layout_width="match_parent"
+                        <RadioButton
+                            android:id="@+id/radioButonLineUpForSurgery"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Recommendation *" />
+                            android:layout_weight="1"
+                            android:text="Line up for surgery"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                    <!-- Unfit for Surgery -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp"
+                        android:weightSum="2"
+                        android:gravity="center_vertical">
+
+                        <RadioButton
+                            android:id="@+id/radioButonUnfitForSurgery"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:layout_weight="1"
+                            android:text="Unfit for surgery. Come after few days"
+                            android:textColor="@color/black" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
+                        <EditText
+                            android:id="@+id/EditTextUnfitForSurgery"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Enter no. of days"
+                            android:inputType="number"
+                            android:maxLength="3"
+                            android:visibility="gone"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:background="@drawable/edittext_background"
+                            android:fontFamily="@font/opensans_semibold"
+                            android:gravity="start|center_vertical"
+                            android:padding="@dimen/_8sdp"
+                            android:singleLine="false"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:textSize="@dimen/_10ssp"
+                            />
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2">
+                    </LinearLayout>
 
-                                    <RadioButton
-                                        android:id="@+id/radio_Buton_Line_up_for_surgery"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="Line up for surgery"
-                                        android:textColor="@color/black" />
+                    <!-- Cannot Operate -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp"
+                        android:weightSum="2">
 
-                                </LinearLayout>
+                        <RadioButton
+                            android:id="@+id/radioButonCanNotOperate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Cannot operate"
+                            android:textColor="@color/black" />
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2">
-
-                                    <RadioButton
-                                        android:id="@+id/radio_Buton_Unfit_for_surgery"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="Unfit for surgery. Come after few days"
-                                        android:textColor="@color/black" />
-
-                                    <EditText
-                                        android:id="@+id/EditText_Unfit_for_surgery"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:background="@drawable/edittext_background"
-                                        android:hint="Enter no of days"
-                                        android:inputType="number"
-                                        android:maxLength="3"
-                                        android:textColor="@color/black" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2">
-
-                                    <RadioButton
-                                        android:id="@+id/radio_Buton_Can_not_operate"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="Can not operate"
-                                        android:textColor="@color/black" />
-
-                                    <EditText
-                                        android:id="@+id/EditText_Can_not_operate"
-                                        style="@style/enter_details_edittext"
-                                        android:layout_width="0dp"
-                                        android:layout_weight="1"
-                                        android:inputType="text"
-                                        android:singleLine="false"
-                                        android:textColor="@color/black" />
-                                </LinearLayout>
-
-
-                            </LinearLayout>
-
-                        </LinearLayout>
+                        <EditText
+                            android:id="@+id/EditTextCanNotOperate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Enter reason"
+                            android:inputType="text"
+                            android:visibility="gone"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:background="@drawable/edittext_background"
+                            android:fontFamily="@font/opensans_semibold"
+                            android:gravity="start|center_vertical"
+                            android:padding="@dimen/_8sdp"
+                            android:singleLine="false"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/gray"
+                            android:textSize="@dimen/_10ssp"/>
                     </LinearLayout>
 
 
@@ -1475,10 +1476,10 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2"
                                     android:gravity="center_vertical"
-                                    android:paddingVertical="@dimen/_2sdp">
+                                    android:orientation="horizontal"
+                                    android:paddingVertical="@dimen/_2sdp"
+                                    android:weightSum="2">
 
                                     <CheckBox
                                         android:id="@+id/CheckBox_Tropicacyl_plus_eye_drop"
@@ -1494,22 +1495,22 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textStyle="bold"
                                         android:gravity="center_vertical"
+                                        android:lineSpacingExtra="@dimen/_2sdp"
                                         android:text="40 minutes before the surgery. Three times a day at 5-minute interval."
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/_10ssp"
-                                        android:lineSpacingExtra="@dimen/_2sdp" />
+                                        android:textStyle="bold" />
                                 </LinearLayout>
 
                                 <!-- Plain Tropicacyl if Myopia -->
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2"
                                     android:gravity="center_vertical"
-                                    android:paddingVertical="@dimen/_2sdp">
+                                    android:orientation="horizontal"
+                                    android:paddingVertical="@dimen/_2sdp"
+                                    android:weightSum="2">
 
                                     <CheckBox
                                         android:id="@+id/CheckBox_Plain_Tropicacyl_if_Myopia"
@@ -1525,22 +1526,22 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textStyle="bold"
                                         android:gravity="center_vertical"
+                                        android:lineSpacingExtra="@dimen/_2sdp"
                                         android:text="41 minutes before the surgery. Three times a day at 5-minute interval."
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/_10ssp"
-                                        android:lineSpacingExtra="@dimen/_2sdp" />
+                                        android:textStyle="bold" />
                                 </LinearLayout>
 
                                 <!-- Ciplox Antibiotic Drops -->
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2"
                                     android:gravity="center_vertical"
-                                    android:paddingVertical="@dimen/_2sdp">
+                                    android:orientation="horizontal"
+                                    android:paddingVertical="@dimen/_2sdp"
+                                    android:weightSum="2">
 
                                     <CheckBox
                                         android:id="@+id/CheckBox_Ciplox_antibiotic_drops"
@@ -1556,22 +1557,22 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textStyle="bold"
                                         android:gravity="center_vertical"
+                                        android:lineSpacingExtra="@dimen/_2sdp"
                                         android:text="Start in the morning of surgery. Apply every one hour till surgery."
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/_10ssp"
-                                        android:lineSpacingExtra="@dimen/_2sdp" />
+                                        android:textStyle="bold" />
                                 </LinearLayout>
 
                                 <!-- Flur Eye Drop -->
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2"
                                     android:gravity="center_vertical"
-                                    android:paddingVertical="@dimen/_2sdp">
+                                    android:orientation="horizontal"
+                                    android:paddingVertical="@dimen/_2sdp"
+                                    android:weightSum="2">
 
                                     <CheckBox
                                         android:id="@+id/CheckBox_Flur_eye_drop"
@@ -1587,22 +1588,22 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textStyle="bold"
                                         android:gravity="center_vertical"
+                                        android:lineSpacingExtra="@dimen/_2sdp"
                                         android:text="Every half hour, two or three times before surgery."
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/_10ssp"
-                                        android:lineSpacingExtra="@dimen/_2sdp" />
+                                        android:textStyle="bold" />
                                 </LinearLayout>
 
                                 <!-- Amlodipine -->
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2"
                                     android:gravity="center_vertical"
-                                    android:paddingVertical="@dimen/_2sdp">
+                                    android:orientation="horizontal"
+                                    android:paddingVertical="@dimen/_2sdp"
+                                    android:weightSum="2">
 
                                     <CheckBox
                                         android:id="@+id/CheckBox_Amlodipine"
@@ -1628,10 +1629,10 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2"
                                     android:gravity="center_vertical"
-                                    android:paddingVertical="@dimen/_2sdp">
+                                    android:orientation="horizontal"
+                                    android:paddingVertical="@dimen/_2sdp"
+                                    android:weightSum="2">
 
                                     <CheckBox
                                         android:id="@+id/CheckBox_2_drops_of_Tropicamide"
@@ -1640,17 +1641,17 @@
                                         android:layout_weight="1"
                                         android:checked="true"
                                         android:clickable="false"
-                                        android:singleLine="false"
                                         android:gravity="center_vertical"
+                                        android:lineSpacingExtra="@dimen/_2sdp"
+                                        android:singleLine="false"
                                         android:text="2 drops of Tropicamide plus eye drop instilled before leaving pre-operating room."
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/_10ssp"
-                                        android:lineSpacingExtra="@dimen/_2sdp" />
+                                        android:textSize="@dimen/_10ssp" />
 
                                     <Spinner
                                         android:id="@+id/Spinner_2_drops_of_Tropicamide"
-                                        android:layout_width="0dp"
                                         style="@style/spinner_padding_left_right"
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:paddingHorizontal="@dimen/_4sdp" />
@@ -1660,10 +1661,10 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2"
                                     android:gravity="center_vertical"
-                                    android:paddingVertical="@dimen/_2sdp">
+                                    android:orientation="horizontal"
+                                    android:paddingVertical="@dimen/_2sdp"
+                                    android:weightSum="2">
 
                                     <CheckBox
                                         android:id="@+id/CheckBox_2_drops_of_betadine"
@@ -1672,17 +1673,17 @@
                                         android:layout_weight="1"
                                         android:checked="true"
                                         android:clickable="false"
-                                        android:singleLine="false"
                                         android:gravity="center_vertical"
+                                        android:lineSpacingExtra="@dimen/_2sdp"
+                                        android:singleLine="false"
                                         android:text="2 drops of Betadine 0.5% eye drop instilled before leaving pre-operating room."
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/_10ssp"
-                                        android:lineSpacingExtra="@dimen/_2sdp" />
+                                        android:textSize="@dimen/_10ssp" />
 
                                     <Spinner
                                         android:id="@+id/Spinner_2_drops_of_betadine"
-                                        android:layout_width="0dp"
                                         style="@style/spinner_padding_left_right"
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:paddingHorizontal="@dimen/_4sdp" />
@@ -1809,6 +1810,7 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView

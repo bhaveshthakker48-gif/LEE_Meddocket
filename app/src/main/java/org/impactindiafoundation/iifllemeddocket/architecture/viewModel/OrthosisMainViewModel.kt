@@ -28,11 +28,15 @@ import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisForm
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisImageRequest
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisImages
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisPatientForm
+import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisSynTable
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisType
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisTypeModel
 import org.impactindiafoundation.iifllemeddocket.architecture.model.OrthosisTypeModelItem
 import org.impactindiafoundation.iifllemeddocket.architecture.model.UserModel
 import org.impactindiafoundation.iifllemeddocket.architecture.repository.NewMainRepository
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -184,6 +188,17 @@ class OrthosisMainViewModel @Inject constructor(private val newMainRepository: N
             }
         } catch (e: Exception) {
             _formImagesList.postValue(Resource.error(e.message.toString(), null))
+        }
+    }
+
+
+    fun insertImageSyncSummary(syncType: String, syncCount: Int, notSyncCount: Int) {
+        viewModelScope.launch {
+            newMainRepository.insertSyncData(
+                synType = syncType,
+                syncItemCount = syncCount,
+                notSyncItemCount = notSyncCount
+            )
         }
     }
 

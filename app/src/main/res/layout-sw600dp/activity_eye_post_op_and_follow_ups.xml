@@ -106,6 +106,7 @@
                                         <TextView
                                             style="@style/submit_cardView"
                                             android:text="Add"
+                                            android:textColor="@color/white"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"/>
                                     </androidx.cardview.widget.CardView>
@@ -239,6 +240,7 @@
                                         <TextView
                                             style="@style/submit_cardView"
                                             android:text="Add"
+                                            android:textColor="@color/white"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"/>
                                     </androidx.cardview.widget.CardView>
@@ -370,6 +372,7 @@
                                         <TextView
                                             style="@style/submit_cardView"
                                             android:text="Add"
+                                            android:textColor="@color/white"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"/>
                                     </androidx.cardview.widget.CardView>
@@ -540,386 +543,410 @@
                             style="@style/refreactive_head_title1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
+
                         <LinearLayout
-                            android:orientation="vertical"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
 
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Tab_Cifloxacin"
-                                    android:text="Tab. Cifloxacin 500 mg BD × 5days"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/edittext_Tab_Cifloxacin"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Tab_Cifloxacin"
+                                android:text="Tab. Cifloxacin 500 mg BD × 5days"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/edittext_Tab_Cifloxacin"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                                <CheckBox
-                                    android:singleLine="false"
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Tab_Diclofenac"
-                                    android:text="Tab. Diclofenac sodium 50mg BD x 5 days"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Tab_Diclofenac"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                            <CheckBox
+                                android:singleLine="false"
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Tab_Diclofenac"
+                                android:text="Tab. Diclofenac sodium 50mg BD x 5 days"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Tab_Diclofenac"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Tab_Pantaprezol"
-                                    android:text="Tab. Pantaprezol 40 BD x 5 days"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Tab_Pantaprezol"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Tab_Pantaprezol"
+                                android:text="Tab. Pantaprezol 40 BD x 5 days"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Tab_Pantaprezol"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Tab_Dimox"
-                                    android:text="Tab. Dimox stat and sos"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Tab_Dimox"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Tab_Dimox"
+                                android:text="Tab. Dimox stat and sos"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Tab_Dimox"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Eye_drop_Moxifloxacin8"
-                                    android:text="Eye drop Moxifloxacin P 1° per 8 times a
-day for the 1st week"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Eye_drop_Moxifloxacin8"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Eye_drop_Moxifloxacin8"
+                                android:text="Eye drop Moxifloxacin P 1° per 8 times aday for the 1st week"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Eye_drop_Moxifloxacin8"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Eye_drop_Moxifloxacin6"
-                                    android:text="Eye drop Moxifloxacin P 1° per 6 times a
-day for the 2nd week"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Eye_drop_Moxifloxacin6"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Eye_drop_Moxifloxacin6"
+                                android:text="Eye drop Moxifloxacin P 1° per 6 times aday for the 2nd week"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Eye_drop_Moxifloxacin6"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Eye_drop_Moxifloxacin4"
-                                    android:text="Eye drop Moxifloxacin P 1° per 4 times a
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Eye_drop_Moxifloxacin4"
+                                android:text="Eye drop Moxifloxacin P 1° per 4 times a
 day for the 3rd week"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Eye_drop_Moxifloxacin4"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Eye_drop_Moxifloxacin4"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Eye_drop_Moxifloxacin2"
-                                    android:text="Eye drop Moxifloxacin P 1° per 2 times a
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Eye_drop_Moxifloxacin2"
+                                android:text="Eye drop Moxifloxacin P 1° per 2 times a
 day for the 4th week"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Eye_drop_Moxifloxacin2"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Eye_drop_Moxifloxacin2"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
 
 
+                            <CheckBox
+                                android:text="Eye drop Moxifloxacin P 1° per day for the 5th week°"
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Eye_drop_Moxifloxacin5thweek"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Eye_drop_Moxifloxacin5thweek"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                                <CheckBox
-                                    android:text="Eye drop Moxifloxacin P 1°per day for the 5th week"
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Eye_drop_Moxifloxacin5thweek"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Eye_drop_Moxifloxacin5thweek"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Eye_drop_MoxifloxacinP"
+                                android:text="Eye drop Moxifloxacin P"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Eye_drop_MoxifloxacinP"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Eye_drop_MoxifloxacinP"
-                                    android:text="Eye drop Moxifloxacin P"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Eye_drop_MoxifloxacinP"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Eye_drop_Homide"
+                                android:text="Eye drop Homide"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Eye_drop_Homide"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Eye_drop_Homide"
-                                    android:text="Eye drop Homide"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Eye_drop_Homide"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Eye_drop_timolol_sos"
+                                android:text="Eye drop timolol sos"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Eye_drop_timolol_sos"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Eye_drop_timolol_sos"
-                                    android:text="Eye drop timolol sos"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Eye_drop_timolol_sos"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Eye_drop_hypersol_sos"
+                                android:text="Eye drop hypersol sos"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Eye_drop_hypersol_sos"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Eye_drop_hypersol_sos"
-                                    android:text="Eye drop hypersol sos"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Eye_drop_hypersol_sos"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Lubricant_drop_refresh"
+                                android:text="Lubricant drop refresh"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Lubricant_drop_refresh"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Lubricant_drop_refresh"
-                                    android:text="Lubricant drop refresh"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Lubricant_drop_refresh"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_On_the_day_of_discharge"
+                                android:text="On the day of discharge instillation of the E/D Homide 1°"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_On_the_day_of_discharge_ED"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_On_the_day_of_discharge"
-                                    android:text="On the day of discharge instillation of the E/D Homide 1°"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_On_the_day_of_discharge_ED"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="@dimen/_2sdp"
+                            android:weightSum="2"
+                            android:gravity="center_vertical"
+                            android:paddingVertical="@dimen/_2sdp"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                            </LinearLayout>
-                            <LinearLayout
-                                android:layout_margin="@dimen/_2sdp"
-                                android:weightSum="2"
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <CheckBox
-                                    android:textColor="@color/black"
-                                    android:id="@+id/checkbox_Other_medication"
-                                    android:text="Other"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-                                <EditText
-                                    android:textColor="@color/black"
-                                    android:id="@+id/EditText_Other_medication"
-                                    style="@style/enter_editText"
-                                    android:layout_weight="1"
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"/>
-
-                            </LinearLayout>
+                            <CheckBox
+                                android:textColor="@color/black"
+                                android:id="@+id/checkbox_Other_medication"
+                                android:text="Other"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
+                            <EditText
+                                android:textColor="@color/black"
+                                android:id="@+id/EditText_Other_medication"
+                                style="@style/enter_editText"
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"/>
 
                         </LinearLayout>
                         <View
@@ -2015,13 +2042,12 @@ operated eye for Vision"
                                             android:layout_width="match_parent"
                                             android:layout_height="1dp"/>
 
-                                        <LinearLayout
-                                            android:orientation="vertical"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
+
                                             <LinearLayout
                                                 android:layout_margin="@dimen/_2sdp"
                                                 android:weightSum="2"
+                                                android:gravity="center_vertical"
+                                                android:paddingVertical="@dimen/_2sdp"
                                                 android:orientation="horizontal"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content">
@@ -2044,6 +2070,8 @@ operated eye for Vision"
                                                 android:layout_margin="@dimen/_2sdp"
                                                 android:weightSum="2"
                                                 android:orientation="horizontal"
+                                                android:gravity="center_vertical"
+                                                android:paddingVertical="@dimen/_2sdp"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content">
                                                 <TextView
@@ -2065,6 +2093,8 @@ operated eye for Vision"
                                                 android:layout_margin="@dimen/_2sdp"
                                                 android:weightSum="2"
                                                 android:orientation="horizontal"
+                                                android:gravity="center_vertical"
+                                                android:paddingVertical="@dimen/_2sdp"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content">
                                                 <TextView
@@ -2087,6 +2117,7 @@ operated eye for Vision"
                                                 android:orientation="vertical"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content">
+
                                                 <EditText
                                                     style="@style/enter_editText"
                                                     android:id="@+id/EditText_Assess_the_cataract_wound"
@@ -2099,6 +2130,8 @@ operated eye for Vision"
                                                 android:layout_margin="@dimen/_2sdp"
                                                 android:weightSum="2"
                                                 android:orientation="horizontal"
+                                                android:gravity="center_vertical"
+                                                android:paddingVertical="@dimen/_2sdp"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content">
                                                 <TextView
@@ -2119,6 +2152,8 @@ operated eye for Vision"
                                             <LinearLayout
                                                 android:weightSum="2"
                                                 android:orientation="horizontal"
+                                                android:gravity="center_vertical"
+                                                android:paddingVertical="@dimen/_2sdp"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content">
                                                 <TextView
@@ -2140,6 +2175,8 @@ operated eye for Vision"
                                                 android:id="@+id/LinearLayout_Check_the_pupil"
                                                 android:orientation="vertical"
                                                 android:layout_width="match_parent"
+                                                android:gravity="center_vertical"
+                                                android:paddingVertical="@dimen/_2sdp"
                                                 android:layout_height="wrap_content">
                                                 <EditText
                                                     android:id="@+id/EditText_Check_the_pupil"
@@ -2153,6 +2190,8 @@ operated eye for Vision"
                                                 android:layout_margin="@dimen/_2sdp"
                                                 android:weightSum="2"
                                                 android:orientation="horizontal"
+                                                android:gravity="center_vertical"
+                                                android:paddingVertical="@dimen/_2sdp"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content">
                                                 <TextView
@@ -2170,21 +2209,19 @@ operated eye for Vision"
 
                                             </LinearLayout>
 
-                                        </LinearLayout>
 
                                         <View
                                             android:background="@color/black"
                                             android:layout_width="match_parent"
                                             android:layout_height="1dp"/>
 
-                                        <LinearLayout
-                                            android:layout_margin="@dimen/_2sdp"
-                                            android:orientation="vertical"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
+
+
                                             <LinearLayout
                                                 android:weightSum="2"
                                                 android:orientation="horizontal"
+                                                android:gravity="center_vertical"
+                                                android:paddingVertical="@dimen/_2sdp"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content">
                                                 <TextView
@@ -2209,6 +2246,8 @@ operated eye for Vision"
                                             <LinearLayout
                                                 android:weightSum="2"
                                                 android:orientation="horizontal"
+                                                android:gravity="center_vertical"
+                                                android:paddingVertical="@dimen/_2sdp"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content">
                                                 <TextView
@@ -2234,6 +2273,8 @@ operated eye for Vision"
                                             <LinearLayout
                                                 android:weightSum="2"
                                                 android:orientation="horizontal"
+                                                android:gravity="center_vertical"
+                                                android:paddingVertical="@dimen/_2sdp"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content">
                                                 <TextView
@@ -2256,7 +2297,6 @@ operated eye for Vision"
 
                                             </LinearLayout>
 
-                                        </LinearLayout>
 
                                     </LinearLayout>
 

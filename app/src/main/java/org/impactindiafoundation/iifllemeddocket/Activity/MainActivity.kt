@@ -953,131 +953,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-    private fun ImageUpload1() {
-        viewModel1.allImages.observe(this, Observer { imageList ->
-            Log.d("UpdateImage", "🧾 Total images in DB: ${imageList.size}")
-
-            for (currentImage in imageList) {
-                Log.d("UpdateImage", "🔍 Checking image: id=${currentImage._id}, isSyn=${currentImage.isSyn}")
-
-                // Skip already synced images
-                if (currentImage.isSyn != 0) continue
-
-                // Check if path is null or empty
-                val filePath = currentImage.file_path
-                if (filePath.isNullOrBlank()) {
-                    Log.e("UpdateImage", "⚠️ Skipping image id=${currentImage._id} because file_path is null or empty")
-                    continue
-                }
-
-                // Create file and validate existence
-                val file = File(filePath)
-                if (!file.exists()) {
-                    Log.e("UpdateImage", "🚫 Skipping image id=${currentImage._id}: file not found at path $filePath")
-                    continue
-                }
-
-                Log.d("UpdateImage", "📤 Preparing to upload image: $filePath")
-
-                try {
-                    // Prepare multipart parts
-                    val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
-                    val body = MultipartBody.Part.createFormData("file_name", file.name, requestFile)
-
-                    val imageTypeRequestBody = RequestBody.create(
-                        "text/plain".toMediaTypeOrNull(),
-                        currentImage.image_type ?: ""
-                    )
-                    val patientIdRequestBody = RequestBody.create(
-                        "text/plain".toMediaTypeOrNull(),
-                        currentImage.patient_id?.toString() ?: ""
-                    )
-                    val campIdRequestBody = RequestBody.create(
-                        "text/plain".toMediaTypeOrNull(),
-                        currentImage.camp_id?.toString() ?: ""
-                    )
-                    val userIdRequestBody = RequestBody.create(
-                        "text/plain".toMediaTypeOrNull(),
-                        currentImage.user_id?.toString() ?: ""
-                    )
-                    val idRequestBody = RequestBody.create(
-                        "text/plain".toMediaTypeOrNull(),
-                        currentImage._id.toString()
-                    )
-
-                    Log.d(
-                        "UpdateImage",
-                        """
-                    ✅ Upload Params:
-                    - File: ${file.name}
-                    - Path: ${filePath}
-                    - Type: ${currentImage.image_type}
-                    - Patient ID: ${currentImage.patient_id}
-                    - Camp ID: ${currentImage.camp_id}
-                    - User ID: ${currentImage.user_id}
-                    - Local DB ID: ${currentImage._id}
-                    """.trimIndent()
-                    )
-
-                    val imageUploadParams = ImageUploadParams(
-                        body,
-                        imageTypeRequestBody,
-                        patientIdRequestBody,
-                        campIdRequestBody,
-                        userIdRequestBody,
-                        idRequestBody
-                    )
-
-                    viewModel.uploadFile1(progressDialog, imageUploadParams)
-                    ImageUploadResponseSequentiallyFromSync()
-
-                } catch (e: Exception) {
-                    Log.e("UpdateImage", "❌ Exception preparing upload for image id=${currentImage._id}: ${e.message}", e)
-                }
-            }
-        })
-    }
-
-
-    private fun ImageUploadResponseSequentiallyFromSync() {
-        viewModel.getImageUploadResponse.observe(this, Observer { response ->
-            val data = response.data
-            if (data != null) {
-                val errorMessage = data.ErrorMessage
-                val id = data._id
-                val errorCode = data.ErrorCode
-
-                Log.d("UpdateImage", "📥 Response received:")
-                Log.d("UpdateImage", "ErrorMessage => $errorMessage")
-                Log.d("UpdateImage", "ErrorCode => $errorCode")
-                Log.d("UpdateImage", "Local DB id => $id")
-
-                when (errorMessage) {
-                    "Success" -> {
-                        Log.d("ImageUploadResponse", "✅ Upload success for image ID=$id, updating local DB...")
-                        UpdateImage(id)
-                    }
-                    else -> {
-                        Log.w("ImageUploadResponse", "⚠️ Upload failed or incomplete for ID=$id, message=$errorMessage")
-                    }
-                }
-            } else {
-                Log.e("UpdateImage", "❌ Response data is null")
-            }
-        })
-    }
-
-
-    private fun UpdateImage(id: String) {
-        Log.d("UpdateImage", "🔄 Attempting to update isSyn=1 for image with ID=$id")
-
-        try {
-            viewModel1.updateImage(id, 1)
-            Log.d("UpdateImage", "✅ updateImage() called successfully for ID=$id")
-        } catch (e: Exception) {
-            Log.e("UpdateImage", "❌ Exception during updateImage for ID=$id: ${e.message}", e)
-        }
-    }
 
 
     @SuppressLint("MissingInflatedId")
@@ -2346,15 +2221,9 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    private suspend fun entSendImageToServer() {
-        ImageUpload1()
-        loadAndUploadAudiometryImage()
-        loadAndUploadPathologyImage()
-        loadAndUploadPreOpImage()
-        getUpdateAudiometryImageDetailsFromServer()
-        getUpdatePreOPImageDetailsFromServer()
-        getUpdatedPathologyImageDetailsFromServer()
-    }
+
+
+
 
     private fun getUpdateEntDataFromServer() {
         getUpdatePreOpDetailsFromServer()
@@ -2601,7 +2470,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         startActivity(intent)
     }
 
-
     private var totalSyncedCount = 0
     private var totalUnsyncedCount = 0
     private var completedForms = 0
@@ -2634,7 +2502,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         syncQueue.add { insertAudiometryDetails() }
         syncQueue.add { insertPythologyDetails() }
         syncQueue.add { addSyncUnsyncData() }
-
 
         // Last one: run GetUnSyneddata and trigger callback
         syncQueue.add {
@@ -2697,7 +2564,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-
     private fun syncNewVitals() {
         Log.d("pawan_sync", "syncNewVitals call")
         if (isInternetAvailable(this)) {
@@ -2754,7 +2620,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-
     private val syncReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             intent?.let {
@@ -2774,7 +2639,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-
     override fun onStart() {
         super.onStart()
         val filter = IntentFilter(ACTION_FORM_SYNC_COMPLETED)
@@ -2785,7 +2649,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         super.onStop()
         LocalBroadcastManager.getInstance(this).unregisterReceiver(syncReceiver)
     }
-
 
     private fun Insert_Eye_OPD_Doctors_Note() {
         Log.d("pawan_sync", "Insert_Eye_OPD_Doctors_Note call")
@@ -2852,7 +2715,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
 
     private fun Eye_Post_OP_And_Follow_Ups() {
         Log.d("pawan_sync", "Eye_Post_OP_And_Follow_Ups call")
@@ -3436,7 +3298,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-
     private suspend fun insertPreOpDetails() {
         val unsyncedList = entPreOpDetailsViewModel.getUnsyncedPreOpDetails()
         Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced PreOpDetails records")
@@ -3459,7 +3320,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             startNextSync()
         }
     }
-
 
     private suspend fun insertSurgicalNotes() {
         val unsyncedList = entSurgicalNotesViewModel.getUnsyncedSurgicalNotes()
@@ -3484,7 +3344,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-
     private suspend fun insertPostOpNotes() {
         val unsyncedList = entPostOpNotesViewModel.getUnsyncedPostOpNotes()
         Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced PostOpNotes records")
@@ -3507,7 +3366,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             startNextSync()
         }
     }
-
 
     private suspend fun insertAudiometryDetails() {
         val unsyncedList = entAudiometryViewModel.getUnsyncedAudiometryDetails()
@@ -3532,7 +3390,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-
     private suspend fun insertPythologyDetails() {
         val unsyncedList = pathologyViewModel.getUnsyncedPathologyDetails()
         Log.d("SyncCheck", "Fetched ${unsyncedList.size} unsynced Pathology records")
@@ -3556,7 +3413,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-
     private fun logResult(tag: String, success: Boolean, message: String?, count: Int) {
         if (success) {
             Toast.makeText(this, "$tag: Successfully sent $count records", Toast.LENGTH_SHORT)
@@ -3566,7 +3422,6 @@ class MainActivity : BaseActivity(), View.OnClickListener {
             Log.e("SyncCheck $tag", "Sync failed: $message")
         }
     }
-
 
     private suspend fun insertEntOpdDoctorSymptomsNote() {
         val unsyncedList = entOpdDoctorsNoteViewModel.getUnsyncedSymptomsOnce()
@@ -3594,78 +3449,139 @@ class MainActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-//
-//    private suspend fun insertEntOpdDoctorInvestigationNote() : SyncResult{
-//        val unsyncedList = entOpdDoctorsNoteViewModel.getUnsyncedInvestigationOnce()
-//        return performSyncOperation("OPD", unsyncedList) { list, callback ->
-//            entOpdDoctorsNoteViewModel.sendDoctorInvestigationNotesToServer(list, callback)
-//        }
-//    }
-//
-//    private suspend fun insertPreOpDetails(): SyncResult {
-//        val unsyncedList = entPreOpDetailsViewModel.getUnsyncedPreOpDetails()
-//        return performSyncOperation("PreOp", unsyncedList) { list, callback ->
-//            entPreOpDetailsViewModel.sendDoctorPreOpDetailsToServer(list, callback)
-//        }
-//    }
-//
-//    private suspend fun insertSurgicalNotes(): SyncResult {
-//        val unsyncedList = entSurgicalNotesViewModel.getUnsyncedSurgicalNotes()
-//        return performSyncOperation("SurgicalNotes", unsyncedList) { list, callback ->
-//            entSurgicalNotesViewModel.sendDoctorSurgicalNotesToServer(list, callback)
-//        }
-//    }
-//
-//    private suspend fun insertPostOpNotes(): SyncResult {
-//        val unsyncedList = entPostOpNotesViewModel.getUnsyncedPostOpNotes()
-//        return performSyncOperation("PostOp", unsyncedList) { list, callback ->
-//            entPostOpNotesViewModel.sendDoctorPostOpNotesToServer(list, callback)
-//        }
-//    }
-//
-//    private suspend fun insertAudiometryDetails(): SyncResult {
-//        val unsyncedList = entAudiometryViewModel.getUnsyncedAudiometryDetails()
-//        return performSyncOperation("Audiometry", unsyncedList) { list, callback ->
-//            entAudiometryViewModel.sendDoctorAudiometryDetailsToServer(list, callback)
-//        }
-//    }
-//
-//    private suspend fun insertPythologyDetails(): SyncResult {
-//        val unsyncedList = pathologyViewModel.getUnsyncedPathologyDetails()
-//        return performSyncOperation("Pathology", unsyncedList) { list, callback ->
-//            pathologyViewModel.sendDoctorPathologyDetailsToServer(list, callback)
-//        }
-//    }
-//
-//    private suspend fun <T> performSyncOperation(
-//        type: String,
-//        unsyncedList: List<T>,
-//        sendToServer: (List<T>, (Boolean, String) -> Unit) -> Unit
-//    ): SyncResult {
-//        val totalCount = unsyncedList.size
-//        var syncedCount = 0
-//        var message = ""
-//        var success = false
-//
-//        if (unsyncedList.isNotEmpty()) {
-//            suspendCoroutine<Unit> { cont ->
-//                sendToServer(unsyncedList) { isSuccess, msg ->
-//                    success = isSuccess
-//                    message = msg
-//                    syncedCount = if (isSuccess) totalCount else 0
-//                    cont.resume(Unit)
-//                }
-//            }
-//        }
-//
-//        val unsyncedCount = totalCount - syncedCount
-//        logResult(type, success, message, totalCount)
-////        Log.d("pawan_sync", "$type → Total: $totalCount | Synced: $syncedCount | Unsynced: $unsyncedCount")
-////        updateGlobalSyncCounts(syncedCount, unsyncedCount, type)
-//
-//        return SyncResult(type, totalCount, syncedCount, unsyncedCount, success, message)
-//    }
+    private suspend fun entSendImageToServer() {
+        ImageUpload1()
+        loadAndUploadAudiometryImage()
+        loadAndUploadPathologyImage()
+        loadAndUploadPreOpImage()
+        getUpdateAudiometryImageDetailsFromServer()
+        getUpdatePreOPImageDetailsFromServer()
+        getUpdatedPathologyImageDetailsFromServer()
+    }
 
+    private fun ImageUpload1() {
+        viewModel1.allImages.observe(this, Observer { imageList ->
+            Log.d("UpdateImage", "🧾 Total images in DB: ${imageList.size}")
+
+            for (currentImage in imageList) {
+                Log.d("UpdateImage", "🔍 Checking image: id=${currentImage._id}, isSyn=${currentImage.isSyn}")
+
+                // Skip already synced images
+                if (currentImage.isSyn != 0) continue
+
+                // Check if path is null or empty
+                val filePath = currentImage.file_path
+                if (filePath.isNullOrBlank()) {
+                    Log.e("UpdateImage", "⚠️ Skipping image id=${currentImage._id} because file_path is null or empty")
+                    continue
+                }
+
+                // Create file and validate existence
+                val file = File(filePath)
+                if (!file.exists()) {
+                    Log.e("UpdateImage", "🚫 Skipping image id=${currentImage._id}: file not found at path $filePath")
+                    continue
+                }
+
+                Log.d("UpdateImage", "📤 Preparing to upload image: $filePath")
+
+                try {
+                    // Prepare multipart parts
+                    val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
+                    val body = MultipartBody.Part.createFormData("file_name", file.name, requestFile)
+
+                    val imageTypeRequestBody = RequestBody.create(
+                        "text/plain".toMediaTypeOrNull(),
+                        currentImage.image_type ?: ""
+                    )
+                    val patientIdRequestBody = RequestBody.create(
+                        "text/plain".toMediaTypeOrNull(),
+                        currentImage.patient_id?.toString() ?: ""
+                    )
+                    val campIdRequestBody = RequestBody.create(
+                        "text/plain".toMediaTypeOrNull(),
+                        currentImage.camp_id?.toString() ?: ""
+                    )
+                    val userIdRequestBody = RequestBody.create(
+                        "text/plain".toMediaTypeOrNull(),
+                        currentImage.user_id?.toString() ?: ""
+                    )
+                    val idRequestBody = RequestBody.create(
+                        "text/plain".toMediaTypeOrNull(),
+                        currentImage._id.toString()
+                    )
+
+                    Log.d(
+                        "UpdateImage",
+                        """
+                    ✅ Upload Params:
+                    - File: ${file.name}
+                    - Path: ${filePath}
+                    - Type: ${currentImage.image_type}
+                    - Patient ID: ${currentImage.patient_id}
+                    - Camp ID: ${currentImage.camp_id}
+                    - User ID: ${currentImage.user_id}
+                    - Local DB ID: ${currentImage._id}
+                    """.trimIndent()
+                    )
+
+                    val imageUploadParams = ImageUploadParams(
+                        body,
+                        imageTypeRequestBody,
+                        patientIdRequestBody,
+                        campIdRequestBody,
+                        userIdRequestBody,
+                        idRequestBody
+                    )
+
+                    viewModel.uploadFile1(progressDialog, imageUploadParams)
+                    ImageUploadResponseSequentiallyFromSync()
+
+                } catch (e: Exception) {
+                    Log.e("UpdateImage", "❌ Exception preparing upload for image id=${currentImage._id}: ${e.message}", e)
+                }
+            }
+        })
+    }
+
+    private fun ImageUploadResponseSequentiallyFromSync() {
+        viewModel.getImageUploadResponse.observe(this, Observer { response ->
+            val data = response.data
+            if (data != null) {
+                val errorMessage = data.ErrorMessage
+                val id = data._id
+                val errorCode = data.ErrorCode
+
+                Log.d("UpdateImage", "📥 Response received:")
+                Log.d("UpdateImage", "ErrorMessage => $errorMessage")
+                Log.d("UpdateImage", "ErrorCode => $errorCode")
+                Log.d("UpdateImage", "Local DB id => $id")
+
+                when (errorMessage) {
+                    "Success" -> {
+                        Log.d("ImageUploadResponse", "✅ Upload success for image ID=$id, updating local DB...")
+                        UpdateImage(id)
+                    }
+                    else -> {
+                        Log.w("ImageUploadResponse", "⚠️ Upload failed or incomplete for ID=$id, message=$errorMessage")
+                    }
+                }
+            } else {
+                Log.e("UpdateImage", "❌ Response data is null")
+            }
+        })
+    }
+
+    private fun UpdateImage(id: String) {
+        Log.d("UpdateImage", "🔄 Attempting to update isSyn=1 for image with ID=$id")
+
+        try {
+            viewModel1.updateImage(id, 1)
+            Log.d("UpdateImage", "✅ updateImage() called successfully for ID=$id")
+        } catch (e: Exception) {
+            Log.e("UpdateImage", "❌ Exception during updateImage for ID=$id: ${e.message}", e)
+        }
+    }
 
     private suspend fun loadAndUploadAudiometryImage() {
         val unsyncedList = withContext(Dispatchers.IO) {

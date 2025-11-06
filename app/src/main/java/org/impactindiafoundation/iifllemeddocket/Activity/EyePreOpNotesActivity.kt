@@ -1188,15 +1188,77 @@ class EyePreOpNotesActivity:AppCompatActivity(), View.OnClickListener, CompoundB
                 showPictureDialog()
             }
 
-            binding.cardViewSubmitEyePreOpNotes-> {
-                if (filePath.isNullOrEmpty()) {
-                    Log.d(ConstantsApp.TAG,"Image no")
-                    SubmitDataOnly()
-                } else {
-                    Log.d(ConstantsApp.TAG,"Image yes")
-                    SubmitDataOnly()
+            binding.cardViewSubmitEyePreOpNotes -> {
+
+                // ✅ Step 1: Ensure at least one radio button is selected
+                if (!binding.radioButonLineUpForSurgery.isChecked &&
+                    !binding.radioButonUnfitForSurgery.isChecked &&
+                    !binding.radioButonCanNotOperate.isChecked) {
+
+                    Toast.makeText(this, "Please select a recommendation option.", Toast.LENGTH_SHORT).show()
+                }
+
+                // ✅ Step 2: Handle validations based on selected radio button
+                when {
+                    // 🟢 Line Up for Surgery → Image required
+                    binding.radioButonLineUpForSurgery.isChecked -> {
+                        if (filePath.isNullOrEmpty()) {
+                            Toast.makeText(
+                                this,
+                                "Please upload or capture an image before submitting.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        } else {
+                            Log.d(ConstantsApp.TAG, "Line Up selected, image OK → submitting data")
+                            SubmitDataOnly()
+                        }
+                    }
+
+                    // 🟡 Unfit for Surgery → EditText required
+                    binding.radioButonUnfitForSurgery.isChecked -> {
+                        val reason = binding.EditTextUnfitForSurgery.text.toString().trim()
+                        if (reason.isEmpty()) {
+                            Toast.makeText(
+                                this,
+                                "Please enter reason for unfit for surgery.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        } else {
+                            Log.d(ConstantsApp.TAG, "Unfit for surgery reason entered → submitting data")
+                            SubmitDataOnly()
+                        }
+                    }
+
+                    // 🔴 Cannot Operate → EditText required
+                    binding.radioButonCanNotOperate.isChecked -> {
+                        val reason = binding.EditTextCanNotOperate.text.toString().trim()
+                        if (reason.isEmpty()) {
+                            Toast.makeText(
+                                this,
+                                "Please enter reason for cannot operate.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        } else {
+                            Log.d(ConstantsApp.TAG, "Cannot operate reason entered → submitting data")
+                            SubmitDataOnly()
+                        }
+                    }
                 }
             }
+
+
+//                    binding.cardViewSubmitEyePreOpNotes-> {
+//                if (filePath.isNullOrEmpty()) {
+//                    Log.d(ConstantsApp.TAG,"Image no")
+//                    SubmitDataOnly()
+//                } else {
+//                    Log.d(ConstantsApp.TAG,"Image yes")
+//                    SubmitDataOnly()
+//                }
+//            }
         }
     }
 

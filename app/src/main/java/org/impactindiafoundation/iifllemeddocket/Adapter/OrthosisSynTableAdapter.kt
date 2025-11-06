@@ -15,7 +15,7 @@ class OrthosisSynTableAdapter(private var dataList: List<OrthosisSynTable>) :
     class SynTableViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val srNo: TextView = itemView.findViewById(R.id.tv_sr_no)
         val date: TextView = itemView.findViewById(R.id.tv_date)
-        val time: TextView = itemView.findViewById(R.id.tv_time)
+        val tv_fromType: TextView = itemView.findViewById(R.id.tv_fromType)
         val sucess: TextView = itemView.findViewById(R.id.sucess)
         val fail: TextView = itemView.findViewById(R.id.fail)
 
@@ -30,8 +30,8 @@ class OrthosisSynTableAdapter(private var dataList: List<OrthosisSynTable>) :
     override fun onBindViewHolder(holder: SynTableViewHolder, position: Int) {
         val item = dataList[position]
         holder.srNo.text = item.syn_type
-        holder.date.text = item.date
-        holder.time.text = item.time
+        holder.date.text = "${item.date}\n${item.time}"
+        holder.tv_fromType.text = item.syn_type
         holder.sucess.text = item.syncItemCount.toString()
         holder.fail.text = item.notSyncItemCount.toString()
     }

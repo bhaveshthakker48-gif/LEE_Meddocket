@@ -362,23 +362,13 @@
                         android:padding="@dimen/_2sdp"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:text="Date"
+                        android:text="Date / Time"
                         style="@style/textView_bold"
                         android:background="@drawable/textview_background"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"/>
-                    <TextView
-                        android:layout_margin="@dimen/_1sdp"
-                        android:padding="@dimen/_2sdp"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:text="Time"
-                        style="@style/textView_bold"
-                        android:background="@drawable/textview_background"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"/>
+
                     <TextView
                         android:layout_margin="@dimen/_1sdp"
                         android:padding="@dimen/_2sdp"
@@ -397,7 +387,7 @@
                         android:padding="@dimen/_2sdp"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:text="Sync Forms"
+                        android:text="Sync Count"
                         style="@style/textView_bold"
                         android:background="@drawable/textview_background"
                         android:layout_weight="1"
@@ -409,7 +399,19 @@
                         android:padding="@dimen/_2sdp"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:text="Unsync Forms"
+                        android:text="Unsync Count"
+                        style="@style/textView_bold"
+                        android:background="@drawable/textview_background"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:layout_margin="@dimen/_1sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:text="Form Type"
                         style="@style/textView_bold"
                         android:background="@drawable/textview_background"
                         android:layout_weight="1"
